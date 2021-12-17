@@ -1,0 +1,878 @@
+[
+	{
+		"_id" : "611ade1bcca705b10e6f6474",
+		"metadata" : {
+			"name" : "KCWI_ifu_acq_offsetStar",
+			"ui_name" : "KCWI direct",
+			"instrument" : "KCWI",
+			"template_type" : "acquisition",
+			"version" : "0.1.1",
+			"script" : "KCWI_ifu_acq_direct"
+		},
+		"parameters" : {
+			"wrap" : {
+				"ui_name" : "Rotator Wrap Position",
+				"option" : "list",
+				"allowed" : [
+					"south",
+					"north",
+					"auto"
+				],
+				"default" : "auto",
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"rotmode" : {
+				"ui_name" : "Rotator Mode",
+				"option" : "list",
+				"allowed" : [
+					"PA",
+					"stationary",
+					"vertical_angle"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"guider_po" : {
+				"ui_name" : "Pointing origin",
+				"option" : "list",
+				"allowed" : [
+					"REF",
+					"IFU"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ra_offset" : {
+				"ui_name" : "The offset from coordinates to get to the target",
+				"option" : "range",
+				"allowed" : [
+					0,
+					2000
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"dec_offset" : {
+				"ui_name" : "The offset from coordinates to get to the target",
+				"option" : "range",
+				"allowed" : [
+					0,
+					2000
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"guider_gs_ra" : {
+				"ui_name" : "Guide Star Right Ascension",
+				"option" : "range",
+				"allowed" : [
+					0,
+					24
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"guider_gs_dec" : {
+				"ui_name" : "Guide Star Declination",
+				"option" : "range",
+				"allowed" : [
+					-90,
+					90
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"guider_gs_mode" : {
+				"ui_name" : "Guide Star Selection Mode",
+				"option" : "list",
+				"allowed" : [
+					"auto",
+					"operator",
+					"user"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f6475",
+		"metadata" : {
+			"name" : "KCWI_ifu_acq_direct",
+			"ui_name" : "KCWI direct",
+			"instrument" : "KCWI",
+			"template_type" : "acquisition",
+			"version" : "0.1.1",
+			"script" : "KCWI_ifu_acq_direct"
+		},
+		"parameters" : {
+			"wrap" : {
+				"ui_name" : "Rotator Wrap Position",
+				"option" : "list",
+				"allowed" : [
+					"south",
+					"north",
+					"auto"
+				],
+				"default" : "auto",
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"rotmode" : {
+				"ui_name" : "Rotator Mode",
+				"option" : "list",
+				"allowed" : [
+					"PA",
+					"stationary",
+					"vertical_angle"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"guider_po" : {
+				"ui_name" : "Pointing origin",
+				"option" : "list",
+				"allowed" : [
+					"REF",
+					"IFU"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ra_offset" : {
+				"ui_name" : "The offset from coordinates to get to the target",
+				"option" : "range",
+				"allowed" : [
+					0,
+					2000
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"dec_offset" : {
+				"ui_name" : "The offset from coordinates to get to the target",
+				"option" : "range",
+				"allowed" : [
+					0,
+					2000
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"guider_gs_ra" : {
+				"ui_name" : "Guide Star Right Ascension",
+				"option" : "range",
+				"allowed" : [
+					0,
+					24
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"guider_gs_dec" : {
+				"ui_name" : "Guide Star Declination",
+				"option" : "range",
+				"allowed" : [
+					-90,
+					90
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"guider_gs_mode" : {
+				"ui_name" : "Guide Star Selection Mode",
+				"option" : "list",
+				"allowed" : [
+					"auto",
+					"operator",
+					"user"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f6476",
+		"metadata" : {
+			"name" : "KCWI_ifu_sci_stare",
+			"ui_name" : "KCWI stare",
+			"instrument" : "KCWI",
+			"template_type" : "science",
+			"version" : "0.1.1",
+			"script" : "KCWI_ifu_sci_stare"
+		},
+		"parameters" : {
+			"det1_exptime" : {
+				"ui_name" : "Blue exposure time",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float"
+			},
+			"det1_nexp" : {
+				"ui_name" : "Blue number of exposures",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer"
+			},
+			"det2_exptime" : {
+				"ui_name" : "Red exposure time",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"det2_nexp" : {
+				"ui_name" : "Blue number of exposures",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "integer"
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f6477",
+		"metadata" : {
+			"name" : "KCWI_ifu_sci_dither",
+			"ui_name" : "KCWI dither",
+			"instrument" : "KCWI",
+			"template_type" : "science",
+			"version" : "0.1.1",
+			"script" : "KCWI_ifu_sci_stare"
+		},
+		"parameters" : {
+			"det1_exptime" : {
+				"ui_name" : "Blue exposure time for individual exposures",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float"
+			},
+			"det1_nexp" : {
+				"ui_name" : "Blue number of exposures per dither position",
+				"option" : "range",
+				"allowed" : [
+					0,
+					100
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer"
+			},
+			"det2_exptime" : {
+				"ui_name" : "Red exposure time for individual exposures",
+				"option" : "range",
+				"allowed" : [
+					0,
+					3600
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"det2_nexp" : {
+				"ui_name" : "Blue number of exposures per dither position",
+				"option" : "range",
+				"allowed" : [
+					0,
+					100
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "integer"
+			},
+			"seq_ndither" : {
+				"ui_name" : "Number of dither positions",
+				"option" : "range",
+				"allowed" : [
+					0,
+					100
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer"
+			},
+			"seq_ditarray" : {
+				"ui_name" : "Dither Pattern",
+				"option" : "list",
+				"default" : null,
+				"optionality" : "required",
+				"type" : "array",
+				"allowed" : [
+					{
+						"ra_offset" : {
+							"ui_name" : "Right Ascension Offset",
+							"option" : "range",
+							"allowed" : [
+								-4000,
+								4000
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "float"
+						}
+					},
+					{
+						"dec_offset" : {
+							"ui_name" : "Declination Offset",
+							"option" : "range",
+							"allowed" : [
+								-4000,
+								4000
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "float"
+						}
+					},
+					{
+						"position" : {
+							"ui_name" : "Telescope Position",
+							"option" : "list",
+							"allowed" : [
+								"T",
+								"S",
+								"O"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "string"
+						}
+					},
+					{
+						"guided" : {
+							"ui_name" : "Guided",
+							"option" : "boolean",
+							"default" : true,
+							"optionality" : "required",
+							"type" : "boolean"
+						}
+					}
+				]
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f6478",
+		"metadata" : {
+			"name" : "sidereal_target",
+			"ui_name" : "Sidereal Target",
+			"template_type" : "target",
+			"version" : "0.1.1"
+		},
+		"parameters" : {
+			"name" : {
+				"ui_name" : "Target Name",
+				"option" : "regex",
+				"allowed" : [
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ra" : {
+				"ui_name" : "Right Ascension",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"dec" : {
+				"ui_name" : "Declination",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"pa" : {
+				"ui_name" : "Position Angle",
+				"option" : "range",
+				"allowed" : [
+					0,
+					360
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"pm_ra" : {
+				"ui_name" : "Proper Motion (RA)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"pm_dec" : {
+				"ui_name" : "Proper Motion (DEC)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"epoch" : {
+				"ui_name" : "Epoch",
+				"option" : "range",
+				"allowed" : [
+					1900,
+					2100
+				],
+				"default" : 2000,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"obstime" : {
+				"ui_name" : "Scheduled Time of Observation",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"magnitude" : {
+				"ui_name" : "Target Magnitude",
+				"option" : "list",
+				"allowed" : [
+					{
+						"band" : {
+							"ui_name" : "Spectral Band",
+							"option" : "list",
+							"allowed" : [
+								"V",
+								"R",
+								"I",
+								"J",
+								"H",
+								"K"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "string"
+						}
+					},
+					{
+						"mag" : {
+							"ui_name" : "Magnitude",
+							"option" : "range",
+							"allowed" : [
+								"-27.0",
+								"50.0"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "float"
+						}
+					}
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "array"
+			},
+			"comment" : {
+				"ui_name" : "Target Comment",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f6479",
+		"metadata" : {
+			"name" : "non_sidereal_target",
+			"ui_name" : "Non-Sidereal Target",
+			"template_type" : "target",
+			"version" : "0.1.1"
+		},
+		"parameters" : {
+			"name" : {
+				"ui_name" : "Target Name",
+				"option" : "regex",
+				"allowed" : [
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ra" : {
+				"ui_name" : "Right Ascension",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"dec" : {
+				"ui_name" : "Declination",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"pa" : {
+				"ui_name" : "Position Angle",
+				"option" : "range",
+				"allowed" : [
+					0,
+					360
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"pm_ra" : {
+				"ui_name" : "Proper Motion (RA)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"pm_dec" : {
+				"ui_name" : "Proper Motion (DEC)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"epoch" : {
+				"ui_name" : "Epoch",
+				"option" : "range",
+				"allowed" : [
+					1900,
+					2100
+				],
+				"default" : 2000,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"obstime" : {
+				"ui_name" : "Scheduled Time of Observation",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"magnitude" : {
+				"ui_name" : "Target Magnitude",
+				"option" : "list",
+				"allowed" : [
+					{
+						"band" : {
+							"ui_name" : "Spectral Band",
+							"option" : "list",
+							"allowed" : [
+								"V",
+								"R",
+								"I",
+								"J",
+								"H",
+								"K"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "string"
+						}
+					},
+					{
+						"mag" : {
+							"ui_name" : "Magnitude",
+							"option" : "range",
+							"allowed" : [
+								"-27.0",
+								"50.0"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "float"
+						}
+					}
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "array"
+			},
+			"comment" : {
+				"ui_name" : "Target Comment",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"dra" : {
+				"ui_name" : "Differential Tracking (RA)",
+				"option" : null,
+				"allowed" : null,
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ddec" : {
+				"ui_name" : "Differential Tracking (DEC)",
+				"option" : null,
+				"allowed" : null,
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			}
+		}
+	},
+	{
+		"_id" : "611ade1bcca705b10e6f647a",
+		"metadata" : {
+			"name" : "multi_object_target",
+			"ui_name" : "Multi-Object Spectroscopy Target",
+			"template_type" : "target",
+			"version" : "0.1.1"
+		},
+		"parameters" : {
+			"name" : {
+				"ui_name" : "Target Name",
+				"option" : "regex",
+				"allowed" : [
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"ra" : {
+				"ui_name" : "Right Ascension",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"dec" : {
+				"ui_name" : "Declination",
+				"option" : "regex",
+				"allowed" : [
+					"^\\d{2}:\\d{2}:\\d{2}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^\\d{2}:\\d{2}:\\d{2}.\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{1}$",
+					"^-\\d{2}:\\d{2}:\\d{2}.\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			},
+			"pa" : {
+				"ui_name" : "Position Angle",
+				"option" : "range",
+				"allowed" : [
+					0,
+					360
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"pm_ra" : {
+				"ui_name" : "Proper Motion (RA)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"pm_dec" : {
+				"ui_name" : "Proper Motion (DEC)",
+				"option" : "range",
+				"allowed" : [
+					0,
+					5000
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"epoch" : {
+				"ui_name" : "Epoch",
+				"option" : "range",
+				"allowed" : [
+					1900,
+					2100
+				],
+				"default" : 2000,
+				"optionality" : "optional",
+				"type" : "float"
+			},
+			"obstime" : {
+				"ui_name" : "Scheduled Time of Observation",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"magnitude" : {
+				"ui_name" : "Target Magnitude",
+				"option" : "list",
+				"allowed" : [
+					{
+						"band" : {
+							"ui_name" : "Spectral Band",
+							"option" : "list",
+							"allowed" : [
+								"V",
+								"R",
+								"I",
+								"J",
+								"H",
+								"K"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "string"
+						}
+					},
+					{
+						"mag" : {
+							"ui_name" : "Magnitude",
+							"option" : "range",
+							"allowed" : [
+								"-27.0",
+								"50.0"
+							],
+							"default" : null,
+							"optionality" : "required",
+							"type" : "float"
+						}
+					}
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "array"
+			},
+			"comment" : {
+				"ui_name" : "Target Comment",
+				"option" : "regex",
+				"allowed" : [
+					null,
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "optional",
+				"type" : "string"
+			},
+			"mask" : {
+				"ui_name" : "Mask Name",
+				"option" : "regex",
+				"allowed" : [
+					"[ -~]{100}"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string"
+			}
+		}
+	}
+]

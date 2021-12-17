@@ -1,0 +1,109 @@
+[
+	{
+		"_id" : "60e8b76e238b1387079eff52",
+		"instrument" : "KCWI",
+		"version" : "0.1",
+		"modes" : [
+			"ifu",
+			"img"
+		],
+		"cameras" : [
+			{
+				"name" : "BLUE",
+				"type" : "spectrograph",
+				"detector" : "4kx4k EE2V",
+				"identifier" : "CAM1"
+			},
+			{
+				"name" : "RED",
+				"type" : "spectrograph",
+				"detector" : "None",
+				"identifier" : "CAM2"
+			}
+		],
+		"templates" : {
+			"acquisition" : [
+				{
+					"name" : "KCWI_ifu_acq_direct",
+					"version" : "0.1"
+				},
+				{
+					"name" : "KCWI_ifu_acq_offsetStar",
+					"version" : "0.1"
+				}
+			],
+			"science" : [
+				{
+					"name" : "KCWI_ifu_sci_stare",
+					"version" : "0.1"
+				},
+				{
+					"name" : "KCWI_ifu_sci_dither",
+					"version" : "0.1"
+				}
+			]
+		},
+		"configuration_parameters" : [
+			{
+				"parameter" : "CFG.CAM1.GRATING",
+				"ui_string" : "Blue Grating",
+				"values" : [
+					"BL",
+					"BM",
+					"BH1",
+					"BH2"
+				],
+				"range" : null,
+				"type" : "dropdown",
+				"required" : true
+			},
+			{
+				"parameter" : "CFG.CAM1.CWAVE",
+				"ui_string" : "Blue Central Wavelength",
+				"values" : null,
+				"range" : [
+					3500,
+					6500
+				],
+				"type" : "continuum",
+				"required" : true
+			},
+			{
+				"parameter" : "CFG.CAM2.GRATING",
+				"ui_string" : "Red Grating",
+				"values" : [
+					"RL",
+					"RM",
+					"RH1",
+					"RH2"
+				],
+				"range" : null,
+				"type" : "dropdown",
+				"required" : false
+			},
+			{
+				"parameter" : "CFG.CAM2.CWAVE",
+				"ui_string" : "Red Central Wavelength",
+				"values" : null,
+				"range" : [
+					6500,
+					10000
+				],
+				"type" : "continuum",
+				"required" : false
+			},
+			{
+				"parameter" : "CFG.SLICER",
+				"ui_string" : "Image Slicer",
+				"values" : [
+					"Small",
+					"Medium",
+					"Large"
+				],
+				"range" : null,
+				"type" : "dropdown",
+				"required" : true
+			}
+		]
+	}
+]

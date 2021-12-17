@@ -1,0 +1,233 @@
+[
+	{
+		"_id" : "60e8b76e238b1387079eff3d",
+		"sem_id" : "2021A_U046",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff34",
+			"60e8b76d238b1387079efedd",
+			"60e8b76d238b1387079efee8",
+			"60e8b76e238b1387079eff28",
+			"60e8b76e238b1387079eff18",
+			"60e8b76e238b1387079eff13",
+			"60e8b76d238b1387079efed9",
+			"60e8b76e238b1387079efefc"
+		],
+		"comment" : "I hear the jury?s still out on science."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff3e",
+		"sem_id" : "2019B_U158",
+		"name" : "Army",
+		"observation_blocks" : [ ],
+		"comment" : "I?m a scholar. I enjoy scholarly pursuits."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff3f",
+		"sem_id" : "2017B_U043",
+		"name" : "Low priority",
+		"observation_blocks" : [
+			"60e8b76e238b1387079efefd",
+			"60e8b76e238b1387079eff27",
+			"60e8b76d238b1387079efeeb",
+			"60e8b76d238b1387079efee7",
+			"60e8b76d238b1387079efee3"
+		],
+		"comment" : "Here?s some money. Go see a star war."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff40",
+		"sem_id" : "2019A_N020",
+		"name" : "Tantamount Studios",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff1d",
+			"60e8b76d238b1387079efedb"
+		],
+		"comment" : "Here?s some money. Go see a star war."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff41",
+		"sem_id" : "2019A_U123",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff1a",
+			"60e8b76e238b1387079eff09",
+			"60e8b76e238b1387079eff13"
+		],
+		"comment" : "I?m a scholar. I enjoy scholarly pursuits."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff42",
+		"sem_id" : "2019A_U124",
+		"name" : "Orange County Prison",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff19",
+			"60e8b76e238b1387079eff08",
+			"60e8b76e238b1387079eff2f",
+			"60e8b76e238b1387079eff37",
+			"60e8b76e238b1387079eff04",
+			"60e8b76e238b1387079eff2b",
+			"60e8b76d238b1387079efeea",
+			"60e8b76d238b1387079efef0"
+		],
+		"comment" : "I don?t understand the question and I won?t respond to it."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff43",
+		"sem_id" : "2019B_U159",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff12",
+			"60e8b76e238b1387079eff36",
+			"60e8b76d238b1387079efee5",
+			"60e8b76e238b1387079eff01",
+			"60e8b76e238b1387079eff3b",
+			"60e8b76d238b1387079efef2"
+		],
+		"comment" : "I?ve made a huge tiny mistake."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff44",
+		"sem_id" : "2017B_U042",
+		"name" : "Tantamount Studios",
+		"observation_blocks" : [ ],
+		"comment" : "I am one of the few honest people I have ever known."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff45",
+		"sem_id" : "2017A_U050",
+		"name" : "Low priority",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff0b"
+		],
+		"comment" : "I?ve made a huge tiny mistake."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff46",
+		"sem_id" : "2018A_U042",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff04",
+			"60e8b76e238b1387079eff33",
+			"60e8b76e238b1387079eff15",
+			"60e8b76e238b1387079eff00",
+			"60e8b76d238b1387079efee5",
+			"60e8b76e238b1387079eff0b",
+			"60e8b76d238b1387079efed9",
+			"60e8b76d238b1387079efee2"
+		],
+		"comment" : "I?ve made a huge tiny mistake."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff47",
+		"sem_id" : "2017A_U050",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76d238b1387079efeee",
+			"60e8b76d238b1387079efedf",
+			"60e8b76e238b1387079eff0e",
+			"60e8b76d238b1387079efeeb",
+			"60e8b76e238b1387079eff2e",
+			"60e8b76e238b1387079eff23"
+		],
+		"comment" : "I hear the jury?s still out on science."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff48",
+		"sem_id" : "2018B_U016",
+		"name" : "Army",
+		"observation_blocks" : [
+			"60e8b76e238b1387079efef8"
+		],
+		"comment" : "I hear the jury?s still out on science."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff49",
+		"sem_id" : "2017B_U043",
+		"name" : "Tantamount Studios",
+		"observation_blocks" : [ ],
+		"comment" : "I am one of the few honest people I have ever known."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4a",
+		"sem_id" : "2021B_U056",
+		"name" : "Army",
+		"observation_blocks" : [
+			"60e8b76d238b1387079efef4",
+			"60e8b76e238b1387079eff07",
+			"60e8b76e238b1387079efefb",
+			"60e8b76e238b1387079eff2b",
+			"60e8b76e238b1387079eff05",
+			"60e8b76e238b1387079eff35",
+			"60e8b76d238b1387079efef0"
+		],
+		"comment" : "I don?t understand the question and I won?t respond to it."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4b",
+		"sem_id" : "2018B_U064",
+		"name" : "Orange County Prison",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff34",
+			"60e8b76d238b1387079efeeb",
+			"60e8b76d238b1387079efee7",
+			"60e8b76d238b1387079efef1",
+			"60e8b76e238b1387079eff20",
+			"60e8b76e238b1387079eff1f"
+		],
+		"comment" : "I don?t understand the question and I won?t respond to it."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4c",
+		"sem_id" : "2019A_U124",
+		"name" : "Army",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff07",
+			"60e8b76d238b1387079efeef"
+		],
+		"comment" : "I don?t understand the question and I won?t respond to it."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4d",
+		"sem_id" : "2021A_U073",
+		"name" : "Use on a clear night",
+		"observation_blocks" : [
+			"60e8b76d238b1387079efee0",
+			"60e8b76d238b1387079efeea",
+			"60e8b76e238b1387079eff0b"
+		],
+		"comment" : "I?ve made a huge tiny mistake."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4e",
+		"sem_id" : "2020B_N133",
+		"name" : "Low priority",
+		"observation_blocks" : [
+			"60e8b76e238b1387079eff35",
+			"60e8b76e238b1387079eff0e"
+		],
+		"comment" : "Here?s some money. Go see a star war."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff4f",
+		"sem_id" : "2018A_U045",
+		"name" : "Tantamount Studios",
+		"observation_blocks" : [
+			"60e8b76d238b1387079efee8",
+			"60e8b76d238b1387079efede",
+			"60e8b76e238b1387079eff32",
+			"60e8b76e238b1387079eff1e",
+			"60e8b76d238b1387079efee0",
+			"60e8b76e238b1387079eff1d",
+			"60e8b76d238b1387079efedb"
+		],
+		"comment" : "I?m a scholar. I enjoy scholarly pursuits."
+	},
+	{
+		"_id" : "60e8b76e238b1387079eff50",
+		"sem_id" : "2021B_U056",
+		"name" : "Orange County Prison",
+		"observation_blocks" : [ ],
+		"comment" : "Here?s some money. Go see a star war."
+	}
+]
