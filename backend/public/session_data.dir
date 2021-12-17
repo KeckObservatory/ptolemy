@@ -1,0 +1,5 @@
+'queue', (0, 38)
+'string', (512, 17)
+'obdm', (1024, 1672)
+'sequence_queue', (3072, 6)
+'event_queue', (3584, 243)

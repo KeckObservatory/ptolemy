@@ -8,16 +8,16 @@ export const handleTheme = (darkState: boolean | null | undefined): [Theme, Them
   const themeOptions: ThemeOptions = {
     palette: {
       mode: palletType,
-      primary: {
-        main: '#9b35bd',
-      },
-      secondary: {
-        main: '#ffd600',
-      },
-      background: {
-        default: 'rgba(133,133,133,0.53)',
-        paper: 'rgba(61,61,61,0.58)',
-      },
+    //   primary: {
+    //     main: '#9b35bd',
+    //   },
+    //   secondary: {
+    //     main: '#ffd600',
+    //   },
+    //   background: {
+    //     default: 'rgba(133,133,133,0.53)',
+    //     paper: 'rgba(61,61,61,0.58)',
+    //   },
     },
   };
   const theme = createTheme(themeOptions)

@@ -19,7 +19,7 @@ CORS(app, send_wildcard=True)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-myData = shelve.open('data')
+myData = shelve.open('./public/session_data')
 global thread
 thread = None
 thread_lock = Lock()
