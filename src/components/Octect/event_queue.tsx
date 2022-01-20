@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Science } from '../../typings/ptolemy'
 import { makeStyles } from '@mui/styles'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { reorder, move, create_draggable, CreateDroppable } from './../dnd_divs'
+import { reorder, move, CreateDroppable } from './../dnd_divs'
 
 export const useStyles = makeStyles((theme: any) => ({
     grid: {
