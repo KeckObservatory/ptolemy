@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@mui/styles'
 import { ObservationBlock, OBCell } from "../../typings/ptolemy"
 import { Theme } from '@mui/material/styles'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { reorder, move, create_draggable, CreateDroppable } from './../dnd_divs'
+import { DragDropContext } from 'react-beautiful-dnd'
+import { reorder, move, CreateDroppableTable } from './../dnd_table'
 
 export const useStyles = makeStyles((theme: any) => ({
     paper: {
@@ -41,23 +41,7 @@ interface Props {
     setSelObs: Function;
 }
 
-
-const DragOBCell = (obCell: OBCell) => {
-    return (
-        <div>
-            <p>
-                OB name: {obCell.name}
-            </p>
-            <p>
-                Type: {obCell.type}
-            </p>
-            {obCell.ra && <p> Ra: {obCell.ra} Dec: {obCell.dec} </p>}
-        </div>
-    )
-}
-
 export const OBQueue = (props: Props) => {
-
     const classes = useStyles();
     const avlTitle= "Available OBs/Containers"
     const avlTooltip= "Observation Blocks/containers available for selected semester"
@@ -76,6 +60,7 @@ export const OBQueue = (props: Props) => {
         if (!destination) return;
         const sKey: 'selObs' | 'avlObs' = source.droppableId;
         const dKey: 'selObs' | 'avlObs' = destination.droppableId;
+        console.log('source', source, 'destination,', destination, 'props', props)
 
         if (sKey === dKey) { //shuffling items around
             let newObs = [...props[dKey]]
@@ -103,10 +88,10 @@ export const OBQueue = (props: Props) => {
         <Grid container spacing={1} >
             <DragDropContext onDragEnd={onDragEnd}>
                 <Grid className={classes.cell} item xs={6}>
-                    {CreateDroppable(props.avlObs, 'id', 'avlObs', avlTooltip, avlTitle, DragOBCell)}
+                    {CreateDroppableTable(props.avlObs, 'id', 'avlObs', avlTooltip, avlTitle)}
                 </Grid>
                 <Grid className={classes.cell} item xs={6}>
-                    {CreateDroppable(props.selObs, 'id', 'selObs', selTooltip ,selTitle, DragOBCell)}
+                    {CreateDroppableTable(props.selObs, 'id', 'selObs', selTooltip ,selTitle)}
                 </Grid>
             </DragDropContext>
         </Grid>

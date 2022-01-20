@@ -3,3 +3,7 @@
 'obdm', (1024, 1672)
 'sequence_queue', (3072, 6)
 'event_queue', (3584, 243)
+'task', (7168, 539)
+'events', (8192, 243)
+'sequence_boneyard', (10240, 543)
+'event_boneyard', (13824, 39)

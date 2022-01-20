@@ -1,9 +1,8 @@
-import { ObservationBlock, OBCell } from "./../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { makeStyles } from '@mui/styles'
+import { OBCell } from '../typings/ptolemy'
 
 export const useStyles = makeStyles((theme: any) => ({
     paper: {
@@ -34,71 +33,76 @@ export const useStyles = makeStyles((theme: any) => ({
 interface CreateDivProps {
     provided: any;
     snapshot: any;
-    formChild: JSX.Element;
+    obCell: OBCell;
 }
-const CreateDiv = (props: CreateDivProps) => {
+
+const CreateRow = (props: CreateDivProps) => {
     const classes = useStyles()
     const acc = { acc: classes.droppableDragging, accDrag: classes.droppable } as any
     const className = props.snapshot.isDragging ? { ...props.provided.draggableProps, ...acc.accDrag } : acc.acc
     return (
-        <div
+        <tr
             ref={props.provided.innerRef}
             {...props.provided.draggableProps}
             {...props.provided.dragHandleProps}
             className={className}
         >
-            {props.formChild}
-        </div>
+        <td style={{ width: "120px" }}>{props.obCell.name}</td>
+        <td style={{ width: "120px" }}>{props.obCell.type}</td>
+        <td style={{ width: "60px" }}>{props.obCell.ra}</td>
+        <td style={{ width: "60px" }}>{props.obCell.dec}</td>
+        </tr>
     )
 }
 
-
-
-export const CreateDroppable = (cells: any[], idKey: string, key: string, tooltip: string, title: string, childDiv: Function) => {
-
+export const CreateDroppableTable = (cells: any[], idKey: string, key: string, tooltip: string, title: string) => {
     const classes = useStyles();
     return (
         <Paper className={classes.paper} elevation={3}>
             <Tooltip title={tooltip}>
                 <h2>{title}</h2>
             </Tooltip>
-            <Droppable key={key} droppableId={key}>
-                {(provided: any, snapshot: any) => {
-                    return (
-                        <div
-                            className={snapshot.isDraggingOver
-                                ? classes.droppableDragging : classes.droppable}
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
+            <Droppable droppableId={key}>
+                {(provided, snapshot) => (
+                    <table
+                        ref={provided.innerRef}
+                        className={snapshot.isDraggingOver
+                            ? classes.droppableDragging : classes.droppable}
+                    >
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Ra</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {cells.length > 0 &&
                                 cells.map((cell: any, idx: number) => {
-                                    return (create_draggable(cell, cell[idKey], idx, childDiv))
+                                    return (create_draggable(cell, cell[idKey], idx))
                                 })
                             }
                             {provided.placeholder}
-                        </div>)
-                }}
+                        </tbody>
+                    </table>
+                )}
             </Droppable>
         </Paper >
     )
 }
 
-export const create_draggable = (cell: any, cellId: string, idx: number, childDiv: Function) => {
+export const create_draggable = (cell: any, cellId: string, idx: number) => {
     return (
-        <Draggable
-            key={cellId}
-            draggableId={cellId}
-            index={idx}
-        >
-            {(provided, snapshot) => CreateDiv(
-                {
-                    provided: provided,
-                    snapshot: snapshot,
-                    formChild: childDiv(cell)
-
-                })
-            }
+        <Draggable key={cell.id} draggableId={cell.id} index={idx}>
+            {(provided, snapshot) => (
+                CreateRow(
+                    {
+                        provided: provided,
+                        snapshot: snapshot,
+                        obCell: cell
+                    })
+            )}
         </Draggable>
     )
 }
