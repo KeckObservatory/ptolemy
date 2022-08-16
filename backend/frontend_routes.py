@@ -75,6 +75,7 @@ def submit_ob(data):
     ob = data.get('ob')
     myData['obdm'] = OBDM(ob) 
     emit('new_ob', data, broadcast=True)
+    emit('ob_to_xcute', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
@@ -82,6 +83,7 @@ def new_sequence_queue(data):
     seq = data.get('sequence_queue')
     myData['sequence_queue'] = seq
     emit('sequence_queue_broadcast', data, broadcast=True)
+    emit('sequence_queue_to_xcute', data, broadcast=True)
 
 @socketio.on('new_sequence_boneyard')
 def new_sequence_boneyard(data):
@@ -96,6 +98,7 @@ def new_event_queue(data):
     eq = data.get('event_queue')
     myData['event_queue'] = eq
     emit('event_queue_broadcast', data, broadcast=True)
+    emit('event_queue_to_xcute', data, broadcast=True)
 
 @socketio.on('new_event_boneyard')
 def new_event_boneyard(data):
@@ -115,6 +118,7 @@ def send_task(data):
     emit('task_broadcast', data, broadcast=True)
     emit('event_queue_broadcast', eventData, broadcast=True)
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+    emit('task_to_xcute', eventData, broadcast=True)
 
 @socketio.on('string_broadcast')
 def string_broadcast(data):
