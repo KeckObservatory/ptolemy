@@ -1,5 +1,6 @@
 import argparse
 from threading import Lock
+import os
 import pdb
 import json
 import eventlet
@@ -42,9 +43,9 @@ DEFAULT_EVENTS = [
 ]
 myData['event_queue'] = DEFAULT_EVENTS 
 
-@app.route('/')
-def index():
-    return render_template('index.html', async_mode=socketio.async_mode)
+# @app.route('/')
+# def index():
+#     return render_template('index.html', async_mode=socketio.async_mode)
 
 @app.route('/ptolemy')
 def index():
