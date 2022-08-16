@@ -14,7 +14,7 @@ CORS(app, send_wildcard=True)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-
+from frontend_routes import *
 # @app.route('/')
 # def index():
 #     return render_template('index.html', async_mode=socketio.async_mode)
