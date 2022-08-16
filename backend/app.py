@@ -15,7 +15,7 @@ import shelve
 
 Payload.max_decode_packets = 500
 async_mode = "eventlet" 
-app = Flask(__name__, static_url_path='', static_url_path='', static_folder='../build')
+app = Flask(__name__, static_url_path='', static_folder='../build')
 CORS(app, send_wildcard=True)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
