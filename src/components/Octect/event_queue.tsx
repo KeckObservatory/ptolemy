@@ -67,6 +67,7 @@ const EventQueue = (props: Props) => {
         if (!destination) return;
         const sKey: string = source.droppableId;
         const dKey: string = destination.droppableId;
+        console.log('skey, dkey', sKey, dKey)
 
 
         if (sKey === dKey) { //shuffling items around
@@ -79,7 +80,7 @@ const EventQueue = (props: Props) => {
                 props.socket.emit('new_event_boneyard', {event_boneyard: newSeq})
             }
         } else { // item in droppable 
-            if (dKey === 'seqQueue') { // event added to event queue
+            if (dKey === 'eventQueue') { // event added to event queue
                 const result = move(props.event_boneyard, props.event_queue, source, destination);
                 // props.setSequences(result[dKey])
                 props.socket.emit('new_event_queue', {event_queue: result[dKey]})
