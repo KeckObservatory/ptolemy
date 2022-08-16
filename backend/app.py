@@ -5,7 +5,7 @@ import json
 import eventlet
 eventlet.monkey_patch()
 from flask import Flask, render_template, session, request, \
-    copy_current_request_context 
+    copy_current_request_context, send_from_directory
 from obdm import OBDM
 from flask_socketio import SocketIO, emit, disconnect
 from engineio.payload import Payload
@@ -45,6 +45,12 @@ myData['event_queue'] = DEFAULT_EVENTS
 @app.route('/')
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
+
+@app.route('/ptolemy')
+def index():
+    print(app.static_folder)
+    print(os.path.exists(os.path.join(app.static_folder, 'index.html')))
+    return send_from_directory(app.static_folder, 'index.html')
 
 @socketio.event
 def disconnect_request():
@@ -173,7 +179,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Setup websocket host")
     parser.add_argument('--host', type=str, required=False, default='0.0.0.0',
                          help="hostname (localhost as default)")
-    parser.add_argument('--port', type=int, required=False, default=5000,
+    parser.add_argument('--port', type=int, required=False, default=50007,
                          help="port to listen on")
     parser.add_argument('--debug', type=bool, required=False, default=True,
                          help="debug for development")
