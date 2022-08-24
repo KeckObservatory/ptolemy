@@ -6,6 +6,7 @@ import { makeStyles } from '@mui/styles'
 import { OBCell, Scoby } from "../../typings/papahana"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import OBSubmit from './ob_submit'
+import { socket } from '../../contexts/socket'
 
 const useStyles = makeStyles((theme: any) => ({
     grid: {
@@ -130,13 +131,16 @@ const SelectedQueue = (props: Props) => {
     const submitTitle = "Submited OB"
     const selTooltip = "Observation Blocks in queue"
 
+    const [submittedOB, changeSubmittedOB] = React.useState({} as Scoby)
+
     useEffect(() => {
     }, [props])
 
     useEffect(() => {
-    }, [])
+        //todo send to Ptolemy backend the newly submitted ob
+        socket.emit('submit_ob', {ob: submittedOB})
+    }, [submittedOB])
 
-    const [submittedOB, changeSubmittedOB] = React.useState({} as Scoby)
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
