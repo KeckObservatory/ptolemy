@@ -1,0 +1,1427 @@
+[
+    {
+      "_id": "62db033f7aaa695b0854c5ed",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5ef",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022B_U158",
+      "tags": [
+        "Standard Stars",
+        "Faint",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5f1",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_U043",
+      "tags": [
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5f3",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [
+        "Favorite OBs",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5f5",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_U045",
+      "tags": [
+        "Standard Stars",
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5f7",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022B_U048",
+      "tags": [
+        "Favorite OBs",
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5f9",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_U042",
+      "tags": [
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5fb",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_U124",
+      "tags": [
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5fd",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_U082",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c5ff",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022A_U123",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c601",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U159",
+      "tags": [
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c603",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_K166",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c605",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_N057",
+      "tags": [
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c607",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022B_U064",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c609",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_N028",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c60b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_U042",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c60d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_N020",
+      "tags": [
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c60f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_N020",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c611",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022B_U158",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c613",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022B_N057",
+      "tags": [
+        "Standard Stars",
+        "Bright"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c615",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c617",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022B_U049",
+      "tags": [
+        "Bright",
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c619",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022A_U043",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c61b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_U123",
+      "tags": [
+        "Bright",
+        "Faint",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c61d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_K166",
+      "tags": [
+        "Favorite OBs",
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c61f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_U073",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c621",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c623",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_N020",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c625",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022A_U044",
+      "tags": [
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c627",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_U048",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c629",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U056",
+      "tags": [
+        "Standard Stars",
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c62b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U064",
+      "tags": [
+        "Standard Stars"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c62d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_U169",
+      "tags": [
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c62f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_N020",
+      "tags": [
+        "Standard Stars",
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c631",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_U159",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c633",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Favorite OBs",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c635",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c637",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_K166",
+      "tags": [
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c639",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_N133",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c63b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_U064",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c63d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_U159",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c63f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U049",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright",
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db033f7aaa695b0854c641",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_K338",
+      "tags": [
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c643",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_N140",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c645",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U159",
+      "tags": [
+        "Standard Stars",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c647",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c649",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_U045",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db033f7aaa695b0854c64b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022A_N020",
+      "tags": [
+        "Standard Stars",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c64d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_U044",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c64f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U056",
+      "tags": []
+    },
+    {
+      "_id": "62db03407aaa695b0854c651",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c653",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022B_U048",
+      "tags": [
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c655",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_N028",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c657",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [
+        "Standard Stars",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c659",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_K338",
+      "tags": [
+        "Favorite OBs",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c65b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c65d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [
+        "Favorite OBs",
+        "Faint",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c65f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_U124",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c661",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c663",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_U123",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c665",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c667",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_U073",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c669",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U056",
+      "tags": [
+        "Faint",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c66b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c66d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_N057",
+      "tags": [
+        "Favorite OBs",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c66f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c671",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U158",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c673",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022A_K338",
+      "tags": [
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c675",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c677",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #0",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c679",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022B_U160",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c67b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c67d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_U042",
+      "tags": [
+        "Standard Stars",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c67f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_U043",
+      "tags": [
+        "Standard Stars",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c681",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022A_U046",
+      "tags": [
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c683",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_U048",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c685",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022B_U064",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c687",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_U048",
+      "tags": [
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c689",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_U073",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright",
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c68b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_U049",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c68d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [
+        "Faint",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c68f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022A_U073",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c691",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_K166",
+      "tags": [
+        "Standard Stars",
+        "Bright"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c693",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #1",
+      "ob_type": "science",
+      "sem_id": "2022A_U169",
+      "tags": [
+        "Bright",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c695",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U049",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c697",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #9",
+      "ob_type": "science",
+      "sem_id": "2022A_U042",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c699",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": []
+    },
+    {
+      "_id": "62db03407aaa695b0854c69b",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022B_U158",
+      "tags": [
+        "Favorite OBs",
+        "Bright",
+        "Library"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c69d",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #7",
+      "ob_type": "science",
+      "sem_id": "2022A_U169",
+      "tags": []
+    },
+    {
+      "_id": "62db03407aaa695b0854c69f",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 1,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_U064",
+      "tags": [
+        "Favorite OBs",
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c6a1",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_U043",
+      "tags": [
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c6a3",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 4,
+      "ob_name": "standard stars #2",
+      "ob_type": "science",
+      "sem_id": "2022A_U043",
+      "tags": [
+        "Bright"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c6a5",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #5",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c6a7",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022A_K338",
+      "tags": []
+    },
+    {
+      "_id": "62db03407aaa695b0854c6a9",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022A_K338",
+      "tags": [
+        "Bright",
+        "Faint",
+        "Library"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c6ab",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 3,
+      "ob_name": "standard stars #3",
+      "ob_type": "science",
+      "sem_id": "2022B_U043",
+      "tags": [],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c6ad",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 0,
+      "ob_name": "standard stars #6",
+      "ob_type": "science",
+      "sem_id": "2022B_N133",
+      "tags": [
+        "Favorite OBs",
+        "Standard Stars",
+        "Bright"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c6af",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #8",
+      "ob_type": "science",
+      "sem_id": "2022A_N140",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    },
+    {
+      "_id": "62db03407aaa695b0854c6b1",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 5,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022B_K111",
+      "tags": [
+        "Standard Stars",
+        "Bright",
+        "Faint"
+      ]
+    },
+    {
+      "_id": "62db03407aaa695b0854c6b3",
+      "acquisition": "KCWI_ifu_acq_direct",
+      "common_parameters": "KCWI_common_parameters",
+      "instrument": "KCWI",
+      "number_sequences": 2,
+      "ob_name": "standard stars #4",
+      "ob_type": "science",
+      "sem_id": "2022A_N140",
+      "tags": [
+        "Faint"
+      ],
+      "target_name": "multi_object_target"
+    }
+  ]
+  

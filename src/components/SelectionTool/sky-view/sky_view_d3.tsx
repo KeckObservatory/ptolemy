@@ -1,8 +1,5 @@
-import React from 'react';
-import { useD3 } from '../../../hooks/useD3'
 import * as d3 from 'd3'
-import { OBCell, Target } from '../../../typings/ptolemy'
-// import dayjs from 'dayjs'
+import { Scoby, Target } from '../../../typings/papahana'
 import * as util from './sky_view_util'
 import { LngLatEl } from './sky_view'
 import * as SunCalc from 'suncalc'
@@ -17,14 +14,16 @@ interface Data {
     dec?: number,
 }
 
-const format_values = (values: number[], times: Date[], target: Target, units?: string): Data[] => {
+const format_values = (values: number[], times: Date[], sd: Scoby, units: string, chartType: string): Data[] => {
     let data: Data[] = []
     for (let idx = 0; idx < times.length; idx++) {
+        const nm = sd.name ? sd.name.replaceAll(/[\W+]+/g, '_') : "unlabled_tgt"
         const d: Data = {
             time: times[idx], value: values[idx], units: units,
-            type: 'trajectory', tgt: target.name,
-            ra: target.ra_deg,
-            dec: target.dec_deg
+            type: chartType,
+            tgt: nm,
+            ra: sd.ra_deg,
+            dec: sd.dec_deg
 
         }
         data.push(d)
@@ -32,30 +31,16 @@ const format_values = (values: number[], times: Date[], target: Target, units?: 
     return data
 }
 
-const check_calc = (nadir: Date, offset: number = 600) => {
-    console.log('nadir', nadir)
-    console.log('juld', util.date_to_juld(nadir, offset))
-    console.log('gst', util.get_gmt(nadir))
-    console.log('lst', util.get_gmt(nadir) - util.KECK_LONG)
-    let [ra, dec] = ["17:31:16", "+33:27:43"] as any[]
-    ra = util.ra_dec_to_deg(ra, false)
-    dec = util.ra_dec_to_deg(dec, true)
-    console.log('ra', ra)
-    console.log('dec', dec)
-}
-
-const make_data = (targets: Target[], chartType: string, date: Date, lngLatEl: LngLatEl) => {
+const make_data = (scoby_deg: Scoby[], units: string, chartType: string, date: Date, lngLatEl: LngLatEl ) => {
 
     const nadir = util.get_nadir(lngLatEl, date)
-    // check_calc(nadir)
     const times = util.get_times(nadir, 105)
     let myData: Data[][] = []
     let mergedData: Data[] = []
 
-    targets.forEach((target: Target) => {
-        const azAlt = util.ra_dec_to_az_alt(target.ra_deg as number, target.dec_deg as number, nadir, lngLatEl)
-        const values = get_chart_data(target, times, chartType, date, lngLatEl)
-        const data = format_values(values, times, target, 'degrees')
+    scoby_deg.forEach((sd: Scoby) => {
+        const values = get_chart_data(sd, times, chartType, lngLatEl)
+        const data = format_values(values, times, sd, units, chartType)
         mergedData = [...mergedData, ...data]
         myData.push(data)
 
@@ -113,17 +98,17 @@ const init_static_lines = (svg: any,
     startDate: Date, width: number, height: number, suncalc: any) => {
 
     //get sunrise/sunset times
-    const bars: Date[] = [suncalc.sunsetStart, suncalc.sunset, suncalc.sunrise, suncalc.sunriseEnd] 
-    bars.forEach( (date: Date) => {
-            svg.append('rect')
-                .attr('x', xScale(date))
-                .attr('y', 0)
-                .attr('height', height)
-                .attr('width', 1)
-                .attr('class', 'druler')
-                .style('stroke', 'lightgray')
-                .style("visibility", "visible")
-                .style('opacity', 1);
+    const bars: Date[] = [suncalc.sunsetStart, suncalc.sunset, suncalc.sunrise, suncalc.sunriseEnd]
+    bars.forEach((date: Date) => {
+        svg.append('rect')
+            .attr('x', xScale(date))
+            .attr('y', 0)
+            .attr('height', height)
+            .attr('width', 1)
+            .attr('class', 'druler')
+            .style('stroke', 'lightgray')
+            .style("visibility", "visible")
+            .style('opacity', 1);
     })
 
 
@@ -173,7 +158,6 @@ const formatDate = (date: Date) => {
         day = date.getDate(),
         hour = date.getHours(),
         minute = date.getMinutes(),
-        second = date.getSeconds(),
         hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
         minuteFormatted = minute < 10 ? "0" + minute : minute,
         morning = hour < 12 ? "am" : "pm";
@@ -182,28 +166,30 @@ const formatDate = (date: Date) => {
         minuteFormatted + morning;
 }
 
-const get_chart_data = (target: Target, times: Date[], chartType: string, date: Date, lngLatEl: LngLatEl, offset: number = 600): number[] => {
+const get_chart_data = (sd: Scoby, times: Date[], chartType: string, lngLatEl: LngLatEl): number[] => {
     let val;
+    const ra = sd.ra_deg as number
+    const dec = sd.dec_deg as number
     switch (chartType) {
         case 'altitude': {
-            val = util.get_target_traj(target.ra_deg as number, target.dec_deg as number, times, date, lngLatEl, offset)
+            val = util.get_target_traj(ra, dec, times, lngLatEl)
             val = val.map((azAlt: any) => azAlt[1]) as number[]
             break;
         }
         case 'air mass': {
-            val = util.get_air_mass(target.ra_deg as number, target.dec_deg as number, times, date, lngLatEl, offset)
+            val = util.get_air_mass(ra, dec, times, lngLatEl)
             break;
         }
         case 'parallactic angle': {
-            val = util.get_parallactic_angle(target.ra_deg as number, target.dec_deg as number, times, lngLatEl, offset)
+            val = util.get_parallactic_angle(ra, dec, times, lngLatEl)
             break;
         }
         case 'lunar angle': {
-            val = util.get_lunar_angle(target.ra_deg as number, target.dec_deg as number, times, lngLatEl)
+            val = util.get_lunar_angle(ra, dec, times, lngLatEl)
             break;
         }
         default: {
-            val = util.get_target_traj(target.ra_deg as number, target.dec_deg as number, times, date, lngLatEl, offset)
+            val = util.get_target_traj(ra, dec, times, lngLatEl)
             val = val.map((azAlt: any) => azAlt[1]) as number[]
         }
     }
@@ -215,7 +201,7 @@ const init_hovors = (svg: any, tgts: string[], height: number) => {
     //dots appear over line when cursored over
     for (const idx in tgts) {
         svg.append('circle')
-            .attr('class', 'marker ' + tgts[idx])
+            .attr('class', 'marker' + tgts[idx])
             .attr('cx', 100)
             .attr('cy', 100)
             .attr('r', 5)
@@ -242,7 +228,7 @@ const init_hovors = (svg: any, tgts: string[], height: number) => {
     const ruler = svg.append('rect')
         .attr('x', 0)
         .attr('y', 0)
-        .attr('height', height)
+        .attr('height', height - 315)
         .attr('width', 2)
         .attr('class', 'ruler')
         .style('stroke', 'lightgray')
@@ -256,20 +242,24 @@ const bisectDate = d3.bisector(function (d: any) { return d.time; }).left;
 export const skyview = (svg: any, chartType: string, outerHeight: number, outerWidth: number,
     marginLeft: number, marginRight: number,
     marginTop: number, marginBottom: number,
-    targets: Target[],
+    scoby_deg: Scoby[],
     date: Date,
     lngLatEl: LngLatEl
 ) => {
-    const myData = make_data(targets, chartType, date, lngLatEl)
+    const height = outerHeight - marginTop - marginBottom
+    const width = outerWidth - marginRight - marginLeft
+
+    if (chartType==='altitude') var units = 'degrees'
+    else if (chartType==='air mass') var units = ''
+    else if (chartType==='parallactic angle') var units = 'degrees'
+    else if (chartType==='lunar angle') var units = 'degrees'
+    else units = ''
+
+    const myData = make_data(scoby_deg, units, chartType, date, lngLatEl)
+    console.log('myData', myData)
     if (myData.length <= 0) return
     const startDate = myData[0][0].time
     const endDate = myData[0][myData[0].length - 1].time
-    const values = myData.flat().map(d => d.value)
-    const yMin: number = d3.min(values) as number
-    const yMax: number = d3.max(values) as number
-
-    const height = outerHeight - marginTop - marginBottom
-    const width = outerWidth - marginRight - marginLeft
 
     const suncalc = SunCalc.getTimes(startDate, lngLatEl.lng, lngLatEl.lat)
 
@@ -277,10 +267,47 @@ export const skyview = (svg: any, chartType: string, outerHeight: number, outerW
         [marginLeft, width]
     )
 
+    if (chartType === 'altitude') {
+        var yScale = d3.scaleLinear([20, 90],
+            [height, marginTop]
+        )
+        var valueTxt = "Alt [deg]"
+        var units = 'degrees'
+    }
+    else if (chartType === 'air mass') {
+        var yScale = d3.scaleLinear([0, 5],
+            [height, marginTop]
+        )
 
-    const yScale = d3.scaleLinear([20, 90],
-        [height, marginTop]
-    )
+        var valueTxt = "Air Mass []"
+    }
+    else if (chartType === 'parallactic angle') {
+        var yScale = d3.scaleLinear([-90, 90],
+            [height, marginTop]
+        )
+
+        var valueTxt = "Parallactic Angle [deg]"
+    }
+    else if (chartType === 'lunar angle') {
+        var yScale = d3.scaleLinear([-90, 90],
+            [height, marginTop]
+        )
+
+        var valueTxt = "Lunar Angle [deg]"
+    }
+    else {
+        const values = myData[0].map((x: Data) => {
+            return x.value
+        })
+        const min = Math.min(...values)
+        const max = Math.max(...values)
+        var yScale = d3.scaleLinear([min, max],
+            [height, marginTop]
+        )
+        var valueTxt = "value [?]"
+    }
+
+
 
     let tdx = 0
     const tgts = myData.map(d => {
@@ -311,7 +338,7 @@ export const skyview = (svg: any, chartType: string, outerHeight: number, outerW
     const [tooltip, ruler] = init_hovors(svg, tgtNames, width)
 
     const moveRuler = (event: any) => {
-        const [xp, yp] = d3.pointer(event, svg.node())
+        const [xp, _] = d3.pointer(event, svg.node())
         const xpoint = xScale.invert(xp)
         var d: any
         var keyData: any[] = []
@@ -321,6 +348,7 @@ export const skyview = (svg: any, chartType: string, outerHeight: number, outerW
             const d1 = myData[idx][i]
             if (!d1) continue
             d = xpoint.getTime() - d0.time.getTime() > d1.time.getTime() - xpoint.getTime() ? d1 : d0;
+            // svg.selectAll('.marker.' + myData[idx][0].tgt)
             svg.selectAll('.marker.' + myData[idx][0].tgt)
                 .attr('cx', xScale(d.time))
                 .attr('cy', yScale(d.value))
@@ -373,10 +401,6 @@ export const skyview = (svg: any, chartType: string, outerHeight: number, outerW
             .style("opacity", 0)
     }
 
-    svg
-        .on("mousemove", moveRuler)
-        .on("mouseleave", hideRuler)
-
     const lineClass = svg.selectAll('path')
         .data(myData)
         .join('path')
@@ -386,12 +410,15 @@ export const skyview = (svg: any, chartType: string, outerHeight: number, outerW
         .style('stroke-width', 2)
         .style('fill', 'transparent')
 
+    svg
+        .on("mousemove", moveRuler)
+        .on("mouseleave", hideRuler)
+
     // add the axes
     // axes go on last
     const xOffset = height
     const xTxtOffset = xOffset + 40
     const yOffset = marginLeft
     const yTxtOffset = yOffset - 60
-    const valueTxt = "Alt [deg]"
     add_axes(svg, xScale, yScale, width, height, xOffset, xTxtOffset, yOffset, yTxtOffset, valueTxt)
 }

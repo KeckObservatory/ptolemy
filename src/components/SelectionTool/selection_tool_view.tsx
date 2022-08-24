@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { get_obs_from_semester, get_sem_id_list } from '../../api/utils'
-import { OBCell, ObservationBlock } from '../../typings/ptolemy'
+import React, { useEffect, useState, useContext } from 'react'
+import { get_obs_from_semester, get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
+import { ContainerObs, DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/papahana'
 import { makeStyles } from '@mui/styles'
-import { Theme } from '@mui/material/styles'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
-import { OBQueue } from './ob_queue'
 import SkyView from './sky-view/sky_view'
 import DropDown from '../drop_down'
-import Button from '@mui/material/Button';
-import { SocketContext } from './../../contexts/socket';
+import AvailableOBTable from './available_ob_table'
+import SelectedQueue from './selected_queue'
+import FormControl from '@mui/material/FormControl'
 
 const useStyles = makeStyles((theme: any) => ({
     grid: {
@@ -40,12 +39,11 @@ const useStyles = makeStyles((theme: any) => ({
 }))
 
 interface Props {
-    observer_id: string
 }
 
 interface State {
-    selObs: OBCell[];
-    avlObs: OBCell[];
+    selObs: Scoby[];
+    avlObs: Scoby[];
     sem_id: string
     semIdList: string[]
     chartType: string;
@@ -55,34 +53,32 @@ interface State {
 const defaultState: State = {
     avlObs: [],
     selObs: [],
-    sem_id: '2017A_U033',
+    sem_id: '',
     semIdList: [],
     chartType: 'altitude'
 }
 
-const container_obs_to_cells = (container_obs: ObservationBlock[]): OBCell[] => {
+const container_obs_to_cells = (container_obs: any) => {
     let cells: any[] = []
     let uid = 0
     Object.entries(container_obs).forEach((cid_obs: any) => {
         const cid = cid_obs[0]
-        const obs = cid_obs[1].splice(0, 1, 1)
-        const cidCell = { id: cid, type: 'container' }
-        //cells.push(cidCell) //ignore containers for now
+        const obs = cid_obs[1]
         obs.forEach((ob: ObservationBlock, idx: number) => {
             const obCell: OBCell = {
                 cid: cid,
                 name: ob.metadata.name,
                 type: 'ob',
                 id: JSON.stringify(uid),
-                ra: ob.target?.ra,
-                dec: ob.target?.dec,
-                ob: ob
+                ra: ob.target?.parameters.target_coord_ra,
+                dec: ob.target?.parameters.target_coord_dec
             }
             const tgt = ob.target
             if (tgt) obCell['target'] = tgt
             cells.push(obCell)
             uid += 1
         })
+
     })
     return cells
 }
@@ -91,72 +87,39 @@ export const SelectionToolView = (props: Props) => {
 
     const chartTypes = ['altitude', 'air mass', 'parallactic angle', 'lunar angle']
 
+
     const [avlObs, setAvlObs] = useState(defaultState.avlObs)
     const [selObs, setSelObs] = useState(defaultState.selObs)
     const [chartType, setChartType] = useState(defaultState.chartType)
+
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
-    const socket = React.useContext(SocketContext);
-    const [ avg, setAvg] = React.useState(0) 
-    let ping_pong_times: number[] = []
-    let start_time: number
+
 
     useEffect(() => {
-        get_obs_from_semester(props.observer_id, sem_id).then((container_obs: ObservationBlock[]) => {
-            const cells = container_obs_to_cells(container_obs)
-            setAvlObs(cells)
+        make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
+            const [scoby, cont] = scoby_cont
+            setAvlObs(scoby)
         })
     }, [])
 
     useEffect(() => {
-        console.log('sem_id changed')
-        get_obs_from_semester(props.observer_id, sem_id).then((container_obs: ObservationBlock[]) => {
-            const cells = container_obs_to_cells(container_obs)
-            setAvlObs(cells)
+        make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
+            const [scoby, cont] = scoby_cont
+            setAvlObs(scoby)
             setSelObs([])
         })
     }, [sem_id])
 
-    useEffect(() => { //run when props.observer_id changes
-        get_sem_id_list(props.observer_id)
-            .then((lst: string[]) => {
-                setSemIdList(() => [...lst])
+    useEffect(() => {
+        get_sem_id_list()
+            .then((semesters: SemesterIds) => {
+                setSemIdList(() => [...semesters.associations])
             })
-    }, [props.observer_id])
-
-    useEffect((): any => {
-        console.log('starting socket connections: ')
-        create_connections()
-        return () => socket.off();
-    }, [socket])
-
-    const create_connections = React.useCallback(() => {
-        window.setInterval(function () {
-            start_time = (new Date).getTime();
-            socket.emit('my_ping');
-        }, 1000);
-
-        socket.on('my_response', function (msg, cb) {
-            const txt = 'received #' + msg.count + ': ' + msg.data
-            console.log(txt)
-            if (cb) cb()
-        })
-
-        socket.on('my_pong', function () {
-            var latency = new Date().getTime() - start_time;
-            ping_pong_times.push(latency);
-            ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
-            var sum = 0;
-            for (var i = 0; i < ping_pong_times.length; i++)
-                sum += ping_pong_times[i];
-            // setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
-        });
-
     }, [])
 
     const handleSemIdSubmit = (new_sem_id: string) => {
-        // console.log('submit button pressed')
         setSemId(new_sem_id)
     }
 
@@ -164,33 +127,25 @@ export const SelectionToolView = (props: Props) => {
         setChartType(newChartType)
     }
 
-    const submitOB = () => {
-        console.log('submitting new OB!')
-        const data = {ob: selObs[0].ob}
-        socket.emit('submit_ob', data)
-    }
-
     const classes = useStyles()
     return (
-        <div>
-            {/* <span>{avg} ms</span> */}
+        <React.Fragment>
+            <FormControl sx={{ m: 2, width: 150 }}>
+                <DropDown
+                    placeholder={'semester id'}
+                    arr={semIdList}
+                    value={sem_id}
+                    handleChange={handleSemIdSubmit}
+                    label={'Semester ID'}
+                    highlightOnEmpty={true}
+                />
+            </FormControl>
             <Grid container spacing={1} className={classes.grid}>
-                <Grid item xs={8}>
-                    <DropDown
-                        placeholder={'semester id'}
-                        arr={semIdList}
-                        value={sem_id}
-                        handleChange={handleSemIdSubmit}
-                        label={'Semester ID'}
-                    />
-                    <Button disabled={selObs.length===0} variant="contained" onClick={submitOB}>Submit Top Selected OB</Button>
-                    <OBQueue
-                        sem_id={sem_id}
-                        selObs={selObs as OBCell[]}
-                        setSelObs={setSelObs}
-                        avlObs={avlObs as OBCell[]}
-                        setAvlObs={setAvlObs}
-                    />
+                <Grid item xs={6}>
+                    <AvailableOBTable rows={avlObs} setSelObs={setSelObs} />
+                </Grid>
+                <Grid item xs={6}>
+                    <SelectedQueue selObs={selObs} setSelObs={setSelObs} />
                 </Grid>
                 <Grid item xs={4}>
                     <DropDown
@@ -208,6 +163,6 @@ export const SelectionToolView = (props: Props) => {
                     </Paper >
                 </Grid>
             </Grid>
-        </div>
+        </React.Fragment>
     )
 }

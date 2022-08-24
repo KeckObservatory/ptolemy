@@ -94,7 +94,7 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <SelectionToolView observer_id={props.observer_id}/>
+                <SelectionToolView/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Octect />
