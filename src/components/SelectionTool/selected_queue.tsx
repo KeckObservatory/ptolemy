@@ -7,6 +7,8 @@ import { OBCell, Scoby } from "../../typings/papahana"
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import OBSubmit from './ob_submit'
 import { socket } from '../../contexts/socket'
+import { ob_api_funcs } from '../../api/ApiRoot';
+import { ObservationBlock } from '../../typings/papahana';
 
 const useStyles = makeStyles((theme: any) => ({
     grid: {
@@ -131,7 +133,8 @@ const SelectedQueue = (props: Props) => {
     const submitTitle = "Submited OB"
     const selTooltip = "Observation Blocks in queue"
 
-    const [submittedOB, changeSubmittedOB] = React.useState({} as Scoby)
+    const [submittedOB, changeSubmittedOB] = React.useState({} as ObservationBlock)
+    const [submittedOBRow, changeSubmittedOBRow] = React.useState({} as Scoby)
 
     useEffect(() => {
     }, [props])
@@ -152,7 +155,13 @@ const SelectedQueue = (props: Props) => {
     }
 
     const onSubmitOB = (result: any) => {
-        changeSubmittedOB(props.selObs[0])
+        const selectedRow = props.selObs[0] 
+        const ob_id = selectedRow.ob_id as string
+
+        changeSubmittedOBRow(selectedRow)
+        ob_api_funcs.get(ob_id).then( (ob: ObservationBlock) => {
+            changeSubmittedOB(ob)
+        })
     }
 
 
@@ -189,7 +198,7 @@ const SelectedQueue = (props: Props) => {
     return (
         <React.Fragment>
             <DragDropContext onDragEnd={onDragEnd}>
-                <SubmittedNook row={submittedOB} />
+                <SubmittedNook row={submittedOBRow} />
             </DragDropContext>
             <DragDropContext onDragEnd={onDragEnd}>
                 {create_droppable(props.selObs, 'selObs', selTooltip, selTitle, onSubmitOB)}
