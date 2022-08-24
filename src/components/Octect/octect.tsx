@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import FormControl from '@mui/material/FormControl';
 import { OBCell, ObservationBlock, Science } from '../../typings/ptolemy'
 import { makeStyles } from '@mui/styles'
 import Paper from '@mui/material/Paper'
@@ -180,6 +181,12 @@ const Octect = (props: Props) => {
 
     }, [])
 
+    const submitAcq = () => {
+        console.log('submit sequence button clicked. sending task')
+        const data = { task: ob.acquisition }
+        socket.emit('new_task', data)
+    }
+
     const submitSeq = () => {
         console.log('submit sequence button clicked. sending task')
         const data = { task: sequences[0] }
@@ -215,7 +222,12 @@ const Octect = (props: Props) => {
                             onEdit={false}
                         />
                     </Paper>
-                    <Button onClick={submitSeq}>Submit Top Sequence</Button>
+                    <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
+                        <Button variant="contained" onClick={submitSeq}>Submit Top Sequence</Button>
+                    </FormControl>
+                    <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
+                        <Button variant="contained" onClick={submitAcq}>Submit Acquisition</Button>
+                    </FormControl>
                     <Paper className={classes.paper} elevation={3}>
                         <SequenceQueue sequence_queue={sequences} sequence_boneyard={sequenceBoneyard} socket={socket} />
                     </Paper >
