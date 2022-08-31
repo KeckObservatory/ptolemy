@@ -69,12 +69,20 @@ def increment_ob_version():
     print(f'\nemmiting ob version: {version}\n')
     emit('new_ob', data, broadcast=True)
 
+@socketio.on('new_ob_queue')
+def new_ob_queue(data):
+    print('new sequence queue')
+    seq = data.get('sequence_queue')
+    myData['sequence_queue'] = seq
+    emit('sequence_queue_broadcast', data, broadcast=True)
+    emit('sequence_queue_to_xcute', data, broadcast=True)
+
 @socketio.on('submit_ob')
 def submit_ob(data):
     print('submitting new ob')
     ob = data.get('ob')
     myData['obdm'] = OBDM(ob) 
-    emit('new_ob', data, broadcast=True)
+    emit('send_submitted_ob', data, broadcast=True)
     emit('ob_to_xcute', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
