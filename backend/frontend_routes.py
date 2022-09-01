@@ -1,7 +1,7 @@
 from app import app, socketio
 
-from flask_socketio import emit, disconnect
-from flask import session, send_from_directory, copy_current_request_context
+from flask_socketio import emit, disconnect 
+from flask import session, send_from_directory, request, copy_current_request_context
 from threading import Lock
 import shelve
 from obdm import OBDM
@@ -17,13 +17,10 @@ thread_lock = Lock()
 with open('./public/ob.json') as f:
     ob = json.load(f)[0]
 obdm = OBDM(ob)
-myString = 'default'
-queue = ['default1', 'default2']
-myData['queue'] = queue
-myData['string'] = myString
 
 myData['obdm'] = obdm
 myData['sequence_queue'] = [] 
+myData['ob_queue'] = []
 
 DEFAULT_EVENTS = [
     'BEGIN_SLEW', 'CONFIGURE_FOR_ACQUISITION', 'WAITFOR_SLEW',
@@ -52,34 +49,31 @@ def disconnect_request():
 def send_ob():
     obdm = myData['obdm']
     data = {'ob': obdm.ob}
-    print('\nsending ob\n')
+    # print('\nsending ob\n')
     return data
     # emit('return_ob', data, broadcast=True)
 
+@socketio.on("request_ob_queue")
+def request_ob_queue():
+    data = { 'ob_queue': myData['ob_queue']}
+    return data
 
-
-@socketio.on('increment_ob_version')
-def increment_ob_version():
-    print('in increment_ob_version')
-    obdm = myData['obdm']
-    version = (float(obdm.ob['metadata']['version']) * 10 + 1) / 10.0
-    obdm.ob['metadata']['version'] = version
-    myData['obdm'] = obdm
-    data = {'ob': obdm.ob['metadata']}
-    print(f'\nemmiting ob version: {version}\n')
-    emit('new_ob', data, broadcast=True)
-
-@socketio.on('new_ob_queue')
+@socketio.on('set_ob_queue')
 def new_ob_queue(data):
-    print('new sequence queue')
-    seq = data.get('sequence_queue')
-    myData['sequence_queue'] = seq
-    emit('sequence_queue_broadcast', data, broadcast=True)
-    emit('sequence_queue_to_xcute', data, broadcast=True)
+    print('new ob queue')
+    print(data)
+    myData['ob_queue'] = data.get('ob_queue', [])
+    emit('send_ob_queue', data, broadcast=True)
+
+@socketio.on("request_submitted_ob")
+def request_submitted_ob():
+    clientid = request.sid
+    data = { 'ob': myData['obdm'].ob}
+    return data
 
 @socketio.on('submit_ob')
 def submit_ob(data):
-    print('submitting new ob')
+    print('\rsubmitting new ob\r')
     ob = data.get('ob')
     myData['obdm'] = OBDM(ob) 
     emit('send_submitted_ob', data, broadcast=True)

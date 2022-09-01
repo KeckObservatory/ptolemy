@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme: any) => ({
 interface Props {
     selObs: Scoby[];
     setSelObs: Function;
+    submittedOB: ObservationBlock
+    changeSubmittedOBRow: Function
+    submittedOBRow: Scoby
 }
 
 interface CreateDivProps {
@@ -116,11 +119,11 @@ interface NookProps {
 
 const SubmittedNook = (props: NookProps) => {
     return (
-        <Paper elevation={3} sx={{margin: '4px', minWidth: '80px', padding: '9px'}}>
+        <Paper elevation={3} sx={{ margin: '4px', minWidth: '80px', padding: '9px' }}>
             <Tooltip title={'Submitted OB'}>
                 <h3>Submitted OB</h3>
             </Tooltip>
-            { props.row && DragDiv(props.row) }
+            {props.row && DragDiv(props.row)}
         </Paper >
     )
 }
@@ -133,16 +136,12 @@ const SelectedQueue = (props: Props) => {
     const submitTitle = "Submited OB"
     const selTooltip = "Observation Blocks in queue"
 
-    const [submittedOB, changeSubmittedOB] = React.useState({} as ObservationBlock)
-    const [submittedOBRow, changeSubmittedOBRow] = React.useState({} as Scoby)
 
     useEffect(() => {
     }, [props])
 
     useEffect(() => {
-        //todo send to Ptolemy backend the newly submitted ob
-        socket.emit('submit_ob', {ob: submittedOB})
-    }, [submittedOB])
+    }, [props.submittedOB])
 
 
     const onDragEnd = (result: any) => {
@@ -152,28 +151,28 @@ const SelectedQueue = (props: Props) => {
         let newObs = [...props.selObs]
         newObs = reorder(newObs, source.index, destination.index)
         props.setSelObs(newObs)
+        socket.emit('set_ob_queue', {ob_queue: newObs})
     }
 
     const onSubmitOB = (result: any) => {
-        const selectedRow = props.selObs[0] 
-        const ob_id = selectedRow.ob_id as string
-
-        changeSubmittedOBRow(selectedRow)
-        ob_api_funcs.get(ob_id).then( (ob: ObservationBlock) => {
-            changeSubmittedOB(ob)
+        const ob_id = props.selObs[0].ob_id as string 
+        ob_api_funcs.get(ob_id).then((ob: ObservationBlock) => {
+            console.log('submitting ob')
+            socket.emit('submit_ob', { ob: ob})
         })
     }
 
-
-
-
-    const create_droppable = (rows: Scoby[], key: string, tooltip: string, title: string, onSubmitOB: Function) => {
+    const create_droppable = (rows: Scoby[],
+        key: string,
+        tooltip: string,
+        title: string,
+        onSubmitOB: Function) => {
         return (
             <Paper className={classes.paper} elevation={3}>
                 <Tooltip title={tooltip}>
                     <h3>{title}</h3>
                 </Tooltip>
-                <OBSubmit onSubmitOB={ onSubmitOB } />
+                <OBSubmit onSubmitOB={onSubmitOB} />
                 <Droppable key={key} droppableId={key}>
                     {(provided: any, snapshot: any) => {
                         return (
@@ -198,7 +197,7 @@ const SelectedQueue = (props: Props) => {
     return (
         <React.Fragment>
             <DragDropContext onDragEnd={onDragEnd}>
-                <SubmittedNook row={submittedOBRow} />
+                <SubmittedNook row={props.submittedOBRow} />
             </DragDropContext>
             <DragDropContext onDragEnd={onDragEnd}>
                 {create_droppable(props.selObs, 'selObs', selTooltip, selTitle, onSubmitOB)}

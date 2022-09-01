@@ -7,3 +7,4 @@
 'events', (8192, 243)
 'sequence_boneyard', (10240, 543)
 'event_boneyard', (13824, 39)
+'ob_queue', (34304, 6)

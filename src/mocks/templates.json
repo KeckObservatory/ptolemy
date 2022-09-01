@@ -12,7 +12,7 @@
 		"parameters" : {
 			"wrap" : {
 				"ui_name" : "Rotator Wrap Position",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"south",
 					"north",
@@ -24,7 +24,7 @@
 			},
 			"rotmode" : {
 				"ui_name" : "Rotator Mode",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"PA",
 					"stationary",
@@ -36,7 +36,7 @@
 			},
 			"guider_po" : {
 				"ui_name" : "Pointing origin",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"REF",
 					"IFU"
@@ -91,7 +91,7 @@
 			},
 			"guider_gs_mode" : {
 				"ui_name" : "Guide Star Selection Mode",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"auto",
 					"operator",
@@ -104,19 +104,20 @@
 		}
 	},
 	{
-		"_id" : "611ade1bcca705b10e6f6475",
+		"_id" : "61203d3a86574cd1da879133",
 		"metadata" : {
 			"name" : "KCWI_ifu_acq_direct",
 			"ui_name" : "KCWI direct",
 			"instrument" : "KCWI",
 			"template_type" : "acquisition",
 			"version" : "0.1.1",
-			"script" : "KCWI_ifu_acq_direct"
+			"script" : "KCWI_ifu_acq_direct",
+			"sequence_number" : 0
 		},
 		"parameters" : {
-			"wrap" : {
+			"rot_cfg_wrap" : {
 				"ui_name" : "Rotator Wrap Position",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"south",
 					"north",
@@ -124,86 +125,88 @@
 				],
 				"default" : "auto",
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			},
-			"rotmode" : {
+			"rot_cfg_mode" : {
 				"ui_name" : "Rotator Mode",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"PA",
 					"stationary",
 					"vertical_angle"
 				],
-				"default" : null,
-				"optionality" : "required",
-				"type" : "string"
+				"default" : "operator",
+				"optionality" : "optional",
+				"type" : "string",
+				"units": null
 			},
-			"guider_po" : {
+			"tcs_coord_po" : {
 				"ui_name" : "Pointing origin",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"REF",
 					"IFU"
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			},
-			"ra_offset" : {
+			"tcs_coord_raoff" : {
 				"ui_name" : "The offset from coordinates to get to the target",
 				"option" : "range",
 				"allowed" : [
 					0,
-					2000
+					200
 				],
-				"default" : null,
+				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "arcseconds"
 			},
-			"dec_offset" : {
+			"tcs_coord_decoff" : {
 				"ui_name" : "The offset from coordinates to get to the target",
 				"option" : "range",
 				"allowed" : [
 					0,
-					2000
+					200
 				],
-				"default" : null,
+				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "arcseconds"
 			},
-			"guider_gs_ra" : {
+			"guider1_coord_ra" : {
 				"ui_name" : "Guide Star Right Ascension",
-				"option" : "range",
-				"allowed" : [
-					0,
-					24
-				],
+				"option" : "regex",
+				"allowed" : "HH:MM:SS.S",
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "Hours:Minutes:Seconds"
 			},
-			"guider_gs_dec" : {
+			"guider1_coord_dec" : {
 				"ui_name" : "Guide Star Declination",
-				"option" : "range",
-				"allowed" : [
-					-90,
-					90
-				],
+				"option" : "regex",
+				"allowed" : "DD:MM:SS.S",
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "Degrees:Minutes:Seconds"
 			},
-			"guider_gs_mode" : {
+			"guider1_cfg_mode" : {
 				"ui_name" : "Guide Star Selection Mode",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					"auto",
 					"operator",
 					"user"
 				],
-				"default" : null,
-				"optionality" : "required",
-				"type" : "string"
+				"default" : "operator",
+				"optionality" : "optional",
+				"type" : "string",
+				"units": null
 			}
 		}
 	},
@@ -218,7 +221,7 @@
 			"script" : "KCWI_ifu_sci_stare"
 		},
 		"parameters" : {
-			"det1_exptime" : {
+			"det1_exp_time" : {
 				"ui_name" : "Blue exposure time",
 				"option" : "range",
 				"allowed" : [
@@ -227,20 +230,22 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "float"
+				"type" : "float",
+				"units": "seconds"
 			},
-			"det1_nexp" : {
+			"det1_exp_number" : {
 				"ui_name" : "Blue number of exposures",
 				"option" : "range",
 				"allowed" : [
 					0,
-					3600
+				    100	
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "integer"
+				"type" : "integer",
+				"units": "seconds"
 			},
-			"det2_exptime" : {
+			"det2_exp_time" : {
 				"ui_name" : "Red exposure time",
 				"option" : "range",
 				"allowed" : [
@@ -249,18 +254,20 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "seconds"
 			},
-			"det2_nexp" : {
+			"det2_exp_number" : {
 				"ui_name" : "Blue number of exposures",
 				"option" : "range",
 				"allowed" : [
 					0,
-					3600
+					100
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "integer"
+				"type" : "integer",
+				"units": "seconds"
 			}
 		}
 	},
@@ -272,7 +279,8 @@
 			"instrument" : "KCWI",
 			"template_type" : "science",
 			"version" : "0.1.1",
-			"script" : "KCWI_ifu_sci_stare"
+			"script" : "KCWI_ifu_sci_stare",
+			"sequence_number": 1
 		},
 		"parameters" : {
 			"det1_exptime" : {
@@ -282,9 +290,10 @@
 					0,
 					3600
 				],
-				"default" : null,
+				"default" : 0,
 				"optionality" : "required",
-				"type" : "float"
+				"type" : "float",
+				"units": "seconds"
 			},
 			"det1_nexp" : {
 				"ui_name" : "Blue number of exposures per dither position",
@@ -295,7 +304,8 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "integer"
+				"type" : "integer",
+				"units": null
 			},
 			"det2_exptime" : {
 				"ui_name" : "Red exposure time for individual exposures",
@@ -304,9 +314,10 @@
 					0,
 					3600
 				],
-				"default" : null,
+				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "seconds"
 			},
 			"det2_nexp" : {
 				"ui_name" : "Blue number of exposures per dither position",
@@ -319,7 +330,7 @@
 				"optionality" : "optional",
 				"type" : "integer"
 			},
-			"seq_ndither" : {
+			"seq_dither_number" : {
 				"ui_name" : "Number of dither positions",
 				"option" : "range",
 				"allowed" : [
@@ -328,30 +339,32 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "integer"
+				"type" : "integer",
+				"units": null
 			},
-			"seq_ditarray" : {
+			"seq_dither_pattern" : {
 				"ui_name" : "Dither Pattern",
-				"option" : "list",
+				"option" : "set",
 				"default" : null,
 				"optionality" : "required",
 				"type" : "array",
 				"allowed" : [
 					{
-						"ra_offset" : {
+						"seq_dither_ra_offset" : {
 							"ui_name" : "Right Ascension Offset",
 							"option" : "range",
 							"allowed" : [
-								-4000,
-								4000
+								-20,
+								20
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "float"
+							"type" : "float",
+							"units": "arcseconds"
 						}
 					},
 					{
-						"dec_offset" : {
+						"seq_dither_dec_offset" : {
 							"ui_name" : "Declination Offset",
 							"option" : "range",
 							"allowed" : [
@@ -360,13 +373,14 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "float"
+							"type" : "float",
+							"units": "arcseconds"
 						}
 					},
 					{
-						"position" : {
+						"seq_dither_position" : {
 							"ui_name" : "Telescope Position",
-							"option" : "list",
+							"option" : "set",
 							"allowed" : [
 								"T",
 								"S",
@@ -374,16 +388,18 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "string"
+							"type" : "string",
+							"units": null
 						}
 					},
 					{
-						"guided" : {
+						"seq_dither_guided" : {
 							"ui_name" : "Guided",
 							"option" : "boolean",
 							"default" : true,
 							"optionality" : "required",
-							"type" : "boolean"
+							"type" : "boolean",
+							"units": null
 						}
 					}
 				]
@@ -399,7 +415,7 @@
 			"version" : "0.1.1"
 		},
 		"parameters" : {
-			"name" : {
+			"target_info_name" : {
 				"ui_name" : "Target Name",
 				"option" : "regex",
 				"allowed" : [
@@ -407,9 +423,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			},
-			"ra" : {
+			"target_coord_ra" : {
 				"ui_name" : "Right Ascension",
 				"option" : "regex",
 				"allowed" : [
@@ -419,9 +436,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "DD:MM:SS.SS"
 			},
-			"dec" : {
+			"target_coord_dec" : {
 				"ui_name" : "Declination",
 				"option" : "regex",
 				"allowed" : [
@@ -434,9 +452,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "DD:MM:SS.SS"
 			},
-			"pa" : {
+			"rot_cfg_pa" : {
 				"ui_name" : "Position Angle",
 				"option" : "range",
 				"allowed" : [
@@ -445,9 +464,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "degrees"
 			},
-			"pm_ra" : {
+			"target_coord_pm_ra" : {
 				"ui_name" : "Proper Motion (RA)",
 				"option" : "range",
 				"allowed" : [
@@ -456,9 +476,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/year"
 			},
-			"pm_dec" : {
+			"target_coord_pm_dec" : {
 				"ui_name" : "Proper Motion (DEC)",
 				"option" : "range",
 				"allowed" : [
@@ -467,9 +488,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/year"
 			},
-			"epoch" : {
+			"target_coord_epoch" : {
 				"ui_name" : "Epoch",
 				"option" : "range",
 				"allowed" : [
@@ -478,9 +500,10 @@
 				],
 				"default" : 2000,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": null 
 			},
-			"obstime" : {
+			"seq_constraint_obstime" : {
 				"ui_name" : "Scheduled Time of Observation",
 				"option" : "regex",
 				"allowed" : [
@@ -489,16 +512,17 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "YY-MM-DD HH:MM:SS"
 			},
-			"magnitude" : {
+			"target_info_magnitude" : {
 				"ui_name" : "Target Magnitude",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					{
 						"band" : {
 							"ui_name" : "Spectral Band",
-							"option" : "list",
+							"option" : "set",
 							"allowed" : [
 								"V",
 								"R",
@@ -509,7 +533,8 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "string"
+							"type" : "string",
+				            "units": null
 						}
 					},
 					{
@@ -522,15 +547,17 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "float"
+							"type" : "float",
+				            "units": null
 						}
 					}
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "array"
+				"type" : "array",
+				"units": null
 			},
-			"comment" : {
+			"target_info_comment" : {
 				"ui_name" : "Target Comment",
 				"option" : "regex",
 				"allowed" : [
@@ -539,7 +566,8 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			}
 		}
 	},
@@ -552,7 +580,7 @@
 			"version" : "0.1.1"
 		},
 		"parameters" : {
-			"name" : {
+			"target_info_name" : {
 				"ui_name" : "Target Name",
 				"option" : "regex",
 				"allowed" : [
@@ -560,9 +588,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			},
-			"ra" : {
+			"target_coord_ra" : {
 				"ui_name" : "Right Ascension",
 				"option" : "regex",
 				"allowed" : [
@@ -572,9 +601,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "DD:MM:SS.SS"
 			},
-			"dec" : {
+			"target_coord_dec" : {
 				"ui_name" : "Declination",
 				"option" : "regex",
 				"allowed" : [
@@ -587,9 +617,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "DD:MM:SS.SS"
 			},
-			"pa" : {
+			"rot_cfg_pa" : {
 				"ui_name" : "Position Angle",
 				"option" : "range",
 				"allowed" : [
@@ -598,9 +629,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": "degrees"
 			},
-			"pm_ra" : {
+			"target_coord_pm_ra" : {
 				"ui_name" : "Proper Motion (RA)",
 				"option" : "range",
 				"allowed" : [
@@ -609,9 +641,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/year"
 			},
-			"pm_dec" : {
+			"target_coord_pm_dec" : {
 				"ui_name" : "Proper Motion (DEC)",
 				"option" : "range",
 				"allowed" : [
@@ -620,9 +653,10 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/year"
 			},
-			"epoch" : {
+			"target_coord_epoch" : {
 				"ui_name" : "Epoch",
 				"option" : "range",
 				"allowed" : [
@@ -631,9 +665,10 @@
 				],
 				"default" : 2000,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units": null 
 			},
-			"obstime" : {
+			"seq_constraint_obstime" : {
 				"ui_name" : "Scheduled Time of Observation",
 				"option" : "regex",
 				"allowed" : [
@@ -642,16 +677,17 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": "YY-MM-DD HH:MM:SS"
 			},
-			"magnitude" : {
+			"target_info_magnitude" : {
 				"ui_name" : "Target Magnitude",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					{
 						"band" : {
 							"ui_name" : "Spectral Band",
-							"option" : "list",
+							"option" : "set",
 							"allowed" : [
 								"V",
 								"R",
@@ -662,7 +698,8 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "string"
+							"type" : "string",
+				            "units": null
 						}
 					},
 					{
@@ -675,15 +712,17 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "float"
+							"type" : "float",
+				            "units": null
 						}
 					}
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "array"
+				"type" : "array",
+				"units": null
 			},
-			"comment" : {
+			"target_info_comment" : {
 				"ui_name" : "Target Comment",
 				"option" : "regex",
 				"allowed" : [
@@ -692,28 +731,37 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units": null
 			},
-			"dra" : {
+			"target_coord_dra" : {
 				"ui_name" : "Differential Tracking (RA)",
-				"option" : null,
-				"allowed" : null,
+				"option" : "range",
+				"allowed" : [
+					0.0,
+					5000.0
+				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/hr"
 			},
-			"ddec" : {
+			"target_coord_ddec" : {
 				"ui_name" : "Differential Tracking (DEC)",
-				"option" : null,
-				"allowed" : null,
+				"option" : "range",
+				"allowed" : [
+					0.0,
+					5000.0
+				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units": "arcseconds/hr"
 			}
 		}
 	},
 	{
-		"_id" : "611ade1bcca705b10e6f647a",
+		"_id" : "61203d3a86574cd1da879138",
 		"metadata" : {
 			"name" : "multi_object_target",
 			"ui_name" : "Multi-Object Spectroscopy Target",
@@ -721,17 +769,16 @@
 			"version" : "0.1.1"
 		},
 		"parameters" : {
-			"name" : {
+			"target_info_name" : {
 				"ui_name" : "Target Name",
-				"option" : "regex",
-				"allowed" : [
-					"[ -~]{100}"
-				],
-				"default" : null,
+				"option" : "open",
+				"allowed" : null,
+				"default" : "",
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units" : null
 			},
-			"ra" : {
+			"target_coord_ra" : {
 				"ui_name" : "Right Ascension",
 				"option" : "regex",
 				"allowed" : [
@@ -741,9 +788,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units" : "Hours:Minutes:Seconds"
 			},
-			"dec" : {
+			"target_coord_dec" : {
 				"ui_name" : "Declination",
 				"option" : "regex",
 				"allowed" : [
@@ -756,9 +804,10 @@
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units" : "Degrees:Minutes:Seconds"
 			},
-			"pa" : {
+			"rot_cfg_pa" : {
 				"ui_name" : "Position Angle",
 				"option" : "range",
 				"allowed" : [
@@ -767,42 +816,46 @@
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units" : "degrees"
 			},
-			"pm_ra" : {
+			"target_coord_pm_ra" : {
 				"ui_name" : "Proper Motion (RA)",
 				"option" : "range",
 				"allowed" : [
 					0,
-					5000
+					100
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units" : "arcseconds/yr"
 			},
-			"pm_dec" : {
+			"target_coord_pm_dec" : {
 				"ui_name" : "Proper Motion (DEC)",
 				"option" : "range",
 				"allowed" : [
 					0,
-					5000
+					100
 				],
 				"default" : 0,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units" : "arcseconds/yr"
 			},
-			"epoch" : {
+			"target_coord_epoch" : {
 				"ui_name" : "Epoch",
 				"option" : "range",
 				"allowed" : [
-					1900,
-					2100
+					1950,
+					2000
 				],
 				"default" : 2000,
 				"optionality" : "optional",
-				"type" : "float"
+				"type" : "float",
+				"units" : "year"
 			},
-			"obstime" : {
+			"seq_constraint_obstime" : {
 				"ui_name" : "Scheduled Time of Observation",
 				"option" : "regex",
 				"allowed" : [
@@ -811,16 +864,17 @@
 				],
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units" : "YR-MM-DD hh:mm:ss"
 			},
-			"magnitude" : {
+			"target_info_magnitude" : {
 				"ui_name" : "Target Magnitude",
-				"option" : "list",
+				"option" : "set",
 				"allowed" : [
 					{
-						"band" : {
+						"target_info_band" : {
 							"ui_name" : "Spectral Band",
-							"option" : "list",
+							"option" : "set",
 							"allowed" : [
 								"V",
 								"R",
@@ -831,11 +885,12 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "string"
+							"type" : "string",
+							"units" : null
 						}
 					},
 					{
-						"mag" : {
+						"target_info_mag" : {
 							"ui_name" : "Magnitude",
 							"option" : "range",
 							"allowed" : [
@@ -844,35 +899,391 @@
 							],
 							"default" : null,
 							"optionality" : "required",
-							"type" : "float"
+							"type" : "float",
+							"units" : "apparent"
 						}
 					}
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "array"
+				"type" : "array",
+				"units" : null
 			},
-			"comment" : {
+			"target_info_comment" : {
 				"ui_name" : "Target Comment",
-				"option" : "regex",
-				"allowed" : [
-					null,
-					"[ -~]{100}"
-				],
+				"option" : "open",
+				"allowed" : null,
 				"default" : null,
 				"optionality" : "optional",
-				"type" : "string"
+				"type" : "string",
+				"units" : null
 			},
-			"mask" : {
+			"inst_cfg_mask" : {
 				"ui_name" : "Mask Name",
-				"option" : "regex",
+				"option" : "open",
+				"allowed" : null,
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			}
+		}
+	},
+	{
+		"_id" : "61203d3a86574cd1da879135",
+		"metadata" : {
+			"name" : "KCWI_common_parameters",
+			"ui_name" : "KCWI Common parameters",
+			"instrument" : "KCWI",
+			"template_type" : "common_parameters",
+			"version" : "0.1.1"
+		},
+		"instrument_parameters": {
+			"inst_cfg_slicer" : {
+				"ui_name" : "Slicer",
+				"option" : "set",
 				"allowed" : [
-					"[ -~]{100}"
+					"slicer1",
+					"slicer2"
 				],
 				"default" : null,
 				"optionality" : "required",
-				"type" : "string"
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg_blockingfilter" : {
+				"ui_name" : "Blocking Filter",
+				"option" : "set",
+				"allowed" : [
+					"filter1",
+					"filter2"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : null
+			},
+			"inst_cfg_hatch" : {
+				"ui_name" : "Hatch Position",
+				"option" : "set",
+				"allowed" : [
+					"open",
+					"closed"
+				],
+				"default" : "open",
+				"optionality" : "optional",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg_calib" : {
+				"ui_name" : "Calibration Position",
+				"option" : "set",
+				"allowed" : [
+					"Sky",
+					"Mirror",
+					"Filter"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg_polarimeter" : {
+				"ui_name" : "Polarimeter",
+				"option" : "set",
+				"allowed" : [
+					"Sky",
+					"Polar",
+					"Lens"
+				],
+				"default" : "Lens",
+				"optionality" : "optional",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg_ifu" : {
+				"ui_name" : "IFU",
+				"option" : "set",
+				"allowed" : [
+					"Home",
+					"Large",
+					"Medium",
+					"Small",
+					"FPCam",
+					"Aux"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg1_filter" : {
+				"ui_name" : "Red-Side Filter for camera 1",
+				"option" : "set",
+				"allowed" : [
+					"Home",
+					"Large",
+					"Medium",
+					"Small",
+					"FPCam",
+					"Aux"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg2_filter" : {
+				"ui_name" : "Blue-Side Filter for camera 1",
+				"option" : "set",
+				"allowed" : [
+					"Home",
+					"Large",
+					"Medium",
+					"Small",
+					"FPCam",
+					"Aux"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg1_grating" : {
+				"ui_name" : "Blue-Side Grating Position",
+				"option" : "set",
+				"allowed" : [
+					"None",
+					"BH3",
+					"BL",
+					"BH2",
+					"BM",
+					"GGTrg"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_cfg2_grating" : {
+				"ui_name" : "Red-Side Grating Position",
+				"option" : "set",
+				"allowed" : [
+					"None",
+					"RH3",
+					"RL",
+					"RH2",
+					"BM",
+					"GGTrg"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_ns_mask" : {
+				"ui_name" : "Nod and Shuffle Mask",
+				"option" : "set",
+				"allowed" : [
+					"open",
+					"Dark",
+					"Mask"
+				],
+				"default" : "open",
+				"optionality" : "optional",
+				"type" : "float",
+				"units" : null
+			},
+			"inst_ns_direction" : {
+				"ui_name" : "Nod and Shuffle Direction (1=down, 2=up)",
+				"option" : "set",
+				"allowed" : [
+					1,
+					2
+				],
+				"default" : 1,
+				"optionality" : "optional",
+				"type" : "float",
+				"units" : null
+			},
+			"inst_kmirror_mode" : {
+				"ui_name" : "K-Mirror Mode",
+				"option" : "set",
+				"allowed" : [
+					"Tracking",
+					"Stationary"
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "string",
+				"units" : null
+			},
+			"inst_kmirror_angle" : {
+				"ui_name" : "K-Mirror Angle",
+				"option" : "range",
+				"allowed" : [
+					0,
+					360
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : null
+			},
+			"inst_wavelength1_central" : {
+				"ui_name" : "Red-Side Central Wavelength",
+				"option" : "range",
+				"allowed" : [
+					350,
+					1050
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : "nm"
+			},
+			"inst_wavelength2_central" : {
+				"ui_name" : "Blue-Side Central Wavelength",
+				"option" : "range",
+				"allowed" : [
+					350,
+					1050
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : "nm"
+			},
+			"inst_wavelength1_peak" : {
+				"ui_name" : "Red-Side Peak Wavelength",
+				"option" : "range",
+				"allowed" : [
+					350,
+					1050
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : "nm"
+			},
+			"inst_wavelength2_peak" : {
+				"ui_name" : "Blue-Side Peak Wavelength",
+				"option" : "range",
+				"allowed" : [
+					350,
+					1050
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "float",
+				"units" : "nm"
 			}
+		},
+		"detector_parameters": {
+			"det1_mode_binning" : {
+				"ui_name" : "Red-Side Detector Binning",
+				"option" : "set",
+				"allowed" : [
+					"1x1",
+					"2x2"
+				],
+				"default" : "2x2",
+				"optionality" : "optional",
+				"type" : "string",
+				"units" : "pixels"
+			},
+		  "det2_mode_binning" : {
+				"ui_name" : "Blue-Side Detector Binning",
+				"option" : "set",
+				"allowed" : [
+					"1x1",
+					"2x2"
+				],
+				"default" : "2x2",
+				"optionality" : "optional",
+				"type" : "integer",
+				"units" : "pixels"
+			},
+			"det1_mode_amp" : {
+				"ui_name" : "Red-Side Amplifier Mode",
+				"option" : "range",
+				"allowed" : [
+					1,
+					10
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "integer",
+				"units" : "0 : quad (ALL), 1 : single C, 2 : single E, 3 : single D, 4 : single F, 5 : single B, 6 : single G, 7 : single A, 8 : single H, 9 : dual (A&B), 10 : dual (C&D)"
+			},
+			"det2_mode_amp" : {
+				"ui_name" : "Blue-Side Amplifier Mode",
+				"option" : "range",
+				"allowed" : [
+					1,
+					10
+				],
+				"default" : 0,
+				"optionality" : "optional",
+				"type" : "integer",
+				"units" : "0 : quad (ALL), 1 : single C, 2 : single E, 3 : single D, 4 : single F, 5 : single B, 6 : single G, 7 : single A, 8 : single H, 9 : dual (A&B), 10 : dual (C&D)"
+				
+			},
+			"det1_mode_read" : {
+				"ui_name" : "Red-Side CCD Read Mode",
+				"option" : "set",
+				"allowed" : [
+					0,
+					1
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer",
+				"units" : "(0=slow, 1=fast)"
+			},
+			"det2_mode_read" : {
+				"ui_name" : "Blue-Side CCD Read Mode",
+				"option" : "set",
+				"allowed" : [
+					0,
+					1
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer",
+				"units" : "(0=slow, 1=fast)"
+			},
+			"det1_mode_gain" : {
+				"ui_name" : "Red-Side CCD Gain Multiplier",
+				"option" : "set",
+				"allowed" : [
+					1,
+					2,
+					5,
+					10
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer",
+				"units" : null
+			},
+			"det2_mode_gain" : {
+				"ui_name" : "Blue-Side CCD Gain Multiplier",
+				"option" : "set",
+				"allowed" : [
+					1,
+					2,
+					5,
+					10
+				],
+				"default" : null,
+				"optionality" : "required",
+				"type" : "integer",
+				"units" : null
+			}
+		},
+		"tcs_parameters": {
+		
 		}
 	}
 ]

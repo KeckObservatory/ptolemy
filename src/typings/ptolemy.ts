@@ -55,7 +55,7 @@ export interface OBMetadata {
 	version: string | number;
 	priority: number;
 	ob_type: OBType; 
-	pi_id: number;
+	pi_id: number | string;
 	sem_id: string;
 	instrument: Instrument;
 	comment: string
@@ -68,7 +68,7 @@ export interface ObservationBlock extends Base {
 	target?: Target;
 	time_constraints: string[] | string[][];
 	comment: string;
-	sequences?: Science[];
+	observations?: Science[];
 	acquisition: Acquisition;
 	associations: string[];
 	status: Status;

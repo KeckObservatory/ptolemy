@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl';
-import { OBCell, ObservationBlock, Science } from '../../typings/ptolemy'
+import { OBCell } from '../../typings/ptolemy'
+import { ObservationBlock, Science } from '../../typings/papahana'
 import { makeStyles } from '@mui/styles'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
@@ -13,6 +14,7 @@ import JsonViewTheme from '../json_view_theme'
 import ReactJson, { ThemeKeys, InteractionProps } from 'react-json-view'
 import SequenceQueue from './sequence_queue'
 import EventQueue from './event_queue'
+import { ob_api_funcs } from '../../api/ApiRoot';
 
 
 const useStyles = makeStyles((theme: any) => ({
@@ -86,7 +88,7 @@ const Octect = (props: Props) => {
 
     useEffect(() => {
         console.log('new OB. extracting sequences')
-        const seq = ob.sequences
+        const seq = ob.observations
         if (seq) setSequences(seq)
         else setSequences([])
         setSequenceBoneyard([])
@@ -103,15 +105,11 @@ const Octect = (props: Props) => {
     }, [socket])
 
     const create_connections = React.useCallback(() => {
+
         window.setInterval(function () {
             start_time = (new Date).getTime();
             socket.emit('my_ping');
         }, 1000);
-
-        socket.on('my_response', function (msg) {
-            const txt = 'received #' + msg.count + ': ' + msg.data
-            console.log(txt)
-        })
 
         socket.on('my_pong', function () {
             var latency = new Date().getTime() - start_time;
@@ -123,15 +121,18 @@ const Octect = (props: Props) => {
             // setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
         });
 
-        socket.on('new_ob', (data) => {
-            console.log('new ob event triggered. setting ob, and queues')
-            const newOB = data.ob
-            setOB(newOB)
-            const seq = ob.sequences
-            if (seq) setSequences(seq)
-            setSequenceBoneyard([])
-            setEvents([])
-            setEventBoneyard([])
+        socket.on('send_submitted_ob', (data) => {
+            console.log('new ob event triggered. setting ob, and queues', data)
+            const newOBRow = data.ob_row
+
+            ob_api_funcs.get(newOBRow.ob_id).then((ob: ObservationBlock) => {
+                setOB(ob)
+                const seq = ob.observations
+                if (seq) setSequences(seq)
+                setSequenceBoneyard([])
+                setEvents([])
+                setEventBoneyard([])
+            })
         })
 
         socket.on('task_broadcast', (data) => {
