@@ -12,6 +12,7 @@ import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
+import ThreeDView from './sky-view/threed_view'
 
 const useStyles = makeStyles((theme: any) => ({
     grid: {
@@ -241,6 +242,7 @@ export const SelectionToolView = (props: Props) => {
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>
+                        <ThreeDView selObs={selObs} />
                         <SkyView chartType={chartType} selObs={selObs} />
                     </Paper >
                 </Grid>

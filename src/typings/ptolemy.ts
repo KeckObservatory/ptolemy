@@ -34,9 +34,17 @@ export interface Status extends Base {
 export interface Scoby {
 	row_id?: string
 	sem_id?: string
-	container_id?: string
+	container_id: string
+	container_name?: string
 	ob_id?: string
-    name?: string
+	name?: string
+	ra?: string,
+    dec?: string,
+	ra_deg?:  number,
+    dec_deg?: number,
+	comment?: string,
+	ob_type?: string,
+	version?: string,
 }
 
 export interface OBCell {
