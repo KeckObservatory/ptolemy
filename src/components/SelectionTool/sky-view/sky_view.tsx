@@ -48,6 +48,7 @@ export default function SkyView(props: Props) {
     let scoby_deg: Scoby[] = []
     props.selObs.forEach((s: Scoby) => {
         if (s.ra && s.dec) {
+            console.log('ra: ', s.ra, 'dec: ', s.dec)
             let sd = {...s, 
                ra_deg: util.ra_dec_to_deg(s.ra, false),
                dec_deg: util.ra_dec_to_deg(s.dec, true)

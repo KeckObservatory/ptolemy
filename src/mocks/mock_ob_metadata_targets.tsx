@@ -13,12 +13,12 @@ export const mock_targets: Partial<ObservationBlock>[] = [
         "parameters": {
           "rot_cfg_pa": 4.417269215621521,
           "seq_constraint_obstime": "2021-04-22 15:08:04",
-          "target_coord_dec": "+88:34:34",
+          "target_coord_dec": "+38:47:01",
           "target_coord_epoch": "2000",
           "target_coord_frame": "FK5",
           "target_coord_pm_dec": 2.528285280477612,
           "target_coord_pm_ra": 9.783768159522216,
-          "target_coord_ra": "02:49:55",
+          "target_coord_ra": "18:36:56",
           "target_info_comment": "Observe on the first run of the semester.",
           "target_info_magnitude": [{
             "target_info_band": "J",

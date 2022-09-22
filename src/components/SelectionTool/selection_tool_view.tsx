@@ -46,7 +46,7 @@ interface OBServerData {
 }
 
 interface OBQueueData {
-    ob_queue: Scoby[] 
+    ob_queue: Scoby[]
 }
 
 interface Props {
@@ -145,7 +145,7 @@ export const SelectionToolView = (props: Props) => {
     const on_table_select_rows = (newSelObs: Scoby[]) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
-        socket.emit('set_ob_queue', {ob_queue: newSelObs})
+        socket.emit('set_ob_queue', { ob_queue: newSelObs })
     }
 
     const set_ob_queue_from_server = (ob_queue_data: OBQueueData) => {
@@ -238,11 +238,11 @@ export const SelectionToolView = (props: Props) => {
                         handleChange={handleChartTypeSelect}
                         label={'ChartType'}
                     />
+                    <ThreeDView selObs={selObs} />
                     <Paper className={classes.widepaper} elevation={3}>
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>
-                        <ThreeDView selObs={selObs} />
                         <SkyView chartType={chartType} selObs={selObs} />
                     </Paper >
                 </Grid>

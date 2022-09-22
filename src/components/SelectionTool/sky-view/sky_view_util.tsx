@@ -65,8 +65,11 @@ export const ra_dec_to_az_alt = (ra: number, dec: number, date: Date, lngLatEl: 
     const tanAzNum = sind(hourAngle)
     const tanAzDen = cosd(hourAngle) * sind(lngLatEl.lat) - tand(dec) * cosd(lngLatEl.lat)
     const az = Math.atan2(tanAzNum, tanAzDen) //radians
+    // const az = Math.atan(tanAzNum/tanAzDen) //radians
     const sinEl = sind(lngLatEl.lat) * sind(dec) + cosd(lngLatEl.lat) * cosd(dec) * cosd(hourAngle)
     const el = Math.asin(sinEl) // radians
+
+    // console.log('ra', ra, 'dec', dec, 'el', 180/Math.PI * el, 'ha', hourAngle)
     return [(180 / Math.PI * az), (180 / Math.PI * el)]
 }
 
