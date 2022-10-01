@@ -30,7 +30,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -149,7 +149,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -419,7 +419,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -666,7 +666,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -885,7 +885,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -977,7 +977,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -1201,7 +1201,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -1442,7 +1442,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"htvgd",
 			"kqqwo",
@@ -1493,7 +1493,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"xndla",
 			"kwecg",
@@ -1575,7 +1575,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -1795,7 +1795,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -1994,7 +1994,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -2132,7 +2132,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -2289,7 +2289,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -2503,7 +2503,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -2725,7 +2725,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -2935,7 +2935,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -3030,7 +3030,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -3202,7 +3202,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -3405,7 +3405,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -3559,7 +3559,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -3804,7 +3804,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -3900,7 +3900,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -4121,7 +4121,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -4259,7 +4259,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -4352,7 +4352,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -4422,7 +4422,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"mrhdc",
 			"etiyn",
@@ -4497,7 +4497,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -4799,7 +4799,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -5034,7 +5034,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -5137,7 +5137,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -5351,7 +5351,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -5569,7 +5569,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -5634,7 +5634,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -5723,7 +5723,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -5843,7 +5843,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"opxdn",
 			"sdrjt",
@@ -5896,7 +5896,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -6065,7 +6065,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -6256,7 +6256,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -6496,7 +6496,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -6672,7 +6672,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -6786,7 +6786,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -6972,7 +6972,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -7097,7 +7097,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -7279,7 +7279,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -7424,7 +7424,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -7601,7 +7601,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"gzqig"
 		],
@@ -7674,7 +7674,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -7772,7 +7772,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -7867,7 +7867,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8086,7 +8086,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8208,7 +8208,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -8276,7 +8276,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8396,7 +8396,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8496,7 +8496,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8594,7 +8594,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -8763,7 +8763,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -8898,7 +8898,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -9019,7 +9019,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -9191,7 +9191,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"hboww",
 			"vppms",
@@ -9268,7 +9268,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -9472,7 +9472,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -9561,7 +9561,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -9682,7 +9682,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -9926,7 +9926,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -10129,7 +10129,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"gnuqv",
 			"xdplp",
@@ -10180,7 +10180,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"bbeso"
 		],
@@ -10226,7 +10226,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -10462,7 +10462,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -10699,7 +10699,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -10830,7 +10830,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -11024,7 +11024,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"zgapr",
 			"dmkgi",
@@ -11098,7 +11098,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -11170,7 +11170,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -11388,7 +11388,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -11582,7 +11582,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -11758,7 +11758,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -11828,7 +11828,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -12101,7 +12101,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"hoehw",
 			"adsys"
@@ -12153,7 +12153,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -12267,7 +12267,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -12330,7 +12330,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -12575,7 +12575,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -12676,7 +12676,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -12835,7 +12835,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -12946,7 +12946,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -13072,7 +13072,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -13189,7 +13189,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -13406,7 +13406,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -13617,7 +13617,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -13807,7 +13807,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"vybds",
 			"ferzw",
@@ -13864,7 +13864,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -14035,7 +14035,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"omnro",
 			"wcelg"
@@ -14086,7 +14086,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -14355,7 +14355,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -14598,7 +14598,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -14719,7 +14719,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",
@@ -14947,7 +14947,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_stare",
@@ -15020,7 +15020,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [ ],
+		"observations" : [ ],
 		"associations" : [
 			"ktzta"
 		],
@@ -15094,7 +15094,7 @@
 			},
 			"template_id" : "acq0"
 		},
-		"sequences" : [
+		"observations" : [
 			{
 				"metadata" : {
 					"name" : "KCWI_ifu_sci_dither",

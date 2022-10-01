@@ -114,7 +114,7 @@ export const get_target_traj = (ra: number, dec: number, times: Date[], lngLatEl
     return traj
 }
 
-const air_mass = (alt: number) => { // Homogeneous spherical atmosphsere with elevated observer
+export const air_mass = (alt: number) => { // Homogeneous spherical atmosphsere with elevated observer
     const y = KECK_ELEVATION / ATMOSPHERE_HEIGHT
     const z = RADIUS_EARTH / ATMOSPHERE_HEIGHT
     const a2 = ATMOSPHERE_HEIGHT * ATMOSPHERE_HEIGHT

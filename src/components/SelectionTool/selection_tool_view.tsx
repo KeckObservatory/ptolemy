@@ -12,7 +12,7 @@ import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
-import ThreeDView from './sky-view/threed_view'
+import ThreeDView from './sky-view/three_d_view'
 
 const useStyles = makeStyles((theme: any) => ({
     grid: {

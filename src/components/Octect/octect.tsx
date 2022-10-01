@@ -95,7 +95,7 @@ const Octect = (props: Props) => {
     }, [ob])
 
     useEffect(() => {
-        console.log('sequences changed. sending to : ')
+        console.log('sequences changed: ', sequences)
     }, [sequences])
 
     useEffect((): any => {

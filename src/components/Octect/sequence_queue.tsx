@@ -46,7 +46,7 @@ interface Props {
 const DragSeqCell = (seqCell: Science) => {
     return (
         <div>
-            <p> id: {seqCell.template_id} </p>
+            <p> id: {seqCell.metadata.sequence_number} </p>
             <p> sequence: {seqCell.metadata.ui_name} </p>
             <p> Type: {seqCell.metadata.type} </p>
             <p>{JSON.stringify(seqCell.parameters)}</p>
@@ -58,6 +58,7 @@ const SequenceQueue = (props: Props) => {
     const classes = useStyles();
 
     const onDragEnd = (result: any) => {
+        console.log('on drag end entered')
         const { source, destination } = result;
         if (!destination) return;
         const sKey: string = source.droppableId;
@@ -95,8 +96,8 @@ const SequenceQueue = (props: Props) => {
     }
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {CreateDroppable(props.sequence_queue, 'template_id', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell)}
-            {CreateDroppable(props.sequence_boneyard, 'template_id', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell)}
+            {CreateDroppable(props.sequence_queue, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell)}
+            {CreateDroppable(props.sequence_boneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell)}
         </DragDropContext>
     )
 }
