@@ -20,45 +20,11 @@ export const mock_get_container_ob_metadata = (semid: string, container_id?: str
    return mockPromise 
 }
 
-export const mock_get_ob_table = () => {
-   const mockPromise = new Promise<OBTableRow[]>( (resolve) => {
-      resolve(mock_ob_table_rows as OBTableRow[])
-   })
-   return mockPromise
-}
-
 export const mock_get_container_ob_target= (semid: string, container_id?: string) => {
    const mockPromise = new Promise<Partial<ObservationBlock[]>>((resolve) => {
       resolve( mock_targets as any )
    })
    return mockPromise 
-}
-
-export const mock_get_instrument_package = (instrument: Instrument): Promise<InstrumentPackage> => {
-   const mockPromise = new Promise<InstrumentPackage>((resolve) => {
-      const ip = mock_instrument_packages
-      resolve(ip as any as InstrumentPackage)
-   })
-   return mockPromise
-}
-
-export const mock_get_template = (name: string): Promise<{ [key: string]: Template }> => {
-   const mockPromise = new Promise<{ [key: string]: Template }>((resolve) => {
-      const altName= name.replace('kcwi', 'KCWI')
-      const template = mock_templates.find(t => t.metadata.name === altName) as unknown | Template 
-      let template_obj = {} 
-      //@ts-ignore
-      template_obj[name] = template
-      resolve(template_obj)
-   })
-   return mockPromise
-}
-
-export const mock_get_semester_obs = (sem_id: string) => {
-   const mockPromise = new Promise<ObservationBlock[]>((resolve) => {
-      resolve(mock_obs as unknown as ObservationBlock[])
-   })
-   return mockPromise
 }
 
 export const mock_ob_get = (ob_id: string): Promise<ObservationBlock> => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { get_obs_from_semester, get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
+import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
 import { ContainerObs, DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/papahana'
 import { makeStyles } from '@mui/styles'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
