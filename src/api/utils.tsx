@@ -1,6 +1,6 @@
-import { Container, Scoby, Instrument, InstrumentPackage, Template, ContainerObs, DetailedContainer } from "../typings/papahana";
+import { Container, Scoby, DetailedContainer } from "../typings/ptolemy";
 import { get_select_funcs, get_container_ob_data } from './ApiRoot';
-import { ObservationBlock, SemesterIds } from '../typings/papahana'
+import { ObservationBlock, SemesterIds } from '../typings/ptolemy'
 
 export const get_sem_id_list = (): Promise<SemesterIds> => {
    //make sem_id list from semesters

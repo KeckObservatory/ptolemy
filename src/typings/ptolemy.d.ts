@@ -6,6 +6,15 @@ export interface Container {
 	comment?: string
 }
 
+export interface DetailedContainer extends Container {
+	ob_details: Partial<ObservationBlock>[]
+}
+
+export interface SemesterIds {
+	associations: string[]
+	keck_id: number
+}
+
 export interface Semester {
     _id: string
     comment?: string
@@ -166,26 +175,37 @@ export interface Observation extends Base {
 	associations: string[],
 }
 
-export interface Target {
-	name: string,
-	ra: string,
-	dec: string,
+
+export interface TargetMetadata extends Metadata {
+}
+
+export interface TargetParameters {
+	target_info_name: string,
+	target_coord_ra: string,
+	target_coord_dec: string,
 	ra_deg?: number,
 	dec_deg?: number,
-	equinox: number,
-	frame: string,
-	ra_offset: number,
-	dec_offset: number,
-	pa: number,
-	pm_ra: number,
-	pm_dec: number,
-	d_ra: number,
-	d_dec: number,
-	epoch: number,
-	obstime: number,
-	mag: Magnitude[],
+	equinox?: number,
+	target_coord_frame?: string,
+	ra_offset?: number,
+	dec_offset?: number,
+	rot_cfg_pa?: number,
+	target_coord_pm_ra?: number,
+	target_coord_pm_dec?: number,
+	pm_dec?: number,
+	d_ra?: number,
+	d_dec?: number,
+	target_coord_epoch?: string,
+	seq_constraint_obstime?: string,
+	target_info_magnitude: Magnitude[],
 	wrap?: string,
-	comment?: string
+	target_info_comment?: string
+	inst_cfg_mask?: string
+}
+
+export interface Target {
+	metadata: TargetMetadata
+	parameters: TargetParameters
 }
 
 export interface Magnitude extends Base {

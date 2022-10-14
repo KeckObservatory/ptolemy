@@ -1,7 +1,7 @@
 import React from 'react';
 import { useD3 } from '../../../hooks/useD3'
 import * as d3 from 'd3'
-import { OBCell, Scoby, Target } from '../../../typings/papahana'
+import { Scoby } from '../../../typings/ptolemy'
 import * as util from './sky_view_util'
 import {skyview} from './sky_view_d3'
 import { useQueryParam, NumericObjectParam, withDefault, DateParam } from 'use-query-params'

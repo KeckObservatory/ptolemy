@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl';
-import { OBCell } from '../../typings/ptolemy'
-import { ObservationBlock, Science } from '../../typings/papahana'
+import { ObservationBlock, Science } from '../../typings/ptolemy'
 import { makeStyles } from '@mui/styles'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'

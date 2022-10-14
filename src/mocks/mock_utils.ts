@@ -1,17 +1,9 @@
-import { Instrument, ObservationBlock, SemesterIds, Template } from './../typings/papahana.d';
-// import { mock_kcwi_instrument_package } from './mock_template';
-
-// import { mock_observation_blocks } from './mock_obs'
-// import { mock_ob } from './mock_ob'
+import { ObservationBlock, SemesterIds } from './../typings/ptolemy';
 import { mock_semesters } from './mock_semesters'
-import { Container, InstrumentPackage } from "../typings/papahana";
+import { Container } from "../typings/ptolemy";
 import { default as mock_obs } from './ob.json'
-import { default as mock_templates } from './templates.json'
 import { default as mock_containers } from './containers-demo.json'
-import { default as mock_instrument_packages } from './instrument_packages.json'
 import { mock_targets, mock_metadata } from './mock_ob_metadata_targets'
-import { default as mock_ob_table_rows } from './ob_table_rows.json'
-import { OBTableRow } from '../typings/ddoi_api';
 
 export const mock_get_container_ob_metadata = (semid: string, container_id?: string) => {
    const mockPromise = new Promise<Partial<ObservationBlock[]>>((resolve) => {
