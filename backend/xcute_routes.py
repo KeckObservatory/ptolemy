@@ -1,12 +1,6 @@
 from app import app, socketio
+from flask_socketio import emit 
 
-from flask_socketio import emit, disconnect
-from flask import session, send_from_directory, copy_current_request_context
-from threading import Lock
-import shelve
-from obdm import OBDM
-import os
-import json
 
 @socketio.on('send_seq_queue_from_xcute')
 def send_seq_queue_from_xcute(data):
