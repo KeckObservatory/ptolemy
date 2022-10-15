@@ -1,4 +1,4 @@
-import { ObservationBlock } from "../typings/papahana"
+import { ObservationBlock } from "../typings/ptolemy"
 
 export const mock_targets: Partial<ObservationBlock>[] = [
     {

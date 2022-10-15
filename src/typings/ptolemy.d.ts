@@ -143,9 +143,9 @@ export interface Metadata {
 	name: string,
 	version: string,
 	ui_name: string,
-	instrument: Instrument,
+	instrument?: Instrument,
     template_type: string,
-	script: string
+	script?: string
 }
 
 export interface SequenceMetadata {
@@ -209,8 +209,8 @@ export interface Target {
 }
 
 export interface Magnitude extends Base {
-	band: string,
-	mag: number,
+	target_info_band: string,
+	target_info_mag: number,
 }
 
 

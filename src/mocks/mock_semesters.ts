@@ -1,4 +1,4 @@
-import { Semester } from '../typings/papahana'
+import { Semester } from '../typings/ptolemy'
 
 export const mock_semesters: Semester[] = [
     {
