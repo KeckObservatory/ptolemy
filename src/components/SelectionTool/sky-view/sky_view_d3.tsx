@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import { Scoby, Target } from '../../../typings/papahana'
+import { Scoby } from '../../../typings/ptolemy'
 import * as util from './sky_view_util'
 import { LngLatEl } from './sky_view'
 import * as SunCalc from 'suncalc'

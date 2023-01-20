@@ -1,5 +1,5 @@
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables"
-import { Scoby } from "../../typings/papahana"
+import { Scoby } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton';
 import FilterIcon from '@mui/icons-material/Filter';

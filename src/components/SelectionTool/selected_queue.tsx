@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme: any) => ({
     paper: {
         padding: '8px',
         margin: '4px',
-        minWidth: theme.spacing(20),
-        width: '95%',
+        maxWidth: '715px',
+        minWidth: '200px',
         elevation: 3,
     },
     droppableDragging: {
@@ -118,7 +118,7 @@ interface NookProps {
 
 const SubmittedNook = (props: NookProps) => {
     return (
-        <Paper elevation={3} sx={{ margin: '4px', minWidth: '80px', padding: '9px' }}>
+        <Paper elevation={3} sx={{ margin: '4px', minWidth: '200px', maxWidth: '715px', padding: '9px' }}>
             <Tooltip title={'Submitted OB'}>
                 <h3>Submitted OB</h3>
             </Tooltip>
