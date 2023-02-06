@@ -25,7 +25,7 @@ const IS_BUILD = IS_PRODUCTION || IS_DEVELOPMENT
 console.log(`is BUILD ? set to ${IS_BUILD}`)
 console.log(`is DEVELOPMENT ? set to ${IS_DEVELOPMENT}`)
 var DEVELOPMENT_URL = 'https://www3build.keck.hawaii.edu'
-var PRODUCTION_URL = 'https://www3.keck.hawaii.edu'
+var PRODUCTION_URL = 'https://www3build.keck.hawaii.edu'
 var TEST_URL = 'http://localhost:50007/v0' //use locally or for testing (npm start or npm run demobuild)
 var BASE_URL = IS_BUILD ? PRODUCTION_URL : TEST_URL // sets for production vs test 
 
