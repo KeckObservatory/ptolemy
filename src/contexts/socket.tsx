@@ -3,7 +3,7 @@ import {io} from "socket.io-client";
 
 const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT==='production'
 console.log(`is PRODUCTION? set to ${IS_PRODUCTION}`) 
-const url = IS_PRODUCTION? "localhost:50007": "localhost:50007" 
+const url = IS_PRODUCTION? "vm-appserver.keck.hawaii.edu:50007": "localhost:50007" 
 const path = IS_PRODUCTION? '' : ''
 export const socket = io(url, {path: path, transports: ['websocket'], secure: true, rejectUnauthorized: false});
 export const SocketContext = React.createContext(socket);
