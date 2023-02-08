@@ -5,37 +5,6 @@ import { makeStyles } from '@mui/styles'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
 
-export const useStyles = makeStyles((theme: any) => ({
-    grid: {
-        textAlign: 'center',
-        margin: theme.spacing(1),
-        display: 'flex',
-        width: '100%',
-    },
-    paper: {
-        padding: '8px',
-        margin: '4px',
-        minWidth: theme.spacing(20),
-        width: '95%',
-        elevation: 3,
-    },
-    droppableDragging: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
-        minHeight: theme.spacing(5),
-    },
-    droppable: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(0),
-        minHeight: theme.spacing(5),
-    },
-    cell: {
-        width: '20%'
-    },
-}))
-
 //@ts-ignore
 const DragEventCell = (strObj) => {
     return (
@@ -60,7 +29,6 @@ interface Props {
 }
 
 const EventQueue = (props: Props) => {
-    const classes = useStyles();
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;

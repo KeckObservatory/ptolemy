@@ -7,37 +7,6 @@ import { reorder, move, create_draggable, CreateDroppable } from './../dnd_divs'
 import ReactJson, { ThemeKeys } from 'react-json-view'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 
-export const useStyles = makeStyles((theme: any) => ({
-    grid: {
-        textAlign: 'center',
-        margin: theme.spacing(1),
-        display: 'flex',
-        width: '100%',
-    },
-    paper: {
-        padding: '8px',
-        margin: '4px',
-        minWidth: theme.spacing(20),
-        width: '95%',
-        elevation: 3,
-    },
-    droppableDragging: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
-        minHeight: theme.spacing(5),
-    },
-    droppable: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(0),
-        minHeight: theme.spacing(5),
-    },
-    cell: {
-        width: '20%'
-    },
-}))
-
 interface Props {
     sequence_queue: Science[];
     sequence_boneyard: Science[];
@@ -67,7 +36,6 @@ const DragSeqCell = (seqCell: Science) => {
 }
 
 const SequenceQueue = (props: Props) => {
-    const classes = useStyles();
 
     const onDragEnd = (result: any) => {
         console.log('on drag end entered')

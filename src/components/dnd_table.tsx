@@ -1,34 +1,7 @@
 import Tooltip from '@mui/material/Tooltip'
 import Paper from '@mui/material/Paper'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import { makeStyles } from '@mui/styles'
 import { OBCell } from '../typings/ptolemy'
-
-export const useStyles = makeStyles((theme: any) => ({
-    paper: {
-        padding: '8px',
-        margin: '4px',
-        minWidth: theme.spacing(20),
-        width: '95%',
-        elevation: 3,
-    },
-    droppableDragging: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
-        minHeight: theme.spacing(5),
-    },
-    droppable: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(0),
-        minHeight: theme.spacing(5),
-    },
-    cell: {
-        width: '45%'
-    },
-}))
-
 
 interface CreateDivProps {
     provided: any;
@@ -37,28 +10,42 @@ interface CreateDivProps {
 }
 
 const CreateRow = (props: CreateDivProps) => {
-    const classes = useStyles()
-    const acc = { acc: classes.droppableDragging, accDrag: classes.droppable } as any
+    const acc = {
+        acc: {
+            margin: '4px',
+            padding: '4px',
+            minHeight: '20px',
+        }, accDrag: {
+            margin: '4px',
+            padding: '0px',
+            minHeight: '20px',
+        }
+    }
     const className = props.snapshot.isDragging ? { ...props.provided.draggableProps, ...acc.accDrag } : acc.acc
     return (
         <tr
             ref={props.provided.innerRef}
             {...props.provided.draggableProps}
             {...props.provided.dragHandleProps}
-            className={className}
+            style={className}
         >
-        <td style={{ width: "120px" }}>{props.obCell.name}</td>
-        <td style={{ width: "120px" }}>{props.obCell.type}</td>
-        <td style={{ width: "60px" }}>{props.obCell.ra}</td>
-        <td style={{ width: "60px" }}>{props.obCell.dec}</td>
+            <td style={{ width: "120px" }}>{props.obCell.name}</td>
+            <td style={{ width: "120px" }}>{props.obCell.type}</td>
+            <td style={{ width: "60px" }}>{props.obCell.ra}</td>
+            <td style={{ width: "60px" }}>{props.obCell.dec}</td>
         </tr>
     )
 }
 
 export const CreateDroppableTable = (cells: any[], idKey: string, key: string, tooltip: string, title: string) => {
-    const classes = useStyles();
     return (
-        <Paper className={classes.paper} elevation={3}>
+        <Paper sx={{
+            padding: '8px',
+            margin: '4px',
+            minWidth: '80px',
+            width: '95%',
+            elevation: 3,
+        }} elevation={3}>
             <Tooltip title={tooltip}>
                 <h2>{title}</h2>
             </Tooltip>
@@ -66,8 +53,17 @@ export const CreateDroppableTable = (cells: any[], idKey: string, key: string, t
                 {(provided, snapshot) => (
                     <table
                         ref={provided.innerRef}
-                        className={snapshot.isDraggingOver
-                            ? classes.droppableDragging : classes.droppable}
+                        style={snapshot.isDraggingOver
+                            ? {
+                                margin: '4px',
+                                padding: '4px',
+                                minHeight: '20px',
+                            } : {
+                                margin: '4px',
+                                padding: '0px',
+                                minHeight: '20px',
+                            }
+                        }
                     >
                         <thead>
                             <tr>

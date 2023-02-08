@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { makeStyles } from "@mui/styles"
 
 import AppBar from '@mui/material/AppBar';
@@ -9,39 +9,16 @@ import Tooltip from '@mui/material/Tooltip';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography'
 
-const useStyles = makeStyles((theme: any) => ({
-  root: { 
-    position: "absolute",
-    display: "flex"
-  },
-  title: { 
-    marginLeft: theme.spacing(2),
-    flexGrow: 1,
-  },
-  appBar: { 
-    color: theme.palette.primary,
-    backgroundColor: theme.palette.secondary
-  },
-  toolbar: {
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(5) 
-  },
-  switch: {
-    color: theme.palette.primary,
-    backgroundColor: theme.palette.secondary
-  },
-}))
-
-
 export function TopBar(props: any) {
-  const classes = useStyles();
-  return( 
-    <AppBar 
+  return (
+    <AppBar
       position="absolute"
-      className={classes.appBar}  
     >
       <Toolbar
-        className={classes.toolbar}
+        sx={{
+          paddingRight: '8px',
+          paddingLeft: '20px'
+        }}
       >
         <IconButton
           edge="start"
@@ -55,7 +32,10 @@ export function TopBar(props: any) {
           variant="h6"
           color="inherit"
           noWrap
-          className={classes.title}
+          sx={{
+            marginLeft: '12px',
+            flexGrow: 1,
+          }}
         >
           Ptolemy Demo
         </Typography>
@@ -64,15 +44,18 @@ export function TopBar(props: any) {
           variant="h6"
           color="inherit"
           noWrap
-          className={classes.title}
+          sx={{
+            marginLeft: '12px',
+            flexGrow: 1,
+          }}
         >
           Welcome, Observer {props.observer_id}!
         </Typography>
         <Tooltip title="Toggle on for dark mode">
-          <Switch 
+          <Switch
             color="secondary"
-            checked={props.darkState} 
-            onChange={props.handleThemeChange}/>
+            checked={props.darkState}
+            onChange={props.handleThemeChange} />
         </Tooltip>
       </Toolbar>
     </AppBar>

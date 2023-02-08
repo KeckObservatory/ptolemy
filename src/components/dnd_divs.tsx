@@ -3,40 +3,23 @@ import Paper from '@mui/material/Paper'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { makeStyles } from '@mui/styles'
 
-export const useStyles = makeStyles((theme: any) => ({
-    paper: {
-        padding: '8px',
-        margin: '4px',
-        minWidth: theme.spacing(20),
-        width: '95%',
-        elevation: 3,
-    },
-    droppableDragging: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
-        minHeight: theme.spacing(5),
-    },
-    droppable: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(0),
-        minHeight: theme.spacing(5),
-    },
-    cell: {
-        width: '45%'
-    },
-}))
-
-
 interface CreateDivProps {
     provided: any;
     snapshot: any;
     formChild: JSX.Element;
 }
 const CreateDiv = (props: CreateDivProps) => {
-    const classes = useStyles()
-    const acc = { acc: classes.droppableDragging, accDrag: classes.droppable } as any
+    const acc = {
+        acc: {
+            margin: '4px',
+            padding: '4px',
+            minHeight: '20px',
+        }, accDrag: {
+            margin: '4px',
+            padding: '0px',
+            minHeight: '20px',
+        }
+    } as any
     const className = props.snapshot.isDragging ? { ...props.provided.draggableProps, ...acc.accDrag } : acc.acc
     return (
         <div
@@ -45,7 +28,9 @@ const CreateDiv = (props: CreateDivProps) => {
             {...props.provided.dragHandleProps}
             className={className}
         >
-            {props.formChild}
+            <Paper elevation={24}>
+                {props.formChild}
+            </Paper>
         </div>
     )
 }
@@ -53,10 +38,17 @@ const CreateDiv = (props: CreateDivProps) => {
 
 
 export const CreateDroppable = (cells: any[], idKey: string, key: string, tooltip: string, title: string, childDiv: Function) => {
-
-    const classes = useStyles();
     return (
-        <Paper className={classes.paper} elevation={3}>
+        <Paper sx={
+            {
+                padding: '8px',
+                margin: '4px',
+                minWidth: '80px',
+                width: '95%',
+                elevation: 3,
+            }
+        }
+            elevation={3}>
             <Tooltip title={tooltip}>
                 <h2>{title}</h2>
             </Tooltip>
@@ -65,7 +57,16 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
                     return (
                         <div
                             className={snapshot.isDraggingOver
-                                ? classes.droppableDragging : classes.droppable}
+                                ? {
+                                    margin: '4px',
+                                    padding: '4px',
+                                    minHeight: '20px',
+                                } : {
+                                    margin: '4px',
+                                    padding: '0px',
+                                    minHeight: '20px',
+                                }
+                            }
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                         >

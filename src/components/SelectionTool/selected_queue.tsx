@@ -2,44 +2,11 @@ import React from 'react';
 import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 import { useEffect } from 'react'
-import { makeStyles } from '@mui/styles'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import OBSubmit from './ob_submit'
 import { socket } from '../../contexts/socket'
 import { ob_api_funcs } from '../../api/ApiRoot';
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
-
-const useStyles = makeStyles((theme: any) => ({
-    grid: {
-        textAlign: 'center',
-        margin: theme.spacing(1),
-        display: 'flex',
-        width: '100%',
-    },
-    paper: {
-        padding: '8px',
-        margin: '4px',
-        maxWidth: '715px',
-        minWidth: '200px',
-        elevation: 3,
-    },
-    droppableDragging: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(1),
-        minHeight: theme.spacing(5),
-    },
-    droppable: {
-        background: theme.palette.divider,
-        margin: theme.spacing(1),
-        padding: theme.spacing(0),
-        minHeight: theme.spacing(5),
-    },
-    cell: {
-        width: '45%',
-        elevation: 3,
-    },
-}))
 
 interface Props {
     selObs: Scoby[];
@@ -56,8 +23,18 @@ interface CreateDivProps {
 }
 
 const CreateDiv = (props: CreateDivProps) => {
-    const classes = useStyles()
-    const acc = { acc: classes.droppableDragging, accDrag: classes.droppable } as any
+    // const acc = { acc: classes.droppableDragging, accDrag: classes.droppable } as any
+    const acc = {
+        acc: {
+            margin: '4px',
+            padding: '4px',
+            minHeight: '20px',
+        }, accDrag: {
+            margin: '4px',
+            padding: '0px',
+            minHeight: '20px',
+        }
+    }
     const className = props.snapshot.isDragging ? { ...props.provided.draggableProps, ...acc.accDrag } : acc.acc
     return (
         <div
@@ -66,7 +43,9 @@ const CreateDiv = (props: CreateDivProps) => {
             {...props.provided.dragHandleProps}
             className={className}
         >
-            {props.formChild}
+            <Paper elevation={24}>
+                {props.formChild}
+            </Paper>
         </div>
     )
 }
@@ -130,11 +109,8 @@ const SubmittedNook = (props: NookProps) => {
 
 const SelectedQueue = (props: Props) => {
 
-    const classes = useStyles();
     const selTitle = "Selected OBs"
-    const submitTitle = "Submited OB"
     const selTooltip = "Observation Blocks in queue"
-
 
     useEffect(() => {
     }, [props])
@@ -150,14 +126,14 @@ const SelectedQueue = (props: Props) => {
         let newObs = [...props.selObs]
         newObs = reorder(newObs, source.index, destination.index)
         props.setSelObs(newObs)
-        socket.emit('set_ob_queue', {ob_queue: newObs})
+        socket.emit('set_ob_queue', { ob_queue: newObs })
     }
 
     const onSubmitOB = (result: any) => {
-        const ob_id = props.selObs[0].ob_id as string 
+        const ob_id = props.selObs[0].ob_id as string
         ob_api_funcs.get(ob_id).then((ob: ObservationBlock) => {
             console.log('submitting ob')
-            socket.emit('submit_ob', { ob: ob})
+            socket.emit('submit_ob', { ob: ob })
         })
     }
 
@@ -167,7 +143,13 @@ const SelectedQueue = (props: Props) => {
         title: string,
         onSubmitOB: Function) => {
         return (
-            <Paper className={classes.paper} elevation={3}>
+            <Paper sx={{
+                padding: '8px',
+                margin: '4px',
+                maxWidth: '715px',
+                minWidth: '200px',
+            }}
+                elevation={3}>
                 <Tooltip title={tooltip}>
                     <h3>{title}</h3>
                 </Tooltip>
@@ -176,8 +158,17 @@ const SelectedQueue = (props: Props) => {
                     {(provided: any, snapshot: any) => {
                         return (
                             <div
-                                className={snapshot.isDraggingOver
-                                    ? classes.droppableDragging : classes.droppable}
+                                style={snapshot.isDraggingOver
+                                    ? {
+                                        margin: '4px',
+                                        padding: '4px',
+                                        minHeight: '20px',
+                                    } : {
+                                        margin: '4px',
+                                        padding: '0px',
+                                        minHeight: '20px',
+                                    }
+                                }
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                             >

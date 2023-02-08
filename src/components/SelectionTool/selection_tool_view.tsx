@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
 import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
-import { makeStyles } from '@mui/styles'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
@@ -13,33 +12,6 @@ import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
 import ThreeDView from './sky-view/three_d_view'
-
-const useStyles = makeStyles((theme: any) => ({
-    grid: {
-        textAlign: 'left',
-        margin: theme.spacing(1),
-        display: 'flex',
-        // width: '100%',
-        maxWidth: theme.spacing(190),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        margin: theme.spacing(1),
-        minWidth: theme.spacing(120),
-        maxWidth: theme.spacing(150),
-        elevation: 3,
-    },
-    widepaper: {
-        padding: theme.spacing(2),
-        margin: theme.spacing(1),
-        height: '700px',
-        elevation: 3,
-        width: theme.spacing(120)
-    },
-    cell: {
-    },
-}))
-
 
 interface OBServerData {
     ob: ObservationBlock
@@ -113,7 +85,6 @@ export const SelectionToolView = (props: Props) => {
 
     let start_time: number
     let ping_pong_times: number[] = []
-    const classes = useStyles()
 
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
@@ -138,7 +109,6 @@ export const SelectionToolView = (props: Props) => {
             .then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
                 const [scoby, cont] = scoby_cont
                 setAvlObs(scoby)
-                // setSelObs([])
             })
     }, [sem_id])
 
@@ -217,7 +187,15 @@ export const SelectionToolView = (props: Props) => {
                     highlightOnEmpty={true}
                 />
             </FormControl>
-            <Grid container spacing={1} className={classes.grid}>
+            <Grid container spacing={1} sx={
+                {
+                    textAlign: 'left',
+                    margin: '8px',
+                    display: 'flex',
+                    maxWidth: '1800px',
+                }
+            }
+            >
                 <Grid item xs={6}>
                     <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
                 </Grid>
@@ -239,7 +217,15 @@ export const SelectionToolView = (props: Props) => {
                         label={'ChartType'}
                     />
                     <ThreeDView selObs={selObs} />
-                    <Paper className={classes.widepaper} elevation={3}>
+                    <Paper sx={{
+                        padding: '8px',
+                        margin: '4px',
+                        height: '700px',
+                        elevation: 3,
+                        width: '880px'
+                    }
+                    }
+                        elevation={3}>
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>

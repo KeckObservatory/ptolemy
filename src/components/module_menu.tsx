@@ -8,30 +8,6 @@ import Octect from './Octect/octect';
 import { ThemeKeys } from 'react-json-view';
 import { SelectionToolView } from './SelectionTool/selection_tool_view';
 
-const useStyles = makeStyles((theme: any) => ({
-    moduleMain: {
-        width: '100%'
-    },
-    tabs: {
-        marginTop: theme.spacing(9),
-        // height: theme.spacing(10),
-        position: "absolute",
-        display: "flex",
-        width: '100%',
-        // padding: theme.spacing(2),
-    },
-    items: {
-        // marginTop: theme.spacing(12),
-        position: "relative",
-        // height: '100%',
-        width: '100%',
-        display: "flex"
-    },
-    panel: {
-        width: '100%',
-    }
-}))
-
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -39,21 +15,24 @@ interface TabPanelProps {
 }
 
 const TabPanel = (props: TabPanelProps) => {
-    const classes = useStyles();
     const { children, value, index, ...other } = props;
     return (
-        <div className={classes.items}
+        <div style={ {
+                position: "relative",
+                width: '100%',
+                display: "flex"
+            } }
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
-        {value === index && (
-        <Box className={classes.panel} p={3}>
-          {children}
-        </Box>
-      )}
+            {value === index && (
+                <Box sx={{ width: '100%' }} p={3}>
+                    {children}
+                </Box>
+            )}
         </div>
     );
 }
@@ -71,7 +50,6 @@ interface ModuleMenuProps {
 }
 
 export const ModuleMenu = (props: ModuleMenuProps) => {
-    const classes = useStyles();
     const [value, setValue] = React.useState(1);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -79,8 +57,14 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
     };
 
     return (
-        <div className={classes.moduleMain}>
-            <AppBar position="static" className={classes.tabs}>
+        <div style={{
+            width: '100%'
+        }}>
+            <AppBar position="static" sx={{
+                marginTop: '72px',
+                display: "flex",
+                width: '100%',
+            }} >
                 <Tabs
                     value={value}
                     onChange={handleChange as any}
@@ -94,7 +78,7 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <SelectionToolView/>
+                <SelectionToolView />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Octect />

@@ -2,21 +2,6 @@ import { FormControl } from '@mui/material'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
-import { DefaultTheme, makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles((theme: DefaultTheme) => ({
-    formControl: {
-        minWidth: 120,
-        width: '100%',
-        margin: '4px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > *': {
-            margin: '4px',
-        }
-    },
-}
-))
 
 interface MenuProps {
     arr: string[] | undefined
@@ -33,9 +18,8 @@ const MakeMenuItem = (value: string, key: number, disabled = false) => {
 }
 
 const DropDown = (props: MenuProps): JSX.Element => {
-    const classes = useStyles()
     const value = props.value
-    const errorOnEmpty = value==="" && props.highlightOnEmpty===true
+    const errorOnEmpty = value === "" && props.highlightOnEmpty === true
 
     const menuItems = props.arr?.map((x, idx) => {
         const disabled = props.disabledArr ? props.disabledArr[idx] : false
@@ -53,7 +37,17 @@ const DropDown = (props: MenuProps): JSX.Element => {
 
     if (errorOnEmpty) {
         return (
-            <FormControl error className={classes.formControl}>
+            <FormControl error sx={{
+                minWidth: 120,
+                width: '100%',
+                margin: '4px',
+                display: 'flex',
+                flexWrap: 'wrap',
+                '& > *': {
+                    margin: '4px',
+                }
+            }}
+            >
                 <InputLabel id="error-select-label">{props.label}</InputLabel>
                 {SelectInput}
             </FormControl>
@@ -61,7 +55,17 @@ const DropDown = (props: MenuProps): JSX.Element => {
     }
     else {
         return (
-            <FormControl className={classes.formControl}>
+            <FormControl sx={{
+                minWidth: 120,
+                width: '100%',
+                margin: '4px',
+                display: 'flex',
+                flexWrap: 'wrap',
+                '& > *': {
+                    margin: '4px',
+                }
+            }}
+            >
                 <InputLabel id="select-label">{props.label}</InputLabel>
                 {SelectInput}
             </FormControl>

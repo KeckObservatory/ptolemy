@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl';
 import { ObservationBlock, Science } from '../../typings/ptolemy'
-import { makeStyles } from '@mui/styles'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import DropDown from '../drop_down'
 import Button from '@mui/material/Button';
 import { SocketContext } from './../../contexts/socket';
 import JsonViewTheme from '../json_view_theme'
@@ -14,33 +12,6 @@ import ReactJson, { ThemeKeys, InteractionProps } from 'react-json-view'
 import SequenceQueue from './sequence_queue'
 import EventQueue from './event_queue'
 import { ob_api_funcs } from '../../api/ApiRoot';
-
-const useStyles = makeStyles((theme: any) => ({
-    grid: {
-        textAlign: 'left',
-        margin: theme.spacing(1),
-        display: 'flex',
-        // width: '100%',
-        maxWidth: theme.spacing(190),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        margin: theme.spacing(1),
-        minWidth: theme.spacing(95),
-        maxWidth: theme.spacing(95),
-        minHeight: theme.spacing(25),
-        elevation: 3,
-    },
-    widepaper: {
-        padding: theme.spacing(2),
-        margin: theme.spacing(1),
-        height: '700px',
-        elevation: 3,
-        width: theme.spacing(120)
-    },
-    cell: {
-    },
-}))
 
 interface Props {
     iconStyle: 'circle' | 'triangle' | 'square',
@@ -78,8 +49,6 @@ const Octect = (props: Props) => {
     const [eventBoneyard, setEventBoneyard] = React.useState([] as string[])
     let ping_pong_times: number[] = []
     let start_time: number
-    const classes = useStyles()
-
 
     useEffect(() => {
         console.log('new OB. extracting sequences')
@@ -197,9 +166,23 @@ const Octect = (props: Props) => {
     return (
         <div>
             {/* <span>{avg} ms</span> */}
-            <Grid container spacing={1} className={classes.grid}>
+            <Grid container spacing={1} sx={{
+                textAlign: 'left',
+                margin: 1,
+                display: 'flex',
+                maxWidth: '1600px',
+            }}
+            >
                 <Grid item xs={8}>
-                    <Paper className={classes.paper}>
+                    <Paper sx={{
+                        padding: 2,
+                        margin: 1,
+                        minWidth: '800px',
+                        maxWidth: '800px',
+                        minHeight: 25,
+                        elevation: 3,
+                    }}
+                    >
                         <Tooltip title="Change the color theme of the OB JSON display">
                             <div>
                                 <JsonViewTheme
@@ -224,12 +207,28 @@ const Octect = (props: Props) => {
                     <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
                         <Button variant="contained" onClick={submitAcq}>Submit Acquisition</Button>
                     </FormControl>
-                    <Paper className={classes.paper} elevation={3}>
+                    <Paper sx={{
+                        padding: 2,
+                        margin: 1,
+                        minWidth: '800px',
+                        maxWidth: '800px',
+                        minHeight: 25,
+                        elevation: 3,
+                    }}
+                        elevation={3}>
                         <SequenceQueue sequence_queue={sequences} sequence_boneyard={sequenceBoneyard} socket={socket} />
                     </Paper >
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper className={classes.paper}>
+                    <Paper sx={{
+                        padding: 2,
+                        margin: 1,
+                        minWidth: '400px',
+                        maxWidth: '400px',
+                        minHeight: 25,
+                        elevation: 3,
+                    }}
+                    >
                         <ReactJson
                             src={task as object}
                             theme={theme as ThemeKeys | undefined}
@@ -241,12 +240,20 @@ const Octect = (props: Props) => {
                         />
                     </Paper>
                     <Button onClick={submitEvent}>Submit Event</Button>
-                    <Paper className={classes.paper} elevation={3}>
+                    <Paper sx={{
+                        padding: 2,
+                        margin: 1,
+                        minWidth: '400px',
+                        maxWidth: '400px',
+                        minHeight: 25,
+                        elevation: 3,
+                    }}
+                        elevation={3}>
                         <EventQueue event_queue={events} event_boneyard={eventBoneyard} socket={socket} />
                     </Paper >
                 </Grid>
             </Grid>
-        </div>
+        </div >
     )
 }
 
