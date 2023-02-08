@@ -4,6 +4,8 @@ import { Science } from '../../typings/ptolemy'
 import { makeStyles } from '@mui/styles'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { reorder, move, create_draggable, CreateDroppable } from './../dnd_divs'
+import ReactJson, { ThemeKeys } from 'react-json-view'
+import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 
 export const useStyles = makeStyles((theme: any) => ({
     grid: {
@@ -44,12 +46,22 @@ interface Props {
 
 
 const DragSeqCell = (seqCell: Science) => {
+
+    const [theme, setTheme] =
+        useQueryParam('theme', withDefault(StringParam, 'bespin'))
     return (
         <div>
             <p> id: {seqCell.metadata.sequence_number} </p>
             <p> sequence: {seqCell.metadata.ui_name} </p>
-            <p> Type: {seqCell.metadata.type} </p>
-            <p>{JSON.stringify(seqCell.parameters)}</p>
+            <ReactJson
+                src={seqCell as object}
+                theme={theme as ThemeKeys | undefined}
+                iconStyle={'circle'}
+                collapsed={1}
+                collapseStringsAfterLength={15}
+                enableClipboard={true}
+                onEdit={false}
+            />
         </div>
     )
 }
@@ -70,26 +82,26 @@ const SequenceQueue = (props: Props) => {
             newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'seqQueue') {
                 // props.setSequences(newSeq)
-                props.socket.emit('new_sequence_queue', {sequence_queue: newSeq})
+                props.socket.emit('new_sequence_queue', { sequence_queue: newSeq })
             }
             else {
-                props.socket.emit('new_sequence_boneyard', {sequence_boneyard: newSeq})
+                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq })
                 // setDiscardedSequences(newSeq)
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
                 const result = move(props.sequence_boneyard, props.sequence_queue, source, destination);
                 // props.setSequences(result[dKey])
-                props.socket.emit('new_sequence_queue', {sequence_queue: result[dKey]})
+                props.socket.emit('new_sequence_queue', { sequence_queue: result[dKey] })
                 // setDiscardedSequences(result[sKey])
-                props.socket.emit('new_sequence_boneyard', {sequence_boneyard: result[sKey]})
+                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[sKey] })
             }
             else { // sequence added to boneyard
                 const result = move(props.sequence_queue, props.sequence_boneyard, source, destination);
                 console.log('result', result)
                 // props.setSequences(result[sKey])
-                props.socket.emit('new_sequence_queue', {sequence_queue: result[sKey]})
-                props.socket.emit('new_sequence_boneyard', {sequence_boneyard: result[dKey]})
+                props.socket.emit('new_sequence_queue', { sequence_queue: result[sKey] })
+                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[dKey] })
                 // setDiscardedSequences(result[dKey])
             }
         }

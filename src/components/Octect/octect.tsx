@@ -15,7 +15,6 @@ import SequenceQueue from './sequence_queue'
 import EventQueue from './event_queue'
 import { ob_api_funcs } from '../../api/ApiRoot';
 
-
 const useStyles = makeStyles((theme: any) => ({
     grid: {
         textAlign: 'left',
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme: any) => ({
 }))
 
 interface Props {
-    theme: ThemeKeys,
     iconStyle: 'circle' | 'triangle' | 'square',
     collapsed: number,
     collapseStringsAfter: number,
@@ -53,7 +51,6 @@ interface Props {
 }
 
 interface State {
-    theme: string;
     avg: number
     ob?: ObservationBlock
     sequences?: Science[]
@@ -64,7 +61,6 @@ interface State {
 
 
 const defaultState: State = {
-    theme: 'apathy',
     avg: 0,
 }
 
@@ -75,7 +71,7 @@ const Octect = (props: Props) => {
     const [ob, setOB] = React.useState({} as ObservationBlock)
     const [task, setTask] = React.useState({})
     const [theme, setTheme] =
-        useQueryParam('theme', withDefault(StringParam, defaultState.theme))
+        useQueryParam('theme', withDefault(StringParam, 'bespin'))
     const [sequences, setSequences] = React.useState([] as Science[])
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
     const [events, setEvents] = React.useState([] as string[])
@@ -255,7 +251,6 @@ const Octect = (props: Props) => {
 }
 
 Octect.defaultProps = {
-    theme: 'bespin',
     iconStyle: 'circle',
     collapsed: 1,
     collapseStringsAfter: 15,
