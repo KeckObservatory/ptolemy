@@ -1,5 +1,4 @@
 from app import app, socketio
-
 from flask_socketio import emit, disconnect 
 from flask import session, send_from_directory, request, copy_current_request_context
 from threading import Lock
@@ -7,6 +6,7 @@ import shelve
 from obdm import OBDM
 import os
 import json
+import logging
 
 myData = shelve.open('./public/session_data')
 global thread
@@ -40,9 +40,9 @@ def send_ob():
     """Sends OB stored on disk"""
     obdm = myData['obdm']
     data = {'ob': obdm.ob}
-    # print('\nsending ob\n')
+    print('\nsending ob\n')
     return data
-    # emit('return_ob', data, broadcast=True)
+
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
@@ -51,7 +51,7 @@ def request_ob_queue():
     return data
 
 @socketio.on('set_ob_queue')
-def new_ob_queue(data):
+def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     print('new ob queue')
     print(data)
