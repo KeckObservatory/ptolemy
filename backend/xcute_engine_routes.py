@@ -30,10 +30,12 @@ ee = ExecutionEngine(logger=logger, cfg=cfg)
  
 @socketio.on('send_ob')
 def send_ob():
-    """Sends OB stored on EE"""
-    #TODO: Get OB from DB and send to users. Until then use this.
-    with open('./public/ob.json') as f:
-        ob = json.load(f)[0]
+    """Sends OB stored on EE (first item in queue)"""
+    ob_queue = ee.ob_q.get_queue_as_json()
+    if len(ob_queue) > 0:
+        ob=ob_queue[0]
+    else:
+        ob = dict() 
     data = {'ob': ob}
     logging.info('sending ob')
     return data
@@ -43,7 +45,7 @@ def send_ob():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     ob_queue = ee.ob_q.get_queue_as_json()
-    data = { 'ob_queue': ob_queue}
+    data = { 'ob_queue': ob_queue }
     return data
 
 @socketio.on('set_ob_queue')
@@ -52,15 +54,13 @@ def set_ob_queue(data):
     logging.info('new ob queue')
     logging.info(data)
     ob_queue = data.get('ob_queue')
-    #TODO: is this right? Put many OB items?
-    ee.ob_q.put_many(ob_queue)
+    ee.ob_q.set_queue(ob_queue)
     emit('send_ob_queue', data, broadcast=True)
 
 @socketio.on("request_submitted_ob")
 def request_submitted_ob():
     """Sends the submitted ob, stored by EE"""
-    #TODO EE needs to store selected OB id or JSON
-    ob_queue = ee.ob_q.get_queue_as_json
+    ob_queue = ee.ob_q.get_queue_as_json()
     ob = ob_queue[0]
     data = {'ob': ob}
     return data
@@ -69,8 +69,7 @@ def request_submitted_ob():
 def submit_ob(data):
     """Sets submitted OB to EE, and sends it to the frontend."""
     logging.info('submitting new ob')
-    #TODO EE needs to store the selected OB's id or JSON 
-    ob_queue = ee.ob_q.get_queue_as_json
+    ob_queue = ee.ob_q.get_queue_as_json()
     ob = ob_queue[0]
     ee.sel_ob = ob
     data = {'ob': ob}
@@ -91,8 +90,7 @@ def new_sequence_boneyard(data):
     seqBoneyard = data.get('sequence_boneyard')
     logging.info(f'new sequence boneyard: {seqBoneyard}')
     newSequenceBoneyard = [ SequenceItem.from_sequence(x) for x in seqBoneyard ]
-    #TODO: store sequence boneyard as a queue
-    ee.seq_boneyard_q.set_queue( newSequenceBoneyard )
+    ee.seq_q.boneyard = newSequenceBoneyard
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
@@ -110,8 +108,7 @@ def new_event_boneyard(data):
     eventBoneyard = data.get('event_boneyard')
     logging.info(f'new sequence boneyard: {eventBoneyard}')
     newEventBoneyard = [ EventItem.from_event(x) for x in eventBoneyard ]
-    #TODO: store event boneyard as a queue
-    ee.evt_boneyard_q.set_queue( newEventBoneyard )
+    ee.evt_q.boneyard = newEventBoneyard
     emit('event_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_task')
