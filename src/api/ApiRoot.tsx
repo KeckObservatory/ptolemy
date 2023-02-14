@@ -31,7 +31,7 @@ var TEST_URL = 'http://localhost:50007/v0' //use locally or for testing (npm sta
 var BASE_URL = IS_BUILD ? PRODUCTION_URL : TEST_URL // sets for production vs test 
 
 BASE_URL = IS_DEVELOPMENT ? DEVELOPMENT_URL : BASE_URL
-var API_URL = IS_DEVELOPMENT ? BASE_URL + '/api/test/ddoi/' : BASE_URL + '/api/ddoi/'
+var API_URL = IS_DEVELOPMENT ? BASE_URL + '/api/test/ddoi/' : BASE_URL + '/api/test/ddoi/'
 
 var OB_URL = API_URL + 'obsBlocks'
 var CONTAINER_URL = API_URL + 'containers'
