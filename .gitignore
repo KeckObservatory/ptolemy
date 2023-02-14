@@ -1,6 +1,7 @@
 # js stuff
 package-lock.json
 *.bak
+*.ini
 node_modules/
 # Byte-compiled / optimized / DLL files
 __pycache__/
