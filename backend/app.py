@@ -11,11 +11,14 @@ Payload.max_decode_packets = 500
 async_mode = "eventlet" 
 app = Flask(__name__, static_url_path='', static_folder='../build')
 CORS(app, send_wildcard=True)
-app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-#from frontend_routes import *
-from xcute_engine_routes import *
+from frontend_routes import *
+# from xcute_engine_routes import *
+
+@socketio.on('connected')
+def connected():
+    print('Client connected', request.sid)
 
 @socketio.on('disconnect')
 def disconnect():

@@ -2,6 +2,7 @@ from app import socketio
 from flask_socketio import emit 
 import json
 import logging
+import pdb
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
@@ -24,13 +25,17 @@ def create_logger(fileName='client-xcute.log'):
     return logger
 
 logger = create_logger()
-cfg=""
+cfg="./cfg.ini"
 
+logging.info('init ee engine')
 ee = ExecutionEngine(logger=logger, cfg=cfg)
+logging.info('ee engine initialized')
  
 @socketio.on('send_ob')
 def send_ob():
     """Sends OB stored on EE (first item in queue)"""
+
+    logging.info('sending ob request recieved')
     ob_queue = ee.ob_q.get_queue_as_json()
     if len(ob_queue) > 0:
         ob=ob_queue[0]
@@ -38,7 +43,10 @@ def send_ob():
         ob = dict() 
     data = {'ob': ob}
     logging.info('sending ob')
-    return data
+
+    logging.info('sending ob', ob)
+    emit('sent_ob', data)
+    # return data
 
 
 @socketio.on("request_ob_queue")
@@ -125,4 +133,5 @@ def new_task(data):
 
 @socketio.event
 def my_ping():
+    logging.info('ping!Pong!')
     emit('my_pong')

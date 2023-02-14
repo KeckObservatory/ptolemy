@@ -8,5 +8,4 @@ const path = IS_PRODUCTION? '' : ''
 
 console.log('socket url', url)
 export const socket = io(url, {path: path, transports: ['websocket'], secure: true, rejectUnauthorized: false});
-console.log('socket', socket)
 export const SocketContext = React.createContext(socket);

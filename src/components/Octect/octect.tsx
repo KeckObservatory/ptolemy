@@ -135,14 +135,17 @@ const Octect = (props: Props) => {
             if (eb) setEventBoneyard(eb)
         })
 
-        //@ts-ignore
-        socket.emit('send_ob', (data) => {
-            console.log('returnded data', data)
+        socket.on('ob_sent', (data) => {
+            console.log('returned data', data)
             setOB(data['ob'])
             const seq = data.ob?.sequences
             console.log('sequences', seq)
             if (seq) setSequences(seq)
         })
+
+        //@ts-ignore
+        console.log('requesting ob to be sent to octect')
+        socket.emit('send_ob')
 
     }, [])
 
