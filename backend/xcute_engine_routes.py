@@ -3,6 +3,7 @@ from flask_socketio import emit
 import json
 import logging
 import pdb
+from threading import Lock
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
@@ -26,6 +27,10 @@ def create_logger(fileName='client-xcute.log'):
 
 logger = create_logger()
 cfg="./cfg.ini"
+
+global thread
+thread = None
+thread_lock = Lock()
 
 logging.info('init ee engine')
 ee = ExecutionEngine(logger=logger, cfg=cfg)
