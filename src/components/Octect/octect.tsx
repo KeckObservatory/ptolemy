@@ -21,6 +21,9 @@ interface Props {
     editable: boolean,
 }
 
+interface OBServerData {
+    ob: ObservationBlock
+}
 interface State {
     avg: number
     ob?: ObservationBlock
@@ -51,7 +54,7 @@ const Octect = (props: Props) => {
     let start_time: number
 
     useEffect(() => {
-        console.log('new OB. extracting sequences')
+        console.log('new OB. extracting sequences', ob)
         const seq = ob.observations
         if (seq) setSequences(seq)
         else setSequences([])
@@ -85,13 +88,17 @@ const Octect = (props: Props) => {
             // setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
         });
 
-        socket.on('send_submitted_ob', (data) => {
-            console.log('new ob event triggered. setting ob, and queues', data)
-            const newOBRow = data.ob_row
+        socket.on('send_submitted_ob', (ob_data: OBServerData) => {
+            console.log('new ob event triggered. setting ob, and queues', ob_data)
 
-            ob_api_funcs.get(newOBRow.ob_id).then((ob: ObservationBlock) => {
+            const newOB = ob_data.ob
+
+            //get the source of truth from the database
+            ob_api_funcs.get(newOB.metadata._id).then((ob: ObservationBlock) => {
+                console.log('setting ob to:', ob)
                 setOB(ob)
                 const seq = ob.observations
+                console.log('setting sequences to:', seq)
                 if (seq) setSequences(seq)
                 setSequenceBoneyard([])
                 setEvents([])

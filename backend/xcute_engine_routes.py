@@ -78,9 +78,11 @@ def submit_ob(data):
     """Sets submitted OB to EE, and sends it to the frontend."""
     logging.info('submitting new ob')
     ob_queue = ee.ob_q.get_queue_as_json()
+    logging.info(f'ob queue: {ob_queue}')
     ob = ob_queue[0]
     ee.sel_ob = ob
     data = {'ob': ob}
+    logging.info('broadcasting submitted ob')
     emit('send_submitted_ob', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')

@@ -229,7 +229,7 @@ export const SelectionToolView = (props: Props) => {
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>
-                        <SkyView chartType={chartType} selObs={selObs} />
+                        {/* <SkyView chartType={chartType} selObs={selObs} /> */}
                     </Paper >
                 </Grid>
             </Grid>
