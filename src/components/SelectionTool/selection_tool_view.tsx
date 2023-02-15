@@ -216,7 +216,7 @@ export const SelectionToolView = (props: Props) => {
                         handleChange={handleChartTypeSelect}
                         label={'ChartType'}
                     />
-                    <ThreeDView selObs={selObs} />
+                    {/* <ThreeDView selObs={selObs} /> */}
                     <Paper sx={{
                         padding: '8px',
                         margin: '4px',
