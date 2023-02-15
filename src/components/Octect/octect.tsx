@@ -53,13 +53,13 @@ const Octect = (props: Props) => {
     let ping_pong_times: number[] = []
     let start_time: number
 
-    useEffect(() => {
-        console.log('new OB. extracting sequences', ob)
-        const seq = ob.observations
-        if (seq) setSequences(seq)
-        else setSequences([])
-        setSequenceBoneyard([])
-    }, [ob])
+    // useEffect(() => {
+    //     console.log('new OB. extracting sequences', ob)
+    //     const seq = ob.observations
+    //     if (seq) setSequences(seq)
+    //     else setSequences([])
+    //     setSequenceBoneyard([])
+    // }, [ob])
 
     useEffect(() => {
         console.log('sequences changed: ', sequences)
@@ -91,10 +91,10 @@ const Octect = (props: Props) => {
         socket.on('send_submitted_ob', (ob_data: OBServerData) => {
             console.log('new ob event triggered. setting ob, and queues', ob_data)
 
-            const newOB = ob_data.ob
+            const newOBID = ob_data.ob._id
 
             //get the source of truth from the database
-            ob_api_funcs.get(newOB._id).then((ob: ObservationBlock) => {
+            ob_api_funcs.get(newOBID).then((ob: ObservationBlock) => {
                 console.log('setting ob to:', ob)
                 setOB(ob)
                 const seq = ob.observations
@@ -148,6 +148,7 @@ const Octect = (props: Props) => {
             const seq = data.ob?.sequences
             console.log('sequences', seq)
             if (seq) setSequences(seq)
+            else setSequences([])
         })
 
         //@ts-ignore
