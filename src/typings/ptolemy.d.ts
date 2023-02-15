@@ -68,7 +68,7 @@ export interface OBCell {
 }
 
 export interface OBMetadata {
-	_id: string;
+	_id?: string;
 	name: string;
 	version: string | number;
 	priority: number;
