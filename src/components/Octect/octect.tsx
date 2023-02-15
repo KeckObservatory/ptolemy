@@ -94,7 +94,7 @@ const Octect = (props: Props) => {
             const newOB = ob_data.ob
 
             //get the source of truth from the database
-            ob_api_funcs.get(newOB.metadata._id).then((ob: ObservationBlock) => {
+            ob_api_funcs.get(newOB._id).then((ob: ObservationBlock) => {
                 console.log('setting ob to:', ob)
                 setOB(ob)
                 const seq = ob.observations
