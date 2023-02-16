@@ -3,6 +3,7 @@ from flask_socketio import emit
 import json
 import logging
 import pdb
+from flask import session, send_from_directory, request, copy_current_request_context
 from threading import Lock
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
@@ -36,8 +37,8 @@ logging.info('init ee engine')
 ee = ExecutionEngine(logger=logger, cfg=cfg)
 logging.info('ee engine initialized')
  
-@socketio.on('send_ob')
-def send_ob():
+@socketio.on('request_ob')
+def request_ob():
     """Sends OB stored on EE (first item in queue)"""
 
     logging.info('sending ob request recieved')
@@ -50,8 +51,7 @@ def send_ob():
     logging.info('sending ob')
 
     logging.info('sending ob', ob)
-    emit('sent_ob', data)
-    # return data
+    emit('send_submitted_ob', data, room=request.sid)
 
 
 @socketio.on("request_ob_queue")
@@ -59,7 +59,7 @@ def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     ob_queue = ee.ob_q.get_queue_as_json()
     data = { 'ob_queue': ob_queue }
-    return data
+    emit('send_ob_queue', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
@@ -69,14 +69,6 @@ def set_ob_queue(data):
     ob_queue = data.get('ob_queue')
     ee.ob_q.set_queue(ob_queue)
     emit('send_ob_queue', data, broadcast=True)
-
-@socketio.on("request_submitted_ob")
-def request_submitted_ob():
-    """Sends the submitted ob, stored by EE"""
-    ob_queue = ee.ob_q.get_queue_as_json()
-    ob = ob_queue[0]
-    data = {'ob': ob}
-    return data
 
 @socketio.on('submit_ob')
 def submit_ob(data):
@@ -88,6 +80,7 @@ def submit_ob(data):
     ee.sel_ob = ob
     data = {'ob': ob}
     logging.info('broadcasting submitted ob')
+    print('broadcasting submitted ob')
     emit('send_submitted_ob', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')

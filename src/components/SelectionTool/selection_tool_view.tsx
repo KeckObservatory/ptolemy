@@ -99,8 +99,8 @@ export const SelectionToolView = (props: Props) => {
 
         console.log('requesting obs data from backend')
 
-        socket.emit('request_ob_queue', set_ob_queue_from_server)
-        socket.emit('request_submitted_ob', set_ob_from_server)
+        socket.emit('request_ob_queue')
+        socket.emit('request_ob')
         create_connections()
     }, [])
 
@@ -124,8 +124,8 @@ export const SelectionToolView = (props: Props) => {
     }
 
     const set_ob_from_server = (ob_data: OBServerData) => {
+        console.log('new selected OB: ', ob_data)
         const ob = ob_data.ob
-        console.log('new selected OB: ', ob)
 
         const row: Scoby = {
             sem_id: ob.metadata.sem_id,

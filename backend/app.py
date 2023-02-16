@@ -13,8 +13,8 @@ app = Flask(__name__, static_url_path='', static_folder='../build')
 CORS(app, send_wildcard=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-# from frontend_routes import *
-from xcute_engine_routes import *
+from frontend_routes import *
+# from xcute_engine_routes import *
 
 @socketio.on('connected')
 def connected():

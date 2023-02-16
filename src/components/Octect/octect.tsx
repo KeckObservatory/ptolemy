@@ -153,7 +153,7 @@ const Octect = (props: Props) => {
 
         //@ts-ignore
         console.log('requesting ob to be sent to octect')
-        socket.emit('send_ob')
+        socket.emit('request_ob')
 
     }, [])
 
@@ -227,7 +227,7 @@ const Octect = (props: Props) => {
                         elevation: 3,
                     }}
                         elevation={3}>
-                        <SequenceQueue sequence_queue={sequences} sequence_boneyard={sequenceBoneyard} socket={socket} />
+                        <SequenceQueue ob={ob} sequence_queue={sequences} sequence_boneyard={sequenceBoneyard} socket={socket} />
                     </Paper >
                 </Grid>
                 <Grid item xs={4}>

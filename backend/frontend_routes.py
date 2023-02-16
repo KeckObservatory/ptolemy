@@ -7,6 +7,13 @@ from obdm import OBDM
 import os
 import json
 import logging
+import pdb
+
+from execution_engine.core.ExecutionEngine import ExecutionEngine 
+from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
+from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
+from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
+from execution_engine.core.Queues.EventQueue.EventItem import EventItem
 
 myData = shelve.open('./public/session_data')
 global thread
@@ -20,6 +27,27 @@ obdm = OBDM(ob)
 myData['obdm'] = obdm
 myData['sequence_queue'] = [] 
 myData['ob_queue'] = []
+
+
+def create_logger(fileName='client-xcute.log'):
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    ch.setFormatter(formatter)
+    fl = logging.FileHandler(fileName)
+    fl.setLevel(logging.INFO)
+    fl.setFormatter(formatter)
+    logger = logging.getLogger()
+    logger.addHandler(ch)
+    logger.addHandler(fl)
+    logger.setLevel(logging.INFO)
+    return logger
+
+logger = create_logger()
+cfg="./cfg.ini"
+ee = ExecutionEngine(logger=logger, cfg=cfg)
+ee.obs_q.set_queue([])
+ee.sel_ob = ob 
 
 DEFAULT_EVENTS = [
     'BEGIN_SLEW', 'CONFIGURE_FOR_ACQUISITION', 'WAITFOR_SLEW',
@@ -35,60 +63,111 @@ def index():
     print(os.path.exists(os.path.join(app.static_folder, 'index.html')))
     return send_from_directory(app.static_folder, 'index.html')
 
-@socketio.on('send_ob')
-def send_ob():
-    """Sends OB stored on disk"""
-    obdm = myData['obdm']
-    data = {'ob': obdm.ob}
-    print('\nsending ob\n')
-    return data
+# @socketio.on('request_ob')
+# def request_ob():
+#     """Sends OB stored on disk"""
+#     obdm = myData['obdm']
+#     # data = {'ob': obdm.ob}
+#     data = {'ob': ee.sel_ob}
+#     print('\nsending ob\n')
+#     emit('send_submitted_ob', data, room=request.sid)
 
+@socketio.on('request_ob')
+def request_ob():
+    """Sends OB stored on EE (first item in queue)"""
+    logging.info('sending ob request recieved')
+    ob = ee.sel_ob
+    data = {'ob': ee.sel_ob}
+    logging.info('sending ob')
+
+    logging.info('sending ob', ob)
+    emit('send_submitted_ob', data, room=request.sid)
+
+# @socketio.on("request_ob_queue")
+# def request_ob_queue():
+#     """Sends list of selected OBs stored on disk"""
+#     data = { 'ob_queue': myData['ob_queue']}
+
+#     print(f'sending ob_queue to {request.sid}')
+#     print(data)
+#     emit('send_ob_queue', data, room=request.sid)
+
+# @socketio.on('set_ob_queue')
+# def set_ob_queue(data):
+#     """Sets list of Selected OBs, stored on disk"""
+#     print('new ob queue')
+#     print(data)
+#     myData['ob_queue'] = data.get('ob_queue', [])
+#     emit('send_ob_queue', data, broadcast=True)
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
-    data = { 'ob_queue': myData['ob_queue']}
-    return data
+    print(f'sending ob_queue to {request.sid}')
+    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    print(ob_queue)
+    data = { 'ob_queue': ob_queue }
+    emit('send_ob_queue', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     print('new ob queue')
     print(data)
-    myData['ob_queue'] = data.get('ob_queue', [])
+    ob_queue = [ObservingBlockItem(x) for x in data.get('ob_queue')]
+    ee.obs_q.set_queue(ob_queue)
     emit('send_ob_queue', data, broadcast=True)
 
-@socketio.on("request_submitted_ob")
-def request_submitted_ob():
-    """Sends the submitted ob, stored on disk"""
-    clientid = request.sid
-    data = { 'ob': myData['obdm'].ob}
-    return data
+# @socketio.on('submit_ob')
+# def submit_ob(data):
+#     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
+#     print('\rsubmitting new ob\r')
+#     ob = data.get('ob')
+#     myData['obdm'] = OBDM(ob) 
+#     ee.sel_ob = ob
+#     emit('send_submitted_ob', data, broadcast=True)
+#     emit('ob_to_xcute', data, broadcast=True)
 
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     print('\rsubmitting new ob\r')
-    ob = data.get('ob')
-    myData['obdm'] = OBDM(ob) 
+    #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
-    emit('ob_to_xcute', data, broadcast=True)
+
+# @socketio.on('new_sequence_queue')
+# def new_sequence_queue(data):
+#     """Sets sequence queue to local storage, and sends it to execution engine and frontend"""
+#     print('new sequence queue')
+#     seqQueue = data.get('sequence_queue')
+#     myData['sequence_queue'] = seqQueue
+#     emit('sequence_queue_broadcast', data, broadcast=True)
+#     emit('sequence_queue_to_xcute', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
-    """Sets sequence queue to local storage, and sends it to execution engine and frontend"""
-    print('new sequence queue')
+    """Sets sequence queue to EE, and sends it to the frontend"""
     seqQueue = data.get('sequence_queue')
-    myData['sequence_queue'] = seqQueue
+    ob = data.get('ob')
+    newSequenceQueue = [ SequenceItem(x, ob) for x in seqQueue ]
+    ee.seq_q.set_queue(newSequenceQueue)
+    print(f'new_sequence_queue {seqQueue}')
     emit('sequence_queue_broadcast', data, broadcast=True)
-    emit('sequence_queue_to_xcute', data, broadcast=True)
+
+# @socketio.on('new_sequence_boneyard')
+# def new_sequence_boneyard(data):
+#     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
+#     print('new sequence boneyard')
+#     seq = data.get('sequence_boneyard')
+#     myData['sequence_boneyard'] = seq
+#     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_sequence_boneyard')
 def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
-    print('new sequence boneyard')
     seq = data.get('sequence_boneyard')
-    myData['sequence_boneyard'] = seq
+    print('new sequence boneyard', seq)
+    ee.seq_q.boneyard = seq
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
@@ -98,7 +177,6 @@ def new_event_queue(data):
     eq = data.get('event_queue')
     myData['event_queue'] = eq
     emit('event_queue_broadcast', data, broadcast=True)
-    emit('event_queue_to_xcute', data, broadcast=True)
 
 @socketio.on('new_event_boneyard')
 def new_event_boneyard(data):
