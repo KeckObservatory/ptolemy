@@ -131,7 +131,10 @@ def set_ob_queue(data):
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
-    print('\rsubmitting new ob\r')
+    print('submitting new ob from frontend')
+    print(data)
+    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    print(ob_queue)
     #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
 

@@ -14,7 +14,6 @@ CORS(app, send_wildcard=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
 from frontend_routes import *
-# from xcute_engine_routes import *
 
 @socketio.on('connected')
 def connected():
@@ -28,7 +27,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Setup websocket host")
     parser.add_argument('--host', type=str, required=False, default='0.0.0.0',
                          help="hostname (localhost as default)")
-    parser.add_argument('--port', type=int, required=False, default=50007,
+    parser.add_argument('--port', type=int, required=False, default=50008,
                          help="port to listen on")
     parser.add_argument('--debug', type=bool, required=False, default=True,
                          help="debug for development")
