@@ -132,7 +132,7 @@ const SelectedQueue = (props: Props) => {
     const onSubmitOB = (result: any) => {
         const ob_id = props.selObs[0].ob_id as string
         ob_api_funcs.get(ob_id).then((ob: ObservationBlock) => {
-            console.log('submitting ob')
+            console.log('submitting ob', ob_id, ob)
             socket.emit('submit_ob', { ob: ob })
         })
     }
