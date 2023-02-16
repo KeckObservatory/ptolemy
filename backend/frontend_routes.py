@@ -47,7 +47,6 @@ logger = create_logger()
 cfg="./cfg.ini"
 ee = ExecutionEngine(logger=logger, cfg=cfg)
 ee.obs_q.set_queue([])
-ee.sel_ob = ob 
 
 DEFAULT_EVENTS = [
     'BEGIN_SLEW', 'CONFIGURE_FOR_ACQUISITION', 'WAITFOR_SLEW',
@@ -76,12 +75,15 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    ob = ee.sel_ob
-    data = {'ob': ee.sel_ob}
-    logging.info('sending ob')
 
-    logging.info('sending ob', ob)
-    emit('send_submitted_ob', data, room=request.sid)
+    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    if len(ob_queue) > 0:
+        ob = ob_queue[0]
+        data = {'ob': ob}
+        logging.info('sending ob')
+
+        logging.info('sending ob', ob)
+        emit('send_submitted_ob', data, room=request.sid)
 
 # @socketio.on("request_ob_queue")
 # def request_ob_queue():
