@@ -116,7 +116,9 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     print('new ob queue')
     print(data)
-    ob_queue = [ObservingBlockItem(x) for x in data.get('ob_queue')]
+    ob_rows = data.get('ob_queue')
+    obs = [ ee.ODBInterface.get_OB_from_id(x['ob_id']) for x in ob_rows]
+    ob_queue = [ObservingBlockItem(x) for x in obs]
     ee.obs_q.set_queue(ob_queue)
     emit('send_ob_queue', data, broadcast=True)
 
