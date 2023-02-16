@@ -76,9 +76,10 @@ def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
 
-    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    if len(ob_queue) > 0:
-        ob = ob_queue[0]
+    ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    if len(ob_rows) > 0:
+        row = ob_rows[0]
+        ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
         data = {'ob': ob}
         logging.info('sending ob')
 
@@ -117,9 +118,7 @@ def set_ob_queue(data):
     print('new ob queue')
     print(data)
     ob_rows = data.get('ob_queue')
-    obs = [ ee.ODBInterface.get_OB_from_id(x['ob_id']) for x in ob_rows]
-    ob_queue = [ObservingBlockItem(x) for x in obs]
-    ee.obs_q.set_queue(ob_queue)
+    ee.obs_q.set_queue(ob_rows)
     emit('send_ob_queue', data, broadcast=True)
 
 # @socketio.on('submit_ob')
