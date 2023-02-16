@@ -77,13 +77,15 @@ def request_ob():
     logging.info('sending ob request recieved')
 
     ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    logging.info('ob_rows')
+    logging.info(ob_rows)
     if len(ob_rows) > 0:
         row = ob_rows[0]
         ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
         data = {'ob': ob}
         logging.info('sending ob')
 
-        logging.info('sending ob', ob)
+        logging.info(f'sending ob {ob._id}')
         emit('send_submitted_ob', data, room=request.sid)
 
 # @socketio.on("request_ob_queue")
@@ -115,8 +117,8 @@ def request_ob_queue():
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
-    print('new ob queue')
-    print(data)
+    logging.info('new ob queue')
+    logging.info(data)
     ob_rows = data.get('ob_queue')
     ee.obs_q.set_queue(ob_rows)
     emit('send_ob_queue', data, broadcast=True)
@@ -134,10 +136,9 @@ def set_ob_queue(data):
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
-    print('submitting new ob from frontend')
-    print(data)
+    logging.info('submitting new ob from frontend')
     ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    print(ob_queue)
+    logging.info(f'submitted obid: {ob_queue[0]._id}')
     #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
 
