@@ -75,17 +75,14 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-
     ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    logging.info('ob_rows')
-    logging.info(ob_rows)
+    logging.info(f'ob_rows len {len(ob_rows)}')
     if len(ob_rows) > 0:
         row = ob_rows[0]
         ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
         data = {'ob': ob}
-        logging.info('sending ob')
-
-        logging.info(f'sending ob {ob._id}')
+        _id = ob['_id']
+        logging.info(f'sending ob {_id}')
         emit('send_submitted_ob', data, room=request.sid)
 
 # @socketio.on("request_ob_queue")
