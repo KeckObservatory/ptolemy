@@ -139,7 +139,9 @@ def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
     ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    logging.info(f'submitted obid: {ob_queue[0]._id}')
+    submittedId = ob_queue[0].get('ob_id')
+    logging.info(f"submitted obid: {submittedId}")
+    logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
     #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
 
