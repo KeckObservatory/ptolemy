@@ -120,7 +120,8 @@ def set_ob_queue(data):
     logging.info('new ob queue')
     logging.info(data)
     ob_rows = data.get('ob_queue')
-    ee.obs_q.set_queue(ob_rows)
+
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_rows])
     emit('send_ob_queue', data, broadcast=True)
 
 # @socketio.on('submit_ob')
