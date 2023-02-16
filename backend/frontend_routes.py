@@ -177,12 +177,25 @@ def new_sequence_boneyard(data):
     ee.seq_q.boneyard = seq
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
+# @socketio.on('new_event_queue')
+# def new_event_queue(data):
+#     """Sets event queue to local storage, and sends it to execution engine and frontend"""
+#     print('new event queue')
+#     eq = data.get('event_queue')
+#     myData['event_queue'] = eq
+#     emit('event_queue_broadcast', data, broadcast=True)
+
 @socketio.on('new_event_queue')
 def new_event_queue(data):
     """Sets event queue to local storage, and sends it to execution engine and frontend"""
-    print('new event queue')
     eq = data.get('event_queue')
-    myData['event_queue'] = eq
+    logging.info('new event queue')
+    newQueue = []
+    eventIds = [ x.split('@')[1] for x in eq ]
+    for eid in eventIds:
+        evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
+        newQueue.append(evtItem)
+    ee.ev_q.set_queue(newQueue)
     emit('event_queue_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_boneyard')
@@ -193,19 +206,32 @@ def new_event_boneyard(data):
     myData['event_boneyard'] = eb
     emit('event_boneyard_broadcast', data, broadcast=True)
 
+# @socketio.on('new_task')
+# def new_task(data):
+#     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
+#     resets event boneyard and broadcasts to frontend and execution engine"""
+#     task = data.get('task')
+#     myData['task'] = task
+#     myData['events'] = DEFAULT_EVENTS 
+#     eventData = {'event_queue': myData['events']}
+#     eventBoneyardData = {'event_boneyard': []}
+#     emit('task_broadcast', data, broadcast=True)
+#     emit('event_queue_broadcast', eventData, broadcast=True)
+#     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+#     emit('task_to_xcute', eventData, broadcast=True)
+
 @socketio.on('new_task')
 def new_task(data):
     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
     resets event boneyard and broadcasts to frontend and execution engine"""
     task = data.get('task')
-    myData['task'] = task
-    myData['events'] = DEFAULT_EVENTS 
-    eventData = {'event_queue': myData['events']}
+    ee.ev_q.load_events_from_sequence(task)
+    ev_queue = [ { 'func_name': x.func_name, 'id': x.id } for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
+    eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
     emit('task_broadcast', data, broadcast=True)
     emit('event_queue_broadcast', eventData, broadcast=True)
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
-    emit('task_to_xcute', eventData, broadcast=True)
 
 @socketio.event
 def my_ping():
