@@ -62,15 +62,6 @@ def index():
     print(os.path.exists(os.path.join(app.static_folder, 'index.html')))
     return send_from_directory(app.static_folder, 'index.html')
 
-# @socketio.on('request_ob')
-# def request_ob():
-#     """Sends OB stored on disk"""
-#     obdm = myData['obdm']
-#     # data = {'ob': obdm.ob}
-#     data = {'ob': ee.sel_ob}
-#     print('\nsending ob\n')
-#     emit('send_submitted_ob', data, room=request.sid)
-
 @socketio.on('request_ob')
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
@@ -84,23 +75,6 @@ def request_ob():
         _id = ob['_id']
         logging.info(f'sending ob {_id}')
         emit('send_submitted_ob', data, room=request.sid)
-
-# @socketio.on("request_ob_queue")
-# def request_ob_queue():
-#     """Sends list of selected OBs stored on disk"""
-#     data = { 'ob_queue': myData['ob_queue']}
-
-#     print(f'sending ob_queue to {request.sid}')
-#     print(data)
-#     emit('send_ob_queue', data, room=request.sid)
-
-# @socketio.on('set_ob_queue')
-# def set_ob_queue(data):
-#     """Sets list of Selected OBs, stored on disk"""
-#     print('new ob queue')
-#     print(data)
-#     myData['ob_queue'] = data.get('ob_queue', [])
-#     emit('send_ob_queue', data, broadcast=True)
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
@@ -121,16 +95,6 @@ def set_ob_queue(data):
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_rows])
     emit('send_ob_queue', data, broadcast=True)
 
-# @socketio.on('submit_ob')
-# def submit_ob(data):
-#     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
-#     print('\rsubmitting new ob\r')
-#     ob = data.get('ob')
-#     myData['obdm'] = OBDM(ob) 
-#     ee.sel_ob = ob
-#     emit('send_submitted_ob', data, broadcast=True)
-#     emit('ob_to_xcute', data, broadcast=True)
-
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
@@ -142,15 +106,6 @@ def submit_ob(data):
     #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
 
-# @socketio.on('new_sequence_queue')
-# def new_sequence_queue(data):
-#     """Sets sequence queue to local storage, and sends it to execution engine and frontend"""
-#     print('new sequence queue')
-#     seqQueue = data.get('sequence_queue')
-#     myData['sequence_queue'] = seqQueue
-#     emit('sequence_queue_broadcast', data, broadcast=True)
-#     emit('sequence_queue_to_xcute', data, broadcast=True)
-
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
     """Sets sequence queue to EE, and sends it to the frontend"""
@@ -161,14 +116,6 @@ def new_sequence_queue(data):
     print(f'new_sequence_queue {seqQueue}')
     emit('sequence_queue_broadcast', data, broadcast=True)
 
-# @socketio.on('new_sequence_boneyard')
-# def new_sequence_boneyard(data):
-#     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
-#     print('new sequence boneyard')
-#     seq = data.get('sequence_boneyard')
-#     myData['sequence_boneyard'] = seq
-#     emit('sequence_boneyard_broadcast', data, broadcast=True)
-
 @socketio.on('new_sequence_boneyard')
 def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
@@ -176,14 +123,6 @@ def new_sequence_boneyard(data):
     print('new sequence boneyard', seq)
     ee.seq_q.boneyard = seq
     emit('sequence_boneyard_broadcast', data, broadcast=True)
-
-# @socketio.on('new_event_queue')
-# def new_event_queue(data):
-#     """Sets event queue to local storage, and sends it to execution engine and frontend"""
-#     print('new event queue')
-#     eq = data.get('event_queue')
-#     myData['event_queue'] = eq
-#     emit('event_queue_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
 def new_event_queue(data):
@@ -205,20 +144,6 @@ def new_event_boneyard(data):
     eb = data.get('event_boneyard')
     myData['event_boneyard'] = eb
     emit('event_boneyard_broadcast', data, broadcast=True)
-
-# @socketio.on('new_task')
-# def new_task(data):
-#     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
-#     resets event boneyard and broadcasts to frontend and execution engine"""
-#     task = data.get('task')
-#     myData['task'] = task
-#     myData['events'] = DEFAULT_EVENTS 
-#     eventData = {'event_queue': myData['events']}
-#     eventBoneyardData = {'event_boneyard': []}
-#     emit('task_broadcast', data, broadcast=True)
-#     emit('event_queue_broadcast', eventData, broadcast=True)
-#     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
-#     emit('task_to_xcute', eventData, broadcast=True)
 
 @socketio.on('new_task')
 def new_task(data):
