@@ -225,7 +225,12 @@ def new_task(data):
     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
     resets event boneyard and broadcasts to frontend and execution engine"""
     task = data.get('task')
-    ee.ev_q.load_events_from_sequence(task)
+    seq_queue = [*ee.obs_q.queue]
+    newSeq = seq_queue[0]
+    logging.info('new task set')
+    logging.info(f'new seq {task}')
+    ee.ev_q.load_events_from_sequence(newSeq)
+    logging.info(f'new seq from queue{newSeq}')
     ev_queue = [ { 'func_name': x.func_name, 'id': x.id } for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
