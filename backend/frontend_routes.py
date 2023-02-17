@@ -225,7 +225,7 @@ def new_task(data):
     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
     resets event boneyard and broadcasts to frontend and execution engine"""
     task = data.get('task')
-    seq_queue = [*ee.obs_q.queue]
+    seq_queue = [*ee.seq_q.queue]
     newSeq = seq_queue[0]
     logging.info('new task set')
     logging.info(f'new seq {task}')
