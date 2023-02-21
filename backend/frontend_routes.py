@@ -1,11 +1,7 @@
 from app import app, socketio
-from flask_socketio import emit, disconnect 
-from flask import session, send_from_directory, request, copy_current_request_context
-from threading import Lock
-import shelve
-from obdm import OBDM
+from flask_socketio import emit 
+from flask import send_from_directory, request
 import os
-import json
 import logging
 import pdb
 
@@ -14,20 +10,6 @@ from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 from execution_engine.core.Queues.EventQueue.EventItem import EventItem
-
-myData = shelve.open('./public/session_data')
-global thread
-thread = None
-thread_lock = Lock()
- 
-with open('./public/ob.json') as f:
-    ob = json.load(f)[0]
-obdm = OBDM(ob)
-
-myData['obdm'] = obdm
-myData['sequence_queue'] = [] 
-myData['ob_queue'] = []
-
 
 def create_logger(fileName='client-xcute.log'):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -150,18 +132,72 @@ def new_task(data):
     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
     resets event boneyard and broadcasts to frontend and execution engine"""
     task = data.get('task')
-    seq_queue = [*ee.seq_q.queue]
-    newSeq = seq_queue[0]
-    logging.info('new task set')
-    logging.info(f'new seq {task}')
-    ee.ev_q.load_events_from_sequence(newSeq)
-    logging.info(f'new seq from queue{newSeq}')
+    logging.info(f'new task getting set to {task}')
+    isAcquisition = data.get('isAcq', False)
+    if isAcquisition:
+        logging.info('acquisition getting set')
+        ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        if len(ob_rows) == 0:
+            logging.warning('ob queue empty')
+            data = {'msg': 'ob queue empty'}
+            emit('snackbar_msg', data, room=request.sid)
+            return
+        row = ob_rows[0]
+        try: 
+            ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
+        except RuntimeError as err: 
+            data = {'msg': f'{err}'}
+            emit('snackbar_msg', data, room=request.sid)
+            return
+            
+        newTask = ob.get('acquisition', False) 
+        if not newTask:
+            data = {'msg': 'no acquisition in ob'}
+            emit('snackbar_msg', data, room=request.sid)
+            return
+    else:
+        seq_queue = [*ee.seq_q.queue]
+        if len(seq_queue) == 0:
+            logging.warning('sequence queue empty')
+            data = {'msg': 'sequence queue empty'}
+            emit('snackbar_msg', data, room=request.sid)
+            return
+        else:
+            newTask = seq_queue[0]
+    logging.info(f'new task from queue {newTask}')
+    ee.ev_q.load_events_from_sequence(newTask)
     ev_queue = [ { 'func_name': x.func_name, 'id': x.id } for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
     emit('task_broadcast', data, broadcast=True)
     emit('event_queue_broadcast', eventData, broadcast=True)
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+
+@socketio.on('submit_event')
+def submit_event():
+    logging.info('submitting event...to be implemented')
+
+    if ee.ev_q.queue.empty():
+        logging.warning('event queue empty')
+        data = { 'msg': 'event queue empty'}
+        emit('snackbar_msg', data, room=request.sid)
+        return
+    #TODO: check if event_queue_locked
+    #queueLocked = ee.is_queue_locked()
+    queueLocked = True 
+    # do ee stuff 
+    if not queueLocked:
+        pass
+    else:
+        logging.info('queue locked. sending msg to frontend')
+        data = { 'msg': 'event queue locked'}
+        emit('snackbar_msg', data, room=request.sid)
+        
+
+@socketio.on('is_event_queue_locked')
+def is_event_queue_locked():
+    data = { 'event_queue_locked': False }
+    emit('event_queue_locked', data, broadcast=True)
 
 @socketio.event
 def my_ping():
