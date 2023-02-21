@@ -30,13 +30,6 @@ cfg="./cfg.ini"
 ee = ExecutionEngine(logger=logger, cfg=cfg)
 ee.obs_q.set_queue([])
 
-DEFAULT_EVENTS = [
-    'BEGIN_SLEW', 'CONFIGURE_FOR_ACQUISITION', 'WAITFOR_SLEW',
-    'WAITFOR_ROTATOR', 'START_GUIDING', 'ACQUIRE', 'WAITFOR_ACQUIRE', 'WAITFOR_CONFIGURE_SCIENCE',
-    'EXECUTE_OBSERVATION', 'POST_OBSERVATION_CLEANUP'
-]
-myData['event_queue'] = DEFAULT_EVENTS 
-
 @app.route('/ptolemy')
 def index():
     """Returns frontend html-js-css bundle"""
@@ -52,7 +45,12 @@ def request_ob():
     logging.info(f'ob_rows len {len(ob_rows)}')
     if len(ob_rows) > 0:
         row = ob_rows[0]
-        ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
+        try: 
+            ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
+        except RuntimeError as err: 
+            data = {'msg': f'{err}'}
+            emit('snackbar_msg', data, room=request.sid)
+            return
         data = {'ob': ob}
         _id = ob['_id']
         logging.info(f'sending ob {_id}')
@@ -124,7 +122,6 @@ def new_event_boneyard(data):
     """Sets event queue boneyard to local storage, and sends it to execution engine and frontend"""
     print('new event boneyard')
     eb = data.get('event_boneyard')
-    myData['event_boneyard'] = eb
     emit('event_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_task')
