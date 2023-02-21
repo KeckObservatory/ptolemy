@@ -12,6 +12,16 @@ import ReactJson, { ThemeKeys, InteractionProps } from 'react-json-view'
 import SequenceQueue from './sequence_queue'
 import EventQueue from './event_queue'
 import { ob_api_funcs } from '../../api/ApiRoot';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, {AlertProps} from '@mui/material/Alert';
+
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 interface TaskEvent {
     func_name: string,
@@ -47,6 +57,8 @@ const Octect = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avg, setAvg] = React.useState(defaultState.avg)
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+    const [snackbarMsg, setSnackbarMsg] = React.useState("default message")
     const [ob, setOB] = React.useState({} as ObservationBlock)
     const [task, setTask] = React.useState({})
     const [theme, setTheme] =
@@ -106,11 +118,11 @@ const Octect = (props: Props) => {
                 console.log('setting sequences to:', seq)
                 if (seq) {
                     setSequences(seq)
-                    socket.emit('new_sequence_queue', {sequence_queue: seq, ob: ob})
+                    socket.emit('new_sequence_queue', { sequence_queue: seq, ob: ob })
                 }
                 else {
                     setSequences([])
-                    socket.emit('new_sequence_queue', {sequence_queue: [], ob: ob})
+                    socket.emit('new_sequence_queue', { sequence_queue: [], ob: ob })
                 }
                 setSequenceBoneyard([])
                 setEvents([])
@@ -142,7 +154,7 @@ const Octect = (props: Props) => {
 
         socket.on('event_queue_broadcast', (data) => {
             console.log('event_queue_broadcast event triggered. setting event_queue')
-            const eq = data.event_queue.map( (evt: TaskEvent) => {
+            const eq = data.event_queue.map((evt: TaskEvent) => {
                 return evt.func_name + '@' + evt.id
             })
             console.log('event_queue', eq)
@@ -165,6 +177,13 @@ const Octect = (props: Props) => {
             else setSequences([])
         })
 
+        socket.on('snackbar_msg', (data) => {
+            console.log('snackbar_msg received', data)
+            const msg = data.msg
+            setSnackbarMsg(msg)
+            setSnackbarOpen(true)
+        })
+
         //@ts-ignore
         console.log('requesting ob to be sent to octect')
         socket.emit('request_ob')
@@ -173,19 +192,28 @@ const Octect = (props: Props) => {
 
     const submitAcq = () => {
         console.log('submit sequence button clicked. sending task')
-        const data = { task: ob.acquisition }
+        const data = { task: ob.acquisition, isAcq: true }
         socket.emit('new_task', data)
     }
 
     const submitSeq = () => {
-        console.log('submit sequence button clicked. sending task')
-        const data = { task: sequences[0] }
+        const task = sequences[0]
+        console.log('submit sequence button clicked. sending sequence task', task)
+        const data = { task: task }
         socket.emit('new_task', data)
     }
 
     const submitEvent = () => {
-        console.log('submit event button clicked. not implemented.')
+        console.log('submit event button clicked.')
+        socket.emit('submit_event')
     }
+
+    const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setSnackbarOpen(false);
+      };
 
 
     return (
@@ -265,6 +293,15 @@ const Octect = (props: Props) => {
                         />
                     </Paper>
                     <Button onClick={submitEvent}>Submit Event</Button>
+                    <Snackbar 
+                    open={snackbarOpen} 
+                    autoHideDuration={6000} 
+                    anchorOrigin={{ vertical: 'top', horizontal:'center'}}
+                    onClose={handleSnackbarClose}>
+                        <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                            {snackbarMsg} 
+                        </Alert>
+                    </Snackbar>
                     <Paper sx={{
                         padding: 2,
                         margin: 1,

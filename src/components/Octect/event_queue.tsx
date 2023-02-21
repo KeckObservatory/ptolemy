@@ -67,11 +67,12 @@ const EventQueue = (props: Props) => {
     }
     const event_items = convert_string_array_to_object_array(props.event_queue)
     const boneyard_items = convert_string_array_to_object_array(props.event_boneyard)
+    const isDraggable = false
     
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {CreateDroppable(event_items, 'id', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell)}
-            {CreateDroppable(boneyard_items, 'id', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell)}
+            {CreateDroppable(event_items, 'id', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDraggable)}
+            {CreateDroppable(boneyard_items, 'id', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDraggable)}
         </DragDropContext>
     )
 }

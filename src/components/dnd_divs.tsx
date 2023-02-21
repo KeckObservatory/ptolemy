@@ -37,7 +37,7 @@ const CreateDiv = (props: CreateDivProps) => {
 
 
 
-export const CreateDroppable = (cells: any[], idKey: string, key: string, tooltip: string, title: string, childDiv: Function) => {
+export const CreateDroppable = (cells: any[], idKey: string, key: string, tooltip: string, title: string, childDiv: Function, isDraggable: boolean) => {
     return (
         <Paper sx={
             {
@@ -72,7 +72,7 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
                         >
                             {cells.length > 0 &&
                                 cells.map((cell: any, idx: number) => {
-                                    return (create_draggable(cell, `idx-${idx}`, idx, childDiv))
+                                    return (create_draggable(cell, `idx-${idx}`, idx, childDiv, isDraggable))
                                 })
                             }
                             {provided.placeholder}
@@ -83,12 +83,13 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
     )
 }
 
-export const create_draggable = (cell: any, cellId: string, idx: number, childDiv: Function) => {
+export const create_draggable = (cell: any, cellId: string, idx: number, childDiv: Function, isDraggable: boolean) => {
     return (
         <Draggable
             key={cellId}
             draggableId={cellId}
             index={idx}
+            isDragDisabled={isDraggable}
         >
             {(provided, snapshot) => CreateDiv(
                 {
