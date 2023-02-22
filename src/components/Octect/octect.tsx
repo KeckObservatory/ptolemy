@@ -105,7 +105,7 @@ const Octect = (props: Props) => {
             // setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
         });
 
-        socket.on('send_submitted_ob', (ob_data: OBServerData) => {
+        socket.on('broadcast_submitted_ob_from_server', (ob_data: OBServerData) => {
             console.log('new ob event triggered. setting ob, and queues', ob_data)
 
             const newOBID = ob_data.ob._id

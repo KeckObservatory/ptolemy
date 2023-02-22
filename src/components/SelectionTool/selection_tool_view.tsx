@@ -147,9 +147,9 @@ export const SelectionToolView = (props: Props) => {
             setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
         });
 
-        socket.on('send_ob_queue', set_ob_queue_from_server)
+        socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
 
-        socket.on('send_submitted_ob', set_ob_from_server)
+        socket.on('broadcast_submitted_ob_from_server', set_ob_from_server)
 
     }, [])
 

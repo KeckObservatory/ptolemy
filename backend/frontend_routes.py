@@ -53,7 +53,7 @@ def request_ob():
         data = {'ob': ob}
         _id = ob['_id']
         logging.info(f'sending ob {_id}')
-        emit('send_submitted_ob', data, room=request.sid)
+        emit('broadcast_submitted_ob_from_server', data, room=request.sid)
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
@@ -61,7 +61,7 @@ def request_ob_queue():
     logging.info(f'sending ob_queue to {request.sid}')
     ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     data = { 'ob_queue': ob_queue }
-    emit('send_ob_queue', data, room=request.sid)
+    emit('broadcast_ob_queue_from_server', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
@@ -70,7 +70,7 @@ def set_ob_queue(data):
     logging.info(f'new ob queue len: {len(obs)}')
 
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in obs])
-    emit('send_ob_queue', data, broadcast=True)
+    emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('submit_ob')
 def submit_ob(data):
@@ -80,7 +80,7 @@ def submit_ob(data):
     submittedId = ob_queue[0].get('_id')
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
-    emit('send_submitted_ob', data, broadcast=True)
+    emit('broadcast_submitted_ob_from_server', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
@@ -89,7 +89,7 @@ def new_sequence_queue(data):
     ob = data.get('ob')
     newSequenceQueue = [ SequenceItem(x, ob) for x in seqQueue ]
     ee.seq_q.set_queue(newSequenceQueue)
-    print(f'new_sequence_queue {seqQueue}')
+    logging.info(f'new_sequence_queue len: {len(seqQueue)}')
     emit('sequence_queue_broadcast', data, broadcast=True)
 
 @socketio.on('new_sequence_boneyard')
