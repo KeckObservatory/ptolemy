@@ -30,21 +30,19 @@ interface CTProps {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
-    const handleClick = () => {
+    const handleClick = async () => {
         //set selected rows here
         const selectedIdxs = Object.keys(props.selectedRows.lookup)
         //@ts-ignore
         const selObRows = selectedIdxs.map(idx => props.rows[idx])
         let selObs: ObservationBlock[] = []
-        selObRows.forEach(async (obRow: Scoby) => {
-            const ob = await ob_api_funcs.get(obRow.ob_id)
+        for (let idx=0; idx<selObRows.length; idx++) {
+            const ob = await ob_api_funcs.get(selObRows[idx].ob_id)
             console.log('ob found', ob)
             selObs.push(ob)
-        })
-        setTimeout(() => {
-            console.log('selOb len', selObs.length)
-            props.setSelObs(selObs)
-        }, 1000)
+        }
+        console.log('selOb len', selObs.length)
+        props.setSelObs(selObs)
     };
     return (
         <Tooltip title={"Add selected OBs to observation queue"}>
