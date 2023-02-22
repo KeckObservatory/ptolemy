@@ -41,7 +41,7 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    obs = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    obs = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     if len(obs) > 0:
         try: 
             # get most recent ob from db
@@ -59,7 +59,7 @@ def request_ob():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logging.info(f'sending ob_queue to {request.sid}')
-    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     data = { 'ob_queue': ob_queue }
     emit('send_ob_queue', data, room=request.sid)
 
@@ -76,7 +76,7 @@ def set_ob_queue(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     submittedId = ob_queue[0].get('_id')
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
@@ -129,7 +129,7 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        obs = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        obs = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
         if len(obs) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
