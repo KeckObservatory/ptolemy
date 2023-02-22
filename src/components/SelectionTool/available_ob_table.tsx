@@ -1,11 +1,12 @@
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables"
-import { Scoby } from "../../typings/ptolemy"
+import { ObservationBlock, Scoby } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import IconButton from '@mui/material/IconButton';
 import FilterIcon from '@mui/icons-material/Filter';
 import Button from '@mui/material/Button';
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
+import { ob_api_funcs } from "../../api/ApiRoot";
 
 interface Props {
     rows: Scoby[],
@@ -29,15 +30,21 @@ interface CTProps {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
-    const handleClick = () => {
+    const handleClick = async () => {
         //set selected rows here
         const selectedIdxs = Object.keys(props.selectedRows.lookup)
         //@ts-ignore
-        const selObs = selectedIdxs.map(idx => props.rows[idx])
+        const selObRows = selectedIdxs.map(idx => props.rows[idx])
+        let selObs: ObservationBlock[] = []
+        await selObRows.forEach( async (obRow: Scoby) => {
+            const ob = await ob_api_funcs.get(obRow.ob_id)
+            console.log('ob found', ob)
+            selObs.push(ob)
+        })
         props.setSelObs(selObs)
     };
     return (
-        <Tooltip title={"Chart Selected OBs"}>
+        <Tooltip title={"Add selected OBs to observation queue"}>
             {/* <IconButton onClick={handleClick}>
                 <FilterIcon />
             </IconButton> */}

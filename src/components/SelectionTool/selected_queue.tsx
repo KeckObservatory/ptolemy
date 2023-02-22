@@ -9,11 +9,9 @@ import { ob_api_funcs } from '../../api/ApiRoot';
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 
 interface Props {
-    selObs: Scoby[];
+    selObs: ObservationBlock[];
     setSelObs: Function;
     submittedOB: ObservationBlock
-    changeSubmittedOBRow: Function
-    submittedOBRow: Scoby
 }
 
 interface CreateDivProps {
@@ -50,33 +48,37 @@ const CreateDiv = (props: CreateDivProps) => {
     )
 }
 
-const DragDiv = (row: Scoby) => {
+const DragDiv = (ob: ObservationBlock) => {
 
     return (
         <div>
             <p>
-                OB name: {row.name}
+                OB name: {ob.metadata?.name}
             </p>
             <p>
-                Type: {row.ob_type}
+                Type: {ob.metadata?.ob_type}
             </p>
-            {row.ra && <p> Ra: {row.ra} Dec: {row.dec} </p>}
+            {ob.target?.metadata.name && 
+            <p> Target Name: {ob.target.metadata.name} </p>}
+            {ob.target?.parameters.target_coord_ra && 
+            <p> Ra: {ob.target.parameters.target_coord_ra} 
+            Dec: {ob.target.parameters.target_coord_dec} </p>}
         </div>
     )
 }
 
-const create_draggable = (row: Scoby, idx: number) => {
+const create_draggable = (ob: ObservationBlock, idx: number) => {
     return (
         <Draggable
-            key={row.ob_id}
-            draggableId={row.ob_id as string}
+            key={ob._id}
+            draggableId={ob._id as string}
             index={idx}
         >
             {(provided, snapshot) => CreateDiv(
                 {
                     provided: provided,
                     snapshot: snapshot,
-                    formChild: DragDiv(row)
+                    formChild: DragDiv(ob)
 
                 })
             }
@@ -92,7 +94,7 @@ const reorder = (list: Array<any>, startIndex: number, endIndex: number) => {
 };
 
 interface NookProps {
-    row?: Scoby
+    ob?: ObservationBlock 
 }
 
 const SubmittedNook = (props: NookProps) => {
@@ -101,7 +103,7 @@ const SubmittedNook = (props: NookProps) => {
             <Tooltip title={'Submitted OB'}>
                 <h3>Submitted OB</h3>
             </Tooltip>
-            {props.row && DragDiv(props.row)}
+            {props.ob && DragDiv(props.ob)}
         </Paper >
     )
 }
@@ -129,15 +131,15 @@ const SelectedQueue = (props: Props) => {
         socket.emit('set_ob_queue', { ob_queue: newObs })
     }
 
-    const onSubmitOB = (result: any) => {
-        const ob_id = props.selObs[0].ob_id as string
+    const onSubmitOB = () => {
+        const ob_id = props.selObs[0]._id
         ob_api_funcs.get(ob_id).then((ob: ObservationBlock) => {
             console.log('submitting ob', ob_id, ob)
             socket.emit('submit_ob', { ob: ob })
         })
     }
 
-    const create_droppable = (rows: Scoby[],
+    const create_droppable = (obs: ObservationBlock[],
         key: string,
         tooltip: string,
         title: string,
@@ -172,9 +174,9 @@ const SelectedQueue = (props: Props) => {
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                             >
-                                {rows !== undefined &&
-                                    rows.map((row: Scoby, idx: number) => {
-                                        return (create_draggable(row, idx))
+                                {obs !== undefined &&
+                                    obs.map((ob: ObservationBlock, idx: number) => {
+                                        return (create_draggable(ob, idx))
                                     })
                                 }
                                 {provided.placeholder}
@@ -187,7 +189,7 @@ const SelectedQueue = (props: Props) => {
     return (
         <React.Fragment>
             <DragDropContext onDragEnd={onDragEnd}>
-                <SubmittedNook row={props.submittedOBRow} />
+                <SubmittedNook ob={props.submittedOB} />
             </DragDropContext>
             <DragDropContext onDragEnd={onDragEnd}>
                 {create_droppable(props.selObs, 'selObs', selTooltip, selTitle, onSubmitOB)}

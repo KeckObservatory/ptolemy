@@ -18,14 +18,14 @@ interface OBServerData {
 }
 
 interface OBQueueData {
-    ob_queue: Scoby[]
+    ob_queue: ObservationBlock[]
 }
 
 interface Props {
 }
 
 interface State {
-    selObs: Scoby[];
+    selObs: ObservationBlock[];
     avlObs: Scoby[];
     sem_id: string
     semIdList: string[]
@@ -81,7 +81,6 @@ export const SelectionToolView = (props: Props) => {
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
     const [submittedOB, changeSubmittedOB] = React.useState({} as ObservationBlock)
-    const [submittedOBRow, changeSubmittedOBRow] = React.useState({} as Scoby)
 
     let start_time: number
     let ping_pong_times: number[] = []
@@ -112,7 +111,7 @@ export const SelectionToolView = (props: Props) => {
             })
     }, [sem_id])
 
-    const on_table_select_rows = (newSelObs: Scoby[]) => {
+    const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
         socket.emit('set_ob_queue', { ob_queue: newSelObs })
@@ -126,20 +125,7 @@ export const SelectionToolView = (props: Props) => {
     const set_ob_from_server = (ob_data: OBServerData) => {
         console.log('new selected OB: ', ob_data)
         const ob = ob_data.ob
-
-        const row: Scoby = {
-            sem_id: ob.metadata.sem_id,
-            container_id: '',
-            ob_id: ob._id,
-            container_name: '',
-            name: ob.metadata?.name as string,
-            ra: ob.target?.parameters.target_coord_ra,
-            dec: ob.target?.parameters.target_coord_dec,
-            comment: ob.comment as string,
-            ob_type: ob.metadata?.ob_type as string,
-            version: ob.metadata?.version as string,
-        }
-        changeSubmittedOBRow(row)
+        changeSubmittedOB(ob)
     }
 
     const create_connections = React.useCallback(() => {
@@ -204,8 +190,6 @@ export const SelectionToolView = (props: Props) => {
                         selObs={selObs}
                         setSelObs={setSelObs}
                         submittedOB={submittedOB}
-                        changeSubmittedOBRow={changeSubmittedOBRow}
-                        submittedOBRow={submittedOBRow}
                     />
                 </Grid>
                 <Grid item xs={4}>

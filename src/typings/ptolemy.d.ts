@@ -45,7 +45,7 @@ export interface Scoby {
 	sem_id?: string
 	container_id: string
 	container_name?: string
-	ob_id?: string
+	ob_id: string
 	name?: string
 	ra?: string,
     dec?: string,

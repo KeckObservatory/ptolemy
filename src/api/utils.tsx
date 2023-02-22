@@ -67,7 +67,7 @@ const scoby_rows_and_det_containers = (sem_id: string, detailedContainers: Detai
          const row: Scoby = {
             sem_id: sem_id,
             container_id: cid,
-            ob_id: ob._id,
+            ob_id: ob._id as string,
             container_name: container.name,
             name: ob.metadata?.name as string,
             ra: ob.target?.parameters.target_coord_ra,

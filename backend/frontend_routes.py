@@ -41,12 +41,11 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    logging.info(f'ob_rows len {len(ob_rows)}')
-    if len(ob_rows) > 0:
-        row = ob_rows[0]
+    obs = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    if len(obs) > 0:
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
+            # get most recent ob from db
+            ob = ee.ODBInterface.get_OB_from_id(obs[0]['_id']) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
@@ -59,9 +58,8 @@ def request_ob():
 @socketio.on("request_ob_queue")
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
-    print(f'sending ob_queue to {request.sid}')
+    logging.info(f'sending ob_queue to {request.sid}')
     ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    print(ob_queue)
     data = { 'ob_queue': ob_queue }
     emit('send_ob_queue', data, room=request.sid)
 
@@ -69,10 +67,9 @@ def request_ob_queue():
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     logging.info('new ob queue')
-    logging.info(data)
-    ob_rows = data.get('ob_queue')
+    obs = data.get('ob_queue')
 
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_rows])
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in obs])
     emit('send_ob_queue', data, broadcast=True)
 
 @socketio.on('submit_ob')
@@ -80,10 +77,9 @@ def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
     ob_queue = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    submittedId = ob_queue[0].get('ob_id')
+    submittedId = ob_queue[0].get('_id')
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
-    #TODO store a copy of the submitted OB in the EE
     emit('send_submitted_ob', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
@@ -133,15 +129,14 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        ob_rows = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-        if len(ob_rows) == 0:
+        obs = [ x.OB for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        if len(obs) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
-        row = ob_rows[0]
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(row['ob_id']) 
+            ob = ee.ODBInterface.get_OB_from_id(obs[0]['_id']) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
