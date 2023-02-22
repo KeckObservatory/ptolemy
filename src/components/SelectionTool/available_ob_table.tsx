@@ -41,6 +41,7 @@ const CustomToolbarSelect = (props: CTProps) => {
             console.log('ob found', ob)
             selObs.push(ob)
         })
+        console.log('selOb len', selObs.length)
         props.setSelObs(selObs)
     };
     return (

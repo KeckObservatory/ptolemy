@@ -66,8 +66,8 @@ def request_ob_queue():
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
-    logging.info('new ob queue')
     obs = data.get('ob_queue')
+    logging.info(f'new ob queue len: {len(obs)}')
 
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in obs])
     emit('send_ob_queue', data, broadcast=True)
