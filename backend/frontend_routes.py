@@ -59,7 +59,6 @@ def request_ob():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logging.info(f'sending ob_queue to {request.sid}')
-    #ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     ob_id_queue = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     data = { 'ob_queue_id': ob_id_queue }
     emit('broadcast_ob_queue_from_server', data, room=request.sid)
@@ -161,7 +160,8 @@ def new_task(data):
             newTask = seq_queue[0]
     logging.info(f'new task from queue {newTask}')
     ee.ev_q.load_events_from_sequence(newTask)
-    ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
+    #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
+    ev_queue = ee.ev_q.get_queue_as_list() 
     eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
     emit('task_broadcast', data, broadcast=True)
@@ -170,23 +170,29 @@ def new_task(data):
 
 @socketio.on('submit_event')
 def submit_event():
-    logging.info('submitting event...to be implemented')
+    logging.info('submitting event...')
 
     if ee.ev_q.queue.empty():
         logging.warning('event queue empty')
         data = { 'msg': 'event queue empty'}
         emit('snackbar_msg', data, room=request.sid)
         return
-    #TODO: check if event_queue_locked
-    #queueLocked = ee.is_queue_locked()
-    queueLocked = True 
-    # do ee stuff 
-    if not queueLocked:
-        pass
-    else:
-        logging.info('queue locked. sending msg to frontend')
+    
+    if ee.ev_q.queue.lock.acquire(block=False):
+        logging.warning('queue locked. sending msg to frontend')
         data = { 'msg': 'event queue locked'}
         emit('snackbar_msg', data, room=request.sid)
+        return
+
+    ee.ev_q.queue.dispatch_event()
+    # broadcast new queue and boneyard
+    #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
+    ev_queue = ee.ev_q.get_queue_as_list() 
+    ev_boneyard = [ x.as_dict() for x in ee.ev_q.boneyard ]
+    eventData = {'event_queue': ev_queue}
+    eventBoneyardData = {'event_boneyard': ev_boneyard} 
+    emit('event_queue_broadcast', eventData, broadcast=True)
+    emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
         
 
 @socketio.on('is_event_queue_locked')
