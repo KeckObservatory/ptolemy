@@ -155,18 +155,20 @@ const Octect = (props: Props) => {
 
         socket.on('event_queue_broadcast', (data) => {
             console.log('event_queue_broadcast event triggered. setting event_queue')
-            const eq = data.event_queue.map((evt: TaskEvent) => {
+            const eventQueue = data.event_queue.map((evt: TaskEvent) => {
                 return evt.script_name + '@' + evt.id
             })
-            console.log('event_queue', eq)
-            if (eq) setEvents(eq)
+            console.log('event_queue', eventQueue)
+            if (eventQueue) setEvents(eventQueue)
         })
 
         socket.on('event_boneyard_broadcast', (data) => {
             console.log('event_boneyard_broadcast event triggered. setting event_boneyard')
-            const eb = data.event_boneyard
-            console.log('event_boneyard', eb)
-            if (eb) setEventBoneyard(eb)
+            const eventBoneyard = data.event_boneyard.map( (evt: TaskEvent) => {
+                return evt.script_name + '@' + evt.id
+            })
+            console.log('event_boneyard', eventBoneyard)
+            if (eventBoneyard) setEventBoneyard(eventBoneyard)
         })
 
         socket.on('ob_sent', (data) => {
