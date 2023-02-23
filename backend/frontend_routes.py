@@ -184,8 +184,11 @@ def submit_event():
         data = { 'msg': 'event queue locked'}
         emit('snackbar_msg', data, room=request.sid)
         return
+    else: 
+        ee.ev_q.lock.release() # checking a lock blocks it. need to release
+        
 
-    ee.ev_q.queue.dispatch_event()
+    ee.ev_q.dispatch_event()
     # broadcast new queue and boneyard
     #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     ev_queue = ee.ev_q.get_queue_as_list() 
