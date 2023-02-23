@@ -1,7 +1,7 @@
 import argparse
 from threading import Lock
 import eventlet
-eventlet.monkey_patch()
+# eventlet.monkey_patch()
 from flask import Flask, request
 from flask_socketio import SocketIO 
 from engineio.payload import Payload

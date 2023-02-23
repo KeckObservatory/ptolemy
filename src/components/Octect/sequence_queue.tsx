@@ -75,11 +75,11 @@ const SequenceQueue = (props: Props) => {
             }
         }
     }
-    const isDraggable = true
+    const isDragDisabled = false
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {CreateDroppable(props.sequence_queue, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDraggable)}
-            {CreateDroppable(props.sequence_boneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, isDraggable)}
+            {CreateDroppable(props.sequence_queue, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
+            {CreateDroppable(props.sequence_boneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
         </DragDropContext>
     )
 }

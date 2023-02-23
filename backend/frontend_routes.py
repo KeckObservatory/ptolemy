@@ -158,7 +158,7 @@ def new_task(data):
             newTask = seq_queue[0]
     logging.info(f'new task from queue {newTask}')
     ee.ev_q.load_events_from_sequence(newTask)
-    ev_queue = [ { 'func_name': x.func_name, 'id': x.id } for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
+    ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
     emit('task_broadcast', data, broadcast=True)
