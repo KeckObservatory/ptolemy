@@ -41,7 +41,7 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_ids = ee.obs_q.get_ob_ids() 
     if len(ob_ids) > 0:
         try: 
             # get most recent ob from db
@@ -59,7 +59,7 @@ def request_ob():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logging.info(f'sending ob_queue to {request.sid}')
-    ob_id_queue = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_id_queue = ee.obs_q.get_ob_ids() 
     data = { 'ob_queue_id': ob_id_queue }
     emit('broadcast_ob_queue_from_server', data, room=request.sid)
 
@@ -76,7 +76,7 @@ def set_ob_queue(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_ids = ee.obs_q.get_ob_ids() 
     submittedId = ob_ids[0]
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
@@ -131,7 +131,7 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        ob_ids = ee.obs_q.get_ob_ids() 
         if len(ob_ids) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
@@ -160,11 +160,10 @@ def new_task(data):
             newTask = seq_queue[0]
     logging.info(f'new task from queue {newTask}')
     ee.ev_q.load_events_from_sequence(newTask)
-    #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     ev_queue = ee.ev_q.get_queue_as_list() 
     ee.ev_q.boneyard = []
     eventData = {'event_queue': ev_queue}
-    eventBoneyardData = {'event_boneyard': []}
+    eventBoneyardData = {'event_boneyard': ee.ev_q.boneyard}
     emit('task_broadcast', data, broadcast=True)
     emit('event_queue_broadcast', eventData, broadcast=True)
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
@@ -191,7 +190,6 @@ def submit_event():
 
     ee.ev_q.dispatch_event()
     # broadcast new queue and boneyard
-    #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     ev_queue = ee.ev_q.get_queue_as_list() 
     ev_boneyard = [ x.as_dict() for x in ee.ev_q.boneyard ]
     eventData = {'event_queue': ev_queue}
