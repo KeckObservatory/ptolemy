@@ -172,7 +172,7 @@ def new_task(data):
 def submit_event():
     logging.info('submitting event...')
 
-    if ee.ev_q.queue.empty():
+    if len(ee.ev_q.get_queue_as_list()) == 0: 
         logging.warning('event queue empty')
         data = { 'msg': 'event queue empty'}
         emit('snackbar_msg', data, room=request.sid)
