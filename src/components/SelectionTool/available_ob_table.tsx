@@ -35,12 +35,8 @@ const CustomToolbarSelect = (props: CTProps) => {
         const selectedIdxs = Object.keys(props.selectedRows.lookup)
         //@ts-ignore
         const selObRows = selectedIdxs.map(idx => props.rows[idx])
-        let selObs: ObservationBlock[] = []
-        for (let idx=0; idx<selObRows.length; idx++) {
-            const ob = await ob_api_funcs.get(selObRows[idx].ob_id)
-            console.log('ob found', ob)
-            selObs.push(ob)
-        }
+        const ob_ids = selObRows.map( (row: Scoby) => row.ob_id)
+        let selObs = await ob_api_funcs.get_many(ob_ids)
         console.log('selOb len', selObs.length)
         props.setSelObs(selObs)
     };

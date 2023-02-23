@@ -12,13 +12,14 @@ import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
 import ThreeDView from './sky-view/three_d_view'
+import { ob_api_funcs } from '../../api/ApiRoot'
 
 interface OBServerData {
     ob: ObservationBlock
 }
 
 interface OBQueueData {
-    ob_queue: ObservationBlock[]
+    ob_id_queue: string[]
 }
 
 interface Props {
@@ -118,9 +119,11 @@ export const SelectionToolView = (props: Props) => {
         socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
-    const set_ob_queue_from_server = (ob_queue_data: OBQueueData) => {
+    const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
         console.log('setting ob_queue', ob_queue_data)
-        ob_queue_data && setSelObs(ob_queue_data.ob_queue)
+        //TODO: get fresh obs from DB and set them
+        const obs = await ob_api_funcs.get_many(ob_queue_data.ob_id_queue)
+        ob_queue_data && setSelObs(obs)
     }
 
     const set_ob_from_server = (ob_data: OBServerData) => {

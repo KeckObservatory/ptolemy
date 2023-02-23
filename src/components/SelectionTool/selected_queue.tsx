@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import OBSubmit from './ob_submit'
 import { socket } from '../../contexts/socket'
-import { ob_api_funcs } from '../../api/ApiRoot';
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 
 interface Props {
@@ -58,11 +57,11 @@ const DragDiv = (ob: ObservationBlock) => {
             <p>
                 Type: {ob.metadata?.ob_type}
             </p>
-            {ob.target?.metadata.name && 
-            <p> Target Name: {ob.target.metadata.name} </p>}
-            {ob.target?.parameters.target_coord_ra && 
-            <p> Ra: {ob.target.parameters.target_coord_ra} 
-            Dec: {ob.target.parameters.target_coord_dec} </p>}
+            {ob.target?.metadata.name &&
+                <p> Target Name: {ob.target.metadata.name} </p>}
+            {ob.target?.parameters.target_coord_ra &&
+                <p> Ra: {ob.target.parameters.target_coord_ra}
+                    Dec: {ob.target.parameters.target_coord_dec} </p>}
         </div>
     )
 }
@@ -94,7 +93,7 @@ const reorder = (list: Array<any>, startIndex: number, endIndex: number) => {
 };
 
 interface NookProps {
-    ob?: ObservationBlock 
+    ob?: ObservationBlock
 }
 
 const SubmittedNook = (props: NookProps) => {
@@ -128,16 +127,14 @@ const SelectedQueue = (props: Props) => {
         let newObs = [...props.selObs]
         newObs = reorder(newObs, source.index, destination.index)
         props.setSelObs(newObs)
-        const ids = newObs.map( (ob: ObservationBlock) => ob._id)
+        const ids = newObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
     const onSubmitOB = () => {
         const ob_id = props.selObs[0]._id
-        ob_api_funcs.get(ob_id).then((ob: ObservationBlock) => {
-            console.log('submitting ob', ob_id, ob)
-            socket.emit('submit_ob', { ob: ob })
-        })
+        console.log('submitting ob', ob_id)
+        socket.emit('submit_ob', { ob_id: ob_id })
     }
 
     const create_droppable = (obs: ObservationBlock[],

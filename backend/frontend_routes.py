@@ -77,10 +77,10 @@ def set_ob_queue(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ob_id_queue = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    submittedId = ob_id_queue[0]
+    ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    submittedId = ids[0]
     logging.info(f"submitted obid: {submittedId}")
-    logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
+    logging.info(f"submitted obid matches? : {submittedId==data['ob_id']['_id']}")
     emit('broadcast_submitted_ob_from_server', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
@@ -130,14 +130,14 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        obs = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-        if len(obs) == 0:
+        ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        if len(ids) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(obs[0]['_id']) 
+            ob = ee.ODBInterface.get_OB_from_id(ids[0]) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)

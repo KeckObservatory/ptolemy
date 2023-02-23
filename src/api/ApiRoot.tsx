@@ -81,6 +81,14 @@ const ob_get = (ob_id: string): Promise<ObservationBlock> => {
         .catch(handleError);
 }
 
+const ob_get_many = (ob_id_list: string[]): Promise<ObservationBlock[]> => {
+    const url = `${OB_URL}/list?ob_id_list=${ob_id_list}`
+    return axiosInstance
+        .get(url)
+        .then(handleResponse)
+        .catch(handleError);
+}
+
 const ob_post = (ob: object): Promise<string> => {
     return axiosInstance
         .post(`${OB_URL}`, ob)
@@ -152,6 +160,7 @@ export const get_select_funcs = {
 
 export const ob_api_funcs = {
     get: IS_BUILD ? ob_get : mock_ob_get,
+    get_many: ob_get_many,
     post: ob_post,
     put: ob_put,
     remove: ob_remove,
