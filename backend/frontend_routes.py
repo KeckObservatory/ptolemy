@@ -41,11 +41,11 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    obs = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    if len(obs) > 0:
+    ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    if len(ids) > 0:
         try: 
             # get most recent ob from db
-            ob = ee.ODBInterface.get_OB_from_id(obs[0]['_id']) 
+            ob = ee.ODBInterface.get_OB_from_id(ids[0]['_id']) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
@@ -59,25 +59,26 @@ def request_ob():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logging.info(f'sending ob_queue to {request.sid}')
-    ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    data = { 'ob_queue': ob_queue }
+    #ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    ob_id_queue = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    data = { 'ob_queue_id': ob_id_queue }
     emit('broadcast_ob_queue_from_server', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
-    obs = data.get('ob_queue')
-    logging.info(f'new ob queue len: {len(obs)}')
+    ids = data.get('ob_id_queue')
+    logging.info(f'new ob queue len: {len(ids)}')
 
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in obs])
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ids])
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ob_queue = [ x.ob_info for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    submittedId = ob_queue[0].get('_id')
+    ob_id_queue = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    submittedId = ob_id_queue[0]
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob']['_id']}")
     emit('broadcast_submitted_ob_from_server', data, broadcast=True)

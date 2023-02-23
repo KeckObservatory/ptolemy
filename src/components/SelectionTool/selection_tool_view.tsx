@@ -114,7 +114,8 @@ export const SelectionToolView = (props: Props) => {
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
-        socket.emit('set_ob_queue', { ob_queue: newSelObs })
+        const ids = newSelObs.map( (ob: ObservationBlock) => ob._id)
+        socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
     const set_ob_queue_from_server = (ob_queue_data: OBQueueData) => {

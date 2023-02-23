@@ -128,7 +128,8 @@ const SelectedQueue = (props: Props) => {
         let newObs = [...props.selObs]
         newObs = reorder(newObs, source.index, destination.index)
         props.setSelObs(newObs)
-        socket.emit('set_ob_queue', { ob_queue: newObs })
+        const ids = newObs.map( (ob: ObservationBlock) => ob._id)
+        socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
     const onSubmitOB = () => {
