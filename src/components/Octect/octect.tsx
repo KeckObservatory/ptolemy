@@ -308,8 +308,8 @@ const Octect = (props: Props) => {
                     <Paper sx={{
                         padding: 2,
                         margin: 1,
-                        minWidth: '400px',
-                        maxWidth: '400px',
+                        minWidth: '600px',
+                        maxWidth: '600px',
                         minHeight: 25,
                         elevation: 3,
                     }}
