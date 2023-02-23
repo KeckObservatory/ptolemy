@@ -81,7 +81,9 @@ def submit_ob(data):
     submittedId = ob_ids[0]
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
-    emit('broadcast_submitted_ob_from_server', data, broadcast=True)
+    ob = ee.ODBInterface.get_OB_from_id(submittedId) 
+    broadcastData = { 'ob': ob }
+    emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
