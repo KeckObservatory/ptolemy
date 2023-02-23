@@ -24,7 +24,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   });
 
 interface TaskEvent {
-    func_name: string,
+    script_name: string,
+    args: object,
     id: string,
 }
 
@@ -155,7 +156,7 @@ const Octect = (props: Props) => {
         socket.on('event_queue_broadcast', (data) => {
             console.log('event_queue_broadcast event triggered. setting event_queue')
             const eq = data.event_queue.map((evt: TaskEvent) => {
-                return evt.func_name + '@' + evt.id
+                return evt.script_name + '@' + evt.id
             })
             console.log('event_queue', eq)
             if (eq) setEvents(eq)
