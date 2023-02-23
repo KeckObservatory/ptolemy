@@ -45,15 +45,15 @@ def request_ob():
     if len(ob_ids) > 0:
         try: 
             # get most recent ob from db
-            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]['_id']) 
+            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]) 
+            data = {'ob': ob}
+            _id = ob['_id']
+            logging.info(f'sending ob {_id}')
+            emit('broadcast_submitted_ob_from_server', data, room=request.sid)
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
             return
-        data = {'ob': ob}
-        _id = ob['_id']
-        logging.info(f'sending ob {_id}')
-        emit('broadcast_submitted_ob_from_server', data, room=request.sid)
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
