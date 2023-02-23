@@ -41,11 +41,11 @@ def index():
 def request_ob():
     """Sends OB stored on EE (first item in queue)"""
     logging.info('sending ob request recieved')
-    ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    if len(ids) > 0:
+    ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    if len(ob_ids) > 0:
         try: 
             # get most recent ob from db
-            ob = ee.ODBInterface.get_OB_from_id(ids[0]['_id']) 
+            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]['_id']) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
@@ -67,18 +67,18 @@ def request_ob_queue():
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
-    ids = data.get('ob_id_queue')
-    logging.info(f'new ob queue len: {len(ids)}')
+    ob_ids = data.get('ob_id_queue')
+    logging.info(f'new ob queue len: {len(ob_ids)}')
 
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ids])
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-    submittedId = ids[0]
+    ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+    submittedId = ob_ids[0]
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob_id']['_id']}")
     emit('broadcast_submitted_ob_from_server', data, broadcast=True)
@@ -107,8 +107,8 @@ def new_event_queue(data):
     eq = data.get('event_queue')
     logging.info('new event queue')
     newQueue = []
-    eventIds = [ x.split('@')[1] for x in eq ]
-    for eid in eventIds:
+    event_ids = [ x.split('@')[1] for x in eq ]
+    for eid in event_ids:
         evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
         newQueue.append(evtItem)
     ee.ev_q.set_queue(newQueue)
@@ -130,14 +130,14 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
-        if len(ids) == 0:
+        ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
+        if len(ob_ids) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(ids[0]) 
+            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
