@@ -162,6 +162,7 @@ def new_task(data):
     ee.ev_q.load_events_from_sequence(newTask)
     #ev_queue = [ x.as_dict() for x in [*ee.ev_q.queue] ] #TODO write this in EventQueue Class
     ev_queue = ee.ev_q.get_queue_as_list() 
+    ee.ev_q.boneyard = []
     eventData = {'event_queue': ev_queue}
     eventBoneyardData = {'event_boneyard': []}
     emit('task_broadcast', data, broadcast=True)
