@@ -80,7 +80,7 @@ def submit_ob(data):
     ob_ids = [ x.ob_id for x in [*ee.obs_q.queue] ] #TODO write this in OBQueue Class
     submittedId = ob_ids[0]
     logging.info(f"submitted obid: {submittedId}")
-    logging.info(f"submitted obid matches? : {submittedId==data['ob_id']['_id']}")
+    logging.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
     emit('broadcast_submitted_ob_from_server', data, broadcast=True)
 
 @socketio.on('new_sequence_queue')
