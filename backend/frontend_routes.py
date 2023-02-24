@@ -60,7 +60,7 @@ def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logging.info(f'sending ob_queue to {request.sid}')
     ob_id_queue = ee.obs_q.get_ob_ids() 
-    data = { 'ob_queue_id': ob_id_queue }
+    data = { 'ob_id_queue': ob_id_queue }
     emit('broadcast_ob_queue_from_server', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
