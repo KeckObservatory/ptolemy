@@ -8,8 +8,10 @@ import ReactJson, { ThemeKeys } from 'react-json-view'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 
 interface Props {
-    sequence_queue: Science[];
-    sequence_boneyard: Science[];
+    sequences: Science[];
+    sequenceBoneyard: Science[];
+    setSequences: Function;
+    setSequenceBoneyard: Function;
     socket: any;
     ob: ObservationBlock;
 }
@@ -47,7 +49,7 @@ const SequenceQueue = (props: Props) => {
 
 
         if (sKey === dKey) { //shuffling items around
-            let newSeq = [...props.sequence_queue]
+            let newSeq = [...props.sequences]
             newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'seqQueue') {
                 // props.setSequences(newSeq)
@@ -59,7 +61,7 @@ const SequenceQueue = (props: Props) => {
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
-                const result = move(props.sequence_boneyard, props.sequence_queue, source, destination);
+                const result = move(props.sequenceBoneyard, props.sequences, source, destination);
                 console.log('sequence added to queue. result', result)
                 // props.setSequences(result[dKey])
                 props.socket.emit('new_sequence_queue', { sequence_queue: result[dKey], ob: props.ob })
@@ -67,7 +69,7 @@ const SequenceQueue = (props: Props) => {
                 props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[sKey], ob: props.ob })
             }
             else { // sequence added to boneyard
-                const result = move(props.sequence_queue, props.sequence_boneyard, source, destination);
+                const result = move(props.sequences, props.sequenceBoneyard, source, destination);
                 console.log('sequence added to boneyard. result', result)
                 // props.setSequences(result[sKey])
                 props.socket.emit('new_sequence_queue', { sequence_queue: result[sKey], ob: props.ob })
@@ -79,8 +81,8 @@ const SequenceQueue = (props: Props) => {
     const isDragDisabled = false
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {CreateDroppable(props.sequence_queue, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
-            {CreateDroppable(props.sequence_boneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
+            {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
+            {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
         </DragDropContext>
     )
 }

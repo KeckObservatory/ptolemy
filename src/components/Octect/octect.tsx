@@ -272,7 +272,14 @@ const Octect = (props: Props) => {
                         elevation: 3,
                     }}
                         elevation={3}>
-                        <SequenceQueue ob={ob} sequence_queue={sequences} sequence_boneyard={sequenceBoneyard} socket={socket} />
+                        <SequenceQueue 
+                        ob={ob} 
+                        sequences={sequences} 
+                        setSequences={setSequences} 
+                        sequenceBoneyard={sequenceBoneyard} 
+                        setSequenceBoneyard={setSequenceBoneyard} 
+                        socket={socket} 
+                        />
                     </Paper >
                 </Grid>
                 <Grid item xs={4}>
