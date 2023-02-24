@@ -23,7 +23,7 @@ const DragSeqCell = (seqCell: Science) => {
         <div>
             <p> id: {seqCell.metadata.sequence_number} </p>
             <p> sequence: {seqCell.metadata.ui_name} </p>
-            <ReactJson
+            {/* <ReactJson
                 src={seqCell as object}
                 theme={theme as ThemeKeys | undefined}
                 iconStyle={'circle'}
@@ -31,7 +31,7 @@ const DragSeqCell = (seqCell: Science) => {
                 collapseStringsAfterLength={15}
                 enableClipboard={true}
                 onEdit={false}
-            />
+            /> */}
         </div>
     )
 }
@@ -39,11 +39,11 @@ const DragSeqCell = (seqCell: Science) => {
 const SequenceQueue = (props: Props) => {
 
     const onDragEnd = (result: any) => {
-        console.log('on drag end entered')
         const { source, destination } = result;
         if (!destination) return;
         const sKey: string = source.droppableId;
         const dKey: string = destination.droppableId;
+        console.log('on drag end entered. sKey', sKey, 'dKey', dKey)
 
 
         if (sKey === dKey) { //shuffling items around
@@ -60,6 +60,7 @@ const SequenceQueue = (props: Props) => {
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
                 const result = move(props.sequence_boneyard, props.sequence_queue, source, destination);
+                console.log('sequence added to queue. result', result)
                 // props.setSequences(result[dKey])
                 props.socket.emit('new_sequence_queue', { sequence_queue: result[dKey], ob: props.ob })
                 // setDiscardedSequences(result[sKey])
@@ -67,7 +68,7 @@ const SequenceQueue = (props: Props) => {
             }
             else { // sequence added to boneyard
                 const result = move(props.sequence_queue, props.sequence_boneyard, source, destination);
-                console.log('result', result)
+                console.log('sequence added to boneyard. result', result)
                 // props.setSequences(result[sKey])
                 props.socket.emit('new_sequence_queue', { sequence_queue: result[sKey], ob: props.ob })
                 props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[dKey], ob: props.ob })
