@@ -26,7 +26,7 @@ const CreateDiv = (props: CreateDivProps) => {
             ref={props.provided.innerRef}
             {...props.provided.draggableProps}
             {...props.provided.dragHandleProps}
-            className={className}
+            // className={className}
         >
             <Paper elevation={24}>
                 {props.formChild}
@@ -102,15 +102,27 @@ export const create_draggable = (cell: any, cellId: string, idx: number, childDi
     )
 }
 
+const removeFromList = (list: any[], idx: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(idx, 1);
+    return [removed, result]
+}
+
+const addToList = (list: any[], idx: number, element: any) => {
+    const result = Array.from(list);
+    result.splice(idx, 0, element )
+    return result
+}
+
 /**
  * Moves an item from one list to another list.
  */
 export const move = (source: any, destination: any, droppableSource: any, droppableDestination: any) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+    console.log('inside move', 'source', source, 'dest', destination, 'dropSource', droppableSource, 'dropDest', droppableDestination)
+    const [removed, sourceClone] = removeFromList(source, droppableSource.index)
+    const destClone = addToList(destination, droppableDestination.index, removed)
 
-    destClone.splice(droppableDestination.index, 0, removed);
+    console.log('removed', removed, 'sourceClone', sourceClone, 'destClone', destClone)
 
     const result: any = {};
     result[droppableSource.droppableId] = sourceClone;
