@@ -13,6 +13,7 @@ import {
     mock_ob_get,
     mock_get_container_ob_metadata,
     mock_get_container_ob_target,
+    mock_ob_get_many,
 
 } from '../mocks/mock_utils';
 
@@ -160,7 +161,7 @@ export const get_select_funcs = {
 
 export const ob_api_funcs = {
     get: IS_BUILD ? ob_get : mock_ob_get,
-    get_many: ob_get_many,
+    get_many: IS_BUILD ? ob_get_many : mock_ob_get_many,
     post: ob_post,
     put: ob_put,
     remove: ob_remove,

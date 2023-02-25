@@ -7,22 +7,33 @@ import { mock_targets, mock_metadata } from './mock_ob_metadata_targets'
 
 export const mock_get_container_ob_metadata = (semid: string, container_id?: string) => {
    const mockPromise = new Promise<Partial<ObservationBlock[]>>((resolve) => {
-      resolve( mock_metadata as any )
+      resolve(mock_metadata as any)
    })
-   return mockPromise 
+   return mockPromise
 }
 
-export const mock_get_container_ob_target= (semid: string, container_id?: string) => {
+export const mock_get_container_ob_target = (semid: string, container_id?: string) => {
    const mockPromise = new Promise<Partial<ObservationBlock[]>>((resolve) => {
-      resolve( mock_targets as any )
+      resolve(mock_targets as any)
    })
-   return mockPromise 
+   return mockPromise
 }
 
 export const mock_ob_get = (ob_id: string): Promise<ObservationBlock> => {
    const mockPromise = new Promise<ObservationBlock>((resolve) => {
       const idx = Math.floor(Math.random() * mock_obs.length)
       resolve(mock_obs[idx] as unknown as ObservationBlock)
+   })
+   return mockPromise
+}
+
+export const mock_ob_get_many = (ob_ids: string[]): Promise<ObservationBlock[]> => {
+      let obs = ob_ids.map((ob_id: string) => {
+         const idx = Math.floor(Math.random() * mock_obs.length)
+         return mock_obs[idx] as unknown as ObservationBlock
+      })
+   const mockPromise = new Promise<ObservationBlock[]>((resolve) => {
+      resolve(obs)
    })
    return mockPromise
 }

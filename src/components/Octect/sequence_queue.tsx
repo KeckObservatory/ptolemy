@@ -42,7 +42,7 @@ const SequenceQueue = (props: Props) => {
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
-        if (!destination) return;
+        if (!destination || !source) return;
         const sKey: string = source.droppableId;
         const dKey: string = destination.droppableId;
         console.log('on drag end entered. sKey', sKey, 'dKey', dKey)
@@ -61,20 +61,20 @@ const SequenceQueue = (props: Props) => {
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
-                const result = move(props.sequenceBoneyard, props.sequences, source, destination);
-                console.log('sequence added to queue. result', result)
+                const moveResult = move(props.sequenceBoneyard, props.sequences, source, destination);
+                console.log('sequence added to queue. move result', moveResult)
                 // props.setSequences(result[dKey])
                 // props.setSequenceBoneyard(result[sKey])
-                props.socket.emit('new_sequence_queue', { sequence_queue: result[dKey], ob: props.ob })
-                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[sKey], ob: props.ob })
+                props.socket.emit('new_sequence_queue', { sequence_queue: moveResult[dKey], ob: props.ob })
+                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[sKey], ob: props.ob })
             }
             else { // sequence added to boneyard
-                const result = move(props.sequences, props.sequenceBoneyard, source, destination);
-                console.log('sequence added to boneyard. result', result)
+                const moveResult = move(props.sequences, props.sequenceBoneyard, source, destination);
+                console.log('sequence added to boneyard. move result', moveResult)
                 // props.setSequences(result[sKey])
                 // props.setSequenceBoneyard(result[dKey])
-                props.socket.emit('new_sequence_queue', { sequence_queue: result[sKey], ob: props.ob })
-                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: result[dKey], ob: props.ob })
+                props.socket.emit('new_sequence_queue', { sequence_queue: moveResult[sKey], ob: props.ob })
+                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[dKey], ob: props.ob })
             }
         }
     }
