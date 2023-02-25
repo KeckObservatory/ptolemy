@@ -72,7 +72,7 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
                         >
                             {cells.length > 0 &&
                                 cells.map((cell: any, idx: number) => {
-                                    return (create_draggable(cell, `idx-${idx}`, idx, childDiv, isDragDisabled))
+                                    return (create_draggable(cell, `${idKey}-${idx}`, idx, childDiv, isDragDisabled))
                                 })
                             }
                             {provided.placeholder}
