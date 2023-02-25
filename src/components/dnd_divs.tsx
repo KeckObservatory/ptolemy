@@ -9,24 +9,11 @@ interface CreateDivProps {
     formChild: JSX.Element;
 }
 const CreateDiv = (props: CreateDivProps) => {
-    const acc = {
-        acc: {
-            margin: '4px',
-            padding: '4px',
-            minHeight: '20px',
-        }, accDrag: {
-            margin: '4px',
-            padding: '0px',
-            minHeight: '20px',
-        }
-    } as any
-    const className = props.snapshot.isDragging ? { ...props.provided.draggableProps, ...acc.accDrag } : acc.acc
     return (
         <div
             ref={props.provided.innerRef}
             {...props.provided.draggableProps}
             {...props.provided.dragHandleProps}
-            // className={className}
         >
             <Paper elevation={24}>
                 {props.formChild}
@@ -72,6 +59,7 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
                         >
                             {cells.length > 0 &&
                                 cells.map((cell: any, idx: number) => {
+                                    //careful that idxKey is unique for each droppable
                                     return (create_draggable(cell, `${idKey}-${idx}`, idx, childDiv, isDragDisabled))
                                 })
                             }
