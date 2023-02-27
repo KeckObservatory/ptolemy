@@ -46,7 +46,8 @@ const axiosInstance = axios.create({
     withCredentials: true,
     headers: {
         'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'withCredentials': false,
     }
 })
 axiosInstance.interceptors.response.use(intResponse, intError);
