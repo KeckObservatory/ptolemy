@@ -7,6 +7,7 @@ import AppBar from '@mui/material/AppBar';
 import Octect from './Octect/octect';
 import { ThemeKeys } from 'react-json-view';
 import { SelectionToolView } from './SelectionTool/selection_tool_view';
+import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -50,10 +51,10 @@ interface ModuleMenuProps {
 }
 
 export const ModuleMenu = (props: ModuleMenuProps) => {
-    const [value, setValue] = React.useState(1);
+    const [tabIdx, setTabIdx] = useQueryParam('tab_index', withDefault(NumberParam, 1));
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+        setTabIdx(newValue);
     };
 
     return (
@@ -66,7 +67,7 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                 width: '100%',
             }} >
                 <Tabs
-                    value={value}
+                    value={tabIdx}
                     onChange={handleChange as any}
                     indicatorColor="secondary"
                     textColor="inherit"
@@ -77,10 +78,10 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                     <Tab label="Octect" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={tabIdx} index={0}>
                 <SelectionToolView />
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={tabIdx} index={1}>
                 <Octect />
             </TabPanel>
         </ div >
