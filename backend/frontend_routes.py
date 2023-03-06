@@ -144,8 +144,9 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
             
-        newTask = ob.get('acquisition', False) 
-        if not newTask:
+        acqSeq = ob.get('acquisition', False) 
+        newTask = SequenceItem(acqSeq, ob)
+        if not acqSeq:
             data = {'msg': 'no acquisition in ob'}
             emit('snackbar_msg', data, room=request.sid)
             return
