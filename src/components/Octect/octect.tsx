@@ -13,15 +13,15 @@ import SequenceQueue from './sequence_queue'
 import EventQueue from './event_queue'
 import { ob_api_funcs } from '../../api/ApiRoot';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, {AlertProps} from '@mui/material/Alert';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref,
-  ) {
+) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+});
 
 interface TaskEvent {
     script_name: string,
@@ -164,7 +164,7 @@ const Octect = (props: Props) => {
 
         socket.on('event_boneyard_broadcast', (data) => {
             console.log('event_boneyard_broadcast event triggered. setting event_boneyard')
-            const eventBoneyard = data.event_boneyard.map( (evt: TaskEvent) => {
+            const eventBoneyard = data.event_boneyard.map((evt: TaskEvent) => {
                 return evt.script_name + '@' + evt.id
             })
             console.log('event_boneyard', eventBoneyard)
@@ -211,12 +211,18 @@ const Octect = (props: Props) => {
         socket.emit('submit_event')
     }
 
+
+    const releaseEventQueueLock = () => {
+        console.log('releaseEventQueueLock button clicked.')
+        socket.emit('release_event_queue_lock')
+    }
+
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
         setSnackbarOpen(false);
-      };
+    };
 
 
     return (
@@ -272,13 +278,13 @@ const Octect = (props: Props) => {
                         elevation: 3,
                     }}
                         elevation={3}>
-                        <SequenceQueue 
-                        ob={ob} 
-                        sequences={sequences} 
-                        setSequences={setSequences} 
-                        sequenceBoneyard={sequenceBoneyard} 
-                        setSequenceBoneyard={setSequenceBoneyard} 
-                        socket={socket} 
+                        <SequenceQueue
+                            ob={ob}
+                            sequences={sequences}
+                            setSequences={setSequences}
+                            sequenceBoneyard={sequenceBoneyard}
+                            setSequenceBoneyard={setSequenceBoneyard}
+                            socket={socket}
                         />
                     </Paper >
                 </Grid>
@@ -302,14 +308,20 @@ const Octect = (props: Props) => {
                             onEdit={false}
                         />
                     </Paper>
-                    <Button onClick={submitEvent}>Submit Event</Button>
-                    <Snackbar 
-                    open={snackbarOpen} 
-                    autoHideDuration={6000} 
-                    anchorOrigin={{ vertical: 'top', horizontal:'center'}}
-                    onClose={handleSnackbarClose}>
+
+                    <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
+                        <Button onClick={submitEvent}>Submit Event</Button>
+                    </FormControl>
+                    <FormControl sx={{ width: 300, margin: '4px', marginTop: '16px' }}>
+                        <Button onClick={releaseEventQueueLock}>Release Event Queue Lock</Button>
+                    </FormControl>
+                    <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={6000}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        onClose={handleSnackbarClose}>
                         <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                            {snackbarMsg} 
+                            {snackbarMsg}
                         </Alert>
                     </Snackbar>
                     <Paper sx={{

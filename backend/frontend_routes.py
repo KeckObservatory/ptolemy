@@ -197,6 +197,11 @@ def submit_event():
     eventBoneyardData = {'event_boneyard': ev_boneyard} 
     emit('event_queue_broadcast', eventData, broadcast=True)
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+
+@socketio.on('release_event_queue_lock')
+def release_event_queue_lock():
+    #TODO: add logic to handle FE button press
+    logging.info('release_event_queue_lock event triggered')
         
 
 @socketio.on('is_event_queue_locked')
