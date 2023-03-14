@@ -2,16 +2,12 @@ import React, { useEffect, useState, useContext } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
 import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import { SocketContext } from './../../contexts/socket';
-import Tooltip from '@mui/material/Tooltip'
-import SkyView from './sky-view/sky_view'
+import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
-import ThreeDView from './sky-view/three_d_view'
 import { ob_api_funcs } from '../../api/ApiRoot'
 
 interface OBServerData {
@@ -67,7 +63,7 @@ const container_obs_to_cells = (container_obs: any) => {
     return cells
 }
 
-export const SelectionToolView = (props: Props) => {
+export const SelectionToolColumn = (props: Props) => {
 
     const chartTypes = ['altitude', 'air mass', 'parallactic angle', 'lunar angle']
 
@@ -178,50 +174,12 @@ export const SelectionToolView = (props: Props) => {
                     highlightOnEmpty={true}
                 />
             </FormControl>
-            <Grid container spacing={1} sx={
-                {
-                    textAlign: 'left',
-                    margin: '8px',
-                    display: 'flex',
-                    maxWidth: '1800px',
-                }
-            }
-            >
-                <Grid item xs={6}>
                     <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
-                </Grid>
-                <Grid item xs={6}>
                     <SelectedQueue
                         selObs={selObs}
                         setSelObs={setSelObs}
                         submittedOB={submittedOB}
                     />
-                </Grid>
-                {/* <Grid item xs={4}>
-                    <DropDown
-                        placeholder={'Chart Type'}
-                        arr={chartTypes}
-                        value={chartType}
-                        handleChange={handleChartTypeSelect}
-                        label={'ChartType'}
-                    />
-                    <ThreeDView selObs={selObs} /> 
-                    <Paper sx={{
-                        padding: '8px',
-                        margin: '4px',
-                        height: '700px',
-                        elevation: 3,
-                        width: '880px'
-                    }
-                    }
-                        elevation={3}>
-                        <Tooltip title="View selected OB target charts here">
-                            <h2>Sky View</h2>
-                        </Tooltip>
-                         <SkyView chartType={chartType} selObs={selObs} />
-                    </Paper >
-                </Grid>  */}
-            </Grid>
         </React.Fragment>
     )
 }

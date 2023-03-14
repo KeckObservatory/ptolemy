@@ -8,6 +8,7 @@ import Octect from './Octect/octect';
 import { ThemeKeys } from 'react-json-view';
 import { SelectionToolView } from './SelectionTool/selection_tool_view';
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
+import { Ptolemy } from './ptolemy';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -76,6 +77,7 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                 >
                     <Tab label="Planning Tool" {...a11yProps(0)} />
                     <Tab label="Octect" {...a11yProps(1)} />
+                    <Tab label="Ptolemy" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={tabIdx} index={0}>
@@ -83,6 +85,9 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
             </TabPanel>
             <TabPanel value={tabIdx} index={1}>
                 <Octect />
+            </TabPanel>
+            <TabPanel value={tabIdx} index={2}>
+                <Ptolemy />
             </TabPanel>
         </ div >
     )
