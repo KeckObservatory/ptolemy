@@ -5,6 +5,7 @@ import { reorder, move, CreateDroppable } from './../dnd_divs'
 import { Alert, Button, FormControl, Paper, Snackbar } from '@mui/material'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import ReactJson, { ThemeKeys } from 'react-json-view'
+import { SocketContext } from '../../contexts/socket';
 
 //@ts-ignore
 const DragEventCell = (strObj) => {
@@ -36,11 +37,11 @@ interface Props {
     iconStyle: any
     events: string[];
     eventBoneyard: string[];
-    socket: any;
 }
 
 export const EventQueueColumn = (props: Props) => {
 
+    const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
@@ -57,25 +58,25 @@ export const EventQueueColumn = (props: Props) => {
             let newSeq = [...props.events]
             newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'eventQueue') {
-                props.socket.emit('new_event_queue', { event_queue: newSeq })
+                socket.emit('new_event_queue', { event_queue: newSeq })
             }
             else {
-                props.socket.emit('new_event_boneyard', { event_boneyard: newSeq })
+                socket.emit('new_event_boneyard', { event_boneyard: newSeq })
             }
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue
                 const result = move(props.eventBoneyard, props.events, source, destination);
                 // props.setSequences(result[dKey])
-                props.socket.emit('new_event_queue', { event_queue: result[dKey] })
+                socket.emit('new_event_queue', { event_queue: result[dKey] })
                 // setDiscardedSequences(result[sKey])
-                props.socket.emit('new_event_boneyard', { event_boneyard: result[sKey] })
+                socket.emit('new_event_boneyard', { event_boneyard: result[sKey] })
             }
             else { // event added to boneyard
                 const result = move(props.events, props.eventBoneyard, source, destination);
                 console.log('result', result)
                 // props.setSequences(result[sKey])
-                props.socket.emit('new_event_queue', { event_queue: result[sKey] })
-                props.socket.emit('new_event_boneyard', { event_boneyard: result[dKey] })
+                socket.emit('new_event_queue', { event_queue: result[sKey] })
+                socket.emit('new_event_boneyard', { event_boneyard: result[dKey] })
                 // setDiscardedSequences(result[dKey])
             }
         }
@@ -87,7 +88,7 @@ export const EventQueueColumn = (props: Props) => {
     
     const releaseEventQueueLock = () => {
         console.log('releaseEventQueueLock button clicked.')
-        props.socket.emit('release_event_queue_lock')
+        socket.emit('release_event_queue_lock')
     }
 
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {

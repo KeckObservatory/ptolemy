@@ -7,6 +7,7 @@ import ReactJson, { OnCopyProps, ThemeKeys } from 'react-json-view'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { Button, FormControl, Paper, Tooltip } from '@mui/material'
 import JsonViewTheme from '../json_view_theme'
+import { SocketContext } from '../../contexts/socket';
 
 interface Props {
     enableClipboard: boolean | ((copy: OnCopyProps) => void) | undefined
@@ -19,7 +20,6 @@ interface Props {
     sequenceBoneyard: Science[];
     setSequences: Function;
     setSequenceBoneyard: Function;
-    socket: any;
     ob: ObservationBlock;
 }
 
@@ -46,6 +46,7 @@ const DragSeqCell = (seqCell: Science) => {
 
 export const SequenceQueueColumn = (props: Props) => {
 
+    const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
@@ -59,21 +60,21 @@ export const SequenceQueueColumn = (props: Props) => {
             newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'seqQueue') {
                 // props.setSequences(newSeq)
-                props.socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
+                socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
             }
             else {
-                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq })
+                socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq })
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
                 const moveResult = move(props.sequenceBoneyard, props.sequences, source, destination);
-                props.socket.emit('new_sequence_queue', { sequence_queue: moveResult[dKey], ob: props.ob })
-                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[sKey], ob: props.ob })
+                socket.emit('new_sequence_queue', { sequence_queue: moveResult[dKey], ob: props.ob })
+                socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[sKey], ob: props.ob })
             }
             else { // sequence added to boneyard
                 const moveResult = move(props.sequences, props.sequenceBoneyard, source, destination);
-                props.socket.emit('new_sequence_queue', { sequence_queue: moveResult[sKey], ob: props.ob })
-                props.socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[dKey], ob: props.ob })
+                socket.emit('new_sequence_queue', { sequence_queue: moveResult[sKey], ob: props.ob })
+                socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[dKey], ob: props.ob })
             }
         }
     }

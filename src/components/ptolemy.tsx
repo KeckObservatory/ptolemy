@@ -239,7 +239,6 @@ export const Ptolemy = (props: Props) => {
                         sequenceBoneyard={sequenceBoneyard}
                         setSequences={setSequences}
                         setSequenceBoneyard={setSequenceBoneyard}
-                        socket={socket}
                         ob={ob}
                     />
                 </Grid>
@@ -257,7 +256,6 @@ export const Ptolemy = (props: Props) => {
                         iconStyle={props.iconStyle}
                         events={events}
                         eventBoneyard={eventBoneyard}
-                        socket={socket}
                     />
                 </Grid>
             </Grid>

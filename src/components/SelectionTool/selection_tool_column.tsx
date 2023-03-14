@@ -2,13 +2,13 @@ import React, { useEffect, useState, useContext } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
 import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import Grid from '@mui/material/Grid'
 import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
+import { OBQueue } from './ob_queue';
 
 interface OBServerData {
     ob: ObservationBlock
@@ -18,11 +18,16 @@ interface OBQueueData {
     ob_id_queue: string[]
 }
 
+interface OBBoneyardData {
+    ob_id_boneyard: string[]
+}
+
 interface Props {
 }
 
 interface State {
     selObs: ObservationBlock[];
+    obBoneyard: ObservationBlock[],
     avlObs: Scoby[];
     sem_id: string
     semIdList: string[]
@@ -33,6 +38,7 @@ interface State {
 const defaultState: State = {
     avlObs: [],
     selObs: [],
+    obBoneyard: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude'
@@ -65,12 +71,10 @@ const container_obs_to_cells = (container_obs: any) => {
 
 export const SelectionToolColumn = (props: Props) => {
 
-    const chartTypes = ['altitude', 'air mass', 'parallactic angle', 'lunar angle']
-
     const socket = React.useContext(SocketContext);
     const [avlObs, setAvlObs] = useState(defaultState.avlObs)
     const [selObs, setSelObs] = useState(defaultState.selObs)
-    const [chartType, setChartType] = useState(defaultState.chartType)
+    const [obBoneyard, setOBBoneyard] = useState(defaultState.obBoneyard)
     const [avg, setAvg] = useState(0)
 
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
@@ -93,10 +97,6 @@ export const SelectionToolColumn = (props: Props) => {
                 setSemIdList(() => [...semesters.associations])
             })
 
-        console.log('requesting obs data from backend')
-
-        socket.emit('request_ob_queue')
-        socket.emit('request_ob')
         create_connections()
     }, [])
 
@@ -111,7 +111,7 @@ export const SelectionToolColumn = (props: Props) => {
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
-        const ids = newSelObs.map( (ob: ObservationBlock) => ob._id)
+        const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
@@ -121,6 +121,14 @@ export const SelectionToolColumn = (props: Props) => {
         //TODO: get fresh obs from DB and set them
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_queue_data && setSelObs(obs)
+    }
+
+    const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
+        console.log('setting ob_boneyard', ob_boneyard_ids)
+        const ob_ids = ob_boneyard_ids.ob_id_boneyard
+        //TODO: get fresh obs from DB and set them
+        const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
+        ob_boneyard_ids && setOBBoneyard(obs)
     }
 
     const set_ob_from_server = (ob_data: OBServerData) => {
@@ -149,6 +157,7 @@ export const SelectionToolColumn = (props: Props) => {
         });
 
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
+        socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
 
         socket.on('broadcast_submitted_ob_from_server', set_ob_from_server)
 
@@ -156,10 +165,6 @@ export const SelectionToolColumn = (props: Props) => {
 
     const handleSemIdSubmit = (new_sem_id: string) => {
         setSemId(new_sem_id)
-    }
-
-    const handleChartTypeSelect = (newChartType: string) => {
-        setChartType(newChartType)
     }
 
     return (
@@ -174,12 +179,11 @@ export const SelectionToolColumn = (props: Props) => {
                     highlightOnEmpty={true}
                 />
             </FormControl>
-                    <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
-                    <SelectedQueue
-                        selObs={selObs}
-                        setSelObs={setSelObs}
-                        submittedOB={submittedOB}
-                    />
+            <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
+            <OBQueue
+                selObs={selObs}
+                obBoneyard={obBoneyard}
+            />
         </React.Fragment>
     )
 }
