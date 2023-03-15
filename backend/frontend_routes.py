@@ -150,7 +150,7 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        ob_id = ee.obs_q.submitted_ob_id() 
+        ob_id = ee.obs_q.submitted_ob_id 
         if len(ob_id) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
