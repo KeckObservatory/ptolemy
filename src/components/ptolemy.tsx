@@ -25,7 +25,7 @@ interface TaskEvent {
 }
 
 interface EEState {
-    ob: ObservationBlock,
+    ob?: ObservationBlock,
     ob_id_queue: string[],
     ob_id_boneyard: string[],
     sequence_queue: Science[],
@@ -132,7 +132,7 @@ export const Ptolemy = (props: Props) => {
 
         socket.on('broadcast_ee_state_from_server', async (data: EEState) => {
             console.log('ee state recieved', data)
-            setOB(data.ob)
+            data.ob && setOB(data.ob)
             const newSelObs = await ob_api_funcs.get_many(data.ob_id_queue)
             const newOBBoneyard = await ob_api_funcs.get_many(data.ob_id_boneyard)
             setSelObs(newSelObs) 

@@ -61,12 +61,11 @@ def request_ee_state():
     logging.info(f'request_ee_state event triggerd by {request.sid}')
     submittedId = ee.obs_q.submitted_ob_id
     data = dict() 
-    if len(submittedId) == 0:
-        return
     try: 
         # get most recent ob from db
-        ob = ee.ODBInterface.get_OB_from_id(submittedId) 
-        data['ob'] = ob
+        if len(submittedId) > 0:
+            ob = ee.ODBInterface.get_OB_from_id(submittedId) 
+            data['ob'] = ob
         # get ob queue and ob boneyard
         ob_id_queue = ee.obs_q.get_ob_ids() 
         data['ob_id_queue'] = ob_id_queue 
@@ -81,6 +80,7 @@ def request_ee_state():
         logging.info(f'sending ob {_id}')
         emit('broadcast_ee_state_from_server', data, room=request.sid)
     except RuntimeError as err: 
+        logging.warning(ob)
         data = {'msg': f'{err}'}
         emit('snackbar_msg', data, room=request.sid)
         return
