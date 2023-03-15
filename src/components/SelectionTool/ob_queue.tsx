@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
 import PublishIcon from '@mui/icons-material/Publish';
 import { UploadDialog } from './upload_dialog';
+import Stack from '@mui/material/Stack';
 interface Props {
     selObs: ObservationBlock[];
     obBoneyard: ObservationBlock[];
@@ -111,21 +112,17 @@ export const OBQueue = (props: Props) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
+            <Stack direction="row" spacing={2}>
                 <OBSubmit onSubmitOB={onSubmitOB} />
-            </FormControl>
-            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
                 <Tooltip title="Save selected OBs as JSON">
                     <IconButton aria-label='copy' onClick={save_sel_ob_as_json}>
                         <SaveIcon />
                     </IconButton>
                 </Tooltip>
-            </FormControl>
-            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
                 <Tooltip title="Load selected OBs as JSON">
                     <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
                 </Tooltip>
-            </FormControl>
+            </Stack>
             {CreateDroppable(props.selObs, 'ob1', 'obQueue', 'Sort OB here', 'OB Queue', DragDiv, false)}
             {CreateDroppable(props.obBoneyard, 'obboneyard', 'seqBoneyard', 'Discarded OBs live here', 'OB Boneyard', DragDiv, false)}
         </DragDropContext>
