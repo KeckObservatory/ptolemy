@@ -66,6 +66,8 @@ def request_ee_state():
         if len(submittedId) > 0:
             ob = ee.ODBInterface.get_OB_from_id(submittedId) 
             data['ob'] = ob
+            _id = ob['_id']
+            logging.info(f'sending ob {_id}')
         # get ob queue and ob boneyard
         ob_id_queue = ee.obs_q.get_ob_ids() 
         data['ob_id_queue'] = ob_id_queue 
@@ -76,8 +78,7 @@ def request_ee_state():
         # get event queue and event boneyard
         data['event_queue'] = ee.ev_q.get_queue_as_list() 
         data['event_boneyard'] = [ x.as_dict() for x in ee.ev_q.boneyard ]
-        _id = ob['_id']
-        logging.info(f'sending ob {_id}')
+        logging.info('sending ee state to frontend')
         emit('broadcast_ee_state_from_server', data, room=request.sid)
     except RuntimeError as err: 
         logging.warning(ob)
