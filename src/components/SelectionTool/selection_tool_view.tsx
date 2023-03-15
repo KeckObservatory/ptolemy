@@ -122,7 +122,6 @@ export const SelectionToolView = (props: Props) => {
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
-        //TODO: get fresh obs from DB and set them
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_queue_data && setSelObs(obs)
     }

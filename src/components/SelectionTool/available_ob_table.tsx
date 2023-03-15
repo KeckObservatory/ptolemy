@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import { ob_api_funcs } from "../../api/ApiRoot";
+import Paper from "@mui/material/Paper";
 
 interface Props {
     rows: Scoby[],
@@ -35,7 +36,7 @@ const CustomToolbarSelect = (props: CTProps) => {
         const selectedIdxs = Object.keys(props.selectedRows.lookup)
         //@ts-ignore
         const selObRows = selectedIdxs.map(idx => props.rows[idx])
-        const ob_ids = selObRows.map( (row: Scoby) => row.ob_id)
+        const ob_ids = selObRows.map((row: Scoby) => row.ob_id)
         let selObs = ob_ids ? await ob_api_funcs.get_many(ob_ids) : []
         console.log('selOb len', selObs.length)
         props.setSelObs(selObs)
@@ -91,13 +92,13 @@ const AvailableOBTable = (props: Props) => {
     ]
 
     return (
-        <MUIDataTable
-            data={props.rows}
-            columns={columns}
-            options={options}
-            title={'Available OBS'}
-            components={{ Checkbox: CustomCheckbox }}
-        />
+                <MUIDataTable
+                    data={props.rows}
+                    columns={columns}
+                    options={options}
+                    title={<h2>Available OBS</h2>}
+                    components={{ Checkbox: CustomCheckbox }}
+                />
     )
 }
 

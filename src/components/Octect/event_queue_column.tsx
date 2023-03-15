@@ -100,12 +100,12 @@ export const EventQueueColumn = (props: Props) => {
 
     return (
         <React.Fragment>
+
             <Paper sx={{
-                padding: 2,
-                margin: 1,
-                minWidth: '400px',
-                maxWidth: '400px',
+                padding: '8px',
+                margin: '4px',
                 minHeight: 25,
+                width: '100%',
                 elevation: 3,
             }}
             >
@@ -135,16 +135,6 @@ export const EventQueueColumn = (props: Props) => {
                     {props.snackbarMsg}
                 </Alert>
             </Snackbar>
-            <Paper sx={{
-                padding: 2,
-                margin: 1,
-                minWidth: '600px',
-                maxWidth: '600px',
-                minHeight: 25,
-                elevation: 3,
-            }}
-                elevation={3}>
-            </Paper >
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(event_items, 'id', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
                 {CreateDroppable(boneyard_items, 'id', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}

@@ -73,7 +73,7 @@ def set_ob_queue(data):
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('set_ob_boneyard')
-def set_ob_queue(data):
+def set_ob_boneyard(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_boneyard')
     logging.info(f'new ob queue len: {len(ob_ids)}')
@@ -92,6 +92,7 @@ def submit_ob(data):
         ob = ee.ODBInterface.get_OB_from_id(submittedId) 
         broadcastData = { 'ob': ob }
         emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
+        #TODO clear seq queues, boneyard, event queue, boneyard
     except RuntimeError as err:
         data = {'msg': str(err)}
         emit('snackbar_msg', data, room=request.sid)

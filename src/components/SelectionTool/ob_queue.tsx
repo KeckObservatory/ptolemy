@@ -5,7 +5,13 @@ import OBSubmit from './ob_submit'
 import { SocketContext } from '../../contexts/socket'
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 import { CreateDroppable, move, reorder } from '../dnd_divs';
-
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import SaveIcon from '@mui/icons-material/Save';
+import PublishIcon from '@mui/icons-material/Publish';
+import { UploadDialog } from './upload_dialog';
 interface Props {
     selObs: ObservationBlock[];
     obBoneyard: ObservationBlock[];
@@ -57,14 +63,14 @@ export const OBQueue = (props: Props) => {
 
                 const selIds = moveResult[dKey].map((ob: ObservationBlock) => ob._id)
                 const boneyardIds = moveResult[sKey].map((ob: ObservationBlock) => ob._id)
-                socket.emit('set_ob_queue', { ob_id_queue: selIds})
+                socket.emit('set_ob_queue', { ob_id_queue: selIds })
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
             }
             else { // ob added to boneyard
                 const moveResult = move(props.selObs, props.obBoneyard, source, destination);
                 const selIds = moveResult[sKey].map((ob: ObservationBlock) => ob._id)
                 const boneyardIds = moveResult[dKey].map((ob: ObservationBlock) => ob._id)
-                socket.emit('set_ob_queue', { ob_id_queue: selIds})
+                socket.emit('set_ob_queue', { ob_id_queue: selIds })
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
             }
         }
@@ -80,9 +86,46 @@ export const OBQueue = (props: Props) => {
         socket.emit('submit_ob', { ob_id: ob_id })
     }
 
+    const save_sel_ob_as_json = () => {
+        // Create a blob with the data we want to download as a file
+        const blob = new Blob([JSON.stringify(props.selObs, null, 4)], { type: 'text/plain' })
+        // Create an anchor element and dispatch a click event on it
+        // to trigger a download
+        const a = document.createElement('a')
+        a.download = 'selected_obs.json'
+        a.href = window.URL.createObjectURL(blob)
+        const clickEvt = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+        })
+        a.dispatchEvent(clickEvt)
+        a.remove()
+    }
+
+    const upload_sel_obs_from_json = (obs: ObservationBlock[]) => {
+        const ids = obs.map((ob: ObservationBlock) => ob._id)
+        const obData = { ob_id_queue: ids }
+        socket.emit('set_ob_queue', obData)
+    }
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <OBSubmit onSubmitOB={onSubmitOB} />
+            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
+                <OBSubmit onSubmitOB={onSubmitOB} />
+            </FormControl>
+            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
+                <Tooltip title="Save selected OBs as JSON">
+                    <IconButton aria-label='copy' onClick={save_sel_ob_as_json}>
+                        <SaveIcon />
+                    </IconButton>
+                </Tooltip>
+            </FormControl>
+            <FormControl sx={{ width: 180, margin: '4px', marginTop: '16px' }}>
+                <Tooltip title="Load selected OBs as JSON">
+                    <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
+                </Tooltip>
+            </FormControl>
             {CreateDroppable(props.selObs, 'ob1', 'obQueue', 'Sort OB here', 'OB Queue', DragDiv, false)}
             {CreateDroppable(props.obBoneyard, 'obboneyard', 'seqBoneyard', 'Discarded OBs live here', 'OB Boneyard', DragDiv, false)}
         </DragDropContext>

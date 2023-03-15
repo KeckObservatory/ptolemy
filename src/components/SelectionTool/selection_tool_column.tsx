@@ -113,12 +113,12 @@ export const SelectionToolColumn = (props: Props) => {
         setSelObs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
+        socket.emit('set_ob_boneyard', { ob_id_boneyard: []})
     }
 
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
-        //TODO: get fresh obs from DB and set them
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_queue_data && setSelObs(obs)
     }
@@ -126,7 +126,6 @@ export const SelectionToolColumn = (props: Props) => {
     const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
         console.log('setting ob_boneyard', ob_boneyard_ids)
         const ob_ids = ob_boneyard_ids.ob_id_boneyard
-        //TODO: get fresh obs from DB and set them
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_boneyard_ids && setOBBoneyard(obs)
     }
@@ -169,7 +168,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-            <FormControl sx={{ m: 2, width: 150 }}>
+            <FormControl sx={{ m: 0, width: 150 }}>
                 <DropDown
                     placeholder={'semester id'}
                     arr={semIdList}

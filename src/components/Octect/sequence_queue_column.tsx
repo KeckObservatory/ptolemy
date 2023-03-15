@@ -83,14 +83,14 @@ export const SequenceQueueColumn = (props: Props) => {
 
         <React.Fragment>
             <Paper sx={{
-                padding: 2,
-                margin: 1,
-                // minWidth: '800px',
-                // maxWidth: '800px',
+                padding: '8px',
+                margin: '4px',
                 minHeight: 25,
+                width: '100%',
                 elevation: 3,
             }}
             >
+                <h2>Selected OB</h2>
                 <Tooltip title="Change the color theme of the OB JSON display">
                     <div>
                         <JsonViewTheme
@@ -115,16 +115,6 @@ export const SequenceQueueColumn = (props: Props) => {
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
                 <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
             </FormControl>
-            <Paper sx={{
-                padding: 2,
-                margin: 1,
-                // minWidth: '800px',
-                // maxWidth: '800px',
-                minHeight: 25,
-                elevation: 3,
-            }}
-                elevation={3}>
-            </Paper >
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
                 {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
