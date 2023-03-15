@@ -177,7 +177,7 @@ def new_task(data):
             return
         else:
             newTask = ee.seq_q.get()
-            seqBoneyardData = { 'sequence_boneyard': ee.seq_q.boneyard}
+            seqBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
             seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
             emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
