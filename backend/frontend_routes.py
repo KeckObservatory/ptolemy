@@ -55,6 +55,36 @@ def request_ob():
             emit('snackbar_msg', data, room=request.sid)
             return
 
+@socketio.on("request_ee_state")
+def request_ee_state():
+    """Sends OB stored on EE (first item in queue)"""
+    logging.info('sending ob request recieved')
+    submittedId = ee.obs_q.submitted_ob_id
+    data = dict() 
+    if len(submittedId) == 0:
+        return
+    try: 
+        # get most recent ob from db
+        ob = ee.ODBInterface.get_OB_from_id(submittedId) 
+        data['ob'] = ob
+        # get ob queue and ob boneyard
+        ob_id_queue = ee.obs_q.get_ob_ids() 
+        data['ob_id_queue'] = ob_id_queue 
+        data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
+        # get sequence queue and sequence boneyard
+        data['sequence_queue'] = ee.seq_q.get_sequences() 
+        data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
+        # get event queue and event boneyard
+        data['event_queue'] = ee.ev_q.get_queue_as_list() 
+        data['event_boneyard'] = [ x.as_dict() for x in ee.ev_q.boneyard ]
+        _id = ob['_id']
+        logging.info(f'sending ob {_id}')
+        emit('broadcast_ee_state_from_server', data, room=request.sid)
+    except RuntimeError as err: 
+        data = {'msg': f'{err}'}
+        emit('snackbar_msg', data, room=request.sid)
+        return
+
 @socketio.on("request_ob_queue")
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""

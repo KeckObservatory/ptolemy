@@ -1,16 +1,12 @@
 import React from 'react';
-import { useEffect } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext } from 'react-beautiful-dnd'
 import OBSubmit from './ob_submit'
 import { SocketContext } from '../../contexts/socket'
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 import { CreateDroppable, move, reorder } from '../dnd_divs';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
-import PublishIcon from '@mui/icons-material/Publish';
 import { UploadDialog } from './upload_dialog';
 import Stack from '@mui/material/Stack';
 interface Props {

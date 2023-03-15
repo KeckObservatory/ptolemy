@@ -24,6 +24,16 @@ interface TaskEvent {
     id: string,
 }
 
+interface EEState {
+    ob: ObservationBlock,
+    ob_id_queue: string[],
+    ob_id_boneyard: string[],
+    sequence_queue: Science[],
+    sequence_boneyard: Science[],
+    event_queue: string[],
+    event_boneyard: string[]
+}
+
 interface Props {
     iconStyle: 'circle' | 'triangle' | 'square',
     collapsed: number,
@@ -59,6 +69,8 @@ export const Ptolemy = (props: Props) => {
     const [task, setTask] = React.useState({})
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
+    const [selObs, setSelObs] = React.useState([] as ObservationBlock[])
+    const [obBoneyard, setOBBoneyard] = React.useState([] as ObservationBlock[])
     const [sequences, setSequences] = React.useState([] as Science[])
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
     const [events, setEvents] = React.useState([] as string[])
@@ -118,6 +130,18 @@ export const Ptolemy = (props: Props) => {
             })
         })
 
+        socket.on('broadcast_ee_state_from_server', async (data: EEState) => {
+            setOB(data.ob)
+            const newSelObs = await ob_api_funcs.get_many(data.ob_id_queue)
+            const newOBBoneyard = await ob_api_funcs.get_many(data.ob_id_boneyard)
+            setSelObs(newSelObs) 
+            setOBBoneyard(newOBBoneyard)
+            setSequences(data.sequence_queue)
+            setSequenceBoneyard(data.sequence_boneyard)
+            setEvents(data.event_queue)
+            setEventBoneyard(data.event_boneyard)
+        })
+
         socket.on('task_broadcast', (data) => {
             console.log('task broadcast triggered. setting task and getting event queue')
             const newTask = data.task
@@ -174,9 +198,9 @@ export const Ptolemy = (props: Props) => {
             setSnackbarOpen(true)
         })
 
-        //@ts-ignore
         console.log('requesting ob to be sent to octect')
-        socket.emit('request_ob')
+        //socket.emit('request_ob')
+        socket.emit('request_ee_state')
 
     }, [])
 
@@ -217,7 +241,12 @@ export const Ptolemy = (props: Props) => {
         <React.Fragment>
             <Grid container spacing={2} columns={18}>
                 <Grid item xs={6}>
-                    <SelectionToolColumn />
+                    <SelectionToolColumn 
+                       selObs={selObs}
+                       setSelObs={setSelObs}
+                       obBoneyard={obBoneyard}
+                       setOBBoneyard={setOBBoneyard}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <SequenceQueueColumn

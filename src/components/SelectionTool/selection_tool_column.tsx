@@ -23,11 +23,13 @@ interface OBBoneyardData {
 }
 
 interface Props {
+    selObs: ObservationBlock[];
+    setSelObs: Function;
+    obBoneyard: ObservationBlock[];
+    setOBBoneyard: Function;
 }
 
 interface State {
-    selObs: ObservationBlock[];
-    obBoneyard: ObservationBlock[],
     avlObs: Scoby[];
     sem_id: string
     semIdList: string[]
@@ -37,8 +39,6 @@ interface State {
 
 const defaultState: State = {
     avlObs: [],
-    selObs: [],
-    obBoneyard: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude'
@@ -73,15 +73,11 @@ export const SelectionToolColumn = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avlObs, setAvlObs] = useState(defaultState.avlObs)
-    const [selObs, setSelObs] = useState(defaultState.selObs)
-    const [obBoneyard, setOBBoneyard] = useState(defaultState.obBoneyard)
     const [avg, setAvg] = useState(0)
 
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
-
-    const [submittedOB, changeSubmittedOB] = React.useState({} as ObservationBlock)
 
     let start_time: number
     let ping_pong_times: number[] = []
@@ -110,7 +106,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
-        setSelObs(newSelObs)
+        props.setSelObs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: []})
@@ -120,20 +116,14 @@ export const SelectionToolColumn = (props: Props) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_queue_data && setSelObs(obs)
+        ob_queue_data && props.setSelObs(obs)
     }
 
     const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
         console.log('setting ob_boneyard', ob_boneyard_ids)
         const ob_ids = ob_boneyard_ids.ob_id_boneyard
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_boneyard_ids && setOBBoneyard(obs)
-    }
-
-    const set_ob_from_server = (ob_data: OBServerData) => {
-        console.log('new selected OB: ', ob_data)
-        const ob = ob_data.ob
-        changeSubmittedOB(ob)
+        ob_boneyard_ids && props.setOBBoneyard(obs)
     }
 
     const create_connections = React.useCallback(() => {
@@ -157,9 +147,6 @@ export const SelectionToolColumn = (props: Props) => {
 
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
         socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
-
-        socket.on('broadcast_submitted_ob_from_server', set_ob_from_server)
-
     }, [])
 
     const handleSemIdSubmit = (new_sem_id: string) => {
@@ -180,8 +167,8 @@ export const SelectionToolColumn = (props: Props) => {
             </FormControl>
             <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
             <OBQueue
-                selObs={selObs}
-                obBoneyard={obBoneyard}
+                selObs={props.selObs}
+                obBoneyard={props.obBoneyard}
             />
         </React.Fragment>
     )

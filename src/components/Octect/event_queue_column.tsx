@@ -1,4 +1,3 @@
-
 import React, { MouseEventHandler } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
@@ -55,29 +54,25 @@ export const EventQueueColumn = (props: Props) => {
 
 
         if (sKey === dKey) { //shuffling items around
-            let newSeq = [...props.events]
-            newSeq = reorder(newSeq, source.index, destination.index)
+            let newEvents = [...props.events]
+            newEvents = reorder(newEvents, source.index, destination.index)
             if (dKey === 'eventQueue') {
-                socket.emit('new_event_queue', { event_queue: newSeq })
+                socket.emit('new_event_queue', { event_queue: newEvents })
             }
             else {
-                socket.emit('new_event_boneyard', { event_boneyard: newSeq })
+                socket.emit('new_event_boneyard', { event_boneyard: newEvents })
             }
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue
                 const result = move(props.eventBoneyard, props.events, source, destination);
-                // props.setSequences(result[dKey])
                 socket.emit('new_event_queue', { event_queue: result[dKey] })
-                // setDiscardedSequences(result[sKey])
                 socket.emit('new_event_boneyard', { event_boneyard: result[sKey] })
             }
             else { // event added to boneyard
                 const result = move(props.events, props.eventBoneyard, source, destination);
                 console.log('result', result)
-                // props.setSequences(result[sKey])
                 socket.emit('new_event_queue', { event_queue: result[sKey] })
                 socket.emit('new_event_boneyard', { event_boneyard: result[dKey] })
-                // setDiscardedSequences(result[dKey])
             }
         }
     }
