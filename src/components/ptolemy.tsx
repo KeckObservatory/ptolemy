@@ -131,6 +131,7 @@ export const Ptolemy = (props: Props) => {
         })
 
         socket.on('broadcast_ee_state_from_server', async (data: EEState) => {
+            console.log('ee state recieved', data)
             setOB(data.ob)
             const newSelObs = await ob_api_funcs.get_many(data.ob_id_queue)
             const newOBBoneyard = await ob_api_funcs.get_many(data.ob_id_boneyard)

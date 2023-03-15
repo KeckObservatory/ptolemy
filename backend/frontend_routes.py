@@ -58,7 +58,7 @@ def request_ob():
 @socketio.on("request_ee_state")
 def request_ee_state():
     """Sends OB stored on EE (first item in queue)"""
-    logging.info('sending ob request recieved')
+    logging.info(f'request_ee_state event triggerd by {request.sid}')
     submittedId = ee.obs_q.submitted_ob_id
     data = dict() 
     if len(submittedId) == 0:
