@@ -67,8 +67,6 @@ export const Ptolemy = (props: Props) => {
     const [snackbarMsg, setSnackbarMsg] = React.useState("default message")
     const [ob, setOB] = React.useState({} as ObservationBlock)
     const [task, setTask] = React.useState({})
-    const [theme, setTheme] =
-        useQueryParam('theme', withDefault(StringParam, 'bespin'))
     const [selObs, setSelObs] = React.useState([] as ObservationBlock[])
     const [obBoneyard, setOBBoneyard] = React.useState([] as ObservationBlock[])
     const [sequences, setSequences] = React.useState([] as Science[])
@@ -77,10 +75,6 @@ export const Ptolemy = (props: Props) => {
     const [eventBoneyard, setEventBoneyard] = React.useState([] as string[])
     let ping_pong_times: number[] = []
     let start_time: number
-
-    useEffect(() => {
-        console.log('sequences changed: ', sequences)
-    }, [sequences])
 
     useEffect((): any => {
         console.log('starting socket connections: ')
@@ -139,8 +133,16 @@ export const Ptolemy = (props: Props) => {
             newOBBoneyard && setOBBoneyard(newOBBoneyard)
             setSequences(data.sequence_queue)
             setSequenceBoneyard(data.sequence_boneyard)
-            setEvents(data.event_queue)
-            setEventBoneyard(data.event_boneyard)
+
+            const eq = data.event_queue.map((evt: TaskEvent) => {
+                return evt.script_name + '@' + evt.id
+            })
+            setEvents( eq )
+
+            const eqb = data.event_boneyard.map((evt: TaskEvent) => {
+                return evt.script_name + '@' + evt.id
+            })
+            setEventBoneyard(eqb)
         })
 
         socket.on('task_broadcast', (data) => {
