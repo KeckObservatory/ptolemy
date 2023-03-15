@@ -71,6 +71,10 @@ export const OBQueue = (props: Props) => {
     }
 
     const onSubmitOB = () => {
+        if (props.selObs.length == 0) {
+            console.log('ob queue empty. not submitting ob')
+            return
+        }
         const ob_id = props.selObs[0]._id
         console.log('submitting ob', ob_id)
         socket.emit('submit_ob', { ob_id: ob_id })

@@ -18,14 +18,6 @@ import { SelectionToolColumn } from './SelectionTool/selection_tool_column';
 import { SequenceQueueColumn } from './Octect/sequence_queue_column';
 import { EventQueueColumn } from './Octect/event_queue_column';
 
-
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
 interface TaskEvent {
     script_name: string,
     args: object,

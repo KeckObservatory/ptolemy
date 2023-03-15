@@ -77,7 +77,6 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_boneyard')
     logging.info(f'new ob queue len: {len(ob_ids)}')
-
     ee.obs_q.boneyard = ob_ids
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
 
@@ -85,13 +84,23 @@ def set_ob_queue(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logging.info('submitting new ob from frontend')
-    ob_ids = ee.obs_q.get_ob_ids() 
-    submittedId = ob_ids[0]
+    submittedId = ee.obs_q.get().ob_id # gets first ob id and sends it to the boneyard 
+    ee.obs_q.submitted_ob_id = submittedId
     logging.info(f"submitted obid: {submittedId}")
     logging.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
-    ob = ee.ODBInterface.get_OB_from_id(submittedId) 
-    broadcastData = { 'ob': ob }
-    emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
+    try:
+        ob = ee.ODBInterface.get_OB_from_id(submittedId) 
+        broadcastData = { 'ob': ob }
+        emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
+    except RuntimeError as err:
+        data = {'msg': str(err)}
+        emit('snackbar_msg', data, room=request.sid)
+    logging.info("sending new obqueue and boneyard to clients")
+    broadcastBoneyard = { 'ob_id_boneyard': [ x.ob_id for x in ee.obs_q.boneyard ] }
+    ob_id_queue = ee.obs_q.get_ob_ids() 
+    obQueueData = { 'ob_id_queue': ob_id_queue }
+    emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
+    emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):
@@ -140,14 +149,14 @@ def new_task(data):
     isAcquisition = data.get('isAcq', False)
     if isAcquisition:
         logging.info('acquisition getting set')
-        ob_ids = ee.obs_q.get_ob_ids() 
-        if len(ob_ids) == 0:
+        ob_id = ee.obs_q.submitted_ob_id() 
+        if len(ob_id) == 0:
             logging.warning('ob queue empty')
             data = {'msg': 'ob queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]) 
+            ob = ee.ODBInterface.get_OB_from_id(ob_id) 
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
