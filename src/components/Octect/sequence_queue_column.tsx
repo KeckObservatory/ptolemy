@@ -63,7 +63,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
             }
             else {
-                socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq })
+                socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq, ob: props.ob })
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue

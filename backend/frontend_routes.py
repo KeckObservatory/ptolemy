@@ -116,8 +116,9 @@ def new_sequence_queue(data):
 def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
     seqBoneyard = data.get('sequence_boneyard')
+    ob = data.get('ob')
     logging.info(f'new sequence boneyard len {len(seqBoneyard)}')
-    ee.seq_q.boneyard = seqBoneyard
+    ee.seq_q.boneyard = [ SequenceItem(x, ob) for x in seqBoneyard ]
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
