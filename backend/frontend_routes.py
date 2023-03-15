@@ -168,7 +168,7 @@ def new_task(data):
             data = {'msg': 'no acquisition in ob'}
             emit('snackbar_msg', data, room=request.sid)
             return
-    else:
+    else: # is sequence
         seq_queue = [*ee.seq_q.queue]
         if len(seq_queue) == 0:
             logging.warning('sequence queue empty')
@@ -176,7 +176,12 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
         else:
-            newTask = seq_queue[0]
+            newTask = ee.seq_q.get()
+            seqBoneyardData = { 'sequence_boneyard': ee.seq_q.bonyard}
+            seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
+            emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
+            emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
+
     logging.info(f'new task from queue {newTask}')
     ee.ev_q.load_events_from_sequence(newTask)
     ev_queue = ee.ev_q.get_queue_as_list() 
