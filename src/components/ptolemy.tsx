@@ -30,8 +30,8 @@ interface EEState {
     ob_id_boneyard: string[],
     sequence_queue: Science[],
     sequence_boneyard: Science[],
-    event_queue: string[],
-    event_boneyard: string[]
+    event_queue: TaskEvent[],
+    event_boneyard: TaskEvent[]
 }
 
 interface Props {
