@@ -43,7 +43,8 @@ export const EventQueueColumn = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
-
+    
+    const [role, _] = useQueryParam('role', withDefault(StringParam, "observer"));
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
@@ -80,18 +81,14 @@ export const EventQueueColumn = (props: Props) => {
     const boneyard_items = convert_string_array_to_object_array(props.eventBoneyard)
     const isDragDisabled = true
 
-    
-    const releaseEventQueueLock = () => {
-        console.log('releaseEventQueueLock button clicked.')
-        socket.emit('release_event_queue_lock')
-    }
-
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
         props.setSnackbarOpen(false);
     };
+
+    const disableQueueUnlock = role === "Observer"
 
     return (
         <React.Fragment>
@@ -116,10 +113,10 @@ export const EventQueueColumn = (props: Props) => {
             </Paper>
 
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button onClick={props.submitEvent}>Submit Event</Button>
+                <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
             </FormControl>
             <FormControl sx={{ width: 300, margin: '4px', marginTop: '16px' }}>
-                <Button onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
+                <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
             </FormControl>
             <Snackbar
                 open={props.snackbarOpen}

@@ -8,8 +8,22 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography'
+import { StringParam, useQueryParam, withDefault } from 'use-query-params';
+import DropDown from './drop_down';
+import FormControl from '@mui/material/FormControl';
+
+const ROLES = ["Observer", "Keck Staff"]
 
 export function TopBar(props: any) {
+
+
+  const [role, setRole] = useQueryParam('role', withDefault(StringParam, "observer"));
+
+  const handleRoleChange = (value: string) => {
+    console.log('setting role to: ', value)
+    setRole(value)
+  }
+
   return (
     <AppBar
       position="absolute"
@@ -20,13 +34,16 @@ export function TopBar(props: any) {
           paddingLeft: '20px'
         }}
       >
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-        >
-          <MenuIcon />
-        </IconButton>
+
+        <FormControl sx={{ m: 0, width: 150 }}>
+          <DropDown
+            placeholder={'user role'}
+            arr={ROLES}
+            value={role}
+            handleChange={handleRoleChange}
+            label={'User Role'}
+          />
+        </FormControl>
         <Typography
           component="h1"
           variant="h6"

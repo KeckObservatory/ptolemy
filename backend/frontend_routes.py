@@ -215,7 +215,7 @@ def new_task(data):
             emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
 
-    logging.info(f'new task from queue {newTask}')
+    logging.info(f'new task from queue {newTask.script_name}')
     ee.ev_q.load_events_from_sequence(newTask)
     ev_queue = ee.ev_q.get_queue_as_list() 
     ee.ev_q.boneyard = []
