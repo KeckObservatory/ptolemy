@@ -17,7 +17,7 @@ const ROLES = ["Observer", "Keck Staff"]
 export function TopBar(props: any) {
 
 
-  const [role, setRole] = useQueryParam('role', withDefault(StringParam, "observer"));
+  const [role, setRole] = useQueryParam('role', withDefault(StringParam, "Keck Staff"));
 
   const handleRoleChange = (value: string) => {
     console.log('setting role to: ', value)

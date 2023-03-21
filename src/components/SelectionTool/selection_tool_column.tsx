@@ -9,6 +9,10 @@ import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
 import { OBQueue } from './ob_queue';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface OBServerData {
     ob: ObservationBlock
@@ -74,6 +78,7 @@ export const SelectionToolColumn = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [avlObs, setAvlObs] = useState(defaultState.avlObs)
     const [avg, setAvg] = useState(0)
+    const [role, setRole] = useQueryParam('role', withDefault(StringParam, "Keck Staff"));
 
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [sem_id, setSemId] =
@@ -109,7 +114,7 @@ export const SelectionToolColumn = (props: Props) => {
         props.setSelObs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
-        socket.emit('set_ob_boneyard', { ob_id_boneyard: []})
+        socket.emit('set_ob_boneyard', { ob_id_boneyard: [] })
     }
 
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
@@ -155,21 +160,38 @@ export const SelectionToolColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-            <FormControl sx={{ m: 0, width: 150 }}>
-                <DropDown
-                    placeholder={'semester id'}
-                    arr={semIdList}
-                    value={sem_id}
-                    handleChange={handleSemIdSubmit}
-                    label={'Semester ID'}
-                    highlightOnEmpty={true}
-                />
-            </FormControl>
-            <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
+            {role.includes('Observer') && (
+
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <h2>Available OBs</h2>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <React.Fragment>
+                            <FormControl sx={{ m: 0, width: 150 }}>
+                                <DropDown
+                                    placeholder={'semester id'}
+                                    arr={semIdList}
+                                    value={sem_id}
+                                    handleChange={handleSemIdSubmit}
+                                    label={'Semester ID'}
+                                    highlightOnEmpty={true}
+                                />
+                            </FormControl>
+                            <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
+                        </React.Fragment>
+                    </AccordionDetails>
+                </Accordion>
+            )
+            }
             <OBQueue
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
             />
-        </React.Fragment>
+        </React.Fragment >
     )
 }

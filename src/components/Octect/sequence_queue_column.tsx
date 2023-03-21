@@ -9,6 +9,11 @@ import { Button, FormControl, Paper, Tooltip } from '@mui/material'
 import JsonViewTheme from '../json_view_theme'
 import { SocketContext } from '../../contexts/socket';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 interface Props {
     enableClipboard: boolean | ((copy: OnCopyProps) => void) | undefined
     collapseStringsAfter: number | false | undefined
@@ -90,24 +95,32 @@ export const SequenceQueueColumn = (props: Props) => {
                 elevation: 3,
             }}
             >
-                <h2>Selected OB</h2>
-                <Tooltip title="Change the color theme of the OB JSON display">
-                    <div>
-                        <JsonViewTheme
-                            theme={theme as ThemeKeys | null | undefined}
-                            setTheme={setTheme}
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <h2>Selected OB</h2>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Tooltip title="Change the color theme of the OB JSON display">
+                            <JsonViewTheme
+                                theme={theme as ThemeKeys | null | undefined}
+                                setTheme={setTheme}
+                            />
+                        </Tooltip>
+                        <ReactJson
+                            src={props.ob as object}
+                            theme={theme as ThemeKeys | undefined}
+                            iconStyle={props.iconStyle}
+                            collapsed={props.collapsed}
+                            collapseStringsAfterLength={props.collapseStringsAfter}
+                            enableClipboard={props.enableClipboard}
+                            onEdit={false}
                         />
-                    </div>
-                </Tooltip>
-                <ReactJson
-                    src={props.ob as object}
-                    theme={theme as ThemeKeys | undefined}
-                    iconStyle={props.iconStyle}
-                    collapsed={props.collapsed}
-                    collapseStringsAfterLength={props.collapseStringsAfter}
-                    enableClipboard={props.enableClipboard}
-                    onEdit={false}
-                />
+                    </AccordionDetails>
+                </Accordion>
             </Paper>
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
                 <Button variant="contained" onClick={props.submitSeq}>Submit Top Sequence</Button>
@@ -119,6 +132,6 @@ export const SequenceQueueColumn = (props: Props) => {
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
                 {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
             </DragDropContext>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
