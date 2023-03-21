@@ -85,45 +85,44 @@ export const SequenceQueueColumn = (props: Props) => {
     }
     const isDragDisabled = false
     return (
-
         <React.Fragment>
-            <Paper sx={{
-                padding: '8px',
-                margin: '4px',
-                minHeight: 25,
-                width: '100%',
-                elevation: 3,
-            }}
-            >
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                    >
-                        <h2>Selected OB</h2>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Tooltip title="Change the color theme of the OB JSON display">
-                            <JsonViewTheme
-                                theme={theme as ThemeKeys | null | undefined}
-                                setTheme={setTheme}
-                            />
-                        </Tooltip>
-                        <ReactJson
-                            src={props.ob as object}
-                            theme={theme as ThemeKeys | undefined}
-                            iconStyle={props.iconStyle}
-                            collapsed={props.collapsed}
-                            collapseStringsAfterLength={props.collapseStringsAfter}
-                            enableClipboard={props.enableClipboard}
-                            onEdit={false}
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{
+                        maxHeight: 50,
+                        margin: '0px',
+                        padding: '4px'
+                    }}
+
+                >
+                    <h2 style={{ margin: '0px' }}>Selected OB</h2>
+                </AccordionSummary>
+                <AccordionDetails
+                    sx={{
+                        padding: '0px',
+                        margin: '4px',
+                    }}
+                >
+                    <Tooltip title="Change the color theme of the OB JSON display">
+                        <JsonViewTheme
+                            theme={theme as ThemeKeys | null | undefined}
+                            setTheme={setTheme}
                         />
-                    </AccordionDetails>
-                </Accordion>
-            </Paper>
+                    </Tooltip>
+                    <ReactJson
+                        src={props.ob as object}
+                        theme={theme as ThemeKeys | undefined}
+                        iconStyle={props.iconStyle}
+                        collapsed={props.collapsed}
+                        collapseStringsAfterLength={props.collapseStringsAfter}
+                        enableClipboard={props.enableClipboard}
+                        onEdit={false}
+                    />
+                </AccordionDetails>
+            </Accordion>
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitSeq}>Submit Top Sequence</Button>
+                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
             </FormControl>
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
                 <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>

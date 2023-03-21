@@ -264,7 +264,7 @@ const Octect = (props: Props) => {
                         />
                     </Paper>
                     <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                        <Button variant="contained" onClick={submitSeq}>Submit Top Sequence</Button>
+                        <Button variant="contained" onClick={submitSeq}>Submit Top Seq</Button>
                     </FormControl>
                     <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
                         <Button variant="contained" onClick={submitAcq}>Submit Acquisition</Button>

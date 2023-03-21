@@ -5,10 +5,6 @@ import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox";
 import { ob_api_funcs } from "../../api/ApiRoot";
 import Paper from "@mui/material/Paper";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface Props {
     rows: Scoby[],
@@ -44,9 +40,6 @@ const CustomToolbarSelect = (props: CTProps) => {
     };
     return (
         <Tooltip title={"Add selected OBs to observation queue"}>
-            {/* <IconButton onClick={handleClick}>
-                <FilterIcon />
-            </IconButton> */}
             <Button variant="outlined" onClick={handleClick}>Select OBs</Button>
         </Tooltip>
     );
@@ -82,9 +75,19 @@ const AvailableOBTable = (props: Props) => {
 
     const columns = [
         { name: 'ob_id', label: 'OB ID', options: { display: false } },
-        { name: 'name', label: 'OB Name' },
-        { name: 'container_name', label: 'Container Name' },
-        { name: 'ob_type', label: 'OB Type' },
+        { name: 'name', label: 'OB Name',
+    options: {
+
+    }},
+        { name: 'container_name', label: 'Container Name', 
+        options: {
+
+    }},
+        { name: 'ob_type', label: 'OB Type', 
+        options: {
+            setCellProps: () => ({ style: { minWidth: "80px", maxWidth: "80px" }})
+
+    }},
         { name: 'version', label: 'Version', options: { display: false } },
         { name: 'comment', label: 'Comment', options: { display: false } },
         { name: 'ra', label: 'RA', options: { display: true } },

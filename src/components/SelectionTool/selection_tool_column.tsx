@@ -161,29 +161,38 @@ export const SelectionToolColumn = (props: Props) => {
     return (
         <React.Fragment>
             {role.includes('Observer') && (
-
-                <Accordion>
+                <Accordion
+                >
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        sx={{
+                            margin: "0px",
+                            padding: "4px",
+                            maxHeight: 50,
+                        }}
                     >
-                        <h2>Available OBs</h2>
+                        <h2
+                            style={{ margin: "0px" }}
+                        >Available OBs</h2>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        <React.Fragment>
-                            <FormControl sx={{ m: 0, width: 150 }}>
-                                <DropDown
-                                    placeholder={'semester id'}
-                                    arr={semIdList}
-                                    value={sem_id}
-                                    handleChange={handleSemIdSubmit}
-                                    label={'Semester ID'}
-                                    highlightOnEmpty={true}
-                                />
-                            </FormControl>
-                            <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
-                        </React.Fragment>
+                    <AccordionDetails
+                        sx={{
+                            padding: '0px',
+                            margin: '4px',
+                        }}
+
+                    >
+                        <FormControl sx={{ m: 0, width: 150 }}>
+                            <DropDown
+                                placeholder={'semester id'}
+                                arr={semIdList}
+                                value={sem_id}
+                                handleChange={handleSemIdSubmit}
+                                label={'Semester ID'}
+                                highlightOnEmpty={true}
+                            />
+                        </FormControl>
+                        <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
                     </AccordionDetails>
                 </Accordion>
             )

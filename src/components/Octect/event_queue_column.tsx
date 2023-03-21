@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
-import { Alert, Button, FormControl, Paper, Snackbar } from '@mui/material'
+import { Alert, Button, FormControl, Paper, Snackbar, Stack } from '@mui/material'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
@@ -25,8 +25,8 @@ const convert_string_array_to_object_array = (strArray: string[]) => {
 
 interface Props {
     setSnackbarOpen: Function
-    snackbarMsg: string 
-    snackbarOpen: boolean 
+    snackbarMsg: string
+    snackbarOpen: boolean
     task: object
     releaseEventQueueLock: MouseEventHandler<HTMLButtonElement> | undefined
     submitEvent: MouseEventHandler<HTMLButtonElement> | undefined
@@ -43,7 +43,7 @@ export const EventQueueColumn = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
-    
+
     const [role, _] = useQueryParam('role', withDefault(StringParam, "observer"));
 
     const onDragEnd = (result: any) => {
@@ -92,9 +92,8 @@ export const EventQueueColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-
             <Paper sx={{
-                padding: '8px',
+                padding: '4px',
                 margin: '4px',
                 minHeight: 25,
                 width: '100%',
@@ -111,13 +110,14 @@ export const EventQueueColumn = (props: Props) => {
                     onEdit={false}
                 />
             </Paper>
-
-            <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
-            </FormControl>
-            <FormControl sx={{ width: 300, margin: '4px', marginTop: '16px' }}>
-                <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
-            </FormControl>
+            <Stack direction="row" spacing={0}>
+                <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
+                    <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
+                </FormControl>
+                <FormControl sx={{ width: 275, margin: '4px', marginTop: '16px', padding: '0px'  }}>
+                    <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
+                </FormControl>
+            </Stack>
             <Snackbar
                 open={props.snackbarOpen}
                 autoHideDuration={6000}
