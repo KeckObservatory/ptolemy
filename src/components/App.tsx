@@ -3,7 +3,6 @@ import './App.css';
 import { handleTheme } from './theme';
 import CssBaseline from "@mui/material/CssBaseline";
 import { TopBar } from './top_bar';
-import { makeStyles } from "@mui/styles"
 import { ThemeProvider } from "@mui/material/styles";
 import { BooleanParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { ModuleMenu } from './module_menu'

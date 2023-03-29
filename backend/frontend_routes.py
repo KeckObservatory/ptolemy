@@ -196,11 +196,14 @@ def new_task(data):
             return
             
         acqSeq = ob.get('acquisition', False) 
-        newTask = SequenceItem(acqSeq, ob)
-        if not acqSeq:
-            data = {'msg': 'no acquisition in ob'}
+        target = ob.get('target', False)
+        if not acqSeq or not target:
+            data = {'msg': 'no acquisition or target in ob'}
             emit('snackbar_msg', data, room=request.sid)
             return
+        logging.info(f"new acquistion task from queue {acqSeq['metadata']['script']}")
+        ee.ev_q.load_events_from_sequence_and_target(acqSeq, target)
+
     else: # is sequence
         seq_queue = [*ee.seq_q.queue]
         if len(seq_queue) == 0:
@@ -215,8 +218,8 @@ def new_task(data):
             emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
 
-    logging.info(f'new task from queue {newTask.script_name}')
-    ee.ev_q.load_events_from_sequence(newTask)
+        logging.info(f'new task from queue {newTask.script_name}')
+        ee.ev_q.load_events_from_sequence(newTask)
     ev_queue = ee.ev_q.get_queue_as_list() 
     ee.ev_q.boneyard = []
     eventData = {'event_queue': ev_queue}
