@@ -202,7 +202,7 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
         logging.info(f"new acquistion task from queue {acqSeq['metadata']['script']}")
-        ee.ev_q.load_events_from_sequence_and_target(acqSeq, target)
+        ee.ev_q.load_events_from_acquisition_and_target(acqSeq, target)
 
     else: # is sequence
         seq_queue = [*ee.seq_q.queue]
