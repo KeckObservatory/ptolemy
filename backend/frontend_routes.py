@@ -260,6 +260,7 @@ def submit_event():
 def release_event_queue_lock():
     #TODO: add logic to handle FE button press
     logging.info('release_event_queue_lock event triggered')
+    ee.server_connection.send({"message": "release_event_queue_lock"})
         
 
 @socketio.on('is_event_queue_locked')
