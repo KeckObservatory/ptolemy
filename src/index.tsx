@@ -3,20 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import { Router, Route } from 'react-router';
+// import { Routes, Route } from 'react-router';
 import { createBrowserHistory } from 'history';
 import { QueryParamProvider } from 'use-query-params';
 
-const history = createBrowserHistory();
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 ReactDOM.render(
   <div>
-  <Router {...{ history }}>
-    <QueryParamProvider ReactRouterRoute={Route}>
-      <App />
-    </QueryParamProvider>
-  </Router>,
-</div>,
+    <BrowserRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
+        <Routes >
+          <Route path="/" element={<App />} />
+        </Routes>,
+      </QueryParamProvider>
+    </BrowserRouter>
+  </div>,
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
