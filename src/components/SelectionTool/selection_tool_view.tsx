@@ -27,7 +27,8 @@ interface Props {
 
 interface State {
     selObs: ObservationBlock[];
-    avlObs: Scoby[];
+    avlObRows: Scoby[];
+    selObRows: Scoby[];
     sem_id: string
     semIdList: string[]
     chartType: string;
@@ -35,8 +36,9 @@ interface State {
 
 
 const defaultState: State = {
-    avlObs: [],
+    avlObRows: [],
     selObs: [],
+    selObRows: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude'
@@ -72,8 +74,9 @@ export const SelectionToolView = (props: Props) => {
     const chartTypes = ['altitude', 'air mass', 'parallactic angle', 'lunar angle']
 
     const socket = React.useContext(SocketContext);
-    const [avlObs, setAvlObs] = useState(defaultState.avlObs)
+    const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
     const [selObs, setSelObs] = useState(defaultState.selObs)
+    const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [chartType, setChartType] = useState(defaultState.chartType)
     const [avg, setAvg] = useState(0)
 
@@ -89,7 +92,7 @@ export const SelectionToolView = (props: Props) => {
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
             const [scoby, cont] = scoby_cont
-            setAvlObs(scoby)
+            setavlObRows(scoby)
         })
 
         get_sem_id_list()
@@ -108,7 +111,7 @@ export const SelectionToolView = (props: Props) => {
         make_semid_scoby_table_and_containers(sem_id)
             .then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
                 const [scoby, cont] = scoby_cont
-                setAvlObs(scoby)
+                setavlObRows(scoby)
             })
     }, [sem_id])
 
@@ -187,7 +190,7 @@ export const SelectionToolView = (props: Props) => {
             }
             >
                 <Grid item xs={6}>
-                    <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
+                    <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
                 </Grid>
                 <Grid item xs={6}>
                     <SelectedQueue
@@ -196,7 +199,7 @@ export const SelectionToolView = (props: Props) => {
                         submittedOB={submittedOB}
                     />
                 </Grid>
-                {/* <Grid item xs={4}>
+                <Grid item xs={4}>
                     <DropDown
                         placeholder={'Chart Type'}
                         arr={chartTypes}
@@ -204,7 +207,7 @@ export const SelectionToolView = (props: Props) => {
                         handleChange={handleChartTypeSelect}
                         label={'ChartType'}
                     />
-                    <ThreeDView selObs={selObs} /> 
+                    <ThreeDView selObRows={selObRows} /> 
                     <Paper sx={{
                         padding: '8px',
                         margin: '4px',
@@ -217,9 +220,9 @@ export const SelectionToolView = (props: Props) => {
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>
-                         <SkyView chartType={chartType} selObs={selObs} />
+                         <SkyView chartType={chartType} selObRows={selObRows} />
                     </Paper >
-                </Grid>  */}
+                </Grid> 
             </Grid>
         </React.Fragment>
     )

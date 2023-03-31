@@ -17,7 +17,7 @@ interface Data {
 }
 
 interface Props {
-  selObs: Scoby[]
+  selObRows: Scoby[]
 }
 
 const spherical_2_cartesian = (r: number, az: number, el: number) => {
@@ -191,7 +191,7 @@ const ThreeDView = (props: Props) => {
   const times = util.get_times(nadir, 105)
 
   let scoby_deg: Scoby[] = []
-  props.selObs.forEach((s: Scoby) => {
+  props.selObRows.forEach((s: Scoby) => {
     if (s.ra && s.dec) {
       let sd = {
         ...s,

@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Scoby } from '../../../typings/ptolemy';
 
 interface Props {
-  selObs: Scoby[] 
+  selObRows: Scoby[] 
 }
 
 export default function OBSubmit(props: Props) {

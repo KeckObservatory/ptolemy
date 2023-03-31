@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 interface Props {
     rows: Scoby[],
     setSelObs: Function
+    setSelObRows: Function
 }
 
 interface SelectedRows {
@@ -24,6 +25,7 @@ interface SelectedRows {
 interface CTProps {
     selectedRows: SelectedRows,
     setSelObs: Function,
+    setSelObRows: Function,
     rows: Scoby[]
 }
 
@@ -37,6 +39,7 @@ const CustomToolbarSelect = (props: CTProps) => {
         let selObs = ob_ids ? await ob_api_funcs.get_many(ob_ids) : []
         console.log('selOb len', selObs.length)
         props.setSelObs(selObs)
+        props.setSelObRows(selObRows)
     };
     return (
         <Tooltip title={"Add selected OBs to observation queue"}>
@@ -67,6 +70,7 @@ const AvailableOBTable = (props: Props) => {
             <CustomToolbarSelect
                 selectedRows={selectedRows}
                 setSelObs={props.setSelObs}
+                setSelObRows={props.setSelObRows}
                 rows={props.rows}
             />
         ),

@@ -9,7 +9,7 @@ import { useQueryParam, NumericObjectParam, withDefault, DateParam } from 'use-q
 interface Props {
     outerHeight: number
     outerWidth: number
-    selObs: Scoby[]
+    selObRows: Scoby[]
     chartType: string
     marginLeft: number;
     marginRight: number;
@@ -43,10 +43,10 @@ export default function SkyView(props: Props) {
         // d3.selectAll("svg > *").remove(); // clear old scales and points
         d3.select('#sky-view').selectAll("svg > * ").remove(); // clear old scales and points
         // d3.selectAll('g > *').remove(); // clear old scales and points
-    }, [props.selObs, props.chartType])
+    }, [props.selObRows, props.chartType])
 
     let scoby_deg: Scoby[] = []
-    props.selObs.forEach((s: Scoby) => {
+    props.selObRows.forEach((s: Scoby) => {
         if (s.ra && s.dec) {
             // console.log('ra: ', s.ra, 'dec: ', s.dec)
             let sd = {...s, 

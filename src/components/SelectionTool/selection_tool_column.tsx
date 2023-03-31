@@ -34,7 +34,8 @@ interface Props {
 }
 
 interface State {
-    avlObs: Scoby[];
+    avlObRows: Scoby[];
+    selObRows: Scoby[];
     sem_id: string
     semIdList: string[]
     chartType: string;
@@ -42,7 +43,8 @@ interface State {
 
 
 const defaultState: State = {
-    avlObs: [],
+    avlObRows: [],
+    selObRows: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude'
@@ -76,10 +78,11 @@ const container_obs_to_cells = (container_obs: any) => {
 export const SelectionToolColumn = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
-    const [avlObs, setAvlObs] = useState(defaultState.avlObs)
+    const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
     const [avg, setAvg] = useState(0)
     const [role, setRole] = useQueryParam('role', withDefault(StringParam, "Keck Staff"));
 
+    const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
@@ -90,7 +93,7 @@ export const SelectionToolColumn = (props: Props) => {
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
             const [scoby, cont] = scoby_cont
-            setAvlObs(scoby)
+            setavlObRows(scoby)
         })
 
         get_sem_id_list()
@@ -105,7 +108,7 @@ export const SelectionToolColumn = (props: Props) => {
         make_semid_scoby_table_and_containers(sem_id)
             .then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
                 const [scoby, cont] = scoby_cont
-                setAvlObs(scoby)
+                setavlObRows(scoby)
             })
     }, [sem_id])
 
@@ -192,7 +195,7 @@ export const SelectionToolColumn = (props: Props) => {
                                 highlightOnEmpty={true}
                             />
                         </FormControl>
-                        <AvailableOBTable rows={avlObs} setSelObs={on_table_select_rows} />
+                        <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
                     </AccordionDetails>
                 </Accordion>
             )
