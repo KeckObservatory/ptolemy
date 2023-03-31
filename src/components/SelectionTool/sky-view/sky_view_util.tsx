@@ -97,7 +97,7 @@ export const get_nadir = (lngLatEl: LngLatEl, date?: Date) => {
 }
 
 export const get_times = (nadir: Date, nPoints: number = 20) => {
-    const deltaNadir = linspace(-6, 6, nPoints)
+    const deltaNadir = linspace(-7, 7, nPoints)
     let times: Date[] = []
     deltaNadir.forEach((hour: number) => {
         times.push(addHours(nadir, hour))

@@ -208,20 +208,20 @@ export const SelectionToolView = (props: Props) => {
                         label={'ChartType'}
                     />
                     <ThreeDView selObRows={selObRows} /> 
-                    <Paper sx={{
+                    {/* <Paper sx={{
                         padding: '8px',
                         margin: '4px',
                         height: '700px',
                         elevation: 3,
                         width: '880px'
+                    } 
                     }
-                    }
-                        elevation={3}>
+                        elevation={3}>  */}
                         <Tooltip title="View selected OB target charts here">
                             <h2>Sky View</h2>
                         </Tooltip>
                          <SkyView chartType={chartType} selObRows={selObRows} />
-                    </Paper >
+                    {/* </Paper > */}
                 </Grid> 
             </Grid>
         </React.Fragment>
