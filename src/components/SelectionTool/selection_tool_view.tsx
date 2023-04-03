@@ -13,6 +13,7 @@ import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
 import ThreeDView from './sky-view/three_d_view'
 import { ob_api_funcs } from '../../api/ApiRoot'
+import TwoDView from './sky-view/two_d_view'
 
 interface OBServerData {
     ob: ObservationBlock
@@ -118,7 +119,7 @@ export const SelectionToolView = (props: Props) => {
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
-        const ids = newSelObs.map( (ob: ObservationBlock) => ob._id)
+        const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids })
     }
 
@@ -200,6 +201,9 @@ export const SelectionToolView = (props: Props) => {
                     />
                 </Grid>
                 <Grid item xs={4}>
+
+                    <TwoDView selObRows={selObRows} />
+                    <ThreeDView selObRows={selObRows} />
                     <DropDown
                         placeholder={'Chart Type'}
                         arr={chartTypes}
@@ -207,22 +211,11 @@ export const SelectionToolView = (props: Props) => {
                         handleChange={handleChartTypeSelect}
                         label={'ChartType'}
                     />
-                    <ThreeDView selObRows={selObRows} /> 
-                    {/* <Paper sx={{
-                        padding: '8px',
-                        margin: '4px',
-                        height: '700px',
-                        elevation: 3,
-                        width: '880px'
-                    } 
-                    }
-                        elevation={3}>  */}
-                        <Tooltip title="View selected OB target charts here">
-                            <h2>Sky View</h2>
-                        </Tooltip>
-                         <SkyView chartType={chartType} selObRows={selObRows} />
-                    {/* </Paper > */}
-                </Grid> 
+                    <Tooltip title="View selected OB target charts here">
+                        <h2>Sky View</h2>
+                    </Tooltip>
+                    <SkyView chartType={chartType} selObRows={selObRows} />
+                </Grid>
             </Grid>
         </React.Fragment>
     )

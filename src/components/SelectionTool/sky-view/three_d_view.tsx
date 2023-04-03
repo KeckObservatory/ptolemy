@@ -5,6 +5,8 @@ import { Scoby } from '../../../typings/ptolemy';
 import { LngLatEl } from './sky_view';
 import NightPicker from './night_picker'
 import dayjs, { Dayjs } from 'dayjs';
+import { DateParam, useQueryParam, withDefault } from 'use-query-params';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 
 interface Data {
   time: Date,
@@ -55,7 +57,7 @@ const make_disk = () => {
     opacity: .5,
     color: "rgb(0,0,0)",
     line: {
-      width: 10  
+      width: 10
     },
     type: 'mesh3d',
     mode: 'lines',
@@ -184,10 +186,12 @@ const ThreeDView = (props: Props) => {
   const KECK_ELEVATION = 4144.9752 // m
   const keckLngLat: LngLatEl = { lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION }
 
-  const [date, setDate] = React.useState(dayjs)
+  const today = new Date()
+  const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
+  // const [date, setDate] = React.useState(dayjs)
   const [lngLatEl, setLngLatEl] = React.useState(keckLngLat)
 
-  const nadir = util.get_nadir(lngLatEl, date.toDate())
+  const nadir = util.get_nadir(lngLatEl, date)
   const times = util.get_times(nadir, 105)
 
   let scoby_deg: Scoby[] = []
@@ -326,15 +330,24 @@ const ThreeDView = (props: Props) => {
     },
   };
 
-
-
   const handleDateChange = (date: Dayjs | null) => {
-    if (date) setDate(date)
+    if (date) setDate(date.toDate())
   }
 
   return (
     <React.Fragment>
       <NightPicker date={date} handleDateChange={handleDateChange} />
+      <FormControl>
+        <FormLabel id="demo-row-radio-buttons-group-label">Dome</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+        >
+          <FormControlLabel value="K1" control={<Radio />} label="K1" />
+          <FormControlLabel value="K2" control={<Radio />} label="K2" />
+        </RadioGroup>
+      </FormControl>
       <Plot
         data={traces}
         layout={layout}

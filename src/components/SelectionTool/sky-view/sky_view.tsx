@@ -28,9 +28,9 @@ export default function SkyView(props: Props) {
     const KECK_LONG = 360 - 155.4747 // Keck Observatory longitude west of Greenwich [deg]
     const KECK_LAT = 19.8260 //[deg]
     const KECK_ELEVATION = 4144.9752 // m
-    const today = new Date()
     const keckLngLat: LngLatEl = {lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION}
 
+    const today = new Date()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
     const [lngLatEl, setLngLatEl] = useQueryParam('lngLatEl', withDefault(NumericObjectParam, keckLngLat as any))
 

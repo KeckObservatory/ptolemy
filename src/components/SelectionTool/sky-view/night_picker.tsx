@@ -10,7 +10,7 @@ const datePickerStyle = {
 }
 
 interface Props {
-    date: Dayjs
+    date: Date 
     handleDateChange: (date: Dayjs | null, keyboardInputValue?: string | undefined) => void
 }
 
