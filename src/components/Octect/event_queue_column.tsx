@@ -79,7 +79,7 @@ export const EventQueueColumn = (props: Props) => {
     }
     const event_items = convert_string_array_to_object_array(props.events)
     const boneyard_items = convert_string_array_to_object_array(props.eventBoneyard)
-    const isDragDisabled = true
+    const isDragDisabled = role === "Observer" ? true : false
 
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
