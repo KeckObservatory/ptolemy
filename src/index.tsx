@@ -15,15 +15,10 @@ ReactDOM.render(
   <div>
     <BrowserRouter>
       <QueryParamProvider adapter={ReactRouter6Adapter}>
-        <Routes >
-          <Route path="/" element={<App />} />
-        </Routes>,
+        <App />
       </QueryParamProvider>
     </BrowserRouter>
   </div>,
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
 
   document.getElementById('root')
 );
