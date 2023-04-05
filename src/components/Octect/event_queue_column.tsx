@@ -10,7 +10,7 @@ import { SocketContext } from '../../contexts/socket';
 const DragEventCell = (strObj) => {
     return (
         <div>
-            <p> event: {strObj.id} </p>
+            <p> event: {strObj.id.split('@')[0]} </p>
         </div>
     )
 }
