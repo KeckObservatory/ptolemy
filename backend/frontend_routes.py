@@ -157,7 +157,7 @@ def new_sequence_boneyard(data):
 def new_event_queue(data):
     """Sets event queue to local storage, and sends it to execution engine and frontend"""
     eq = data.get('event_queue')
-    logging.info('new event queue')
+    logging.info(f'new event queue: {eq}')
     newQueue = []
     event_ids = [ x.split('@')[1] for x in eq ]
     event_names = [ x.split('@')[0] for x in eq ]
@@ -182,7 +182,7 @@ def new_event_boneyard(data):
     """Sets event queue boneyard to local storage, and sends it to execution engine and frontend"""
     print('new event boneyard')
     eb = data.get('event_boneyard')
-    logging.info('new event queue')
+    logging.info(f'new event boneyard {eb}')
     newBoneyard = []
     event_ids = [ x.split('@')[1] for x in eb ]
     event_names = [ x.split('@')[0] for x in eb ]
@@ -198,8 +198,7 @@ def new_event_boneyard(data):
                 logging.warning(f'event {event_names[idx]} not found')
 
     ee.ev_q.boneyard = newBoneyard
-    ev_boneyard = ee.ev_q.get_queue_as_list() 
-    eventBoneyardData = {'event_boneyard': ev_boneyard}
+    eventBoneyardData = {'event_boneyard': ee.ev_q.boneyard}
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
 
 @socketio.on('new_task')

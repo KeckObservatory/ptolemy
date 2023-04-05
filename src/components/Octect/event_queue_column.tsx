@@ -128,7 +128,7 @@ export const EventQueueColumn = (props: Props) => {
                 </Alert>
             </Snackbar>
             <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(event_items, 'evt1', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
+                {CreateDroppable(event_items, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
                 {CreateDroppable(boneyard_items, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
             </DragDropContext>
         </React.Fragment>
