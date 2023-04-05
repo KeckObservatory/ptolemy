@@ -168,7 +168,7 @@ export const Ptolemy = (props: Props) => {
         })
 
         socket.on('event_queue_broadcast', (data) => {
-            console.log('event_queue_broadcast event triggered. setting event_queue')
+            console.log('event_queue_broadcast event triggered. setting event_queue', data)
             const eventQueue = data.event_queue.map((evt: TaskEvent) => {
                 return evt.script_name + '@' + evt.id
             })
