@@ -164,7 +164,9 @@ def new_event_queue(data):
         evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
         newQueue.append(evtItem)
     ee.ev_q.set_queue(newQueue)
-    emit('event_queue_broadcast', data, broadcast=True)
+    ev_queue = ee.ev_q.get_queue_as_list() 
+    eventData = {'event_queue': ev_queue}
+    emit('event_queue_broadcast', eventData, broadcast=True)
 
 @socketio.on('new_event_boneyard')
 def new_event_boneyard(data):
