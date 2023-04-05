@@ -198,7 +198,10 @@ def new_event_boneyard(data):
                 logging.warning(f'event {event_names[idx]} not found')
 
     ee.ev_q.boneyard = newBoneyard
-    eventBoneyardData = {'event_boneyard': ee.ev_q.boneyard}
+    l = [x.as_dict() for x in newBoneyard]
+    # send to the frontend a list of strings
+    event_boneyard = [ x.script_name + '@' + x.id for x in l]
+    eventBoneyardData = {'event_boneyard': event_boneyard}
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
 
 @socketio.on('new_task')
