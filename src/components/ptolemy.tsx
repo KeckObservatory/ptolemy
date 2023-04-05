@@ -222,6 +222,7 @@ export const Ptolemy = (props: Props) => {
 
     const submitEvent = () => {
         console.log('submit event button clicked.')
+        console.log('trying to submit', events[0])
         socket.emit('submit_event')
     }
 
