@@ -160,9 +160,18 @@ def new_event_queue(data):
     logging.info('new event queue')
     newQueue = []
     event_ids = [ x.split('@')[1] for x in eq ]
-    for eid in event_ids:
+    event_names = [ x.split('@')[0] for x in eq ]
+    for idx, eid in enumerate(event_ids): #sorting in queue
         evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
-        newQueue.append(evtItem)
+        if evtItem:
+            newQueue.append(evtItem)
+        else: # event swapped from boneyard to queue
+            evtItem = next((item for item in [*ee.ev_q.boneyard] if item.id == eid), None)
+            if evtItem:
+                newQueue.append(evtItem)
+            else: 
+                logging.warning(f'event {event_names[idx]} not found')
+
     ee.ev_q.set_queue(newQueue)
     ev_queue = ee.ev_q.get_queue_as_list() 
     eventData = {'event_queue': ev_queue}
@@ -173,7 +182,25 @@ def new_event_boneyard(data):
     """Sets event queue boneyard to local storage, and sends it to execution engine and frontend"""
     print('new event boneyard')
     eb = data.get('event_boneyard')
-    emit('event_boneyard_broadcast', data, broadcast=True)
+    logging.info('new event queue')
+    newBoneyard = []
+    event_ids = [ x.split('@')[1] for x in eb ]
+    event_names = [ x.split('@')[0] for x in eb ]
+    for idx, eid in enumerate(event_ids): # sorting in boneyard
+        evtItem = next((item for item in [*ee.ev_q.boneyard] if item.id == eid), None)
+        if evtItem:
+            newBoneyard.append(evtItem)
+        else: # event swapped from queue to boneyard 
+            evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
+            if evtItem:
+                newBoneyard.append(evtItem)
+            else: 
+                logging.warning(f'event {event_names[idx]} not found')
+
+    ee.ev_q.boneyard = newBoneyard
+    ev_boneyard = ee.ev_q.get_queue_as_list() 
+    eventBoneyardData = {'event_boneyard': ev_boneyard}
+    emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
 
 @socketio.on('new_task')
 def new_task(data):
@@ -191,7 +218,7 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
         try: 
-            ob = ee.ODBInterface.get_OB_from_id(ob_id) 
+            ob = ee.ODBInterface.get_OB_from_id(ob_id)
         except RuntimeError as err: 
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
