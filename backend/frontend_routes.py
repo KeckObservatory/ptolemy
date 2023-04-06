@@ -275,7 +275,7 @@ def submit_event():
         emit('snackbar_msg', data, room=request.sid)
         return
     else: 
-        ee.ev_q.lock.release() # checking a lock blocks it. need to release
+        ee.ev_q.block_event.release() # checking a lock blocks it. need to release
         
 
     ee.ev_q.dispatch_event()
