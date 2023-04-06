@@ -19,12 +19,12 @@ Build and Change Procedure
 
 Frontend
 ^^^^^^^^
-While as webdev@vm-ddoiserverbuild navigate to ``path/to/project`` and enter the command ``npm run build``.
+While as dsibld@vm-ddoiserverbuild navigate to ``path/to/project`` and enter the command ``npm run build``.
 When complete the frontend will be in the ``build`` file. Run as dsibld account.
 
 .. code-block:: bash 
 
-   cd /ddoi/observers/
+   cd /www/observers/
    git clone https://github.com/KeckObservatory/ptolemy.git 
    cd ./ptolemy
    npm install
@@ -34,12 +34,13 @@ When complete the frontend will be in the ``build`` file. Run as dsibld account.
    When changing the frontend interface, run `npm run build` again to rebuild the GUI. 
    If a library has changed you must run `npm install && npm run build` instead.
 
-In a browser go to vm-ddoiserverbuild/observers/ptolemy/build/index.html. After logging in using your Windows account username and password, you should be greeted
+In a browser go to `http://vm-ddoiserverbuild/observers/ptolemy/build/index.html <http://vm-ddoiserverbuild/observers/ptolemy/build/index.html>`_.
+After logging in using your Windows account username and password, you should be greeted
 by the Ptolemy GUI. 
 
 Backend
 ^^^^^^^
-In a separate terminal as webdev@vm-ddoiserverbuild, execute the following lines of code. 
+In a separate terminal as dsibld@vm-ddoiserverbuild, execute the following lines of code. 
 
 .. code-block:: bash 
 
