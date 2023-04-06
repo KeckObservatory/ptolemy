@@ -268,7 +268,7 @@ def submit_event():
         emit('snackbar_msg', data, room=request.sid)
         return
     #aquire lock 
-    isBlocked = not ee.ev_q.block_event.is_set()
+    isBlocked = ee.ev_q.block_event.is_set()
     if isBlocked:
         logging.warning('queue locked. sending msg to frontend')
         data = { 'msg': 'event queue locked'}
