@@ -268,7 +268,7 @@ def submit_event():
         emit('snackbar_msg', data, room=request.sid)
         return
     #aquire lock 
-    isBlocked = not ee.ev_q.lock.acquire(blocking=False)
+    isBlocked = not ee.ev_q.block_event.is_set()
     if isBlocked:
         logging.warning('queue locked. sending msg to frontend')
         data = { 'msg': 'event queue locked'}
@@ -290,6 +290,7 @@ def submit_event():
 @socketio.on('release_event_queue_lock')
 def release_event_queue_lock():
     logging.info('release_event_queue_lock event triggered')
+    ee.ev_q.block_event.clear()
     ee.server_connection.send({"message": "release_event_queue_lock"})
         
 
