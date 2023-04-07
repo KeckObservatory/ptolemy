@@ -201,10 +201,10 @@ def get_event(arr, eventStr):
     return evtItem 
 
 def build_list(arr, strQueue):
-    ids = [ x.split('@')[1] for x in strQueue]
     outArr = []
     for eventStr in strQueue:
-        outArr = get_event(arr, eventStr, outArr)
+        evt = get_event(arr, eventStr)
+        if evt: outArr.append(evt)
     return outArr
 
 @socketio.on('event_queue_boneyard_swap')
