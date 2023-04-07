@@ -183,10 +183,9 @@ def new_event_boneyard(data):
         if evt: newBoneyard.append(evt) 
 
     ee.ev_q.boneyard = newBoneyard
-    # send to the frontend a list of strings
     boneyardDict = [x.as_dict() for x in newBoneyard]
-    event_boneyard = [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
-    eventBoneyardData = {'event_boneyard': event_boneyard}
+    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
+    eventBoneyardData = {'event_boneyard': boneyardStrs}
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
 
 def get_event(arr, eventStr):

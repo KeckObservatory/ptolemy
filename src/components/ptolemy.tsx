@@ -174,24 +174,20 @@ export const Ptolemy = (props: Props) => {
 
         socket.on('event_queue_broadcast', (data) => {
             console.log('event_queue_broadcast event triggered. setting event_queue', data)
-            const eventQueue = data.event_queue.map((evt: TaskEvent) => {
-                return evt.script_name + '@' + evt.id
-            })
-            console.log('event_queue', eventQueue)
-            if (eventQueue) setEvents(eventQueue)
+            console.log('event_queue', data.event_queue)
+            setEvents(data.event_queue)
         })
 
         socket.on('event_boneyard_broadcast', (data) => {
             console.log('event_boneyard_broadcast event triggered. setting event_boneyard')
-            const eventBoneyard = data.event_boneyard.map((evt: TaskEvent) => {
-                return evt.script_name + '@' + evt.id
-            })
-            console.log('event_boneyard', eventBoneyard)
-            if (eventBoneyard) setEventBoneyard(eventBoneyard)
+            console.log('event_boneyard', data.event_boneyard)
+            setEventBoneyard(data.event_boneyard)
         })
 
 
         socket.on('new_event_queue_and_boneyard', (data) => {
+            console.log('new_event_queue_and_boneyard_broadcasted. setting event queue and boneyard', data.event_boneyard)
+            console.log('event_queue', data.event_queue)
             setEvents(data.event_queue)
             setEventBoneyard(data.event_boneyard)
             })
