@@ -207,6 +207,14 @@ def build_list(arr, strQueue):
         if evt: outArr.append(evt)
     return outArr
 
+def make_event_out_data():
+    ev_queue = ee.ev_q.get_queue_as_list() 
+    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
+    boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
+    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
+    outData = { 'event_queue': eventStrs, 'event_boneyard': boneyardStrs}
+    return outData
+
 @socketio.on('event_queue_boneyard_swap')
 def event_queue_boneyard_swap(data):
     evtPool = [*ee.ev_q.boneyard, *list(ee.ev_q.queue)]
@@ -218,7 +226,8 @@ def event_queue_boneyard_swap(data):
     #boneyard cereation
     newBoneyard = build_list(evtPool, boneyardStrs)
     ee.ev_q.boneyard = newBoneyard
-    outData = { 'event_queue': eventStrs, 'event_boneyard': newBoneyard }
+    outData = make_event_out_data()
+
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('new_task')
@@ -267,11 +276,10 @@ def new_task(data):
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
             logging.info(f'new task from queue {newTask.sequence}')
             ee.ev_q.load_events_from_sequence(newTask)
-    ev_queue = ee.ev_q.get_queue_as_list() 
-    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
     ee.ev_q.boneyard = []
+    outData = make_event_out_data()
+
     emit('task_broadcast', data, broadcast=True)
-    outData = { 'event_queue': eventStrs, 'event_boneyard': []}
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('submit_event')
@@ -291,14 +299,9 @@ def submit_event():
         emit('snackbar_msg', data, room=request.sid)
         return
         
-
     ee.ev_q.dispatch_event()
     # broadcast new queue and boneyard
-    ev_queue = ee.ev_q.get_queue_as_list() 
-    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
-    boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
-    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
-    outData = { 'event_queue': eventStrs, 'event_boneyard': boneyardStrs}
+    outData = make_event_out_data()
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('release_event_queue_lock')
