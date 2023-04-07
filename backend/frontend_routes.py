@@ -159,22 +159,15 @@ def new_event_queue(data):
     eq = data.get('event_queue')
     logging.info(f'new event queue: {eq}')
     newQueue = []
-    event_ids = [ x.split('@')[1] for x in eq ]
-    event_names = [ x.split('@')[0] for x in eq ]
-    for idx, eid in enumerate(event_ids): #sorting in queue
-        evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
-        if evtItem:
-            newQueue.append(evtItem)
-        else: # event swapped from boneyard to queue
-            evtItem = next((item for item in [*ee.ev_q.boneyard] if item.id == eid), None)
-            if evtItem:
-                newQueue.append(evtItem)
-            else: 
-                logging.warning(f'event {event_names[idx]} not found')
+    oldQueue = [*ee.ev_q.queue]
+    for eventStr in eq: #sorting in queue
+        evt = get_event(oldQueue, eventStr, newQueue)
+        if evt: newQueue.append(evt)
 
     ee.ev_q.set_queue(newQueue)
     ev_queue = ee.ev_q.get_queue_as_list() 
-    eventData = {'event_queue': ev_queue}
+    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
+    eventData = {'event_queue': eventStrs}
     emit('event_queue_broadcast', eventData, broadcast=True)
 
 @socketio.on('new_event_boneyard')
@@ -184,18 +177,10 @@ def new_event_boneyard(data):
     eb = data.get('event_boneyard')
     logging.info(f'new event boneyard {eb}')
     newBoneyard = []
-    event_ids = [ x.split('@')[1] for x in eb ]
-    event_names = [ x.split('@')[0] for x in eb ]
-    for idx, eid in enumerate(event_ids): # sorting in boneyard
-        evtItem = next((item for item in [*ee.ev_q.boneyard] if item.id == eid), None)
-        if evtItem:
-            newBoneyard.append(evtItem)
-        else: # event swapped from queue to boneyard 
-            evtItem = next((item for item in [*ee.ev_q.queue] if item.id == eid), None)
-            if evtItem:
-                newBoneyard.append(evtItem)
-            else: 
-                logging.warning(f'event {event_names[idx]} not found')
+    oldBoneyard = [*ee.ev_q.boneyard]
+    for eventStr in eb: # sorting in boneyard
+        evt = get_event(oldBoneyard, eventStr, newBoneyard)
+        if evt: newBoneyard.append(evt) 
 
     ee.ev_q.boneyard = newBoneyard
     # send to the frontend a list of strings
@@ -203,6 +188,34 @@ def new_event_boneyard(data):
     event_boneyard = [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
     eventBoneyardData = {'event_boneyard': event_boneyard}
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+
+def get_event(arr, eventStr):
+    eid = eventStr.split('@')[1]
+    evtItem = next((item for item in [*arr] if item.id == eid), None)
+    if not evtItem:
+        logging.error(f'CANNOT FIND {eventStr}')
+    return evtItem 
+
+def build_list(arr, strQueue):
+    ids = [ x.split('@')[1] for x in strQueue]
+    outArr = []
+    for eventStr in strQueue:
+        outArr = get_event(arr, eventStr, outArr)
+    return outArr
+
+@socketio.on('event_queue_boneyard_swap')
+def event_queue_boneyard_swap(data):
+    evtPool = [*ee.ev_q.boneyard, *ee.ev_q.get_queue_as_list()]
+    eventStrs = data.get('event_queue')
+    boneyardStrs = data.get('event_boneyard')
+    #event queue creation
+    newQueue = build_list(evtPool, eventStrs)
+    ee.ev_q.set_queue(newQueue)
+    #boneyard cereation
+    newBoneyard = build_list(evtPool, boneyardStrs)
+    ee.ev_q.boneyard = newBoneyard
+    outData = { 'event_queue': eventStrs, 'event_boneyard': newBoneyard }
+    emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('new_task')
 def new_task(data):
@@ -251,12 +264,11 @@ def new_task(data):
             logging.info(f'new task from queue {newTask.sequence}')
             ee.ev_q.load_events_from_sequence(newTask)
     ev_queue = ee.ev_q.get_queue_as_list() 
+    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
     ee.ev_q.boneyard = []
-    eventData = {'event_queue': ev_queue}
-    eventBoneyardData = {'event_boneyard': ee.ev_q.boneyard}
     emit('task_broadcast', data, broadcast=True)
-    emit('event_queue_broadcast', eventData, broadcast=True)
-    emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+    outData = { 'event_queue': eventStrs, 'event_boneyard': ee.ev_q.boneyard }
+    emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('submit_event')
 def submit_event():

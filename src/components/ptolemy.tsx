@@ -24,6 +24,11 @@ interface TaskEvent {
     id: string,
 }
 
+interface EventQueueBoneyard {
+    event_queue: string,
+    event_boneyard: string
+}
+
 interface EEState {
     ob?: ObservationBlock,
     ob_id_queue: string[],
@@ -184,6 +189,12 @@ export const Ptolemy = (props: Props) => {
             console.log('event_boneyard', eventBoneyard)
             if (eventBoneyard) setEventBoneyard(eventBoneyard)
         })
+
+
+        socket.on('new_event_queue_and_boneyard', (data) => {
+            setEvents(data.event_queue)
+            setEventBoneyard(data.event_boneyard)
+            })
 
         socket.on('ob_sent', (data) => {
             console.log('returned data', data)

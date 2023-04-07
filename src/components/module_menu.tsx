@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
-import Octect from './Octect/octect';
 import { ThemeKeys } from 'react-json-view';
 import { SelectionToolView } from './SelectionTool/selection_tool_view';
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
@@ -76,17 +75,13 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
                     aria-label="full width tabs example"
                 >
                     <Tab label="Planning Tool" {...a11yProps(0)} />
-                    <Tab label="Octect" {...a11yProps(1)} />
-                    <Tab label="Ptolemy" {...a11yProps(2)} />
+                    <Tab label="Ptolemy" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
             <TabPanel value={tabIdx} index={0}>
                 <SelectionToolView />
             </TabPanel>
             <TabPanel value={tabIdx} index={1}>
-                <Octect />
-            </TabPanel>
-            <TabPanel value={tabIdx} index={2}>
                 <Ptolemy />
             </TabPanel>
         </ div >
