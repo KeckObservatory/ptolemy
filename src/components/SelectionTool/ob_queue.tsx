@@ -43,15 +43,17 @@ export const OBQueue = (props: Props) => {
         const sKey: string = source.droppableId;
         const dKey: string = destination.droppableId;
         if (sKey === dKey) { //shuffling items around
-            let newSelObs = [...props.selObs]
-            newSelObs = reorder(newSelObs, source.index, destination.index)
-            const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
             if (dKey === 'obQueue') {
-                // props.setSequences(newSeq)
+                let newSelObs = [...props.selObs]
+                newSelObs = reorder(newSelObs, source.index, destination.index)
                 const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
+                // props.setSequences(newSeq)
                 socket.emit('set_ob_queue', { ob_id_queue: ids })
             }
             else {
+                let newBoneyard = [...props.obBoneyard]
+                newBoneyard = reorder(newBoneyard, source.index, destination.index)
+                const ids = newBoneyard.map((ob: ObservationBlock) => ob._id)
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: ids })
             }
         } else { // ob in droppable 
