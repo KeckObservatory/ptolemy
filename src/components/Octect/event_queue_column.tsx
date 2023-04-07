@@ -47,13 +47,15 @@ export const EventQueueColumn = (props: Props) => {
 
 
         if (sKey === dKey) { //shuffling items around
-            let newEvents = [...props.events]
-            newEvents = reorder(newEvents, source.index, destination.index)
             if (dKey === 'eventQueue') {
+                let newEvents = [...props.events]
+                newEvents = reorder(newEvents, source.index, destination.index)
                 socket.emit('new_event_queue', { event_queue: newEvents })
             }
             else {
-                socket.emit('new_event_boneyard', { event_boneyard: newEvents })
+                let newBoneyard= [...props.eventBoneyard]
+                newBoneyard= reorder(newBoneyard, source.index, destination.index)
+                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard})
             }
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue

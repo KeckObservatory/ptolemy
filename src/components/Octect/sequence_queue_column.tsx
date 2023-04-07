@@ -61,14 +61,16 @@ export const SequenceQueueColumn = (props: Props) => {
         const sKey: string = source.droppableId;
         const dKey: string = destination.droppableId;
         if (sKey === dKey) { //shuffling items around
-            let newSeq = [...props.sequences]
-            newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'seqQueue') {
+                let newSeq = [...props.sequences]
+                newSeq = reorder(newSeq, source.index, destination.index)
                 // props.setSequences(newSeq)
                 socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
             }
             else {
-                socket.emit('new_sequence_boneyard', { sequence_boneyard: newSeq, ob: props.ob })
+                let newBoneyard= [...props.sequenceBoneyard]
+                newBoneyard = reorder(newBoneyard, source.index, destination.index)
+                socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard, ob: props.ob })
             }
         } else { // item in droppable 
             if (dKey === 'seqQueue') { // sequence added to sequence queue
