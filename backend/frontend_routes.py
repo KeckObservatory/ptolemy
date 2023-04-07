@@ -161,7 +161,7 @@ def new_event_queue(data):
     newQueue = []
     oldQueue = [*ee.ev_q.queue]
     for eventStr in eq: #sorting in queue
-        evt = get_event(oldQueue, eventStr, newQueue)
+        evt = get_event(oldQueue, eventStr)
         if evt: newQueue.append(evt)
 
     ee.ev_q.set_queue(newQueue)
@@ -179,7 +179,7 @@ def new_event_boneyard(data):
     newBoneyard = []
     oldBoneyard = [*ee.ev_q.boneyard]
     for eventStr in eb: # sorting in boneyard
-        evt = get_event(oldBoneyard, eventStr, newBoneyard)
+        evt = get_event(oldBoneyard, eventStr)
         if evt: newBoneyard.append(evt) 
 
     ee.ev_q.boneyard = newBoneyard
