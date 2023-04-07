@@ -195,7 +195,7 @@ def new_event_boneyard(data):
 
 def get_event(arr, eventStr):
     eid = eventStr.split('@')[1]
-    evtItem = next((item for item in [*arr] if item['id'] == eid), None)
+    evtItem = next((item for item in [*arr] if item.id == eid), None)
     if not evtItem:
         logging.error(f'CANNOT FIND {eventStr}')
     return evtItem 
@@ -209,7 +209,7 @@ def build_list(arr, strQueue):
 
 @socketio.on('event_queue_boneyard_swap')
 def event_queue_boneyard_swap(data):
-    evtPool = [*ee.ev_q.boneyard, *ee.ev_q.get_queue_as_list()]
+    evtPool = [*ee.ev_q.boneyard, *ee.ev_q]
     eventStrs = data.get('event_queue')
     boneyardStrs = data.get('event_boneyard')
     #event queue creation
