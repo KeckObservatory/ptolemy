@@ -8,21 +8,11 @@ import { SocketContext } from '../../contexts/socket';
 
 //@ts-ignore
 const DragEventCell = (strObj) => {
-    console.log(strObj)
     return (
         <div>
-            {/* <p> event: {strObj.split('@')[0]} </p> */}
-            <p> event: {strObj} </p>
+            <p> event: {strObj.split('@')[0]} </p>
         </div>
     )
-}
-
-const convert_string_array_to_object_array = (strArray: string[]) => {
-    let obj = []
-    for (let idx = 0; idx < strArray.length; idx++) {
-        obj.push({ id: strArray[idx] })
-    }
-    return obj
 }
 
 interface Props {
@@ -81,8 +71,6 @@ export const EventQueueColumn = (props: Props) => {
             }
         }
     }
-    const event_items = convert_string_array_to_object_array(props.events)
-    const boneyard_items = convert_string_array_to_object_array(props.eventBoneyard)
     const isDragDisabled = role === "Observer" ? true : false
 
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -132,8 +120,8 @@ export const EventQueueColumn = (props: Props) => {
                 </Alert>
             </Snackbar>
             <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(event_items, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
-                {CreateDroppable(boneyard_items, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
+                {CreateDroppable(props.events, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
+                {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
             </DragDropContext>
         </React.Fragment>
     )
