@@ -195,7 +195,7 @@ def new_event_boneyard(data):
 
 def get_event(arr, eventStr):
     eid = eventStr.split('@')[1]
-    evtItem = next((item for item in [*arr] if item.id == eid), None)
+    evtItem = next((item for item in [*arr] if item['id'] == eid), None)
     if not evtItem:
         logging.error(f'CANNOT FIND {eventStr}')
     return evtItem 
