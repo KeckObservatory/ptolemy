@@ -76,8 +76,13 @@ def request_ee_state():
         data['sequence_queue'] = ee.seq_q.get_sequences() 
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
         # get event queue and event boneyard
-        data['event_queue'] = ee.ev_q.get_queue_as_list() 
-        data['event_boneyard'] = [ x.as_dict() for x in ee.ev_q.boneyard ]
+
+        eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ee.ev_q.get_queue_as_list()]
+        data['event_queue'] = eventStrs 
+
+        boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
+        boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
+        data['event_boneyard'] = boneyardStrs 
         logging.info('sending ee state to frontend')
         emit('broadcast_ee_state_from_server', data, room=request.sid)
     except RuntimeError as err: 
