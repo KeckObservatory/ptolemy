@@ -271,7 +271,7 @@ def new_task(data):
     eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
     ee.ev_q.boneyard = []
     emit('task_broadcast', data, broadcast=True)
-    outData = { 'event_queue': eventStrs, 'event_boneyard': ee.ev_q.boneyard }
+    outData = { 'event_queue': eventStrs, 'event_boneyard': []}
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('submit_event')
@@ -295,11 +295,13 @@ def submit_event():
     ee.ev_q.dispatch_event()
     # broadcast new queue and boneyard
     ev_queue = ee.ev_q.get_queue_as_list() 
+
+    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
     ev_boneyard = [ x.as_dict() for x in ee.ev_q.boneyard ]
-    eventData = {'event_queue': ev_queue}
-    eventBoneyardData = {'event_boneyard': ev_boneyard} 
-    emit('event_queue_broadcast', eventData, broadcast=True)
-    emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
+    boneyardDict = [x.as_dict() for x in ev_boneyard]
+    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
+    outData = { 'event_queue': eventStrs, 'event_boneyard': boneyardStrs}
+    emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('release_event_queue_lock')
 def release_event_queue_lock():
