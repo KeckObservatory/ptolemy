@@ -297,8 +297,7 @@ def submit_event():
     ev_queue = ee.ev_q.get_queue_as_list() 
 
     eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
-    ev_boneyard = [ x.as_dict() for x in ee.ev_q.boneyard ]
-    boneyardDict = [x.as_dict() for x in ev_boneyard]
+    boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
     boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
     outData = { 'event_queue': eventStrs, 'event_boneyard': boneyardStrs}
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
