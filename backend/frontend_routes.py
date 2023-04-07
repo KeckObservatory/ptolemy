@@ -209,7 +209,7 @@ def build_list(arr, strQueue):
 
 @socketio.on('event_queue_boneyard_swap')
 def event_queue_boneyard_swap(data):
-    evtPool = [*ee.ev_q.boneyard, *ee.ev_q]
+    evtPool = [*ee.ev_q.boneyard, *list(ee.ev_q.queue)]
     eventStrs = data.get('event_queue')
     boneyardStrs = data.get('event_boneyard')
     #event queue creation
