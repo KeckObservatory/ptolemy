@@ -8,9 +8,11 @@ import { SocketContext } from '../../contexts/socket';
 
 //@ts-ignore
 const DragEventCell = (strObj) => {
+    console.log(strObj)
     return (
         <div>
-            <p> event: {strObj.split('@')[0]} </p>
+            {/* <p> event: {strObj.split('@')[0]} </p> */}
+            <p> event: {strObj} </p>
         </div>
     )
 }
