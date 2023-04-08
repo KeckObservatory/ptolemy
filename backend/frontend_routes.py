@@ -283,8 +283,9 @@ def new_task(data):
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
 @socketio.on('submit_event')
-def submit_event():
-    logging.info('submitting event...')
+def submit_event(data):
+    eventStr = data.get('submitted_event')
+    logging.info(f'submitting event {eventStr}')
 
     if len(ee.ev_q.get_queue_as_list()) == 0: 
         logging.warning('event queue empty')
@@ -298,8 +299,11 @@ def submit_event():
         data = { 'msg': 'event queue locked'}
         emit('snackbar_msg', data, room=request.sid)
         return
-        
-    ee.ev_q.dispatch_event()
+    try:    
+        ee.ev_q.dispatch_event(eventStr)
+    except Exception as err:
+        logging.info(f'dispatch event failed, reason: {err}')
+        data = { 'msg': 'dispatch_event failed' }
     # broadcast new queue and boneyard
     outData = make_event_out_data()
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
