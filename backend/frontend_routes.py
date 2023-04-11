@@ -1,4 +1,5 @@
 from app import app, socketio
+import configparser
 from flask_socketio import emit 
 from flask import send_from_directory, request
 import os
@@ -28,8 +29,10 @@ def create_logger(fileName='client-xcute.log'):
     return logger
 
 logger = create_logger()
-cfg="./cfg.ini"
-ee = ExecutionEngine(logger=logger, cfg=cfg)
+cfg_name="./cfg.ini"
+config_parser = configparser.ConfigParser()
+config_parser.read(cfg_name)
+ee = ExecutionEngine(logger=logger, cfg=cfg_name)
 ee.obs_q.set_queue([])
 
 @app.route('/ptolemy')
@@ -121,7 +124,8 @@ def set_ob_boneyard(data):
 @socketio.on('sync_with_magiq')
 def sync_with_magiq(data):
     obs = data.get('obs')
-    add_target_list_to_magiq(obs, cfg)
+    pdb.set_trace()
+    add_target_list_to_magiq(obs, config_parser)
 
 
 @socketio.on('submit_ob')
