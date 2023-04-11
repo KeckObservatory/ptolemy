@@ -39,13 +39,15 @@ const EventQueue = (props: Props) => {
 
 
         if (sKey === dKey) { //shuffling items around
-            let newSeq = [...props.event_queue]
-            newSeq = reorder(newSeq, source.index, destination.index)
             if (dKey === 'eventQueue') {
+                let newSeq = [...props.event_queue]
+                newSeq = reorder(newSeq, source.index, destination.index)
                 props.socket.emit('new_event_queue', {event_queue: newSeq})
             }
             else {
-                props.socket.emit('new_event_boneyard', {event_boneyard: newSeq})
+                let newBoneyard = [...props.event_boneyard]
+                newBoneyard = reorder(newBoneyard, source.index, destination.index)
+                props.socket.emit('new_event_boneyard', {event_boneyard: newBoneyard})
             }
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue
