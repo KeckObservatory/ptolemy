@@ -6,6 +6,7 @@ import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 import { CreateDroppable, move, reorder } from '../dnd_divs';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import SyncIcon from '@mui/icons-material/Sync';
 import SaveIcon from '@mui/icons-material/Save';
 import { UploadDialog } from './upload_dialog';
 import Stack from '@mui/material/Stack';
@@ -108,10 +109,20 @@ export const OBQueue = (props: Props) => {
         socket.emit('set_ob_queue', obData)
     }
 
+    const sync_sel_ob_with_magiq = () => {
+        const obData = { obs : props.selObs }
+        socket.emit('sync_with_magiq', obData)
+    }
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Stack direction="row" spacing={2}>
                 <OBSubmit onSubmitOB={onSubmitOB} />
+                <Tooltip title="Syncronize Queue with MAGIQ Starlist">
+                    <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>
+                        <SyncIcon />
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title="Save selected OBs as JSON">
                     <IconButton aria-label='copy' onClick={save_sel_ob_as_json}>
                         <SaveIcon />

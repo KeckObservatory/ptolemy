@@ -5,6 +5,8 @@ import os
 import logging
 import pdb
 
+from magiq_interface_functions import add_target_list_to_magiq
+
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
@@ -115,6 +117,12 @@ def set_ob_boneyard(data):
     logging.info(f'new ob queue len: {len(ob_ids)}')
     ee.obs_q.boneyard = ob_ids
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
+
+@socketio.on('sync_with_magiq')
+def sync_with_magiq(data):
+    obs = data.get('obs')
+    add_target_list_to_magiq(obs, cfg)
+
 
 @socketio.on('submit_ob')
 def submit_ob(data):
