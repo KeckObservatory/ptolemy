@@ -124,7 +124,6 @@ def set_ob_boneyard(data):
 @socketio.on('sync_with_magiq')
 def sync_with_magiq(data):
     obs = data.get('obs')
-    pdb.set_trace()
     add_target_list_to_magiq(obs, config_parser)
 
 
