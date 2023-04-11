@@ -19,15 +19,15 @@ def convert_target_to_targetlist_row(target, acquisition):
         rotStr += 'vmag=' + magnitude
 
     if aparams:
-        raOffset = str(aparams.get('tcs_coord_raoff')) + " "
-        decOffset = str(aparams.get('tcs_coord_decoff')) + " "
-        wrap = str(aparams.get('rot_cfg_wrap')) + " "
-        rotMode = aparams.get('rot_cfg_mode') + ' '
+        raOffset = aparams.get('tcs_coord_raoff', False)
+        decOffset = aparams.get('tcs_coord_decoff', False)
+        wrap = aparams.get('rot_cfg_wrap', False)
+        rotMode = aparams.get('rot_cfg_mode', False)
 
-        rowStr += 'raOffset=' + raOffset
-        rowStr += 'decOffset=' + decOffset
-        rowStr += 'rotmode=' + rotMode
-        rowStr += 'wrap=' + wrap
+        rowStr = 'raOffset=' + str(raOffset) + ' ' if raOffset else rowStr
+        rowStr = 'decOffset=' + str(decOffset) + ' ' if decOffset else rowStr
+        rowStr = 'rotmode=' + str(rotMode) + ' ' if rotMode else rowStr
+        rowStr = 'wrap=' + str(wrap) + ' ' if wrap else rowStr
     return rowStr
 
 def convert_obs_to_targetlist(obs):
