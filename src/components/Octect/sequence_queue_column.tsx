@@ -124,10 +124,10 @@ export const SequenceQueueColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
+                <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
             </FormControl>
             <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
+                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
             </FormControl>
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
