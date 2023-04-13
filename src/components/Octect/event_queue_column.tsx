@@ -60,15 +60,11 @@ export const EventQueueColumn = (props: Props) => {
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue
                 const result = move(props.eventBoneyard, props.events, source, destination);
-                // socket.emit('new_event_queue', { event_queue: result[dKey] })
-                // socket.emit('new_event_boneyard', { event_boneyard: result[sKey] })
                 socket.emit('event_queue_boneyard_swap', { event_queue: result[dKey], event_boneyard: result[sKey] })
             }
             else { // event added to boneyard
                 const result = move(props.events, props.eventBoneyard, source, destination);
                 console.log('result', result)
-                // socket.emit('new_event_queue', { event_queue: result[sKey] })
-                // socket.emit('new_event_boneyard', { event_boneyard: result[dKey] })
                 socket.emit('event_queue_boneyard_swap', { event_queue: result[sKey], event_boneyard: result[dKey] })
             }
         }

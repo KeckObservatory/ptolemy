@@ -31,6 +31,7 @@ export const CreateDroppable = (cells: any[], idKey: string, key: string, toolti
                 padding: '8px',
                 margin: '4px',
                 minWidth: '80px',
+                minHeight: '150px',
                 width: '100%',
                 elevation: 3,
             }
