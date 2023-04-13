@@ -13,7 +13,7 @@ interface Props {
 }
 
 const deg_2_rad = (deg: number) => deg * Math.PI / 180
-const KECK_GEOMETRY = {
+const KECK_GEOMETRY: any = {
     K1: {
         r0: 0,
         r1: 18,
@@ -111,7 +111,7 @@ const TwoDView = (props: Props) => {
         const texts: string[] = []
         azEl.forEach((ae: [number, number], idx: number) => {
             if (ae[1] >= 0) {
-                rr.push(90 * Math.cos(deg_2_rad(ae[1])))
+                rr.push(90-ae[1])
                 tt.push(ae[0])
 
                 let txt = ""
@@ -141,27 +141,13 @@ const TwoDView = (props: Props) => {
         traces.push(trace)
     })
 
-    //looks like k2
-
-    // //@ts-ignore
-    // const r0 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome].r0)) 
-    // //@ts-ignore
-    // const r1 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome as any].r1)) 
-    //@ts-ignore
     const r0 = 90-KECK_GEOMETRY[dome].r0
-    //@ts-ignore
     const r1 = 90-KECK_GEOMETRY[dome].r1
-    //@ts-ignore
     const t0 = KECK_GEOMETRY[dome].t0 
-    //@ts-ignore
     const t1 = KECK_GEOMETRY[dome].t1
-    //@ts-ignore
     const r2 = 90 - KECK_GEOMETRY[dome].r2 
-    //@ts-ignore
     const r3 = 90 - KECK_GEOMETRY[dome].r3
-    //@ts-ignore
     const t2 = KECK_GEOMETRY[dome].t2 
-    //@ts-ignore
     const t3 = KECK_GEOMETRY[dome].t3
     const d1 = make_disk_polar(r0, r1, t0, t1)
     const d2 = make_disk_polar(r2, r3, t2, t3)
