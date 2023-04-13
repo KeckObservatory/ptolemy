@@ -13,15 +13,15 @@ interface Props {
 }
 
 const deg_2_rad = (deg: number) => Math.PI / 180 * deg
-const ROTATION = 90;
+const ROTATION = -90;
 const KECK_GEOMETRY = {
     K1: {
         r0: 0,
         r1: 30,
         r2: 0,
         r3: 45,
-        t0: 10+ROTATION,
-        t1: 350+ROTATION,
+        t0: 0+ROTATION,
+        t1: 361+ROTATION,
         t2: 100+ROTATION,
         t3: 250+ROTATION
     },
@@ -30,8 +30,8 @@ const KECK_GEOMETRY = {
         r1: 30,
         r2: 0,
         r3: 45,
-        t0: 10-ROTATION,
-        t1: 350-ROTATION,
+        t0: 0-ROTATION,
+        t1: 361-ROTATION,
         t2: 100-ROTATION,
         t3: 250-ROTATION
     }
@@ -83,7 +83,6 @@ const TwoDView = (props: Props) => {
     const today = new Date()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
-    // const [date, setDate] = React.useState(dayjs)
     const [lngLatEl, setLngLatEl] = React.useState(keckLngLat)
 
     const nadir = util.get_nadir(lngLatEl, date)
@@ -185,13 +184,7 @@ const TwoDView = (props: Props) => {
             },
             angularaxis: {
                 showticklabels: true,
-                tickmode: "array",
-                tickvals: [0, 45, 90, 135, 180, 225, 270, 315],
-                ticktext: ['0', '45', '90', '135', '180', '-135', '-90', '-45'],
-                tickfont: {
-                    size: 8
-                },
-                rotation: -90,
+                rotation: +90,
                 direction: "clockwise"
             },
         },
