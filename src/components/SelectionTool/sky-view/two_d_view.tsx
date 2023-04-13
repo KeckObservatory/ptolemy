@@ -12,28 +12,27 @@ interface Props {
     selObRows: Scoby[]
 }
 
-const deg_2_rad = (deg: number) => Math.PI / 180 * deg
-const ROTATION = -90;
+const deg_2_rad = (deg: number) => deg * Math.PI / 180
 const KECK_GEOMETRY = {
     K1: {
         r0: 0,
-        r1: 30,
+        r1: 18,
         r2: 0,
-        r3: 45,
-        t0: 0+ROTATION,
-        t1: 361+ROTATION,
-        t2: 100+ROTATION,
-        t3: 250+ROTATION
+        r3: 33.3,
+        t0: 0,
+        t1: 361,
+        t2: 5.3,
+        t3: 146.2 
     },
     K2: {
         r0: 0,
-        r1: 30,
+        r1: 18,
         r2: 0,
-        r3: 45,
-        t0: 0-ROTATION,
-        t1: 361-ROTATION,
-        t2: 100-ROTATION,
-        t3: 250-ROTATION
+        r3: 36.8,
+        t0: 0,
+        t1: 361,
+        t2: 185.3,
+        t3: 332.8 
     }
 }
 
@@ -144,18 +143,22 @@ const TwoDView = (props: Props) => {
 
     //looks like k2
 
+    // //@ts-ignore
+    // const r0 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome].r0)) 
+    // //@ts-ignore
+    // const r1 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome as any].r1)) 
     //@ts-ignore
-    const r0 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome].r0)) 
+    const r0 = 90-KECK_GEOMETRY[dome].r0
     //@ts-ignore
-    const r1 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome as any].r1)) 
+    const r1 = 90-KECK_GEOMETRY[dome].r1
     //@ts-ignore
     const t0 = KECK_GEOMETRY[dome].t0 
     //@ts-ignore
     const t1 = KECK_GEOMETRY[dome].t1
     //@ts-ignore
-    const r2 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome].r2)) 
+    const r2 = 90 - KECK_GEOMETRY[dome].r2 
     //@ts-ignore
-    const r3 = 90 * Math.cos(deg_2_rad(KECK_GEOMETRY[dome].r3)) 
+    const r3 = 90 - KECK_GEOMETRY[dome].r3
     //@ts-ignore
     const t2 = KECK_GEOMETRY[dome].t2 
     //@ts-ignore
