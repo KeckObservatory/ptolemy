@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
 import ReactJson, { OnCopyProps, ThemeKeys } from 'react-json-view'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
-import { Button, FormControl, Paper, Tooltip } from '@mui/material'
+import { Button, FormControl, Paper, Stack, Tooltip } from '@mui/material'
 import JsonViewTheme from '../json_view_theme'
 import { SocketContext } from '../../contexts/socket';
 
@@ -68,7 +68,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
             }
             else {
-                let newBoneyard= [...props.sequenceBoneyard]
+                let newBoneyard = [...props.sequenceBoneyard]
                 newBoneyard = reorder(newBoneyard, source.index, destination.index)
                 socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard, ob: props.ob })
             }
@@ -106,12 +106,6 @@ export const SequenceQueueColumn = (props: Props) => {
                         margin: '4px',
                     }}
                 >
-                    <Tooltip title="Change the color theme of the OB JSON display">
-                        <JsonViewTheme
-                            theme={theme as ThemeKeys | null | undefined}
-                            setTheme={setTheme}
-                        />
-                    </Tooltip>
                     <ReactJson
                         src={props.ob as object}
                         theme={theme as ThemeKeys | undefined}
@@ -123,12 +117,10 @@ export const SequenceQueueColumn = (props: Props) => {
                     />
                 </AccordionDetails>
             </Accordion>
-            <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
-            </FormControl>
-            <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
-            </FormControl>
+            <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
+                    <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
+                    <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
+            </Stack>
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
                 {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}

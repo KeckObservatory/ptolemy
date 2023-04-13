@@ -117,7 +117,7 @@ export const OBQueue = (props: Props) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <Stack direction="row" spacing={2}>
+            <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
                 <OBSubmit onSubmitOB={onSubmitOB} />
                 <Tooltip title="Syncronize Queue with MAGIQ Target list">
                     <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>

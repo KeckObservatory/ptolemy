@@ -1,10 +1,11 @@
 import React, { MouseEventHandler } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
-import { Alert, Button, FormControl, Paper, Snackbar, Stack } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Button, FormControl, Paper, Snackbar, Stack } from '@mui/material'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 //@ts-ignore
 const DragEventCell = (strObj) => {
@@ -53,9 +54,9 @@ export const EventQueueColumn = (props: Props) => {
                 socket.emit('new_event_queue', { event_queue: newEvents })
             }
             else {
-                let newBoneyard= [...props.eventBoneyard]
-                newBoneyard= reorder(newBoneyard, source.index, destination.index)
-                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard})
+                let newBoneyard = [...props.eventBoneyard]
+                newBoneyard = reorder(newBoneyard, source.index, destination.index)
+                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard })
             }
         } else { // item in droppable 
             if (dKey === 'eventQueue') { // event added to event queue
@@ -82,31 +83,38 @@ export const EventQueueColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-            <Paper sx={{
-                padding: '4px',
-                margin: '4px',
-                minHeight: 25,
-                width: '100%',
-                elevation: 3,
-            }}
-            >
-                <ReactJson
-                    src={props.task as object}
-                    theme={theme as ThemeKeys | undefined}
-                    iconStyle={props.iconStyle}
-                    collapsed={props.collapsed}
-                    collapseStringsAfterLength={props.collapseStringsAfter}
-                    enableClipboard={props.enableClipboard}
-                    onEdit={false}
-                />
-            </Paper>
-            <Stack direction="row" spacing={0}>
-                <FormControl sx={{ width: 200, margin: '4px', marginTop: '16px' }}>
-                    <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
-                </FormControl>
-                <FormControl sx={{ width: 275, margin: '4px', marginTop: '16px', padding: '0px'  }}>
-                    <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
-                </FormControl>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{
+                        maxHeight: 50,
+                        margin: '0px',
+                        padding: '4px'
+                    }}
+
+                >
+                    <h2 style={{ margin: '0px' }}>Selected Sequence</h2>
+                </AccordionSummary>
+                <AccordionDetails
+                    sx={{
+                        padding: '0px',
+                        margin: '4px',
+                    }}
+                >
+                    <ReactJson
+                        src={props.task as object}
+                        theme={theme as ThemeKeys | undefined}
+                        iconStyle={props.iconStyle}
+                        collapsed={props.collapsed}
+                        collapseStringsAfterLength={props.collapseStringsAfter}
+                        enableClipboard={props.enableClipboard}
+                        onEdit={false}
+                    />
+                </AccordionDetails>
+            </Accordion>
+            <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
+                <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
+                <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
             </Stack>
             <Snackbar
                 open={props.snackbarOpen}
