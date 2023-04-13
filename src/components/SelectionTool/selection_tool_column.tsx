@@ -13,6 +13,13 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Stack from '@mui/material/Stack';
+import OBSubmit from './ob_submit';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import { UploadDialog } from './upload_dialog';
+import SyncIcon from '@mui/icons-material/Sync';
+import SaveIcon from '@mui/icons-material/Save';
 
 interface OBServerData {
     ob: ObservationBlock
@@ -161,6 +168,45 @@ export const SelectionToolColumn = (props: Props) => {
         setSemId(new_sem_id)
     }
 
+
+    const onSubmitOB = () => {
+        if (props.selObs.length == 0) {
+            console.log('ob queue empty. not submitting ob')
+            return
+        }
+        const ob_id = props.selObs[0]._id
+        console.log('submitting ob', ob_id)
+        socket.emit('submit_ob', { ob_id: ob_id })
+    }
+
+    const save_sel_ob_as_json = () => {
+        // Create a blob with the data we want to download as a file
+        const blob = new Blob([JSON.stringify(props.selObs, null, 4)], { type: 'text/plain' })
+        // Create an anchor element and dispatch a click event on it
+        // to trigger a download
+        const a = document.createElement('a')
+        a.download = 'selected_obs.json'
+        a.href = window.URL.createObjectURL(blob)
+        const clickEvt = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+        })
+        a.dispatchEvent(clickEvt)
+        a.remove()
+    }
+
+    const upload_sel_obs_from_json = (obs: ObservationBlock[]) => {
+        const ids = obs.map((ob: ObservationBlock) => ob._id)
+        const obData = { ob_id_queue: ids }
+        socket.emit('set_ob_queue', obData)
+    }
+
+    const sync_sel_ob_with_magiq = () => {
+        const obData = { obs : props.selObs }
+        socket.emit('sync_with_magiq', obData)
+    }
+
     return (
         <React.Fragment>
             {role.includes('Observer') && (
@@ -200,6 +246,22 @@ export const SelectionToolColumn = (props: Props) => {
                 </Accordion>
             )
             }
+            <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
+                <OBSubmit onSubmitOB={onSubmitOB} />
+                <Tooltip title="Syncronize Queue with MAGIQ Target list">
+                    <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>
+                        <SyncIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Save selected OBs as JSON">
+                    <IconButton aria-label='copy' onClick={save_sel_ob_as_json}>
+                        <SaveIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Load selected OBs as JSON">
+                    <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
+                </Tooltip>
+            </Stack>
             <OBQueue
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
