@@ -108,6 +108,9 @@ def request_ob_queue():
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_queue')
+    obs = data.get('obs', False)
+    if obs:
+        add_target_list_to_magiq(obs, config_parser)
     logging.info(f'new ob queue len: {len(ob_ids)}')
 
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])

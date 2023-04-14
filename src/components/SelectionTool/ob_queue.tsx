@@ -42,7 +42,7 @@ export const OBQueue = (props: Props) => {
                 newSelObs = reorder(newSelObs, source.index, destination.index)
                 const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
                 console.log('ob queue ids:', ids)
-                socket.emit('set_ob_queue', { ob_id_queue: ids })
+                socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
             }
             else {
                 let newBoneyard = [...props.obBoneyard]
@@ -57,14 +57,14 @@ export const OBQueue = (props: Props) => {
 
                 const selIds = moveResult[dKey].map((ob: ObservationBlock) => ob._id)
                 const boneyardIds = moveResult[sKey].map((ob: ObservationBlock) => ob._id)
-                socket.emit('set_ob_queue', { ob_id_queue: selIds })
+                socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: moveResult[dKey]})
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
             }
             else { // ob added to boneyard
                 const moveResult = move(props.selObs, props.obBoneyard, source, destination);
                 const selIds = moveResult[sKey].map((ob: ObservationBlock) => ob._id)
                 const boneyardIds = moveResult[dKey].map((ob: ObservationBlock) => ob._id)
-                socket.emit('set_ob_queue', { ob_id_queue: selIds })
+                socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: moveResult[sKey] })
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
             }
         }

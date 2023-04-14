@@ -123,7 +123,7 @@ export const SelectionToolColumn = (props: Props) => {
         console.log(newSelObs)
         props.setSelObs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
-        socket.emit('set_ob_queue', { ob_id_queue: ids })
+        socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: [] })
     }
 
@@ -198,7 +198,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const upload_sel_obs_from_json = (obs: ObservationBlock[]) => {
         const ids = obs.map((ob: ObservationBlock) => ob._id)
-        const obData = { ob_id_queue: ids }
+        const obData = { ob_id_queue: ids, obs: obs }
         socket.emit('set_ob_queue', obData)
     }
 
