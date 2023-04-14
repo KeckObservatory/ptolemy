@@ -120,7 +120,7 @@ export const SelectionToolView = (props: Props) => {
         console.log(newSelObs)
         setSelObs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
-        socket.emit('set_ob_queue', { ob_id_queue: ids })
+        socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
     }
 
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {

@@ -1,10 +1,10 @@
 import logging
 import requests
 
-def convert_target_to_targetlist_row(target, acquisition):
+def convert_target_to_targetlist_row(target, acquisition, idx):
     tparams = target.get('parameters')
     aparams = acquisition.get('parameters', False)
-    name = tparams.get('target_info_name')
+    name = tparams.get('target_info_name') + f'-{idx}'
     if len(name) > 17: 
         name = name[0:16]
     else:
@@ -33,13 +33,13 @@ def convert_target_to_targetlist_row(target, acquisition):
 def convert_obs_to_targetlist(obs):
 
     targetListStr = ""
-    for ob in obs:
+    for idx, ob in enumerate(obs):
         target = ob.get('target', False)
         acquisition = ob.get('acquisition', False)
         if not target or not acquisition:
             logging.debug('ob has either no target or acquisition. not going to add')
             continue
-        row = convert_target_to_targetlist_row(target, acquisition) 
+        row = convert_target_to_targetlist_row(target, acquisition, idx) 
         targetListStr += row + '\n'
     return targetListStr
 
