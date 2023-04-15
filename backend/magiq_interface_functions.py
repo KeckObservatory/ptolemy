@@ -24,10 +24,10 @@ def convert_target_to_targetlist_row(target, acquisition, idx):
         wrap = aparams.get('rot_cfg_wrap', False)
         rotMode = aparams.get('rot_cfg_mode', False)
 
-        rowStr = 'raOffset=' + str(raOffset) + ' ' if raOffset else rowStr
-        rowStr = 'decOffset=' + str(decOffset) + ' ' if decOffset else rowStr
-        rowStr = 'rotmode=' + str(rotMode) + ' ' if rotMode else rowStr
-        rowStr = 'wrap=' + str(wrap) + ' ' if wrap else rowStr
+        rowStr += 'raOffset=' + str(raOffset) + ' ' if raOffset else rowStr
+        rowStr += 'decOffset=' + str(decOffset) + ' ' if decOffset else rowStr
+        rowStr += 'rotmode=' + str(rotMode) + ' ' if rotMode else rowStr
+        rowStr += 'wrap=' + str(wrap) + ' ' if wrap else rowStr
     return rowStr
 
 def convert_obs_to_targetlist(obs):
