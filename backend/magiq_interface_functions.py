@@ -53,6 +53,6 @@ def add_target_list_to_magiq(obs, cfg):
     url = urlbase + '/setTargetlist'
     targetList = convert_obs_to_targetlist(obs)
     data = {'targetlist': targetList}
-    logging.info(f'adding target list via: {url}')
+    logging.info(f'adding {len(targetList)} targets via: {url}')
     response = requests.post(url, data=data)
     logging.info(f'response: status code: {response.status_code}')
