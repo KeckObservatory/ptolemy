@@ -109,18 +109,21 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_queue')
     obs = data.get('obs', False)
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
-        add_target_list_to_magiq(obs, config_parser)
+        try:
+            add_target_list_to_magiq(obs, config_parser)
+        except Exception as err:
+            logging.warning(f'did not add target to magiq. reason: {err}')
     logging.info(f'new ob queue len: {len(ob_ids)}')
 
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('set_ob_boneyard')
 def set_ob_boneyard(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_boneyard')
-    logging.info(f'new ob queue len: {len(ob_ids)}')
+    logging.info(f'new ob queue boneyard len: {len(ob_ids)}')
     ee.obs_q.boneyard = ob_ids
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
 
