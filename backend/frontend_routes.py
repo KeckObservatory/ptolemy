@@ -6,6 +6,7 @@ import os
 import traceback
 import logging
 import pdb
+from DDOILoggerClient import DDOILogger as dl
 
 from magiq_interface_functions import add_target_list_to_magiq
 
@@ -15,8 +16,13 @@ from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import Obser
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 from execution_engine.core.Queues.EventQueue.EventItem import EventItem
 
-def create_logger(fileName='client-xcute.log'):
+def create_logger(fileName='ptolemy.log'):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    subsystem="PTOLEMY"
+    configLoc=None
+    author='tcoda'
+    progid='xxxx'
+    semid='xxxx'
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
     ch.setFormatter(formatter)
@@ -26,6 +32,11 @@ def create_logger(fileName='client-xcute.log'):
     logger = logging.getLogger()
     logger.addHandler(ch)
     logger.addHandler(fl)
+    try:
+        zmq_log_handler = dl.ZMQHandler(subsystem, configLoc, author, progid, semid)
+        logger.addHandler(zmq_log_handler)
+    except Exception as err:
+        print('zmq log handler failed. not going to add')
     logger.setLevel(logging.INFO)
     return logger
 
@@ -110,18 +121,21 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_queue')
     obs = data.get('obs', False)
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
-        add_target_list_to_magiq(obs, config_parser)
+        try:
+            add_target_list_to_magiq(obs, config_parser)
+        except Exception as err:
+            logging.warning(f'did not add target to magiq. reason: {err}')
     logging.info(f'new ob queue len: {len(ob_ids)}')
 
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('set_ob_boneyard')
 def set_ob_boneyard(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_boneyard')
-    logging.info(f'new ob queue len: {len(ob_ids)}')
+    logging.info(f'new ob queue boneyard len: {len(ob_ids)}')
     ee.obs_q.boneyard = ob_ids
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
 
