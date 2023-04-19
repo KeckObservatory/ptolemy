@@ -191,7 +191,7 @@ def new_sequence_boneyard(data):
 def new_event_queue(data):
     """Sets event queue to local storage, and sends it to execution engine and frontend"""
     eq = data.get('event_queue')
-    logging.info(f'new event queue: {eq}')
+    logging.info(f'new event queue len: {len(eq)}')
     newQueue = []
     oldQueue = [*ee.ev_q.queue]
     for eventStr in eq: #sorting in queue
@@ -209,7 +209,7 @@ def new_event_boneyard(data):
     """Sets event queue boneyard to local storage, and sends it to execution engine and frontend"""
     print('new event boneyard')
     eb = data.get('event_boneyard')
-    logging.info(f'new event boneyard {eb}')
+    logging.info(f'new event boneyard len{len(eb)}')
     newBoneyard = []
     oldBoneyard = [*ee.ev_q.boneyard]
     for eventStr in eb: # sorting in boneyard
