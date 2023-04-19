@@ -3,6 +3,7 @@ import configparser
 from flask_socketio import emit 
 from flask import send_from_directory, request
 import os
+import traceback
 import logging
 import pdb
 
@@ -317,6 +318,7 @@ def submit_event(data):
         ee.ev_q.dispatch_event(eventStr)
     except Exception as err:
         logging.info(f'dispatch event failed, reason: {err}')
+        logging.info(f'{traceback.format_exc()}')
         data = { 'msg': 'dispatch_event failed' }
     # broadcast new queue and boneyard
     outData = make_event_out_data()
