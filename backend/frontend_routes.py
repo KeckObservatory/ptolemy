@@ -8,7 +8,7 @@ import logging
 import pdb
 from DDOILoggerClient import DDOILogger as dl
 
-from magiq_interface_functions import add_target_list_to_magiq
+from magiq_interface_functions import check_if_connected_to_magiq_server, add_target_list_to_magiq
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
@@ -124,9 +124,13 @@ def set_ob_queue(data):
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
         try:
+            check_if_connected_to_magiq_server(config_parser)
             add_target_list_to_magiq(obs, config_parser)
         except Exception as err:
-            logging.warning(f'did not add target to magiq. reason: {err}')
+            msg = f'did not add target to magiq. reason: {err}'
+            logging.warning(msg)
+            data = { 'msg': msg}
+            emit('snackbar_msg', data, room=request.sid)
     logging.info(f'new ob queue len: {len(ob_ids)}')
 
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
@@ -226,7 +230,10 @@ def get_event(arr, eventStr):
     eid = eventStr.split('@')[1]
     evtItem = next((item for item in [*arr] if item.id == eid), None)
     if not evtItem:
-        logging.error(f'CANNOT FIND {eventStr}')
+        msg = f'CANNOT FIND {eventStr}'
+        data = {'msg': msg}
+        emit('snackbar_msg', data, room=request.sid)
+        logging.error(msg)
     return evtItem 
 
 def build_list(arr, strQueue):

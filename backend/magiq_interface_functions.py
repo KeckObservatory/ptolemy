@@ -56,3 +56,12 @@ def add_target_list_to_magiq(obs, cfg):
     logging.info(f'Setting target list of {len(obs)} targets via: {url}')
     response = requests.post(url, data=data)
     logging.info(f'response: status code: {response.status_code}')
+
+def check_if_connected_to_magiq_server(cfg):
+    server = cfg['MAGIQSERVER']['server']
+    port = cfg['MAGIQSERVER']['port']
+    urlbase = f'http://{server}:{port}'
+    url = urlbase + '/status'
+    response = requests.get(url)
+    if not response.status_code == 200:
+        raise Exception("check magiq server")
