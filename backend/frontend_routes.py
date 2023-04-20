@@ -8,8 +8,6 @@ import logging
 import pdb
 from DDOILoggerClient import DDOILogger as dl
 
-from magiq_interface_functions import check_if_connected_to_magiq_server, add_target_list_to_magiq
-
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
@@ -29,7 +27,7 @@ def create_logger(fileName='ptolemy.log'):
     fl = logging.FileHandler(fileName)
     fl.setLevel(logging.INFO)
     fl.setFormatter(formatter)
-    logger = logging.getLogger()
+    logger = logging.getLogger("tyler")
     logger.addHandler(ch)
     logger.addHandler(fl)
     try:
@@ -124,8 +122,8 @@ def set_ob_queue(data):
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
         try:
-            check_if_connected_to_magiq_server(config_parser)
-            add_target_list_to_magiq(obs, config_parser)
+            ee.magiq_interface.check_if_connected_to_magiq_server(config_parser)
+            ee.magiq_interface.add_target_list_to_magiq(obs, config_parser)
         except Exception as err:
             msg = f'did not add target to magiq. reason: {err}'
             logging.warning(msg)
@@ -146,7 +144,7 @@ def set_ob_boneyard(data):
 @socketio.on('sync_with_magiq')
 def sync_with_magiq(data):
     obs = data.get('obs')
-    add_target_list_to_magiq(obs, config_parser)
+    ee.magiq_interface.add_target_list_to_magiq(obs, config_parser)
 
 
 @socketio.on('submit_ob')
