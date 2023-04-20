@@ -27,7 +27,7 @@ def create_logger(fileName='ptolemy.log'):
     fl = logging.FileHandler(fileName)
     fl.setLevel(logging.INFO)
     fl.setFormatter(formatter)
-    logger = logging.getLogger("tyler")
+    logger = logging.getLogger()
     logger.addHandler(ch)
     logger.addHandler(fl)
     try:
