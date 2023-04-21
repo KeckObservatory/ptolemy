@@ -9,10 +9,8 @@ import pdb
 from DDOILoggerClient import DDOILogger as dl
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
-from execution_engine.core.Queues.BaseQueue import DDOIBaseQueue
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
-from execution_engine.core.Queues.EventQueue.EventItem import EventItem
 
 def create_logger(fileName='ptolemy.log'):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -285,7 +283,6 @@ def new_task(data):
             data = {'msg': f'{err}'}
             emit('snackbar_msg', data, room=request.sid)
             return
-            
         acqSeq = ob.get('acquisition', False) 
         target = ob.get('target', False)
         if not acqSeq or not target:
@@ -293,7 +290,7 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
         logging.info(f"new acquistion task from queue {acqSeq['metadata']['script']}")
-        ee.ev_q.load_events_from_acquisition_and_target(acqSeq, target)
+        ee.ev_q.load_events_from_acquisition_and_target(ob)
 
     else: # is sequence
         seq_queue = [*ee.seq_q.queue]
