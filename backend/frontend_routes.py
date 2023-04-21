@@ -120,8 +120,8 @@ def set_ob_queue(data):
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
         try:
-            ee.magiq_interface.check_if_connected_to_magiq_server(config_parser)
-            ee.magiq_interface.add_target_list_to_magiq(obs, config_parser)
+            ee.magiq_interface.check_if_connected_to_magiq_server()
+            ee.magiq_interface.add_target_list_to_magiq(obs)
         except Exception as err:
             msg = f'did not add target to magiq. reason: {err}'
             logging.warning(msg)
