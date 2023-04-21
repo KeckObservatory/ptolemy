@@ -99,7 +99,7 @@ def request_ee_state():
         logging.info('sending ee state to frontend')
         emit('broadcast_ee_state_from_server', data, room=request.sid)
     except RuntimeError as err: 
-        logging.warning(ob)
+        logging.warning(err)
         data = {'msg': f'{err}'}
         emit('snackbar_msg', data, room=request.sid)
         return
