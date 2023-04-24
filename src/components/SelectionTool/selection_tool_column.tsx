@@ -209,7 +209,6 @@ export const SelectionToolColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-            {role.includes('Observer') && (
                 <Accordion
                 >
                     <AccordionSummary
@@ -244,8 +243,6 @@ export const SelectionToolColumn = (props: Props) => {
                         <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
                     </AccordionDetails>
                 </Accordion>
-            )
-            }
             <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
                 <OBSubmit onSubmitOB={onSubmitOB} />
                 <Tooltip title="Syncronize Queue with MAGIQ Target list">
