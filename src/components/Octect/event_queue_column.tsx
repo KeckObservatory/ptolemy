@@ -48,8 +48,8 @@ interface Props {
     collapseStringsAfter: any
     collapsed: any
     iconStyle: any
-    events: string[];
-    eventBoneyard: string[];
+    events: EventDict[];
+    eventBoneyard: EventDict[];
 }
 
 export const EventQueueColumn = (props: Props) => {
