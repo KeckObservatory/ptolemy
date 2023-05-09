@@ -89,8 +89,7 @@ def request_ee_state():
         data['sequence_queue'] = ee.seq_q.get_sequences() 
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
         # get event queue and event boneyard
-
-        evts = [ evt for evt in ee.ev_q.get_queue_as_list()]
+        evts = ee.ev_q.get_queue_as_list()
         data['event_queue'] = evts 
 
         evtBoneyard = [x.as_dict() for x in ee.ev_q.boneyard]
@@ -143,7 +142,6 @@ def sync_with_magiq(data):
     obs = data.get('obs')
     ee.magiq_interface.add_target_list_to_magiq(obs, config_parser)
 
-
 @socketio.on('submit_ob')
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
@@ -156,7 +154,8 @@ def submit_ob(data):
         ob = ee.ODBInterface.get_OB_from_id(submittedId) 
         broadcastData = { 'ob': ob }
         emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
-        #TODO clear seq queues, boneyard, event queue, boneyard
+        ee.seq_q.set_queue([])
+        ee.ev_q.set_queue([])
     except RuntimeError as err:
         data = {'msg': str(err)}
         emit('snackbar_msg', data, room=request.sid)

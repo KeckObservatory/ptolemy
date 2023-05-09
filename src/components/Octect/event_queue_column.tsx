@@ -7,7 +7,7 @@ import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-interface EventDict {
+export interface EventDict {
     id: string,
     subsystem: string,
     sem_id: string,

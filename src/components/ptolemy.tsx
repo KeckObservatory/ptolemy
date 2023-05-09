@@ -16,7 +16,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { SelectionToolColumn } from './SelectionTool/selection_tool_column';
 import { SequenceQueueColumn } from './Octect/sequence_queue_column';
-import { EventQueueColumn } from './Octect/event_queue_column';
+import { EventDict, EventQueueColumn } from './Octect/event_queue_column';
 
 interface TaskEvent {
     script_name: string,
@@ -31,8 +31,8 @@ interface EventQueueBoneyard {
 
 interface EEState {
     ob?: ObservationBlock,
-    ob_id_queue: string[],
-    ob_id_boneyard: string[],
+    ob_id_queue: EventDict[],
+    ob_id_boneyard: EventDict[],
     sequence_queue: Science[],
     sequence_boneyard: Science[],
     event_queue: TaskEvent[],
@@ -139,15 +139,8 @@ export const Ptolemy = (props: Props) => {
             setSequences(data.sequence_queue)
             setSequenceBoneyard(data.sequence_boneyard)
 
-            const eq = data.event_queue.map((evt: TaskEvent) => {
-                return evt.script_name + '@' + evt.id
-            })
-            setEvents( eq )
-
-            const eqb = data.event_boneyard.map((evt: TaskEvent) => {
-                return evt.script_name + '@' + evt.id
-            })
-            setEventBoneyard(eqb)
+            setEvents( data.event_queue )
+            setEventBoneyard( data.event_boneyard )
         })
 
         socket.on('task_broadcast', (data) => {
