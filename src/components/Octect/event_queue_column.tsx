@@ -28,7 +28,7 @@ const DragEventCell = (eventDict: EventDict) => {
                 src={eventDict.args as object}
                 theme={theme as ThemeKeys | undefined}
                 iconStyle={'circle'}
-                collapsed={1}
+                collapsed={0}
                 collapseStringsAfterLength={15}
                 enableClipboard={true}
                 onEdit={false}
