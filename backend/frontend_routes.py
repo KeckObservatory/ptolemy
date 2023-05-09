@@ -90,12 +90,11 @@ def request_ee_state():
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
         # get event queue and event boneyard
 
-        eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ee.ev_q.get_queue_as_list()]
-        data['event_queue'] = eventStrs 
+        evts = [ evt for evt in ee.ev_q.get_queue_as_list()]
+        data['event_queue'] = evts 
 
-        boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
-        boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
-        data['event_boneyard'] = boneyardStrs 
+        evtBoneyard = [x.as_dict() for x in ee.ev_q.boneyard]
+        data['event_boneyard'] = evtBoneyard 
         logging.info('sending ee state to frontend')
         emit('broadcast_ee_state_from_server', data, room=request.sid)
     except RuntimeError as err: 
@@ -200,8 +199,7 @@ def new_event_queue(data):
 
     ee.ev_q.set_queue(newQueue)
     ev_queue = ee.ev_q.get_queue_as_list() 
-    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
-    eventData = {'event_queue': eventStrs}
+    eventData = {'event_queue': ev_queue}
     emit('event_queue_broadcast', eventData, broadcast=True)
 
 @socketio.on('new_event_boneyard')
@@ -212,39 +210,36 @@ def new_event_boneyard(data):
     logging.info(f'new event boneyard len{len(eb)}')
     newBoneyard = []
     oldBoneyard = [*ee.ev_q.boneyard]
-    for eventStr in eb: # sorting in boneyard
-        evt = get_event(oldBoneyard, eventStr)
+    for eventDict in eb: # sorting in boneyard
+        evt = get_event(oldBoneyard, eventDict )
         if evt: newBoneyard.append(evt) 
 
     ee.ev_q.boneyard = newBoneyard
     boneyardDict = [x.as_dict() for x in newBoneyard]
-    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
-    eventBoneyardData = {'event_boneyard': boneyardStrs}
+    eventBoneyardData = {'event_boneyard': boneyardDict}
     emit('event_boneyard_broadcast', eventBoneyardData, broadcast=True)
 
-def get_event(arr, eventStr):
-    eid = eventStr.split('@')[1]
+def get_event(arr, eventDict):
+    eid = eventDict['id']
     evtItem = next((item for item in [*arr] if item.id == eid), None)
     if not evtItem:
-        msg = f'CANNOT FIND {eventStr}'
+        msg = f'CANNOT FIND {eventDict["script_name"]}'
         data = {'msg': msg}
         emit('snackbar_msg', data, room=request.sid)
         logging.error(msg)
     return evtItem 
 
-def build_list(arr, strQueue):
+def build_list(arr, eventDicts):
     outArr = []
-    for eventStr in strQueue:
-        evt = get_event(arr, eventStr)
+    for eventDict in eventDicts:
+        evt = get_event(arr, eventDict)
         if evt: outArr.append(evt)
     return outArr
 
 def make_event_out_data():
     ev_queue = ee.ev_q.get_queue_as_list() 
-    eventStrs = [ evt['script_name'] + '@' + evt['id'] for evt in ev_queue ]
     boneyardDict = [x.as_dict() for x in ee.ev_q.boneyard]
-    boneyardStrs= [ x['script_name'] + '@' + x['id'] for x in boneyardDict]
-    outData = { 'event_queue': eventStrs, 'event_boneyard': boneyardStrs}
+    outData = { 'event_queue': ev_queue, 'event_boneyard': boneyardDict}
     return outData
 
 @socketio.on('event_queue_boneyard_swap')
