@@ -7,11 +7,32 @@ import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+interface EventDict {
+    id: string,
+    subsystem: string,
+    sem_id: string,
+    event_type: string,
+    args: object,
+    script_name: string,
+    block: boolean
+}
+
 //@ts-ignore
-const DragEventCell = (strObj) => {
+const DragEventCell = (eventDict: EventDict) => {
+    const [theme, setTheme] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
     return (
         <div>
-            <p> event: {strObj.split('@')[0]} </p>
+            <p> name: {eventDict.script_name} </p>
+            <p> type: {eventDict.event_type} </p>
+            <ReactJson
+                src={eventDict.args as object}
+                theme={theme as ThemeKeys | undefined}
+                iconStyle={'circle'}
+                collapsed={1}
+                collapseStringsAfterLength={15}
+                enableClipboard={true}
+                onEdit={false}
+            />
         </div>
     )
 }
