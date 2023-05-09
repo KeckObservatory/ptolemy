@@ -310,8 +310,8 @@ def new_task(data):
 
 @socketio.on('submit_event')
 def submit_event(data):
-    eventStr = data.get('submitted_event')
-    logging.info(f'submitting event {eventStr}')
+    eventDict = data.get('submitted_event')
+    logging.info(f'submitting event {eventDict["script_name"]}')
 
     if len(ee.ev_q.get_queue_as_list()) == 0: 
         logging.warning('event queue empty')
@@ -326,7 +326,7 @@ def submit_event(data):
         emit('snackbar_msg', data, room=request.sid)
         return
     try:    
-        ee.ev_q.dispatch_event(eventStr)
+        ee.ev_q.dispatch_event(eventDict)
     except Exception as err:
         logging.info(f'dispatch event failed, reason: {err}')
         logging.info(f'{traceback.format_exc()}')
