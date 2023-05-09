@@ -1,42 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import FormControl from '@mui/material/FormControl';
+import React, { useEffect } from 'react'
 import { ObservationBlock, Science } from '../typings/ptolemy'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
-import Tooltip from '@mui/material/Tooltip'
-import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import Button from '@mui/material/Button';
 import { SocketContext } from './../contexts/socket';
-import JsonViewTheme from './json_view_theme'
-import ReactJson, { ThemeKeys, InteractionProps } from 'react-json-view'
-import SequenceQueue from './Octect/sequence_queue'
-import EventQueue from './Octect/event_queue'
 import { ob_api_funcs } from '../api/ApiRoot';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { SelectionToolColumn } from './SelectionTool/selection_tool_column';
 import { SequenceQueueColumn } from './Octect/sequence_queue_column';
 import { EventDict, EventQueueColumn } from './Octect/event_queue_column';
 
-interface TaskEvent {
-    script_name: string,
-    args: object,
-    id: string,
-}
-
-interface EventQueueBoneyard {
-    event_queue: string,
-    event_boneyard: string
-}
-
 interface EEState {
     ob?: ObservationBlock,
-    ob_id_queue: EventDict[],
-    ob_id_boneyard: EventDict[],
+    ob_id_queue: string[],
+    ob_id_boneyard: string[],
     sequence_queue: Science[],
     sequence_boneyard: Science[],
-    event_queue: TaskEvent[],
-    event_boneyard: TaskEvent[]
+    event_queue: EventDict[],
+    event_boneyard: EventDict[]
 }
 
 interface Props {
@@ -76,8 +54,8 @@ export const Ptolemy = (props: Props) => {
     const [obBoneyard, setOBBoneyard] = React.useState([] as ObservationBlock[])
     const [sequences, setSequences] = React.useState([] as Science[])
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
-    const [events, setEvents] = React.useState([] as string[])
-    const [eventBoneyard, setEventBoneyard] = React.useState([] as string[])
+    const [events, setEvents] = React.useState([] as EventDict[])
+    const [eventBoneyard, setEventBoneyard] = React.useState([] as EventDict[])
     let ping_pong_times: number[] = []
     let start_time: number
 
