@@ -1,7 +1,20 @@
 import React, { MouseEventHandler } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Button, FormControl, Paper, Snackbar, Stack } from '@mui/material'
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Snackbar,
+    Stack
+} from '@mui/material'
 import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
@@ -58,6 +71,8 @@ export const EventQueueColumn = (props: Props) => {
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
+    const [open, setOpen] = React.useState(false)
+
     const [role, _] = useQueryParam('role', withDefault(StringParam, "observer"));
 
     const onDragEnd = (result: any) => {
@@ -100,6 +115,26 @@ export const EventQueueColumn = (props: Props) => {
         props.setSnackbarOpen(false);
     };
 
+    const clearEventQueues = () => {
+        socket.emit('new_event_boneyard', { event_boneyard: [] })
+        socket.emit('new_event_queue', { event_queue: [] })
+    }
+
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleYes = () => {
+        clearEventQueues()
+        handleClose()
+    }
+
+
     const disableQueueUnlock = role === "Observer"
 
     return (
@@ -136,6 +171,32 @@ export const EventQueueColumn = (props: Props) => {
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
                 <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
                 <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
+            </Stack>
+            <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
+                <div>
+                    <Button variant="contained" onClick={handleClickOpen}>
+                        Clear Event and Boneyard
+                    </Button>
+                    <Dialog
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"Clearing Event Queue and Boneyard"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Are you sure?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>No</Button>
+                            <Button onClick={handleYes} autoFocus>
+                                Yes
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
             </Stack>
             <Snackbar
                 open={props.snackbarOpen}

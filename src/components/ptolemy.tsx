@@ -217,9 +217,7 @@ export const Ptolemy = (props: Props) => {
         setSnackbarOpen(false);
     };
 
-
     return (
-
         <React.Fragment>
             <Grid container spacing={2} columns={18}>
                 <Grid item xs={6}>
