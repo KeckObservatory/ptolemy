@@ -256,6 +256,14 @@ def event_queue_boneyard_swap(data):
 
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
+def get_fresh_sequence(ob, seqItem):
+    sequence_number = seqItem.sequence['metadata']['sequence_number']
+    newSequence = next(seq for seq in ob['observations'] if seq["sequence_number"] == sequence_number)
+    newSeqItem = seqItem
+    newSeqItem.sequence = newSequence
+    newSeqItem.OB = ob
+    return  newSeqItem
+
 @socketio.on('new_task')
 def new_task(data):
     """Sets task to local storage, resets events to defaults (tbd: translator module replaces default events)
@@ -263,20 +271,23 @@ def new_task(data):
     task = data.get('task')
     logging.info(f'new task getting set to {task}')
     isAcquisition = data.get('isAcq', False)
+
+    ob_id = ee.obs_q.submitted_ob_id 
+    if len(ob_id) == 0:
+        logging.warning('ob queue empty')
+        data = {'msg': 'ob queue empty'}
+        emit('snackbar_msg', data, room=request.sid)
+        return
+
+    try: 
+        ob = ee.ODBInterface.get_OB_from_id(ob_id)
+    except RuntimeError as err: 
+        data = {'msg': f'{err}'}
+        emit('snackbar_msg', data, room=request.sid)
+        return
+
     if isAcquisition:
         logging.info('acquisition getting set')
-        ob_id = ee.obs_q.submitted_ob_id 
-        if len(ob_id) == 0:
-            logging.warning('ob queue empty')
-            data = {'msg': 'ob queue empty'}
-            emit('snackbar_msg', data, room=request.sid)
-            return
-        try: 
-            ob = ee.ODBInterface.get_OB_from_id(ob_id)
-        except RuntimeError as err: 
-            data = {'msg': f'{err}'}
-            emit('snackbar_msg', data, room=request.sid)
-            return
         acqSeq = ob.get('acquisition', False) 
         target = ob.get('target', False)
         if not acqSeq or not target:
@@ -285,7 +296,6 @@ def new_task(data):
             return
         logging.info(f"new acquistion task from queue {acqSeq['metadata']['script']}")
         ee.ev_q.load_events_from_acquisition_and_target(ob)
-
     else: # is sequence
         seq_queue = [*ee.seq_q.queue]
         if len(seq_queue) == 0:
@@ -294,13 +304,14 @@ def new_task(data):
             emit('snackbar_msg', data, room=request.sid)
             return
         else:
-            newTask = ee.seq_q.get()
+            seqItem = ee.seq_q.get()
+            newSeqItem = get_fresh_sequence(ob, seqItem)
             seqBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
             seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
             emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
-            logging.info(f'new task from queue {newTask.sequence}')
-            ee.ev_q.load_events_from_sequence(newTask)
+            logging.info(f'new sequence from queue {newSeqItem.sequence}')
+            ee.ev_q.load_events_from_sequence(newSeqItem)
     ee.ev_q.boneyard = []
     outData = make_event_out_data()
 
@@ -310,6 +321,7 @@ def new_task(data):
 @socketio.on('submit_event')
 def submit_event(data):
     eventDict = data.get('submitted_event')
+    #TODO Retrieve most recent OB from the DB.
     logging.info(f'submitting event {eventDict["script_name"]}')
 
     if len(ee.ev_q.get_queue_as_list()) == 0: 
