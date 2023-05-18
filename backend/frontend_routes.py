@@ -262,7 +262,38 @@ def get_fresh_sequence(ob, seqItem):
     newSeqItem = seqItem
     newSeqItem.sequence = newSequence
     newSeqItem.OB = ob
-    return  newSeqItem
+    return  sequence_number, newSeqItem
+
+def get_fresh_ob():
+    # Get a fresh OB for the new task
+    ob_id = ee.obs_q.submitted_ob_id 
+    if len(ob_id) == 0:
+        logging.warning('ob queue empty')
+        raise Exception('ob queue is empty')
+    ob = ee.ODBInterface.get_OB_from_id(ob_id)
+    return ob
+
+def get_fresh_event(event):
+    # Get fresh ob and use that data
+    try:
+        ob = get_fresh_ob()
+    except Exception as err:
+        logging.warning('new_task error: {err}')
+        data = {'msg': f'{err}'}
+        emit('snackbar_msg', data, room=request.sid)
+        return
+
+    if 'acquisition' in event['type']: # args is ob
+        args = ob
+    if 'sequence' in event['type']: # args is {'sequence': sequence, 'ob': ob}
+        sequence_number = event['args']['sequence']['metadata']['sequence_number']
+        newSequence = next(seq for seq in ob['observations'] if seq["sequence_number"] == sequence_number)
+        args = {'sequence': newSequence, 'OB': ob}
+
+    event['args'] = args
+    return event
+
+    
 
 @socketio.on('new_task')
 def new_task(data):
@@ -272,16 +303,10 @@ def new_task(data):
     logging.info(f'new task getting set to {task}')
     isAcquisition = data.get('isAcq', False)
 
-    ob_id = ee.obs_q.submitted_ob_id 
-    if len(ob_id) == 0:
-        logging.warning('ob queue empty')
-        data = {'msg': 'ob queue empty'}
-        emit('snackbar_msg', data, room=request.sid)
-        return
-
-    try: 
-        ob = ee.ODBInterface.get_OB_from_id(ob_id)
-    except RuntimeError as err: 
+    try:
+        ob = get_fresh_ob()
+    except Exception as err:
+        logging.warning('new_task error: {err}')
         data = {'msg': f'{err}'}
         emit('snackbar_msg', data, room=request.sid)
         return
@@ -305,7 +330,12 @@ def new_task(data):
             return
         else:
             seqItem = ee.seq_q.get()
-            newSeqItem = get_fresh_sequence(ob, seqItem)
+            sequence_number, newSeqItem = get_fresh_sequence(ob, seqItem)
+            ob['status']['surrent_seq'] = sequence_number
+            #TODO: update OB status with current sequence_number
+            ee.ODBInterface.update_OB(ob)
+
+
             seqBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
             seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
             emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
@@ -320,8 +350,10 @@ def new_task(data):
 
 @socketio.on('submit_event')
 def submit_event(data):
+
     eventDict = data.get('submitted_event')
-    #TODO Retrieve most recent OB from the DB.
+    eventDict = get_fresh_event(eventDict) # Retrieve most recent OB data
+
     logging.info(f'submitting event {eventDict["script_name"]}')
 
     if len(ee.ev_q.get_queue_as_list()) == 0: 
