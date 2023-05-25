@@ -8,6 +8,7 @@ import { ThemeKeys } from 'react-json-view';
 import { SelectionToolView } from './SelectionTool/selection_tool_view';
 import { NumberParam, useQueryParam, withDefault } from 'use-query-params'
 import { Ptolemy } from './ptolemy';
+import { LogView } from './LogView/log_view';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -83,6 +84,9 @@ export const ModuleMenu = (props: ModuleMenuProps) => {
             </TabPanel>
             <TabPanel value={tabIdx} index={1}>
                 <Ptolemy />
+            </TabPanel>
+            <TabPanel value={tabIdx} index={2}>
+                <LogView />
             </TabPanel>
         </ div >
     )

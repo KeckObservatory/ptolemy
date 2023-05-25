@@ -14,6 +14,7 @@ import {
     mock_get_container_ob_metadata,
     mock_get_container_ob_target,
     mock_ob_get_many,
+    mock_get_logs
 
 } from '../mocks/mock_utils';
 
@@ -29,6 +30,7 @@ var DEVELOPMENT_URL = 'https://wwwbuild.keck.hawaii.edu/'
 var PRODUCTION_URL = 'http://vm-ddoiserverbuild.keck.hawaii.edu'
 var TEST_URL = 'http://localhost:50007/v0' //use locally or for testing (npm start or npm run demobuild)
 var BASE_URL = IS_BUILD ? PRODUCTION_URL : TEST_URL // sets for production vs test 
+var LOGGER_BASE_URL = 'http://10.95.1.94:5000/api/log/get_logs?'
 
 BASE_URL = IS_DEVELOPMENT ? DEVELOPMENT_URL : BASE_URL
 var API_URL = BASE_URL + '/api/ddoi/'
@@ -50,6 +52,20 @@ const axiosInstance = axios.create({
     }
 })
 axiosInstance.interceptors.response.use(intResponse, intError);
+
+export const get_logs = (//TODO: verify this works
+   n_logs=100, 
+   subsystem?: string,
+   semid?: string, 
+   ) => {
+   let url = LOGGER_BASE_URL
+   url += `n_logs=${n_logs}`
+   url += subsystem ? `subystem=${subsystem}` : ""
+   url += semid ? `semid=${semid}` : ""
+    return axiosInstance.get(url)
+        .then(handleResponse)
+        .catch(handleError)
+}
 
 export const get_userinfo = (): Promise<UserInfo> => {
     const url = BASE_URL + '/userinfo';
@@ -170,4 +186,8 @@ export const ob_api_funcs = {
 export const tag_functions = {
     add_tag: add_tag,
     delete_tag: delete_tag 
+}
+
+export const logs = {
+    get_logs: IS_BUILD? get_logs : mock_get_logs
 }

@@ -1,0 +1,162 @@
+[
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e097"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.547Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.546367"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e09a"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.575Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.575524"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e08b"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.428Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.42803"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e094"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.519Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.518632"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e08e"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.452Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.451435"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e088"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.402Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.402254"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e082"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.353Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.35281"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e07f"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.312Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.31172"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e085"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.380Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.379647"
+    },
+    {
+        "_id": {
+            "$oid": "6388099f1e00c74a2406e091"
+        },
+        "utc_sent": "2022-12-01 01:55:43.",
+        "utc_received": {
+            "$date": "2022-12-01T01:55:43.480Z"
+        },
+        "hostname": "b'MOSFIRE'",
+        "level": "WARN",
+        "subsystem": "MOSFIRE",
+        "author": "ttucker",
+        "SEMID": null,
+        "PROGID": null,
+        "message": "stress test timestamp: 1669859743.479849"
+    }
+]

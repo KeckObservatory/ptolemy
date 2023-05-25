@@ -1,9 +1,22 @@
-import { ObservationBlock, SemesterIds } from './../typings/ptolemy';
+import { ObservationBlock, SemesterIds, Log } from './../typings/ptolemy';
 import { mock_semesters } from './mock_semesters'
 import { Container } from "../typings/ptolemy";
 import { default as mock_obs } from './ob.json'
 import { default as mock_containers } from './containers-demo.json'
+import { default as mock_logs } from './mock_logs.json'
+
 import { mock_targets, mock_metadata } from './mock_ob_metadata_targets'
+
+export const mock_get_logs = (
+   n_logs: number, 
+   subsystem?: string,
+   semid?: string, 
+   ) => {
+   const mockPromise = new Promise<Partial<Log[]>>((resolve) => {
+      resolve(mock_metadata as any)
+   })
+   return mockPromise
+}
 
 export const mock_get_container_ob_metadata = (semid: string, container_id?: string) => {
    const mockPromise = new Promise<Partial<ObservationBlock[]>>((resolve) => {

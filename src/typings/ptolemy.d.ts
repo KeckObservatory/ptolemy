@@ -10,24 +10,41 @@ export interface DetailedContainer extends Container {
 	ob_details: Partial<ObservationBlock>[]
 }
 
+export interface Log {
+	"_id": object,
+	"utc_sent": string,
+	"utc_received": DateLog,
+	"hostname": string,
+	"level": string,
+	"subsystem": string,
+	"author": string,
+	"SEMID": string,
+	"PROGID": string,
+	"message": string 
+}
+
+export interface DateLog {
+	$date: string
+}
+
 export interface SemesterIds {
 	associations: string[]
 	keck_id: number
 }
 
 export interface Semester {
-    _id: string
-    comment?: string
-    container_list: string[]
-    name: string
-    sem_id: string
+	_id: string
+	comment?: string
+	container_list: string[]
+	name: string
+	sem_id: string
 }
 export type Method = 'get' | 'put' | 'post' | 'remove'
 export type Document = ObservationBlock | object
 export type SourceAPI = 'ptolemy_demo' | 'ptolemy_local' | 'ptolemy_docker'
 
 export type OBSequence = Acquisition | Science
-export type OBComponent = Target | OBSequence 
+export type OBComponent = Target | OBSequence
 export type OBSeqNames = 'acquisition' | 'science' | 'signature' | 'target' | 'sequences'
 
 export type OBType = 'science' | 'engineering' | 'calibration'
@@ -48,9 +65,9 @@ export interface Scoby {
 	ob_id: string
 	name?: string
 	ra?: string,
-    dec?: string,
-	ra_deg?:  number,
-    dec_deg?: number,
+	dec?: string,
+	ra_deg?: number,
+	dec_deg?: number,
 	comment?: string,
 	ob_type?: string,
 	version?: string,
@@ -71,7 +88,7 @@ export interface OBMetadata {
 	name: string;
 	version: string | number;
 	priority: number;
-	ob_type: OBType; 
+	ob_type: OBType;
 	pi_id: number | string;
 	sem_id: string;
 	instrument: Instrument;
@@ -99,11 +116,11 @@ export interface AcquisitionMetadata extends Metadata {
 
 export interface BaseSequence extends Base {
 	metadata: Metadata;
-	parameters: { [key:string]: any }
+	parameters: { [key: string]: any }
 }
 
-export interface DefaultAcquisition extends BaseSequence{
-    metadata: AcquisitionMetadata;
+export interface DefaultAcquisition extends BaseSequence {
+	metadata: AcquisitionMetadata;
 	template_id: string;
 }
 
@@ -136,7 +153,7 @@ export interface Dither extends Base {
 export type Science = KCWIScience
 
 export interface KCWIScienceParameters {
-    [key: string]: number | string | Slicer | Grating | any
+	[key: string]: number | string | Slicer | Grating | any
 }
 
 export interface Metadata {
@@ -144,7 +161,7 @@ export interface Metadata {
 	version: string,
 	ui_name: string,
 	instrument?: Instrument,
-    template_type: string,
+	template_type: string,
 	script?: string
 }
 
@@ -164,7 +181,7 @@ export interface KCWIScience extends Base {
 	template_id?: string;
 }
 
-export interface DefaultScience extends Base{
+export interface DefaultScience extends Base {
 	instrument: string,
 	exposure_sequences: string[],
 	associations: string[],
@@ -217,22 +234,22 @@ export interface Magnitude extends Base {
 export type InstrumentPackage = KCWIInstrumentPackage
 
 interface KCWIInstrumentPackage extends Base {
-  instrument: Instrument
-  version: string | number
-  modes: string[]
-  cameras: Cameras[]
-  templates: InstrumentPackageTemplates
-  configuration_parameters: object[]
+	instrument: Instrument
+	version: string | number
+	modes: string[]
+	cameras: Cameras[]
+	templates: InstrumentPackageTemplates
+	configuration_parameters: object[]
 }
 
 export type CameraName = "BLUE" | "RED"
 export type CameraIdentifier = "CAM1" | "CAM2"
 
 export interface Cameras extends Object {
-  name: CameraName 
-  type: string
-  identifier: CameraIdentifier
-  detector: string
+	name: CameraName
+	type: string
+	identifier: CameraIdentifier
+	detector: string
 }
 
 export interface TemplateEntry {
@@ -241,7 +258,7 @@ export interface TemplateEntry {
 }
 
 export interface InstrumentPackageTemplates {
-  [key: string]: TemplateEntry[] 
+	[key: string]: TemplateEntry[]
 }
 
 export type TemplateType = "acq" | "sci" | "config"
@@ -251,17 +268,17 @@ export interface TemplateMetadata extends Metadata {
 }
 
 export interface TemplateParameter {
-  ui_name: string;
-  option: string;
-  allowed: string[] | number[] | object[];
-  default: string | number | null;
-  type: string;
-  optionality: string;
+	ui_name: string;
+	option: string;
+	allowed: string[] | number[] | object[];
+	default: string | number | null;
+	type: string;
+	optionality: string;
 }
 
 export interface Template {
 	template_id: string;
 	metadata: TemplateMetadata;
-	parameters: {[key: string]: TemplateParameter};
-    name: string,
+	parameters: { [key: string]: TemplateParameter };
+	name: string,
 }
