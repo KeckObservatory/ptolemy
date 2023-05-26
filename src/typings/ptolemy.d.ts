@@ -10,17 +10,26 @@ export interface DetailedContainer extends Container {
 	ob_details: Partial<ObservationBlock>[]
 }
 
-export interface Log {
-	"_id": object,
+export interface RawLog {
+	"_id": LogID ,
 	"utc_sent": string,
 	"utc_received": DateLog,
 	"hostname": string,
 	"level": string,
 	"subsystem": string,
-	"author": string,
-	"SEMID": string,
-	"PROGID": string,
+	"author": null | string,
+	"SEMID": null | string,
+	"PROGID": null | string,
 	"message": string 
+}
+
+export interface Log extends RawLog {
+	"_id": string,
+	"utc_received": string,
+}
+
+export interface LogID {
+	$oid: string
 }
 
 export interface DateLog {

@@ -11,7 +11,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.546367"
     },
@@ -27,7 +27,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.575524"
     },
@@ -43,7 +43,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.42803"
     },
@@ -59,7 +59,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.518632"
     },
@@ -75,7 +75,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.451435"
     },
@@ -91,7 +91,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.402254"
     },
@@ -107,7 +107,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.35281"
     },
@@ -122,8 +122,8 @@
         "hostname": "b'MOSFIRE'",
         "level": "WARN",
         "subsystem": "MOSFIRE",
+        "SEMID": "2023A_1234",
         "author": "ttucker",
-        "SEMID": null,
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.31172"
     },
@@ -139,7 +139,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.379647"
     },
@@ -155,7 +155,7 @@
         "level": "WARN",
         "subsystem": "MOSFIRE",
         "author": "ttucker",
-        "SEMID": null,
+        "SEMID": "2023A_1234",
         "PROGID": null,
         "message": "stress test timestamp: 1669859743.479849"
     }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { handleResponse, handleError, intResponse, intError } from './response';
 import {
     Container,
+    RawLog,
     ObservationBlock,
     SemesterIds,
 } from './../typings/ptolemy'
@@ -57,7 +58,7 @@ export const get_logs = (//TODO: verify this works
    n_logs=100, 
    subsystem?: string,
    semid?: string, 
-   ) => {
+   ): Promise<RawLog[]> => {
    let url = LOGGER_BASE_URL
    url += `n_logs=${n_logs}`
    url += subsystem ? `subystem=${subsystem}` : ""
@@ -188,6 +189,6 @@ export const tag_functions = {
     delete_tag: delete_tag 
 }
 
-export const logs = {
+export const log_functions = {
     get_logs: IS_BUILD? get_logs : mock_get_logs
 }
