@@ -5,7 +5,7 @@ from flask import request
 import pdb
 from DDOILoggerClient import getlogz_functions as glf 
 
-DATE_FORMAT = '%Y-%m-%d %H:%M:%S.%Z'
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
 cfg_name="./cfg.ini"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
