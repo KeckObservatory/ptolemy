@@ -12,8 +12,8 @@ export interface DetailedContainer extends Container {
 
 export interface RawLog {
 	"_id": LogID ,
-	"utc_sent": string,
 	"utc_received": DateLog,
+	"utc_sent": string,
 	"hostname": string,
 	"level": string,
 	"subsystem": string,
@@ -23,9 +23,15 @@ export interface RawLog {
 	"message": string 
 }
 
-export interface Log extends RawLog {
-	"_id": string,
-	"utc_received": string,
+export interface Log {
+	"utc_sent": string,
+	"hostname": string,
+	"level": string,
+	"subsystem": string,
+	"author": null | string,
+	"SEMID": null | string,
+	"PROGID": null | string,
+	"message": string 
 }
 
 export interface LogID {

@@ -3,9 +3,9 @@ import axios from 'axios';
 import { handleResponse, handleError, intResponse, intError } from './response';
 import {
     Container,
-    RawLog,
     ObservationBlock,
     SemesterIds,
+    Log,
 } from './../typings/ptolemy'
 import { UserInfo } from './../typings/ddoi_api'
 import {
@@ -58,7 +58,7 @@ export const get_logs = (//TODO: verify this works
    n_logs=100, 
    subsystem?: string,
    semid?: string, 
-   ): Promise<RawLog[]> => {
+   ): Promise<Log[]> => {
    let url = LOGGER_BASE_URL
    url += `n_logs=${n_logs}`
    url += subsystem ? `&subystem=${subsystem}` : ""

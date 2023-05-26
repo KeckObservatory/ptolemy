@@ -1,4 +1,4 @@
-import { ObservationBlock, SemesterIds, RawLog } from './../typings/ptolemy';
+import { ObservationBlock, SemesterIds, Log } from './../typings/ptolemy';
 import { mock_semesters } from './mock_semesters'
 import { Container } from "../typings/ptolemy";
 import { default as mock_obs } from './ob.json'
@@ -12,8 +12,8 @@ export const mock_get_logs = (
    subsystem?: string,
    semid?: string, 
    ) => {
-   const mockPromise = new Promise<RawLog[]>((resolve) => {
-      resolve(mock_logs as RawLog[])
+   const mockPromise = new Promise<Log[]>((resolve) => {
+      resolve(mock_logs as Log[])
    })
    return mockPromise
 }

@@ -19,17 +19,11 @@ export const LogView = (props: Props) => {
     const [subsystem, setSubsystem] = useState(undefined as unknown as string)
 
     useEffect(() => {
-        log_functions.get_logs(nLogs, subsystem, semid).then((lgs: (RawLog | undefined)[]) => {
+        log_functions.get_logs(nLogs, subsystem, semid).then((lgs: (Log | undefined)[]) => {
             console.log(lgs)
-            const logRows = lgs ? (lgs as unknown as RawLog[]).map((lg: RawLog) => {
-                return ({
-                    ...lg,
-                    _id: lg._id.$oid,
-                    utc_received: lg.utc_received.$date
-                } as Log
-                )
-            }) : []
-            setLogs(logRows)
+            if (lgs) {
+                setLogs(lgs as Log[])
+            }
         })
 }, [])
 
