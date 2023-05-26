@@ -14,6 +14,7 @@ CORS(app, send_wildcard=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
 from frontend_routes import *
+from logger_routes import *
 
 @socketio.on('connected')
 def connected():
