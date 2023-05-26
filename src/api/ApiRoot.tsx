@@ -31,7 +31,7 @@ var DEVELOPMENT_URL = 'https://wwwbuild.keck.hawaii.edu/'
 var PRODUCTION_URL = 'http://vm-ddoiserverbuild.keck.hawaii.edu'
 var TEST_URL = 'http://localhost:50007/v0' //use locally or for testing (npm start or npm run demobuild)
 var BASE_URL = IS_BUILD ? PRODUCTION_URL : TEST_URL // sets for production vs test 
-var LOGGER_BASE_URL = BASE_URL + '/api/log/get_logs?'
+var LOGGER_BASE_URL = BASE_URL + ':50008/api/log/get_logs?'
 
 BASE_URL = IS_DEVELOPMENT ? DEVELOPMENT_URL : BASE_URL
 var API_URL = BASE_URL + '/api/ddoi/'
