@@ -21,46 +21,47 @@ export const LogView = (props: Props) => {
     useEffect(() => {
         log_functions.get_logs(nLogs, subsystem, semid).then((lgs: (RawLog | undefined)[]) => {
             console.log(lgs)
-            const logRows = (lgs as unknown as RawLog[]).map( (lg: RawLog) => {
+            const logRows = lgs ? (lgs as unknown as RawLog[]).map((lg: RawLog) => {
                 return ({
                     ...lg,
                     _id: lg._id.$oid,
                     utc_received: lg.utc_received.$date
                 } as Log
-            )})
+                )
+            }) : []
             setLogs(logRows)
         })
-    }, [])
+}, [])
 
-    const options: MUIDataTableOptions = {
-        filterType: 'dropdown',
-        selectableRowsHeader: false,
-        selectableRowsHideCheckboxes: false,
-        selectableRows: 'none' 
-    }
+const options: MUIDataTableOptions = {
+    filterType: 'dropdown',
+    selectableRowsHeader: false,
+    selectableRowsHideCheckboxes: false,
+    selectableRows: 'none'
+}
 
-    const columns = [
-        { name: '_id', label: 'Log ID', options: { display: false } },
-        { name: 'utc_sent', label: 'Datetime Sent', options: {display: false} },
-        { name: 'utc_received', label: 'Datetime' },
-        { name: 'hostname', label: 'Hostname', options: {display: false} },
-        { name: 'level', label: 'Level', options: {display: false} },
-        { name: 'subsystem', label: 'Subsystem' },
-        { name: 'author', label: 'Author', options: { display: false } },
-        { name: 'SEMID', label: 'Semid' },
-        { name: 'PROGID', label: 'ProgID', options: { display: false } },
-        { name: 'message', label: 'Message', options: { display: true } },
-    ]
+const columns = [
+    { name: '_id', label: 'Log ID', options: { display: false } },
+    { name: 'utc_sent', label: 'Datetime Sent', options: { display: false } },
+    { name: 'utc_received', label: 'Datetime' },
+    { name: 'hostname', label: 'Hostname', options: { display: false } },
+    { name: 'level', label: 'Level', options: { display: false } },
+    { name: 'subsystem', label: 'Subsystem' },
+    { name: 'author', label: 'Author', options: { display: false } },
+    { name: 'SEMID', label: 'Semid' },
+    { name: 'PROGID', label: 'ProgID', options: { display: false } },
+    { name: 'message', label: 'Message', options: { display: true } },
+]
 
-    return (
-        <React.Fragment>
-            <MUIDataTable
-                data={logs}
-                columns={columns}
-                options={options}
-                title={""}
-            />
-        </React.Fragment>
-    )
+return (
+    <React.Fragment>
+        <MUIDataTable
+            data={logs}
+            columns={columns}
+            options={options}
+            title={""}
+        />
+    </React.Fragment>
+)
 
 }
