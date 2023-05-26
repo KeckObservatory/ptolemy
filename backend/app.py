@@ -10,7 +10,7 @@ from flask_cors import CORS
 Payload.max_decode_packets = 500
 async_mode = "eventlet" 
 app = Flask(__name__, static_url_path='', static_folder='../build')
-CORS(app, send_wildcard=True)
+CORS(app, send_wildcard=True, supports_credentials=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
 from frontend_routes import *
