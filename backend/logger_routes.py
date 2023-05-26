@@ -26,4 +26,4 @@ def get_logs():
         params.get('nLogs', None),
         params.get('dateFormat', '%Y-%m-%dT%H-%M-%S'),
                  )
-    return 200, logs 
+    return logs 
