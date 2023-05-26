@@ -61,8 +61,8 @@ export const get_logs = (//TODO: verify this works
    ): Promise<RawLog[]> => {
    let url = LOGGER_BASE_URL
    url += `n_logs=${n_logs}`
-   url += subsystem ? `subystem=${subsystem}` : ""
-   url += semid ? `semid=${semid}` : ""
+   url += subsystem ? `&subystem=${subsystem}` : ""
+   url += semid ? `&semid=${semid}` : ""
     return axiosInstance.get(url)
         .then(handleResponse)
         .catch(handleError)
