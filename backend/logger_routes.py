@@ -24,6 +24,5 @@ def get_logs():
         params.get('startDate', None),
         params.get('endtDate', None),
         params.get('nLogs', 100),
-        DATE_FORMAT,
-                 )
+        DATE_FORMAT)
     return logs 
