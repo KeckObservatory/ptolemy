@@ -19,8 +19,11 @@ def get_logs():
     params = dict(request.args)
 
     minutes = params.get('minutes', None)
+    nLogs = params.get('nLogs', None)
     if isinstance(minutes, str):
         minutes = float(minutes) 
+    if isinstance(nLogs, str):
+        nLogs = float(nLogs) 
 
     logs = glf.get_logz(
         url,
