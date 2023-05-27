@@ -31,6 +31,6 @@ def get_logs():
         minutes,
         params.get('startDate', None),
         params.get('endDate', None),
-        params.get('nLogs', 100),
+        nLogs,
         DATE_FORMAT)
     return logs 
