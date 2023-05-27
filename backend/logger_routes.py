@@ -18,9 +18,10 @@ def get_logs():
     print('querying url:', url)
     params = dict(request.args)
 
-    minutes = params.get('minutes', None),
+    minutes = params.get('minutes', None)
     if isinstance(minutes, str):
         minutes = float(minutes) 
+
     logs = glf.get_logz(
         url,
         params.get('subsystem', None),
