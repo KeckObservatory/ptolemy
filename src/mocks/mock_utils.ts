@@ -8,7 +8,8 @@ import { default as mock_logs } from './mock_logs.json'
 import { mock_targets, mock_metadata } from './mock_ob_metadata_targets'
 
 export const mock_get_logs = (
-   n_logs: number, 
+   n_logs?: number, 
+   minutes?: number,
    subsystem?: string,
    semid?: string, 
    ) => {

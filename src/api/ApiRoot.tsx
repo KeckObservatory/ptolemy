@@ -54,15 +54,21 @@ const axiosInstance = axios.create({
 })
 axiosInstance.interceptors.response.use(intResponse, intError);
 
-export const get_logs = (//TODO: verify this works
-   n_logs=100, 
-   subsystem?: string,
-   semid?: string, 
-   ): Promise<Log[]> => {
-   let url = LOGGER_BASE_URL
-   url += `n_logs=${n_logs}`
-   url += subsystem ? `&subystem=${subsystem}` : ""
-   url += semid ? `&semid=${semid}` : ""
+export const get_logs = (
+    n_logs?: number,
+    minutes?: number,
+    subsystem?: string,
+    semid?: string,
+): Promise<Log[]> => {
+    let url = LOGGER_BASE_URL
+    if (minutes) {
+        url += `minutes=${n_logs}`
+    }
+    else {
+        url += n_logs ? `n_logs=${n_logs}` : ""
+    }
+    url += subsystem ? `&subystem=${subsystem}` : ""
+    url += semid ? `&semid=${semid}` : ""
     return axiosInstance.get(url)
         .then(handleResponse)
         .catch(handleError)
@@ -186,9 +192,9 @@ export const ob_api_funcs = {
 
 export const tag_functions = {
     add_tag: add_tag,
-    delete_tag: delete_tag 
+    delete_tag: delete_tag
 }
 
 export const log_functions = {
-    get_logs: IS_BUILD? get_logs : mock_get_logs
+    get_logs: IS_BUILD ? get_logs : mock_get_logs
 }

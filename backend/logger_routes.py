@@ -22,7 +22,7 @@ def get_logs():
         params.get('subsystem', None),
         params.get('minutes', None),
         params.get('startDate', None),
-        params.get('endtDate', None),
+        params.get('endDate', None),
         params.get('nLogs', 100),
         DATE_FORMAT)
     return logs 
