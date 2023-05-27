@@ -65,7 +65,7 @@ export const get_logs = (
         url += `minutes=${n_logs}`
     }
     else {
-        url += n_logs ? `n_logs=${n_logs}` : ""
+        url += n_logs ? `nLogs=${n_logs}` : ""
     }
     url += subsystem ? `&subystem=${subsystem}` : ""
     url += semid ? `&semid=${semid}` : ""
