@@ -20,16 +20,11 @@ export const Control = (props: Props) => {
     const [minuteSwitch, setMinuteSwitch] = useQueryParam('minute_switch', withDefault(BooleanParam, false))
 
     useEffect(() => {
-        log_functions.get_logs(nLogs).then((lgs: (Log | undefined)[]) => {
-            console.log(lgs)
-            if (lgs) {
-                props.setLogs(lgs as Log[])
-            }
-        })
+        query_logs()
     }, [])
 
-    const on_query_logs = () => {
-        if (minuteSwitch) {
+    const query_logs = () => {
+        if (!minuteSwitch) {
             log_functions.get_logs(nLogs).then((lgs: (Log | undefined)[]) => {
                 console.log(lgs)
                 if (lgs) {
@@ -45,7 +40,10 @@ export const Control = (props: Props) => {
                 }
             })
         }
+    }
 
+    const on_query_logs = () => {
+        query_logs()
     }
 
     const on_switch_change = (event: React.ChangeEvent<HTMLInputElement>) => {

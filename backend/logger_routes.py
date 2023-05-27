@@ -20,9 +20,9 @@ def get_logs():
     logs = glf.get_logz(
         url,
         params.get('subsystem', None),
-        params.get('minutes', None),
+        float(params.get('minutes', None)),
         params.get('startDate', None),
         params.get('endDate', None),
-        params.get('nLogs', 100),
+        float(params.get('nLogs', 100)),
         DATE_FORMAT)
     return logs 
