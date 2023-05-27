@@ -23,7 +23,7 @@ def get_logs():
     if isinstance(minutes, str):
         minutes = float(minutes) 
     if isinstance(nLogs, str):
-        nLogs = float(nLogs) 
+        nLogs = int(nLogs) 
 
     logs = glf.get_logz(
         url,
