@@ -17,12 +17,15 @@ def get_logs():
     url = config_parser["ZMQ_LOGGING_SERVER"]["url"]
     print('querying url:', url)
     params = dict(request.args)
+
+    minutes = params.get('minutes', None),
+    if minutes: float(minutes)
     logs = glf.get_logz(
         url,
         params.get('subsystem', None),
-        float(params.get('minutes', None)),
+        minutes,
         params.get('startDate', None),
         params.get('endDate', None),
-        float(params.get('nLogs', 100)),
+        params.get('nLogs', 100),
         DATE_FORMAT)
     return logs 
