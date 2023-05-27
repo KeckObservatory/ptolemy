@@ -88,7 +88,9 @@ export const Control = (props: Props) => {
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 />
             }
-            <Button variant={'contained'}>Query Logs</Button>
+            <Button variant={'contained'}
+                onClick={on_query_logs}
+            >Query Logs</Button>
         </Stack>
     )
 }
