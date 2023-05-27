@@ -19,7 +19,8 @@ def get_logs():
     params = dict(request.args)
 
     minutes = params.get('minutes', None),
-    if minutes: float(minutes)
+    if isinstance(minutes, str):
+        minutes = float(minutes) 
     logs = glf.get_logz(
         url,
         params.get('subsystem', None),
