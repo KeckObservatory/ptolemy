@@ -287,7 +287,7 @@ def get_fresh_event(event):
         args = ob
     if 'sequence' in event['type']: # args is {'sequence': sequence, 'ob': ob}
         sequence_number = event['args']['sequence']['metadata']['sequence_number']
-        newSequence = next(seq for seq in ob['observations'] if seq["sequence_number"] == sequence_number)
+        newSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
         args = {'sequence': newSequence, 'OB': ob}
 
     event['args'] = args
