@@ -258,7 +258,7 @@ def event_queue_boneyard_swap(data):
 
 def get_fresh_sequence(ob, seqItem):
     sequence_number = seqItem.sequence['metadata']['sequence_number']
-    newSequence = next(seq for seq in ob['observations'] if seq["sequence_number"] == sequence_number)
+    newSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
     newSeqItem = seqItem
     newSeqItem.sequence = newSequence
     newSeqItem.OB = ob
