@@ -28,7 +28,7 @@ def create_logger(fileName='ptolemy.log', subsystem="PTOLEMY", author='xxxx', pr
         logger.addHandler(zmq_log_handler)
     except Exception as err:
         print('zmq log handler failed. not going to add')
-    logger.setLevel(logging.INFO)
+    logging.setLevel(logging.INFO)
     return logger
 
 exen_logger = create_logger(subsystem='EXECUTION_ENGINE')
