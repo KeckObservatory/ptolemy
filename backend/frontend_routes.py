@@ -12,13 +12,8 @@ from execution_engine.core.ExecutionEngine import ExecutionEngine
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 
-def create_logger(fileName='ptolemy.log'):
+def create_logger(fileName='ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    subsystem="PTOLEMY"
-    configLoc=None
-    author='tcoda'
-    progid='xxxx'
-    semid='xxxx'
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
     ch.setFormatter(formatter)
@@ -36,11 +31,11 @@ def create_logger(fileName='ptolemy.log'):
     logger.setLevel(logging.INFO)
     return logger
 
-logger = create_logger()
+exen_logger = create_logger(subsystem='EXECUTION_ENGINE')
 cfg_name="./cfg.ini"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
-ee = ExecutionEngine(logger=logger, cfg=cfg_name)
+ee = ExecutionEngine(logger=exen_logger, cfg=cfg_name)
 ee.obs_q.set_queue([])
 
 @app.route('/ptolemy')
