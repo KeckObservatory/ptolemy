@@ -36,6 +36,8 @@ cfg_name="./cfg.ini"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 ee = ExecutionEngine(logger=exen_logger, cfg=cfg_name)
+
+logger = create_logger(subsystem='PTOLEMY')
 ee.obs_q.set_queue([])
 
 @app.route('/ptolemy')
