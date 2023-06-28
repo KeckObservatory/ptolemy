@@ -143,7 +143,7 @@ def sync_with_magiq(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logger.info('submitting new ob from frontend')
-    submittedId = ee.obs_q.get().ob_id # gets first ob id and sends it to the boneyard 
+    submittedId = ee.obs_q.queue[0].ob_id # peek at first item in the queue
     ee.obs_q.submitted_ob_id = submittedId
     logger.info(f"submitted obid: {submittedId}")
     logger.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
@@ -156,12 +156,6 @@ def submit_ob(data):
     except RuntimeError as err:
         data = {'msg': str(err)}
         emit('snackbar_msg', data, room=request.sid)
-    logger.info("sending new obqueue and boneyard to clients")
-    broadcastBoneyard = { 'ob_id_boneyard': [ x.ob_id for x in ee.obs_q.boneyard ] }
-    ob_id_queue = ee.obs_q.get_ob_ids() 
-    obQueueData = { 'ob_id_queue': ob_id_queue }
-    emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
-    emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
 
 @socketio.on('new_sequence_queue')
 def new_sequence_queue(data):

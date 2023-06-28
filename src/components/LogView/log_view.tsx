@@ -1,16 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables"
-import Tooltip from '@mui/material/Tooltip'
-import Button from '@mui/material/Button';
-import Checkbox from "@mui/material/Checkbox";
-import { log_functions } from './../../api/ApiRoot'
-import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { Log } from '../../typings/ptolemy'
 import { Control } from './control'
+import { styled } from '@mui/material/styles'
 
 export interface Props {
 
 }
+
+const DataTableContainer = styled('div')(() => ({
+    '& .MuiTableCell-root': {
+        '&:nth-of-type(0)': {
+            width: '250px',
+            paddingLeft: '1rem',
+        },
+        '&:nth-of-type(1)': {
+            width: '70px',
+            paddingLeft: '1rem',
+        },
+        '&:nth-of-type(2)': {
+            width: '70px',
+            paddingLeft: '1rem',
+        },
+        '&:nth-of-type(3)': {
+            width: '70px',
+            paddingLeft: '1rem',
+        },
+        '&:nth-last-of-type(1)': {
+            width: '1350px',
+            paddingLeft: '1rem',
+        },
+    },
+}));
+
 
 export const LogView = (props: Props) => {
 
@@ -23,7 +45,18 @@ export const LogView = (props: Props) => {
         filterType: 'dropdown',
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
-        selectableRows: 'none'
+        selectableRows: 'none',
+        rowsPerPage: 25,
+        setRowProps: (row, dataIndex, rowIndex) => {
+            return {
+                style: { padding: '0px' },
+            };
+        },
+        setTableProps: () => {
+            return {
+                padding: 'none',
+            };
+        },
     }
 
     const columns = [
@@ -42,12 +75,14 @@ export const LogView = (props: Props) => {
     return (
         <React.Fragment>
             <Control setLogs={setLogs} />
-            <MUIDataTable
-                data={logs}
-                columns={columns}
-                options={options}
-                title={""}
-            />
+            <DataTableContainer>
+                <MUIDataTable
+                    data={logs}
+                    columns={columns}
+                    options={options}
+                    title={""}
+                />
+            </DataTableContainer>
         </React.Fragment>
     )
 

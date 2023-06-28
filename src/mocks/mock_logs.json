@@ -3,111 +3,111 @@
         "$oid": "6388099f1e00c74a2406e097",
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.547Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "NIRES",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.546367"
+        "message": "Taking an exposure"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.575Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "NIRES",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.575524"
+        "message": "Configuring for exposure"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.428Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "EXECUTION ENGINE",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.42803"
+        "message": "Configure for exposure event sent to queue"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.519Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "Ptolemy",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.518632"
+        "message": "Configure for exposure event selected"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.452Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "Ptolemy",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.451435"
+        "message": "Sequence 1 selected"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.402Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "Ptolemy",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.402254"
+        "message": "Target is aquired"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.353Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "EXECUTION ENGINE",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.35281"
+        "message": "Acquisition complete"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.312Z",
-        "hostname": "b'MOSFIRE'",
-        "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "hostname": "b'NIRES'",
+        "level": "INFO",
+        "subsystem": "EXECUTION ENGINE",
         "SEMID": "2023A_1234",
         "author": "ttucker",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.31172"
+        "message": "Waiting for target acquisition"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.380Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'EXECUTION ENGINE'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "NIRES",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.379647"
+        "message": "Begin target Acquisition"
     },
     {
         "utc_sent": "2022-12-01 01:55:43.",
         "utc_received": "2022-12-01T01:55:43.480Z",
-        "hostname": "b'MOSFIRE'",
+        "hostname": "b'NIRES'",
         "level": "WARN",
-        "subsystem": "MOSFIRE",
+        "subsystem": "Ptolemy",
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "stress test timestamp: 1669859743.479849"
+        "message": "Target acquisition event submitted"
     }
 ]
