@@ -26,7 +26,6 @@ export const Control = (props: Props) => {
     const query_logs = () => {
         if (!minuteSwitch) {
             log_functions.get_logs(nLogs).then((lgs: (Log | undefined)[]) => {
-                console.log(lgs)
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
@@ -34,7 +33,6 @@ export const Control = (props: Props) => {
         }
         else {
             log_functions.get_logs(nLogs, minutes).then((lgs: (Log | undefined)[]) => {
-                console.log(lgs)
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }

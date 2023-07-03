@@ -32,11 +32,9 @@ export default function SkyView(props: Props) {
 
     const today = new Date()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
-    const [lngLatEl, setLngLatEl] = useQueryParam('lngLatEl', withDefault(NumericObjectParam, keckLngLat as any))
 
     React.useEffect(() => {
        setDate(date) 
-       setLngLatEl(lngLatEl) 
     }, [])
 
     React.useEffect(() => {
@@ -63,7 +61,7 @@ export default function SkyView(props: Props) {
          props.marginBottom,
          scoby_deg,
          date,
-         lngLatEl,
+         keckLngLat,
          ) })
 
     return (

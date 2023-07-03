@@ -78,13 +78,11 @@ const TwoDView = (props: Props) => {
     const KECK_ELEVATION = 4144.9752 // m
     const keckLngLat: LngLatEl = { lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION }
 
-
     const today = new Date()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
-    const [lngLatEl, setLngLatEl] = React.useState(keckLngLat)
 
-    const nadir = util.get_nadir(lngLatEl, date)
+    const nadir = util.get_nadir(keckLngLat, date)
     const times = util.get_times(nadir, 105)
 
     let scoby_deg: Scoby[] = []
@@ -104,8 +102,8 @@ const TwoDView = (props: Props) => {
     scoby_deg.forEach((sd: Scoby) => {
         const ra = sd.ra_deg as number
         const dec = sd.dec_deg as number
-        const azEl = util.get_target_traj(ra, dec, times, lngLatEl) as [number, number][]
-        console.log('axEl', azEl)
+        const azEl = util.get_target_traj(ra, dec, times, keckLngLat) as [number, number][]
+        // console.log('axEl', azEl)
 
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []

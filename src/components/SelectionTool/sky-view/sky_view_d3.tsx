@@ -43,7 +43,6 @@ const make_data = (scoby_deg: Scoby[], units: string, chartType: string, date: D
         const data = format_values(values, times, sd, units, chartType)
         mergedData = [...mergedData, ...data]
         myData.push(data)
-        console.log('data', data)
 
     })
     return myData
