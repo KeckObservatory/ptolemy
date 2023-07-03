@@ -11,7 +11,6 @@ import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
 import FormControl from '@mui/material/FormControl'
-import ThreeDView from './sky-view/three_d_view'
 import { ob_api_funcs } from '../../api/ApiRoot'
 import TwoDView from './sky-view/two_d_view'
 
@@ -200,10 +199,10 @@ export const SelectionToolView = (props: Props) => {
                         submittedOB={submittedOB}
                     />
                 </Grid>
-                <Grid item xs={4}>
-
+                <Grid item xs={6}>
                     <TwoDView selObRows={selObRows} />
-                    <ThreeDView selObRows={selObRows} />
+                </Grid>
+                <Grid item xs={6}>
                     <DropDown
                         placeholder={'Chart Type'}
                         arr={chartTypes}
