@@ -44,29 +44,26 @@ const defaultState: State = {
     chartType: 'altitude'
 }
 
-const container_obs_to_cells = (container_obs: any) => {
-    let cells: any[] = []
-    let uid = 0
-    Object.entries(container_obs).forEach((cid_obs: any) => {
-        const cid = cid_obs[0]
-        const obs = cid_obs[1]
-        obs.forEach((ob: ObservationBlock, idx: number) => {
-            const obCell: OBCell = {
-                cid: cid,
-                name: ob.metadata.name,
-                type: 'ob',
-                id: JSON.stringify(uid),
-                ra: ob.target?.parameters.target_coord_ra,
-                dec: ob.target?.parameters.target_coord_dec
-            }
-            const tgt = ob.target
-            if (tgt) obCell['target'] = tgt
-            cells.push(obCell)
-            uid += 1
-        })
-
+const obs_to_scoby = (obs: ObservationBlock[]) => {
+    let scoby: Scoby[] = []
+    obs.forEach((ob: ObservationBlock) => {
+        const s: Scoby = {
+            row_id: 'from ob',
+            sem_id: ob.metadata.sem_id,
+            container_id: 'from ob',
+            container_name: 'from ob',
+            ob_id: ob._id,
+            name: ob.metadata.name,
+            ra: ob.target?.parameters.target_coord_ra,
+            dec: ob.target?.parameters.target_coord_dec,
+            comment: ob.metadata.comment,
+            ob_type: ob.metadata.ob_type,
+            version: ob.metadata.version as string,
+        } 
+        scoby.push(s)
     })
-    return cells
+
+    return scoby
 }
 
 export const SelectionToolView = (props: Props) => {
@@ -127,6 +124,8 @@ export const SelectionToolView = (props: Props) => {
         const ob_ids = ob_queue_data.ob_id_queue
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_queue_data && setSelObs(obs)
+        const ob_scoby = obs_to_scoby(obs)
+        setSelObRows(ob_scoby)
     }
 
     const set_ob_from_server = (ob_data: OBServerData) => {
