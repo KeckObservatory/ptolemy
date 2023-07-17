@@ -153,7 +153,7 @@ export const SequenceQueueColumn = (props: Props) => {
                         }}
 
                     >
-                        <h2 style={{ margin: '0px' }}>Sequence Boneyard</h2>
+                        <h2 style={{ margin: '0px' }}>Target Queue Boneyard</h2>
                     </AccordionSummary>
                     <AccordionDetails
                         sx={{
