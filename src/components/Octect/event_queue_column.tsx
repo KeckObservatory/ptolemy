@@ -139,7 +139,11 @@ export const EventQueueColumn = (props: Props) => {
 
     return (
         <React.Fragment>
-            <Accordion>
+            <Accordion
+            sx={{
+                margin: '4px'
+            }}
+            >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     sx={{
@@ -209,7 +213,31 @@ export const EventQueueColumn = (props: Props) => {
             </Snackbar>
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.events, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
-                {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
+
+                <Accordion sx={{
+                    margin: '4px',
+                }}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{
+                            maxHeight: 50,
+                            margin: '0px',
+                            padding: '4px'
+                            
+                        }}
+
+                    >
+                        <h2 style={{ margin: '0px' }}>Event Boneyard</h2>
+                    </AccordionSummary>
+                    <AccordionDetails
+                        sx={{
+                            padding: '0px',
+                            margin: '4px',
+                        }}
+                    >
+                        {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
+                    </AccordionDetails>
+                </Accordion>
             </DragDropContext>
         </React.Fragment>
     )

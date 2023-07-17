@@ -203,47 +203,50 @@ export const SelectionToolColumn = (props: Props) => {
     }
 
     const sync_sel_ob_with_magiq = () => {
-        const obData = { obs : props.selObs }
+        const obData = { obs: props.selObs }
         socket.emit('sync_with_magiq', obData)
     }
 
     return (
         <React.Fragment>
-                <Accordion
+            <Accordion
+                sx={{
+                    margin: '4px'
+                }}
+            >
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{
+                        margin: "0px",
+                        padding: "4px",
+                        maxHeight: 50,
+                    }}
                 >
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        sx={{
-                            margin: "0px",
-                            padding: "4px",
-                            maxHeight: 50,
-                        }}
-                    >
-                        <h2
-                            style={{ margin: "0px" }}
-                        >Available OBs</h2>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{
-                            padding: '0px',
-                            margin: '4px',
-                        }}
+                    <h2
+                        style={{ margin: "0px" }}
+                    >Available OBs</h2>
+                </AccordionSummary>
+                <AccordionDetails
+                    sx={{
+                        padding: '0px',
+                        margin: '4px',
+                    }}
 
-                    >
-                        <FormControl sx={{ m: 0, width: 150 }}>
-                            <DropDown
-                                placeholder={'semester id'}
-                                arr={semIdList}
-                                value={sem_id}
-                                handleChange={handleSemIdSubmit}
-                                label={'Semester ID'}
-                                highlightOnEmpty={true}
-                            />
-                        </FormControl>
-                        <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
-                    </AccordionDetails>
-                </Accordion>
-            <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
+                >
+                    <FormControl sx={{ m: 0, width: 150 }}>
+                        <DropDown
+                            placeholder={'semester id'}
+                            arr={semIdList}
+                            value={sem_id}
+                            handleChange={handleSemIdSubmit}
+                            label={'Semester ID'}
+                            highlightOnEmpty={true}
+                        />
+                    </FormControl>
+                    <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
+                </AccordionDetails>
+            </Accordion>
+            <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
                 <OBSubmit onSubmitOB={onSubmitOB} />
                 <Tooltip title="Syncronize Queue with MAGIQ Target list">
                     <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>

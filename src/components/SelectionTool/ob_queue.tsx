@@ -3,6 +3,8 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { SocketContext } from '../../contexts/socket'
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 import { CreateDroppable, move, reorder } from '../dnd_divs';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 interface Props {
     selObs: ObservationBlock[];
     obBoneyard: ObservationBlock[];
@@ -57,7 +59,7 @@ export const OBQueue = (props: Props) => {
 
                 const selIds = moveResult[dKey].map((ob: ObservationBlock) => ob._id)
                 const boneyardIds = moveResult[sKey].map((ob: ObservationBlock) => ob._id)
-                socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: moveResult[dKey]})
+                socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: moveResult[dKey] })
                 socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
             }
             else { // ob added to boneyard
@@ -74,7 +76,32 @@ export const OBQueue = (props: Props) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             {CreateDroppable(props.selObs, 'ob1', 'obQueue', 'Sort OB here', 'OB Queue', DragDiv, false)}
-            {CreateDroppable(props.obBoneyard, 'obboneyard', 'seqBoneyard', 'Discarded OBs live here', 'OB Boneyard', DragDiv, false)}
+
+            <Accordion sx={{
+                margin: '4px',
+            }}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    sx={{
+                        margin: "0px",
+                        padding: "4px",
+                        maxHeight: 50,
+                    }}
+                >
+                    <h2
+                        style={{ margin: "0px" }}
+                    >OB Boneyard</h2>
+                </AccordionSummary>
+                <AccordionDetails
+                    sx={{
+                        padding: '0px',
+                        margin: '4px',
+                    }}
+
+                >
+                    {CreateDroppable(props.obBoneyard, 'obboneyard', 'seqBoneyard', 'Discarded OBs live here', '', DragDiv, false)}
+                </AccordionDetails>
+            </Accordion>
         </DragDropContext>
     )
 }

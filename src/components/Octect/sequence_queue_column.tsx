@@ -117,13 +117,41 @@ export const SequenceQueueColumn = (props: Props) => {
                     />
                 </AccordionDetails>
             </Accordion>
-            <Stack sx={{margin: '8px', height: '40px'}} direction="row" spacing={2}>
-                    <Button variant="contained" onClick={props.submitAcq}>Submit Acquisition</Button>
+            <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
+                <Tooltip title={'Request target acquisition'}>
+                    <Button variant="contained" onClick={props.submitAcq}>Request Acquisition</Button>
+                </Tooltip>
+                <Tooltip title={'Send sequence to event queue'}>
                     <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
+                </Tooltip>
             </Stack>
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
-                {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', 'Sequence Boneyard', DragSeqCell, false)}
+
+                <Accordion sx={{
+                    margin: '4px',
+                }}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{
+                            maxHeight: 50,
+                            margin: '0px',
+                            padding: '4px'
+                        }}
+
+                    >
+                    <h2 style={{ margin: '0px' }}>Sequence Boneyard</h2>
+                    </AccordionSummary>
+                    <AccordionDetails
+                        sx={{
+                            padding: '0px',
+                            margin: '4px',
+                        }}
+                    >
+                        {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', '', DragSeqCell, false)}
+
+                    </AccordionDetails>
+                </Accordion>
             </DragDropContext>
         </React.Fragment >
     )
