@@ -85,7 +85,18 @@ export const SequenceQueueColumn = (props: Props) => {
             }
         }
     }
+
+    const handle_edit_ob = () => {
+        const id = props.ob._id
+        let url = 'https://www3build.keck.hawaii.edu/sandbox/ttucker/observers/papahana_frontend/build/index.html?'
+        url += `ob_id=${id}&tab_index=0`
+        console.log(`opening url ${url} in new tab`)
+        window.open(url, '_blank')
+
+    }
+
     const isDragDisabled = false
+
     return (
         <React.Fragment>
             <Accordion>
@@ -93,12 +104,15 @@ export const SequenceQueueColumn = (props: Props) => {
                     expandIcon={<ExpandMoreIcon />}
                     sx={{
                         maxHeight: 50,
-                        margin: '0px',
-                        padding: '4px'
+                        marginTop: '4px',
+                        paddingLeft: '4px'
                     }}
 
                 >
-                    <h2 style={{ margin: '0px' }}>Selected OB</h2>
+                    <h2 style={{ margin: '0px', marginRight: '10px' }}>Selected OB</h2>
+                    <Tooltip title={'Open separate tab in the ODT that reads the OB'}>
+                        <Button sx={{margin: '0px'}} onClick={handle_edit_ob}>EDIT OB</Button>
+                    </Tooltip>
                 </AccordionSummary>
                 <AccordionDetails
                     sx={{
@@ -126,8 +140,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 </Tooltip>
             </Stack>
             <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Sequence Queue', DragSeqCell, isDragDisabled)}
-
+                {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Target Queue', DragSeqCell, isDragDisabled)}
                 <Accordion sx={{
                     margin: '4px',
                 }}>
@@ -140,7 +153,7 @@ export const SequenceQueueColumn = (props: Props) => {
                         }}
 
                     >
-                    <h2 style={{ margin: '0px' }}>Sequence Boneyard</h2>
+                        <h2 style={{ margin: '0px' }}>Sequence Boneyard</h2>
                     </AccordionSummary>
                     <AccordionDetails
                         sx={{

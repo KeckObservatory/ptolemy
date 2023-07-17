@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Tooltip } from '@mui/material';
 
 interface Props {
   onSubmitOB: Function
@@ -28,9 +29,11 @@ export default function OBSubmit(props: Props) {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Submit Top OB 
-      </Button>
+      <Tooltip title={'Send OB to target queue'}>
+        <Button variant="contained" onClick={handleClickOpen}>
+          Submit Top OB
+        </Button>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -40,13 +43,13 @@ export default function OBSubmit(props: Props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-              Are you sure? Submitting a new OB may result in lost work.
+            Are you sure? Submitting a new OB may result in lost work.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>No</Button>
           <Button onClick={handleYes} autoFocus>
-            Yes 
+            Yes
           </Button>
         </DialogActions>
       </Dialog>

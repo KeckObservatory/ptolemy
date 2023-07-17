@@ -12,7 +12,7 @@ import { StringParam, useQueryParam, withDefault } from 'use-query-params';
 import DropDown from './drop_down';
 import FormControl from '@mui/material/FormControl';
 
-const ROLES = ["Observer", "Keck Staff"]
+const ROLES = ["Observer", "Keck Staff", "OA"]
 
 export function TopBar(props: any) {
 

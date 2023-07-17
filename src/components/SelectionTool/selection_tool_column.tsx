@@ -87,7 +87,6 @@ export const SelectionToolColumn = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
     const [avg, setAvg] = useState(0)
-    const [role, setRole] = useQueryParam('role', withDefault(StringParam, "Keck Staff"));
 
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)

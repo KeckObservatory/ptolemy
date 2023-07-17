@@ -73,7 +73,7 @@ export const EventQueueColumn = (props: Props) => {
 
     const [open, setOpen] = React.useState(false)
 
-    const [role, _] = useQueryParam('role', withDefault(StringParam, "observer"));
+    const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
@@ -140,9 +140,9 @@ export const EventQueueColumn = (props: Props) => {
     return (
         <React.Fragment>
             <Accordion
-            sx={{
-                margin: '4px'
-            }}
+                sx={{
+                    margin: '4px'
+                }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -173,12 +173,12 @@ export const EventQueueColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
-                <Button variant="contained" onClick={props.submitEvent}>Submit Event</Button>
+                <Button disabled={role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button>
                 <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
             </Stack>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
                 <div>
-                    <Button variant="contained" onClick={handleClickOpen}>
+                    <Button disabled={role.includes('OA')} variant="contained" onClick={handleClickOpen}>
                         Clear Event and Boneyard
                     </Button>
                     <Dialog
@@ -223,7 +223,7 @@ export const EventQueueColumn = (props: Props) => {
                             maxHeight: 50,
                             margin: '0px',
                             padding: '4px'
-                            
+
                         }}
 
                     >

@@ -75,7 +75,7 @@ export const OBQueue = (props: Props) => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            {CreateDroppable(props.selObs, 'ob1', 'obQueue', 'Sort OB here', 'OB Queue', DragDiv, false)}
+            {CreateDroppable(props.selObs, 'ob1', 'obQueue', 'Sort OB here', 'Star List', DragDiv, false)}
 
             <Accordion sx={{
                 margin: '4px',

@@ -6,6 +6,7 @@ import { ob_api_funcs } from '../api/ApiRoot';
 import { SelectionToolColumn } from './SelectionTool/selection_tool_column';
 import { SequenceQueueColumn } from './Octect/sequence_queue_column';
 import { EventDict, EventQueueColumn } from './Octect/event_queue_column';
+import { StringParam, useQueryParam, withDefault } from 'use-query-params';
 
 interface EEState {
     ob?: ObservationBlock,
@@ -56,6 +57,8 @@ export const Ptolemy = (props: Props) => {
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
     const [events, setEvents] = React.useState([] as EventDict[])
     const [eventBoneyard, setEventBoneyard] = React.useState([] as EventDict[])
+
+    const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
     let ping_pong_times: number[] = []
     let start_time: number
 
@@ -112,13 +115,13 @@ export const Ptolemy = (props: Props) => {
             data.ob && setOB(data.ob)
             const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
             const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
-            newSelObs && setSelObs(newSelObs) 
+            newSelObs && setSelObs(newSelObs)
             newOBBoneyard && setOBBoneyard(newOBBoneyard)
             setSequences(data.sequence_queue)
             setSequenceBoneyard(data.sequence_boneyard)
 
-            setEvents( data.event_queue )
-            setEventBoneyard( data.event_boneyard )
+            setEvents(data.event_queue)
+            setEventBoneyard(data.event_boneyard)
         })
 
         socket.on('task_broadcast', (data) => {
@@ -161,7 +164,7 @@ export const Ptolemy = (props: Props) => {
             console.log('event_queue', data.event_queue)
             setEvents(data.event_queue)
             setEventBoneyard(data.event_boneyard)
-            })
+        })
 
         socket.on('ob_sent', (data) => {
             console.log('returned data', data)
@@ -201,7 +204,7 @@ export const Ptolemy = (props: Props) => {
     const submitEvent = () => {
         console.log('submit event button clicked.')
         console.log('trying to submit', events[0])
-        socket.emit('submit_event', {'submitted_event': events[0]})
+        socket.emit('submit_event', { 'submitted_event': events[0] })
     }
 
 
@@ -217,33 +220,57 @@ export const Ptolemy = (props: Props) => {
         setSnackbarOpen(false);
     };
 
+    const NotOAView = !role.includes('OA')
+
     return (
         <React.Fragment>
-            <Grid container spacing={2} columns={18}>
-                <Grid item xs={6}>
-                    <SelectionToolColumn 
-                       selObs={selObs}
-                       setSelObs={setSelObs}
-                       obBoneyard={obBoneyard}
-                       setOBBoneyard={setOBBoneyard}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <SequenceQueueColumn
-                        enableClipboard={props.enableClipboard}
-                        collapseStringsAfter={props.collapseStringsAfter}
-                        collapsed={props.collapsed}
-                        iconStyle={props.iconStyle}
-                        submitAcq={submitAcq}
-                        submitSeq={submitSeq}
-                        sequences={sequences}
-                        sequenceBoneyard={sequenceBoneyard}
-                        setSequences={setSequences}
-                        setSequenceBoneyard={setSequenceBoneyard}
-                        ob={ob}
-                    />
-                </Grid>
-                <Grid item xs={6}>
+            {
+                NotOAView ? (
+                    <React.Fragment>
+                        <Grid container spacing={2} columns={18}>
+                            < Grid item xs={6}>
+                                <SelectionToolColumn
+                                    selObs={selObs}
+                                    setSelObs={setSelObs}
+                                    obBoneyard={obBoneyard}
+                                    setOBBoneyard={setOBBoneyard}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <SequenceQueueColumn
+                                    enableClipboard={props.enableClipboard}
+                                    collapseStringsAfter={props.collapseStringsAfter}
+                                    collapsed={props.collapsed}
+                                    iconStyle={props.iconStyle}
+                                    submitAcq={submitAcq}
+                                    submitSeq={submitSeq}
+                                    sequences={sequences}
+                                    sequenceBoneyard={sequenceBoneyard}
+                                    setSequences={setSequences}
+                                    setSequenceBoneyard={setSequenceBoneyard}
+                                    ob={ob}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <EventQueueColumn
+                                    setSnackbarOpen={setSnackbarOpen}
+                                    snackbarMsg={snackbarMsg}
+                                    snackbarOpen={snackbarOpen}
+                                    task={task}
+                                    releaseEventQueueLock={releaseEventQueueLock}
+                                    submitEvent={submitEvent}
+                                    enableClipboard={props.enableClipboard}
+                                    collapseStringsAfter={props.collapseStringsAfter}
+                                    collapsed={props.collapsed}
+                                    iconStyle={props.iconStyle}
+                                    events={events}
+                                    eventBoneyard={eventBoneyard}
+                                />
+                            </Grid>
+                        </Grid>
+
+                    </React.Fragment>
+                ) : (
                     <EventQueueColumn
                         setSnackbarOpen={setSnackbarOpen}
                         snackbarMsg={snackbarMsg}
@@ -258,9 +285,9 @@ export const Ptolemy = (props: Props) => {
                         events={events}
                         eventBoneyard={eventBoneyard}
                     />
-                </Grid>
-            </Grid>
-        </React.Fragment>
+                )
+            }
+        </React.Fragment >
     )
 }
 
