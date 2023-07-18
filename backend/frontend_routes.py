@@ -13,7 +13,7 @@ from execution_engine.core.ExecutionEngine import ExecutionEngine
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 
-def create_logger(fileName='ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
+def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
@@ -34,7 +34,7 @@ def create_logger(fileName='ptolemy.log', subsystem="PTOLEMY", author='xxxx', pr
 
 exen_logger = create_logger(subsystem='EXECUTION_ENGINE')
 cfg_name="./cfg.ini"
-state_file_name = "./ptolemy_state.json"
+state_file_name = "/ddoi/state/ptolemy_state.json"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 ee = ExecutionEngine(logger=exen_logger, cfg=cfg_name)
@@ -43,19 +43,16 @@ logger = create_logger(subsystem='PTOLEMY')
 
 def write_to_file(item):
     with open(state_file_name, 'w') as outfile:
-        json.dump(item, outfile)
+        json.dump(outfile, item)
 
 if os.path.exists(state_file_name):
     with open(state_file_name, 'r') as openfile:
         state = json.load(openfile)
         init_ob_queue = state.get('ob_queue', [])
-        init_ob_boneyard = state.get('ob_boneyard', [])
 else:
     init_ob_queue = []
-    init_ob_boneyard = []
 
 ee.obs_q.set_queue([ObservingBlockItem(x) for x in init_ob_queue])
-ee.obs_q.boneyard = init_ob_boneyard
 
 @app.route('/ptolemy')
 def index():
@@ -98,7 +95,7 @@ def request_ee_state():
         # get ob queue and ob boneyard
         ob_id_queue = ee.obs_q.get_ob_ids() 
         data['ob_id_queue'] = ob_id_queue 
-        data['ob_id_boneyard'] = [ x for x in ee.obs_q.boneyard ]
+        data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.get_sequences() 
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
