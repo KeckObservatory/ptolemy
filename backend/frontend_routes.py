@@ -7,6 +7,7 @@ import traceback
 import logging
 import pdb
 from DDOILoggerClient import DDOILogger as dl
+import json
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
 from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
@@ -33,12 +34,25 @@ def create_logger(fileName='ptolemy.log', subsystem="PTOLEMY", author='xxxx', pr
 
 exen_logger = create_logger(subsystem='EXECUTION_ENGINE')
 cfg_name="./cfg.ini"
+state_file_name = "./ptolemy_state.json"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 ee = ExecutionEngine(logger=exen_logger, cfg=cfg_name)
 
 logger = create_logger(subsystem='PTOLEMY')
-ee.obs_q.set_queue([])
+
+def write_to_file(item):
+    with open(state_file_name, 'w') as outfile:
+        json.dump(outfile, item)
+
+if os.path.exists(state_file_name):
+    with open(state_file_name, 'r') as openfile:
+        state = json.load(openfile)
+        init_ob_queue = state.get('ob_queue', [])
+else:
+    init_ob_queue = []
+
+ee.obs_q.set_queue([ObservingBlockItem(x) for x in init_ob_queue])
 
 @app.route('/ptolemy')
 def index():
@@ -112,6 +126,8 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_queue')
     obs = data.get('obs', False)
+    write_to_file({'ob_queue': ob_ids})
+    
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
         try:
