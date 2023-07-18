@@ -126,7 +126,7 @@ def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
     ob_ids = data.get('ob_id_queue')
     obs = data.get('obs', False)
-    write_to_file({'ob_queue': ob_ids})
+    write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard})
     
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
     if obs:
@@ -148,6 +148,9 @@ def set_ob_boneyard(data):
     ob_ids = data.get('ob_id_boneyard')
     logger.info(f'new ob queue boneyard len: {len(ob_ids)}')
     ee.obs_q.boneyard = ob_ids
+
+    ob_id_queue = ee.obs_q.get_ob_ids() 
+    write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_ids})
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
 
 @socketio.on('sync_with_magiq')
