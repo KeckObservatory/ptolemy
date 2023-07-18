@@ -43,16 +43,19 @@ logger = create_logger(subsystem='PTOLEMY')
 
 def write_to_file(item):
     with open(state_file_name, 'w') as outfile:
-        json.dump(outfile, item)
+        json.dump(item, outfile)
 
 if os.path.exists(state_file_name):
     with open(state_file_name, 'r') as openfile:
         state = json.load(openfile)
         init_ob_queue = state.get('ob_queue', [])
+        init_ob_boneyard = state.get('ob_boneyard', [])
 else:
     init_ob_queue = []
+    init_ob_boneyard = []
 
 ee.obs_q.set_queue([ObservingBlockItem(x) for x in init_ob_queue])
+ee.obs_q.boneyard = init_ob_boneyard
 
 @app.route('/ptolemy')
 def index():
@@ -95,7 +98,7 @@ def request_ee_state():
         # get ob queue and ob boneyard
         ob_id_queue = ee.obs_q.get_ob_ids() 
         data['ob_id_queue'] = ob_id_queue 
-        data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
+        data['ob_id_boneyard'] = [ x for x in ee.obs_q.boneyard ]
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.get_sequences() 
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
