@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { SocketContext } from '../../contexts/socket'
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 import { CreateDroppable, move, reorder } from '../dnd_divs';
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, useTheme } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 interface Props {
     selObs: ObservationBlock[];
@@ -12,8 +12,9 @@ interface Props {
 
 const DragDiv = (ob: ObservationBlock) => {
 
+    const theme = useTheme()
     return (
-        <div>
+        <div style={{'background': theme.palette.primary.light, color: 'black'}}>
             <p>
                 OB name: {ob.metadata?.name}
             </p>

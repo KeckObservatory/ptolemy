@@ -8,7 +8,7 @@ import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { Button, FormControl, Paper, Stack, Tooltip } from '@mui/material'
 import JsonViewTheme from '../json_view_theme'
 import { SocketContext } from '../../contexts/socket';
-
+import { useTheme } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -31,14 +31,15 @@ interface Props {
 
 const DragSeqCell = (seqCell: Science) => {
 
-    const [theme, setTheme] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
+    const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
+    const theme = useTheme()
     return (
-        <div>
+        <div style={{'background': theme.palette.secondary.dark}}>
             <p> id: {seqCell.metadata.sequence_number} </p>
             <p> sequence: {seqCell.metadata.ui_name} </p>
             <ReactJson
                 src={seqCell as object}
-                theme={theme as ThemeKeys | undefined}
+                theme={jsontheme as ThemeKeys | undefined}
                 iconStyle={'circle'}
                 collapsed={1}
                 collapseStringsAfterLength={15}
