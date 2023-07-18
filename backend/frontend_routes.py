@@ -43,7 +43,7 @@ logger = create_logger(subsystem='PTOLEMY')
 
 def write_to_file(item):
     with open(state_file_name, 'w') as outfile:
-        json.dump(outfile, item)
+        json.dump(item, outfile)
 
 if os.path.exists(state_file_name):
     with open(state_file_name, 'r') as openfile:
