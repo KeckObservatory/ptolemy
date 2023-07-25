@@ -84,7 +84,7 @@ const AvailableOBTable = (props: Props) => {
             options: { }
         },
         {
-            name: 'instrument', label: 'Inst',
+            name: 'instrument', label: 'Inst.',
             options: { }
         },
         {
