@@ -63,6 +63,7 @@ export interface Scoby {
 	row_id?: string
 	sem_id?: string
 	container_id: string
+	instrument?: string
 	container_name?: string
 	ob_id: string
 	name?: string

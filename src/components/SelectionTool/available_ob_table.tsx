@@ -79,19 +79,25 @@ const AvailableOBTable = (props: Props) => {
 
     const columns = [
         { name: 'ob_id', label: 'OB ID', options: { display: false } },
-        { name: 'name', label: 'OB Name',
-    options: {
+        {
+            name: 'name', label: 'OB Name',
+            options: { }
+        },
+        {
+            name: 'instrument', label: 'Instrument',
+            options: { }
+        },
+        {
+            name: 'container_name', label: 'Container Name',
+            options: {}
+        },
+        {
+            name: 'ob_type', label: 'OB Type',
+            options: {
+                setCellProps: () => ({ style: { minWidth: "80px", maxWidth: "80px" } })
 
-    }},
-        { name: 'container_name', label: 'Container Name', 
-        options: {
-
-    }},
-        { name: 'ob_type', label: 'OB Type', 
-        options: {
-            setCellProps: () => ({ style: { minWidth: "80px", maxWidth: "80px" }})
-
-    }},
+            }
+        },
         { name: 'version', label: 'Version', options: { display: false } },
         { name: 'comment', label: 'Comment', options: { display: false } },
         { name: 'ra', label: 'RA', options: { display: true } },
@@ -100,13 +106,13 @@ const AvailableOBTable = (props: Props) => {
     ]
 
     return (
-                <MUIDataTable
-                    data={props.rows}
-                    columns={columns}
-                    options={options}
-                    title={""}
-                    components={{ Checkbox: CustomCheckbox }}
-                />
+        <MUIDataTable
+            data={props.rows}
+            columns={columns}
+            options={options}
+            title={""}
+            components={{ Checkbox: CustomCheckbox }}
+        />
     )
 }
 
