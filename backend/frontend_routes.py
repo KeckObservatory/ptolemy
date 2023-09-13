@@ -316,7 +316,7 @@ def new_task(data):
     try:
         ob = get_fresh_ob()
     except Exception as err:
-        logger.warning('new_task error: {err}')
+        logger.warning(f'new_task error: {err}')
         data = {'msg': f'{err}'}
         emit('snackbar_msg', data, room=request.sid)
         return
