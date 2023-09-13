@@ -1,7 +1,7 @@
 
 import configparser
 from app import app 
-from flask import request
+from flask import request, jsonify
 import pdb
 from DDOILoggerClient import getlogz_functions as glf 
 
@@ -19,7 +19,7 @@ def get_logs():
     params = dict(request.args)
 
     minutes = params.get('minutes', None)
-    nLogs = params.get('nLogs', None)
+    nLogs = params.get('n_logs', None)
     if isinstance(minutes, str):
         minutes = float(minutes) 
     if isinstance(nLogs, str):
@@ -33,4 +33,4 @@ def get_logs():
         params.get('endDate', None),
         nLogs,
         DATE_FORMAT)
-    return logs 
+    return jsonify(logs) 
