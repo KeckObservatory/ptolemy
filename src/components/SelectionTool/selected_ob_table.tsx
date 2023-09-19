@@ -1,4 +1,5 @@
 import React from "react";
+import { SocketContext } from '../../contexts/socket'
 import MUIDataTable, { MUIDataTableIsRowCheck, MUIDataTableOptions } from "mui-datatables"
 import { ObservationBlock, Scoby, OBCell } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
@@ -7,14 +8,20 @@ import Checkbox from "@mui/material/Checkbox";
 import { ob_api_funcs } from "../../api/ApiRoot";
 import Switch from "@mui/material/Switch"
 import Paper from "@mui/material/Paper";
-import { FormControlLabel } from "@mui/material";
+import { FormControlLabel, useTheme } from "@mui/material";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import OBSubmit from "./ob_submit";
+import { StringParam, useQueryParam, withDefault } from "use-query-params";
+import ReactJson, { ThemeKeys } from "react-json-view";
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import { SSL_OP_NO_TLSv1_1 } from "constants";
 
 interface Props {
     selObs: ObservationBlock[],
     obBoneyard: ObservationBlock[]
     onSubmitOB: Function
+    hideSubmittedOBs: boolean
 }
 
 interface SelectedRows {
@@ -77,28 +84,88 @@ const CustomCheckbox = (props: any) => {
     );
 };
 
-const update_value = (event: any, checked: boolean) => {
-    console.log('clicked will update boneyard', checked)
+
+const removeFromList = (list: any[], idx: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(idx, 1);
+    return [removed, result]
 }
+
+const addToList = (list: any[], idx: number, element: any) => {
+    const result = Array.from(list);
+    result.splice(idx, 0, element )
+    return result
+}
+
 
 const SelectedOBTable = (props: Props) => {
 
+    const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
+    const theme = useTheme()
+
+    const socket = React.useContext(SocketContext);
+
     let rows = container_obs_to_cells(props.selObs, false)
-    const obs = [...props.selObs, ...props.obBoneyard]
-    const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
-    rows = [...rows, ...boneyardRows]
+    let obs = [...props.selObs]
+
+    if (props.hideSubmittedOBs) {
+        const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
+        rows = [...rows, ...boneyardRows]
+        obs = [...obs, ...props.obBoneyard]
+    }
+
+    const update_value = (event: any, checked: boolean, tableMeta: any) => {
+        const ob_id = obs[tableMeta.rowIndex]._id
+        const idx = obs.findIndex( (ob: ObservationBlock, idx: number) => ob._id===ob_id )
+        console.log('clicked will update boneyard', checked, ob_id)
+
+        let selIds: string[] = []
+        let boneyardIds: string[] = []
+        let newOBList: ObservationBlock[] = []
+        if (checked) { // move from selObs to boneyard
+            const [removedOB, nList] = removeFromList(props.selObs, idx)
+            newOBList = nList
+            const insertIdx = props.obBoneyard.length - 1
+            const newBoneyard = addToList(props.obBoneyard, insertIdx, removedOB)
+            selIds = nList.map((ob: ObservationBlock) => ob._id)
+            boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
+        }
+        else { //move from boneyard to selObs
+            const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
+            const insertIdx = 0 
+            newOBList = addToList(props.selObs, insertIdx, removedOB)
+            selIds = newOBList.map((ob: ObservationBlock) => ob._id)
+            boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
+        }
+
+        socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
+        socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
+    }
 
     const options: MUIDataTableOptions = {
         filterType: 'dropdown',
         onRowsDelete: () => false,
         expandableRows: true,
-        renderExpandableRow: (rowData, rowMeta: {dataIndex: number, rowIndex: number}) => {
+        renderExpandableRow: (rowData, rowMeta: { dataIndex: number, rowIndex: number }) => {
             const ob = obs[rowMeta.dataIndex]
-            return ob._id 
+            const colSpan = rowData.length + 1;
+            return (
+                <TableRow>
+                    <TableCell colSpan={colSpan}>
+                        <ReactJson
+                            src={ob as object}
+                            theme={'bespin'}
+                            collapsed={true}
+                            enableClipboard={true}
+                            onEdit={false}
+                        />
+                    </TableCell>
+                </TableRow >
+            )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
             return !rows[dataIndex].submitted
-          },
+        },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => (
@@ -128,15 +195,15 @@ const SelectedOBTable = (props: Props) => {
             label: 'Submitted',
             options: {
                 display: true,
-                customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
-                    return(
-                    <FormControlLabel
-                        label=""
-                        value={value}
-                        control={<Switch value={value} />}
-                        onChange={ (event, checked) => update_value(event, checked)
-                        }
-                    />)
+                customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
+                    return (
+                        <FormControlLabel
+                            label=""
+                            value={value}
+                            control={<Switch value={value} />}
+                            onChange={(event, checked) => update_value(event, checked, tableMeta)
+                            }
+                        />)
                 }
             }
         }

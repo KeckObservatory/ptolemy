@@ -31,7 +31,7 @@ export default function OBSubmit(props: Props) {
     <div>
       <Tooltip title={'Send OB to target queue'}>
         <Button variant="contained" onClick={handleClickOpen}>
-          Submit Top OB
+          Submit Selected OB
         </Button>
       </Tooltip>
       <Dialog

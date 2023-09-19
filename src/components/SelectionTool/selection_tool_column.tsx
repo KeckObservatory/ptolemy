@@ -5,7 +5,6 @@ import { useQueryParam, StringParam, withDefault } from 'use-query-params'
 import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
-import SelectedQueue from './selected_queue'
 import SelectedOBTable from './selected_ob_table'
 import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
@@ -15,16 +14,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
-import OBSubmit from './ob_submit';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { UploadDialog } from './upload_dialog';
-import SyncIcon from '@mui/icons-material/Sync';
 import SaveIcon from '@mui/icons-material/Save';
-
-interface OBServerData {
-    ob: ObservationBlock
-}
+import SyncIcon from '@mui/icons-material/Sync';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 interface OBQueueData {
     ob_id_queue: string[]
@@ -47,6 +43,7 @@ interface State {
     sem_id: string
     semIdList: string[]
     chartType: string;
+    hideSubmittedOBs: boolean
 }
 
 
@@ -55,32 +52,8 @@ const defaultState: State = {
     selObRows: [],
     sem_id: '',
     semIdList: [],
-    chartType: 'altitude'
-}
-
-const container_obs_to_cells = (container_obs: any) => {
-    let cells: any[] = []
-    let uid = 0
-    Object.entries(container_obs).forEach((cid_obs: any) => {
-        const cid = cid_obs[0]
-        const obs = cid_obs[1]
-        obs.forEach((ob: ObservationBlock, idx: number) => {
-            const obCell: OBCell = {
-                cid: cid,
-                name: ob.metadata.name,
-                type: 'ob',
-                id: JSON.stringify(uid),
-                ra: ob.target?.parameters.target_coord_ra,
-                dec: ob.target?.parameters.target_coord_dec
-            }
-            const tgt = ob.target
-            if (tgt) obCell['target'] = tgt
-            cells.push(obCell)
-            uid += 1
-        })
-
-    })
-    return cells
+    chartType: 'altitude',
+    hideSubmittedOBs: false
 }
 
 export const SelectionToolColumn = (props: Props) => {
@@ -91,6 +64,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
+    const [hideSubmittedOBs, setHideSubmittedOBs] = useState(defaultState.hideSubmittedOBs)
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
@@ -202,6 +176,10 @@ export const SelectionToolColumn = (props: Props) => {
         socket.emit('set_ob_queue', obData)
     }
 
+    const hide_submitted_obs = (event: React.SyntheticEvent<Element, Event>, checked: boolean) => {
+        setHideSubmittedOBs(checked)
+    }
+
     const sync_sel_ob_with_magiq = () => {
         const obData = { obs: props.selObs }
         socket.emit('sync_with_magiq', obData)
@@ -261,11 +239,21 @@ export const SelectionToolColumn = (props: Props) => {
                 <Tooltip title="Load selected OBs as JSON">
                     <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
                 </Tooltip>
+                <Tooltip title="Hide OBs that have been submitted">
+                    <FormControlLabel
+                        label=""
+                        value={hideSubmittedOBs}
+                        control={<Switch value={hideSubmittedOBs} />}
+                        onChange={(event, checked) => hide_submitted_obs(event, checked)
+                        }
+                    />
+                </Tooltip>
             </Stack>
             <SelectedOBTable
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
                 onSubmitOB={onSubmitOB}
+                hideSubmittedOBs={hideSubmittedOBs}
             />
             <OBQueue
                 selObs={props.selObs}
