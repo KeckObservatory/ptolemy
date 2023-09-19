@@ -85,6 +85,7 @@ export interface OBCell {
 	dec?: string;
 	cid?: string;
 	ob?: ObservationBlock;
+	ob_id?: string,
 	submitted?: boolean
 }
 

@@ -43,6 +43,7 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
             name: ob.metadata.name,
             type: 'ob',
             id: JSON.stringify(uid),
+            ob_id: ob._id,
             ra: ob.target?.parameters.target_coord_ra,
             dec: ob.target?.parameters.target_coord_dec,
             submitted: submitted
