@@ -247,7 +247,7 @@ export const SelectionToolColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
-                <OBSubmit onSubmitOB={onSubmitOB} />
+                {/* <OBSubmit onSubmitOB={onSubmitOB} /> */}
                 <Tooltip title="Syncronize Queue with MAGIQ Target list">
                     <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>
                         <SyncIcon />
@@ -265,6 +265,7 @@ export const SelectionToolColumn = (props: Props) => {
             <SelectedOBTable
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
+                onSubmitOB={onSubmitOB}
             />
             <OBQueue
                 selObs={props.selObs}

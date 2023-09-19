@@ -9,10 +9,12 @@ import Switch from "@mui/material/Switch"
 import Paper from "@mui/material/Paper";
 import { FormControlLabel } from "@mui/material";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
+import OBSubmit from "./ob_submit";
 
 interface Props {
     selObs: ObservationBlock[],
     obBoneyard: ObservationBlock[]
+    onSubmitOB: Function
 }
 
 interface SelectedRows {
@@ -29,6 +31,7 @@ interface CTProps {
     selectedRows: SelectedRows,
     selObs: ObservationBlock[],
     obBoneyard: ObservationBlock[]
+    onSubmitOB: Function
 }
 
 const container_obs_to_cells = (obs: any, submitted = true) => {
@@ -53,15 +56,11 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
-    const handleClick = async () => {
-        console.log('clicked!')
-        // grey out row
-    };
 
     return (
         <React.Fragment>
             <Tooltip title={"Sends OB to Target Queue"}>
-                <Button variant="outlined" onClick={handleClick}>Submit OB</Button>
+                <OBSubmit onSubmitOB={props.onSubmitOB} />
             </Tooltip>
         </React.Fragment>
     );
@@ -78,8 +77,8 @@ const CustomCheckbox = (props: any) => {
     );
 };
 
-const update_value = (target: any) => {
-    console.log('clicked', target.value)
+const update_value = (event: any, checked: boolean) => {
+    console.log('clicked will update boneyard', checked)
 }
 
 const SelectedOBTable = (props: Props) => {
@@ -107,6 +106,7 @@ const SelectedOBTable = (props: Props) => {
                 selectedRows={selectedRows}
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
+                onSubmitOB={props.onSubmitOB}
             />
         ),
         selectableRows: 'single'
@@ -134,7 +134,7 @@ const SelectedOBTable = (props: Props) => {
                         label=""
                         value={value}
                         control={<Switch value={value} />}
-                        onChange={event => update_value(event.target)
+                        onChange={ (event, checked) => update_value(event, checked)
                         }
                     />)
                 }
