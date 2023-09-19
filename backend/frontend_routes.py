@@ -162,7 +162,8 @@ def sync_with_magiq(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logger.info('submitting new ob from frontend')
-    submittedId = ee.obs_q.queue[0].ob_id # peek at first item in the queue
+    idx = 0 #  Always th first item in the queue
+    submittedId = ee.obs_q.queue[idx].ob_id # peek at first item in the queue
     ee.obs_q.submitted_ob_id = submittedId
     logger.info(f"submitted obid: {submittedId}")
     logger.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
@@ -174,6 +175,14 @@ def submit_ob(data):
         ee.ev_q.set_queue([])
     except RuntimeError as err:
         data = {'msg': str(err)}
+        emit('snackbar_msg', data, room=request.sid)
+
+    try:
+        ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx)
+    except Exception as err:
+        msg = f'did not highlight target in magiq. reason: {err}'
+        logger.warning(msg)
+        data = { 'msg': msg}
         emit('snackbar_msg', data, room=request.sid)
 
 @socketio.on('new_sequence_queue')
