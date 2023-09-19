@@ -162,11 +162,9 @@ def sync_with_magiq(data):
 def submit_ob(data):
     """Sets submitted OB to local storage, and sends it to execution engine and frontend."""
     logger.info('submitting new ob from frontend')
-    idx = 0 #  Always th first item in the queue
-    submittedId = ee.obs_q.queue[idx].ob_id # peek at first item in the queue
+    submittedId = data.get('ob_id')#  Always th first item in the queue
     ee.obs_q.submitted_ob_id = submittedId
     logger.info(f"submitted obid: {submittedId}")
-    logger.info(f"submitted obid matches? : {submittedId==data['ob_id']}")
     try:
         ob = ee.ODBInterface.get_OB_from_id(submittedId) 
         broadcastData = { 'ob': ob }
