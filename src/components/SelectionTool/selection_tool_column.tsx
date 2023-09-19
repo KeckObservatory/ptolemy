@@ -21,6 +21,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import SyncIcon from '@mui/icons-material/Sync';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import OBSubmit from './ob_submit';
 
 interface OBQueueData {
     ob_id_queue: string[]
@@ -143,12 +144,12 @@ export const SelectionToolColumn = (props: Props) => {
     }
 
 
-    const onSubmitOB = () => {
+    const onSubmitOB = (idx: number) => {
         if (props.selObs.length == 0) {
             console.log('ob queue empty. not submitting ob')
             return
         }
-        const ob_id = props.selObs[0]._id
+        const ob_id = props.selObs[idx]._id
         console.log('submitting ob', ob_id)
         socket.emit('submit_ob', { ob_id: ob_id })
     }
@@ -225,7 +226,6 @@ export const SelectionToolColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
-                {/* <OBSubmit onSubmitOB={onSubmitOB} /> */}
                 <Tooltip title="Syncronize Queue with MAGIQ Target list">
                     <IconButton aria-label='copy' onClick={sync_sel_ob_with_magiq}>
                         <SyncIcon />
@@ -255,6 +255,7 @@ export const SelectionToolColumn = (props: Props) => {
                 onSubmitOB={onSubmitOB}
                 hideSubmittedOBs={hideSubmittedOBs}
             />
+            <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
             <OBQueue
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}

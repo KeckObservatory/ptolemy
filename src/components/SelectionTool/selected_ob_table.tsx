@@ -32,7 +32,7 @@ interface SelectedRows {
 
 interface CTProps {
     onSubmitOB: Function
-    selectedRows: object
+    selectedRows: any 
 }
 
 const container_obs_to_cells = (obs: any, submitted = true) => {
@@ -57,11 +57,11 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
-
+    const idx = props.selectedRows.data.dataIndex
     return (
         <React.Fragment>
             <Tooltip title={"Sends OB to Target Queue"}>
-                <OBSubmit onSubmitOB={props.onSubmitOB} />
+                <OBSubmit onSubmitOB={() => props.onSubmitOB(idx)} />
             </Tooltip>
         </React.Fragment>
     );
@@ -94,6 +94,7 @@ const addToList = (list: any[], idx: number, element: any) => {
 
 const SelectedOBTable = (props: Props) => {
 
+    console.log('creating selected ob table')
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
     const socket = React.useContext(SocketContext);
