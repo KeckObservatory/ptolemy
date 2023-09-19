@@ -32,7 +32,7 @@ interface SelectedRows {
 
 interface CTProps {
     onSubmitOB: Function
-    selectedRows: any
+    idx: number 
 }
 
 const container_obs_to_cells = (obs: any, submitted = true) => {
@@ -57,12 +57,10 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
-    const idx = props.selectedRows.data.dataIndex
-    console.log('submitting ob idx', idx)
     return (
         <React.Fragment>
             <Tooltip title={"Sends OB to Target Queue"}>
-                <OBSubmit onSubmitOB={() => props.onSubmitOB(idx)} />
+                <OBSubmit onSubmitOB={() => props.onSubmitOB(props.idx)} />
             </Tooltip>
         </React.Fragment>
     );
@@ -160,17 +158,23 @@ const SelectedOBTable = (props: Props) => {
             )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
-            console.log('is row selectable?', rows[dataIndex], !rows[dataIndex].submitted)
+            // console.log('is row selectable?', rows[dataIndex], !rows[dataIndex].submitted)
             return !rows[dataIndex].submitted
         },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
-        customToolbarSelect: selectedRows => (
+        customToolbarSelect: selectedRows => {
+            console.log('selectedRows', selectedRows)
+            const selRow = rows[selectedRows.data[0].dataIndex]
+            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === selRow.id)
+            console.log('selected row', selRow, 'selOB idx', idx)
+
+            return(
             <CustomToolbarSelect
-                selectedRows={selectedRows}
+                idx={idx}
                 onSubmitOB={props.onSubmitOB}
-            />
-        ),
+            />)
+        },
         selectableRows: 'single'
     }
 
