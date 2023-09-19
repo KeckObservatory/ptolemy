@@ -160,6 +160,7 @@ const SelectedOBTable = (props: Props) => {
             )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
+            console.log('is row selectable?', rows[dataIndex], !rows[dataIndex].submitted)
             return !rows[dataIndex].submitted
         },
         selectableRowsHeader: false,
