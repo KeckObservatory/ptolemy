@@ -6,6 +6,7 @@ import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
 import SelectedQueue from './selected_queue'
+import SelectedOBTable from './selected_ob_table'
 import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
 import { OBQueue } from './ob_queue';
@@ -261,6 +262,10 @@ export const SelectionToolColumn = (props: Props) => {
                     <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
                 </Tooltip>
             </Stack>
+            <SelectedOBTable
+                selObs={props.selObs}
+                obBoneyard={props.obBoneyard}
+            />
             <OBQueue
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
