@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { SocketContext } from '../../contexts/socket'
 import MUIDataTable, { MUIDataTableIsRowCheck, MUIDataTableOptions } from "mui-datatables"
 import { ObservationBlock, Scoby, OBCell } from "../../typings/ptolemy"
@@ -94,31 +94,23 @@ const addToList = (list: any[], idx: number, element: any) => {
 
 const SelectedOBTable = (props: Props) => {
 
-    console.log('creating selected ob table')
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
     const socket = React.useContext(SocketContext);
-    const [rows, setRows] = useState([] as OBCell[])
-    const [obs, setOBs] = useState([] as ObservationBlock[])
 
+    let rows = container_obs_to_cells(props.selObs, false)
+    let obs = [...props.selObs]
+    console.log('creating selected ob table')
 
-    React.useEffect(() => {
-        let tableRows = container_obs_to_cells(props.selObs, false)
-        let tableObs = [...props.selObs]
+    if (!props.hideSubmittedOBs) {
+        const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
+        rows = [...rows, ...boneyardRows]
+        obs = [...obs, ...props.obBoneyard]
+    }
 
-        if (!props.hideSubmittedOBs) {
-            const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
-            tableRows = [...tableRows, ...boneyardRows]
-            tableObs = [...tableObs, ...props.obBoneyard]
-        }
-        setRows(tableRows)
-        setOBs(tableObs)
-
-    }, [])
-
-    const update_value = (event: any, checked: boolean, tableMeta: any, tableObs: ObservationBlock[]) => {
-        const ob_id = tableObs[tableMeta.rowIndex]._id
-        const idx = tableObs.findIndex((ob: ObservationBlock, idx: number) => ob._id === ob_id)
+    const update_value = (event: any, checked: boolean, tableMeta: any) => {
+        const ob_id = obs[tableMeta.rowIndex]._id
+        const idx = obs.findIndex((ob: ObservationBlock, idx: number) => ob._id === ob_id)
         console.log('clicked will update boneyard', checked, ob_id)
 
         let selIds: string[] = []
@@ -201,9 +193,10 @@ const SelectedOBTable = (props: Props) => {
                             label=""
                             value={value}
                             control={<Switch value={value} />}
-                            onChange={(event, checked) => update_value(event, checked, tableMeta, obs)
-                            }
-                        />)
+                            onChange={(event, checked) => update_value(event, checked, tableMeta)}
+                        />
+                    )
+
                 }
             }
         }
