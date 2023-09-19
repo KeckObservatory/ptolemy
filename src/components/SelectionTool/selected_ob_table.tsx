@@ -5,17 +5,13 @@ import { ObservationBlock, Scoby, OBCell } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox";
-import { ob_api_funcs } from "../../api/ApiRoot";
 import Switch from "@mui/material/Switch"
-import Paper from "@mui/material/Paper";
 import { FormControlLabel, useTheme } from "@mui/material";
-import { rootShouldForwardProp } from "@mui/material/styles/styled";
 import OBSubmit from "./ob_submit";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import ReactJson, { ThemeKeys } from "react-json-view";
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import { SSL_OP_NO_TLSv1_1 } from "constants";
 
 interface Props {
     selObs: ObservationBlock[],
@@ -35,10 +31,8 @@ interface SelectedRows {
 }
 
 interface CTProps {
-    selectedRows: SelectedRows,
-    selObs: ObservationBlock[],
-    obBoneyard: ObservationBlock[]
     onSubmitOB: Function
+    selectedRows: object
 }
 
 const container_obs_to_cells = (obs: any, submitted = true) => {
@@ -101,14 +95,13 @@ const addToList = (list: any[], idx: number, element: any) => {
 const SelectedOBTable = (props: Props) => {
 
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
-    const theme = useTheme()
 
     const socket = React.useContext(SocketContext);
 
     let rows = container_obs_to_cells(props.selObs, false)
     let obs = [...props.selObs]
 
-    if (props.hideSubmittedOBs) {
+    if (!props.hideSubmittedOBs) {
         const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
         rows = [...rows, ...boneyardRows]
         obs = [...obs, ...props.obBoneyard]
@@ -154,7 +147,7 @@ const SelectedOBTable = (props: Props) => {
                     <TableCell colSpan={colSpan}>
                         <ReactJson
                             src={ob as object}
-                            theme={'bespin'}
+                            theme={jsontheme as ThemeKeys}
                             collapsed={true}
                             enableClipboard={true}
                             onEdit={false}
@@ -171,8 +164,6 @@ const SelectedOBTable = (props: Props) => {
         customToolbarSelect: selectedRows => (
             <CustomToolbarSelect
                 selectedRows={selectedRows}
-                selObs={props.selObs}
-                obBoneyard={props.obBoneyard}
                 onSubmitOB={props.onSubmitOB}
             />
         ),
@@ -214,7 +205,7 @@ const SelectedOBTable = (props: Props) => {
             data={rows}
             columns={columns}
             options={options}
-            title={""}
+            title={"Selected OBs"}
             components={{ Checkbox: CustomCheckbox }}
         />
     )
