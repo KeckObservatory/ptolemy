@@ -58,6 +58,7 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
 
 const CustomToolbarSelect = (props: CTProps) => {
     const idx = props.selectedRows.data.dataIndex
+    console.log('submitting ob idx', idx)
     return (
         <React.Fragment>
             <Tooltip title={"Sends OB to Target Queue"}>
@@ -110,7 +111,7 @@ const SelectedOBTable = (props: Props) => {
 
     const update_value = (event: any, checked: boolean, tableMeta: any) => {
         const ob_id = obs[tableMeta.rowIndex]._id
-        const idx = obs.findIndex((ob: ObservationBlock, idx: number) => ob._id === ob_id)
+        const idx = obs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
         console.log('clicked will update boneyard', checked, ob_id)
 
         let selIds: string[] = []
@@ -132,6 +133,7 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
 
+        console.log('selIds', selIds, 'boneyardIds', boneyardIds)
         socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
     }
