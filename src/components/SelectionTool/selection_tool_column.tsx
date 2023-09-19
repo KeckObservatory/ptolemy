@@ -61,7 +61,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
-    const [avg, setAvg] = useState(0)
+    // const [avg, setAvg] = useState(0)
 
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
@@ -120,20 +120,20 @@ export const SelectionToolColumn = (props: Props) => {
 
         console.log('creating connections')
 
-        window.setInterval(function () {
-            start_time = (new Date).getTime();
-            socket.emit('my_ping');
-        }, 1000);
+        // window.setInterval(function () {
+        //     start_time = (new Date).getTime();
+        //     socket.emit('my_ping');
+        // }, 1000);
 
-        socket.on('my_pong', function () {
-            var latency = new Date().getTime() - start_time;
-            ping_pong_times.push(latency);
-            ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
-            var sum = 0;
-            for (var i = 0; i < ping_pong_times.length; i++)
-                sum += ping_pong_times[i];
-            setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
-        });
+        // socket.on('my_pong', function () {
+        //     var latency = new Date().getTime() - start_time;
+        //     ping_pong_times.push(latency);
+        //     ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+        //     var sum = 0;
+        //     for (var i = 0; i < ping_pong_times.length; i++)
+        //         sum += ping_pong_times[i];
+        //     setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
+        // });
 
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
         socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
