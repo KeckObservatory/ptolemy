@@ -302,9 +302,9 @@ def get_fresh_event(event):
         emit('snackbar_msg', data, room=request.sid)
         return
 
-    if 'acquisition' in event['type']: # args is ob
+    if 'acquisition' in event['event_type']: # args is ob
         args = ob
-    if 'sequence' in event['type']: # args is {'sequence': sequence, 'ob': ob}
+    if 'sequence' in event['event_type']: # args is {'sequence': sequence, 'ob': ob}
         sequence_number = event['args']['sequence']['metadata']['sequence_number']
         newSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
         args = {'sequence': newSequence, 'OB': ob}
