@@ -167,7 +167,7 @@ const SelectedOBTable = (props: Props) => {
         customToolbarSelect: selectedRows => {
             console.log('selectedRows', selectedRows)
             const selRow = rows[selectedRows.data[0].dataIndex]
-            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === selRow.id)
+            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
             console.log('selected row', selRow, 'selOB idx', idx)
 
             return(
