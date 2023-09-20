@@ -177,6 +177,7 @@ def submit_ob(data):
 
     logger.info("sending new obqueue and boneyard to clients")
     ob_id_boneyard = [ submittedId, *[ x for x in ee.obs_q.boneyard ] ]
+    ee.obs_q.boneyard = ob_id_boneyard
     broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
     ob_id_queue = ee.obs_q.get_ob_ids() 
     idx = ob_id_queue.index(submittedId)

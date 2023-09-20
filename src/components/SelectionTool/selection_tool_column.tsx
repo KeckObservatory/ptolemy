@@ -255,11 +255,11 @@ export const SelectionToolColumn = (props: Props) => {
                 onSubmitOB={onSubmitOB}
                 hideSubmittedOBs={hideSubmittedOBs}
             />
-            <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
+            {/* <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
             <OBQueue
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
-            />
+            /> */}
         </React.Fragment >
     )
 }
