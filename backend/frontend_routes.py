@@ -128,7 +128,9 @@ def set_ob_queue(data):
     obs = data.get('obs', False)
     write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard})
     
+    boneyard = ee.obs_q.boneyard
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
+    ee.obs_q.boneyard = boneyard # set_queue clears boneyard
     if obs:
         try:
             ee.magiq_interface.check_if_connected_to_magiq_server()
