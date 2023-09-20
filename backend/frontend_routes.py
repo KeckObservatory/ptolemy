@@ -138,8 +138,8 @@ def set_ob_queue(data):
         except Exception as err:
             msg = f'did not add target to magiq. reason: {err}'
             logger.warning(msg)
-            data = { 'msg': msg}
-            emit('snackbar_msg', data, room=request.sid)
+            mdata = { 'msg': msg}
+            emit('snackbar_msg', mdata, room=request.sid)
     logger.info(f'new ob queue len: {len(ob_ids)}')
 
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
