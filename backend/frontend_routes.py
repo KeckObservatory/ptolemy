@@ -176,13 +176,16 @@ def submit_ob(data):
         emit('snackbar_msg', data, room=request.sid)
 
     logger.info("sending new obqueue and boneyard to clients")
-    broadcastBoneyard = { 'ob_id_boneyard': [ submittedId, *[ x.ob_id for x in ee.obs_q.boneyard ] ] }
+    ob_id_boneyard = [ submittedId, *[ x.ob_id for x in ee.obs_q.boneyard ] ]
+    broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
     ob_id_queue = ee.obs_q.get_ob_ids() 
     idx = ob_id_queue.index(submittedId)
     ob_id_queue.remove(submittedId)
 
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_id_queue])
     obQueueData = { 'ob_id_queue': ob_id_queue }
+
+    write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_id_boneyard })
     emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
     emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
 
