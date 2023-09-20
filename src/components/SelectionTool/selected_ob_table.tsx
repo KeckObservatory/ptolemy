@@ -113,7 +113,6 @@ const SelectedOBTable = (props: Props) => {
     const update_value = (event: any, checked: boolean, tableMeta: any) => {
         const ob_id = obs[tableMeta.rowIndex]._id
         const idx = obs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
-        console.log('clicked will update boneyard', checked, ob_id)
 
         let selIds: string[] = []
         let boneyardIds: string[] = []
@@ -134,6 +133,7 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
 
+        console.log('clicked will update boneyard', checked, ob_id, selIds.length, boneyardIds.length)
         socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
     }
@@ -193,7 +193,7 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-                    console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
+                    //console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
                     return (
                         <FormControlLabel
                             label=""
