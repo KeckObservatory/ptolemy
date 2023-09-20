@@ -100,13 +100,17 @@ const SelectedOBTable = (props: Props) => {
 
     let rows = container_obs_to_cells(props.selObs, false)
     let obs = [...props.selObs]
-    console.log('creating selected ob table')
+    console.log('creating selected ob table.') 
+    console.log('props.selObs len', props.selObs.length, 'props.obBoneyard len', props.obBoneyard)
+    console.log('hide submitted obs?', props.hideSubmittedOBs)
 
     if (!props.hideSubmittedOBs) {
         const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
         rows = [...rows, ...boneyardRows]
         obs = [...obs, ...props.obBoneyard]
     }
+
+    console.log('len of table:', rows.length)
 
     const update_value = (event: any, checked: boolean, tableMeta: any) => {
         const ob_id = obs[tableMeta.rowIndex]._id
