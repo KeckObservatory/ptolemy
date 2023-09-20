@@ -175,6 +175,16 @@ def submit_ob(data):
         data = {'msg': str(err)}
         emit('snackbar_msg', data, room=request.sid)
 
+    logger.info("sending new obqueue and boneyard to clients")
+    broadcastBoneyard = { 'ob_id_boneyard': [ submittedId, *[ x.ob_id for x in ee.obs_q.boneyard ] ] }
+    ob_id_queue = ee.obs_q.get_ob_ids() 
+    ob_id_queue.remove(submittedId)
+
+    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_id_queue])
+    obQueueData = { 'ob_id_queue': ob_id_queue }
+    emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
+    emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
+
     try:
         ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx)
     except Exception as err:
