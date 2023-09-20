@@ -184,7 +184,7 @@ def submit_ob(data):
 
     ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_id_queue])
     obQueueData = { 'ob_id_queue': ob_id_queue }
-
+    logger.info(f"new ob_queue length: {len(ob_id_queue)}, new ob boneyard length {len(ob_id_boneyard)}")
     write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_id_boneyard })
     emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
     emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
