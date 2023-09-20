@@ -101,8 +101,6 @@ const SelectedOBTable = (props: Props) => {
     let rows = container_obs_to_cells(props.selObs, false)
     let obs = [...props.selObs]
     console.log('creating selected ob table.') 
-    console.log('props.selObs len', props.selObs.length, 'props.obBoneyard len', props.obBoneyard)
-    console.log('hide submitted obs?', props.hideSubmittedOBs)
 
     if (!props.hideSubmittedOBs) {
         const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
@@ -136,7 +134,6 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
 
-        console.log('selIds', selIds, 'boneyardIds', boneyardIds)
         socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
     }
@@ -163,17 +160,13 @@ const SelectedOBTable = (props: Props) => {
             )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
-            // console.log('is row selectable?', rows[dataIndex], !rows[dataIndex].submitted)
             return !rows[dataIndex].submitted
         },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => {
-            console.log('selectedRows', selectedRows)
             const selRow = rows[selectedRows.data[0].dataIndex]
             const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
-            console.log('selected row', selRow, 'selOB idx', idx)
-
             return(
             <CustomToolbarSelect
                 idx={idx}
@@ -200,6 +193,7 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
+                    console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
                     return (
                         <FormControlLabel
                             label=""
