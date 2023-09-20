@@ -193,7 +193,7 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-                    //console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
+                    console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
                     return (
                         <FormControlLabel
                             label=""
