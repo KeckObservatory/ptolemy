@@ -176,7 +176,7 @@ def submit_ob(data):
         emit('snackbar_msg', data, room=request.sid)
 
     logger.info("sending new obqueue and boneyard to clients")
-    ob_id_boneyard = [ submittedId, *[ x.ob_id for x in ee.obs_q.boneyard ] ]
+    ob_id_boneyard = [ submittedId, *[ x for x in ee.obs_q.boneyard ] ]
     broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
     ob_id_queue = ee.obs_q.get_ob_ids() 
     idx = ob_id_queue.index(submittedId)
