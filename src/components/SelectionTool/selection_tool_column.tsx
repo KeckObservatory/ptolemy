@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
 import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
-import { useQueryParam, StringParam, withDefault } from 'use-query-params'
+import { useQueryParam, StringParam, withDefault, BooleanParam } from 'use-query-params'
 import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
 import AvailableOBTable from './available_ob_table'
@@ -44,7 +44,7 @@ interface State {
     sem_id: string
     semIdList: string[]
     chartType: string;
-    hideSubmittedOBs: boolean
+    hideCompletedOBs: boolean
 }
 
 
@@ -54,7 +54,7 @@ const defaultState: State = {
     sem_id: '',
     semIdList: [],
     chartType: 'altitude',
-    hideSubmittedOBs: false
+    hideCompletedOBs: false
 }
 
 export const SelectionToolColumn = (props: Props) => {
@@ -65,7 +65,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
-    const [hideSubmittedOBs, setHideSubmittedOBs] = useState(defaultState.hideSubmittedOBs)
+    const [hideCompletedOBs, setHideCompletedOBs] = useQueryParam('hide_completed_obs', withDefault(BooleanParam, defaultState.hideCompletedOBs))
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
@@ -177,8 +177,8 @@ export const SelectionToolColumn = (props: Props) => {
         socket.emit('set_ob_queue', obData)
     }
 
-    const hide_submitted_obs = (event: React.SyntheticEvent<Element, Event>, checked: boolean) => {
-        setHideSubmittedOBs(checked)
+    const hide_submitted_obs = (checked: boolean) => {
+        setHideCompletedOBs(checked)
     }
 
     const sync_sel_ob_with_magiq = () => {
@@ -239,12 +239,12 @@ export const SelectionToolColumn = (props: Props) => {
                 <Tooltip title="Load selected OBs as JSON">
                     <UploadDialog upload_sel_obs_from_json={upload_sel_obs_from_json} />
                 </Tooltip>
-                <Tooltip title="Hide OBs that have been submitted">
+                <Tooltip title="Hide OBs that have been completed">
                     <FormControlLabel
                         label=""
-                        value={hideSubmittedOBs}
-                        control={<Switch value={hideSubmittedOBs} />}
-                        onChange={(event, checked) => hide_submitted_obs(event, checked)
+                        value={hideCompletedOBs}
+                        control={<Switch value={hideCompletedOBs} />}
+                        onChange={(_, checked) => hide_submitted_obs(checked)
                         }
                     />
                 </Tooltip>
@@ -253,7 +253,7 @@ export const SelectionToolColumn = (props: Props) => {
                 selObs={props.selObs}
                 obBoneyard={props.obBoneyard}
                 onSubmitOB={onSubmitOB}
-                hideSubmittedOBs={hideSubmittedOBs}
+                hideCompletedOBs={hideCompletedOBs}
             />
             {/* <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
             <OBQueue

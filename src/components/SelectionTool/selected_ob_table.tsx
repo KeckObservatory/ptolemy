@@ -17,7 +17,7 @@ interface Props {
     selObs: ObservationBlock[],
     obBoneyard: ObservationBlock[]
     onSubmitOB: Function
-    hideSubmittedOBs: boolean
+    hideCompletedOBs: boolean
 }
 
 interface SelectedRows {
@@ -35,7 +35,7 @@ interface CTProps {
     idx: number 
 }
 
-const container_obs_to_cells = (obs: any, submitted = true) => {
+const container_obs_to_cells = (obs: any, completed=true) => {
     let cells: any[] = []
     let uid = 0
     obs.forEach((ob: ObservationBlock, idx: number) => {
@@ -46,7 +46,7 @@ const container_obs_to_cells = (obs: any, submitted = true) => {
             ob_id: ob._id,
             ra: ob.target?.parameters.target_coord_ra,
             dec: ob.target?.parameters.target_coord_dec,
-            submitted: submitted
+            completed: completed 
 
         }
         const tgt = ob.target
@@ -102,7 +102,7 @@ const SelectedOBTable = (props: Props) => {
     let obs = [...props.selObs]
     console.log('creating selected ob table.') 
 
-    if (!props.hideSubmittedOBs) {
+    if (!props.hideCompletedOBs) {
         const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
         rows = [...rows, ...boneyardRows]
         obs = [...obs, ...props.obBoneyard]
@@ -164,7 +164,7 @@ const SelectedOBTable = (props: Props) => {
             )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
-            return !rows[dataIndex].submitted
+            return !rows[dataIndex].completed
         },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
@@ -192,8 +192,8 @@ const SelectedOBTable = (props: Props) => {
         { name: 'dec', Label: 'Dec', options: { display: true } },
         { name: 'sem_id', Label: 'Semid', options: { display: false } },
         {
-            name: 'submitted',
-            label: 'Submitted',
+            name: 'completed',
+            label: 'Completed',
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
