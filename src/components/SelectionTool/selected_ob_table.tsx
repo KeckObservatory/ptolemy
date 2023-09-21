@@ -110,7 +110,9 @@ const SelectedOBTable = (props: Props) => {
 
     console.log('len of table:', rows.length)
 
-    const update_value = (checked: boolean, tableMeta: any) => {
+    const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
+        
+        console.log('tableMeta of clicked object', tableMeta, 'value', value)
         const ob_id = obs[tableMeta.rowIndex]._id
 
         let selIds: string[] = []
@@ -194,13 +196,13 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-                    console.log('value', value, 'tableMeta', tableMeta, 'updateValue', updateValue)
+                    
                     return (
                         <FormControlLabel
                             label=""
                             value={value}
                             control={<Switch checked={value} />}
-                            onChange={(_, checked) => update_value(checked, tableMeta)}
+                            onChange={(_, checked) => update_value(value, checked, tableMeta)}
                         />
                     )
 
