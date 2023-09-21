@@ -110,9 +110,10 @@ const SelectedOBTable = (props: Props) => {
 
     console.log('len of table:', rows.length)
 
-    const update_value = (event: any, checked: boolean, tableMeta: any) => {
+    const update_value = (checked: boolean, tableMeta: any) => {
         const ob_id = obs[tableMeta.rowIndex]._id
         const idx = obs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
+        console.log('ob_id', ob_id, 'idx', idx, 'obs', obs)
 
         let selIds: string[] = []
         let boneyardIds: string[] = []
@@ -199,7 +200,7 @@ const SelectedOBTable = (props: Props) => {
                             label=""
                             value={value}
                             control={<Switch checked={value} />}
-                            onChange={(event, checked) => update_value(event, checked, tableMeta)}
+                            onChange={(_, checked) => update_value(checked, tableMeta)}
                         />
                     )
 
