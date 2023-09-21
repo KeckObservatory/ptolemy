@@ -114,7 +114,7 @@ const SelectedOBTable = (props: Props) => {
         
         console.log('tableMeta of clicked object', tableMeta, 'value', value)
         // const ob_id = obs[tableMeta.rowIndex]._id
-        const ob_id = tableMeta.rowData[0][0] // selected row is first row and OB_ID is first col
+        const ob_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
 
         let selIds: string[] = []
         let boneyardIds: string[] = []
