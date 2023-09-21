@@ -112,13 +112,12 @@ const SelectedOBTable = (props: Props) => {
 
     const update_value = (checked: boolean, tableMeta: any) => {
         const ob_id = obs[tableMeta.rowIndex]._id
-        const idx = obs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
-        console.log('ob_id', ob_id, 'idx', idx, 'obs', obs)
 
         let selIds: string[] = []
         let boneyardIds: string[] = []
         let newOBList: ObservationBlock[] = []
         if (checked) { // move from selObs to boneyard
+            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
             const [removedOB, nList] = removeFromList(props.selObs, idx)
             newOBList = nList
             const insertIdx = props.obBoneyard.length - 1
@@ -127,7 +126,7 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
         else { //move from boneyard to selObs
-            console.log(`moving idx ${idx} from boneyard to selObs`, props.obBoneyard, props.selObs)
+            const idx = props.obBoneyard.findIndex((ob: ObservationBlock) => ob._id === ob_id)
             const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
             const insertIdx = 0
             newOBList = addToList(props.selObs, insertIdx, removedOB)
