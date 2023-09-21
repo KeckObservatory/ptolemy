@@ -136,12 +136,11 @@ def set_ob_queue(data):
             ee.magiq_interface.check_if_connected_to_magiq_server()
             ee.magiq_interface.add_target_list_to_magiq(obs)
         except Exception as err:
-            msg = f'did not add target to magiq. reason: {err}'
+            msg = f'did not add target to magiq.'
             logger.warning(msg)
             mdata = { 'msg': msg}
             emit('snackbar_msg', mdata, room=request.sid)
     logger.info(f'new ob queue len: {len(ob_ids)}')
-
     emit('broadcast_ob_queue_from_server', data, broadcast=True)
 
 @socketio.on('set_ob_boneyard')
@@ -195,7 +194,7 @@ def submit_ob(data):
     try:
         ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx)
     except Exception as err:
-        msg = f'did not highlight target in magiq. reason: {err}'
+        msg = f'did not highlight target in magiq.'
         logger.warning(msg)
         data = { 'msg': msg}
         emit('snackbar_msg', data, room=request.sid)
