@@ -198,7 +198,7 @@ const SelectedOBTable = (props: Props) => {
                         <FormControlLabel
                             label=""
                             value={value}
-                            control={<Switch value={value} />}
+                            control={<Switch checked={value} />}
                             onChange={(event, checked) => update_value(event, checked, tableMeta)}
                         />
                     )
