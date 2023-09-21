@@ -127,6 +127,7 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
         else { //move from boneyard to selObs
+            console.log(`moving idx ${idx} from boneyard to selObs`, props.obBoneyard, props.selObs)
             const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
             const insertIdx = 0
             newOBList = addToList(props.selObs, insertIdx, removedOB)
