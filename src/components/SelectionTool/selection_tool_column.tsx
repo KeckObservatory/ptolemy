@@ -32,8 +32,8 @@ interface OBBoneyardData {
 }
 
 interface Props {
-    selObs: ObservationBlock[];
-    setSelObs: Function;
+    selOBs: ObservationBlock[];
+    setSelOBs: Function;
     obBoneyard: ObservationBlock[];
     setOBBoneyard: Function;
 }
@@ -61,8 +61,6 @@ export const SelectionToolColumn = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
-    // const [avg, setAvg] = useState(0)
-
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [hideCompletedOBs, setHideCompletedOBs] = useQueryParam('hide_completed_obs', withDefault(BooleanParam, defaultState.hideCompletedOBs))
@@ -96,7 +94,7 @@ export const SelectionToolColumn = (props: Props) => {
 
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
-        props.setSelObs(newSelObs)
+        props.setSelOBs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: [] })
@@ -106,7 +104,7 @@ export const SelectionToolColumn = (props: Props) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_queue_data && props.setSelObs(obs)
+        ob_queue_data && props.setSelOBs(obs)
     }
 
     const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
@@ -145,18 +143,18 @@ export const SelectionToolColumn = (props: Props) => {
 
 
     const onSubmitOB = (idx: number) => {
-        if (props.selObs.length == 0) {
+        if (props.selOBs.length == 0) {
             console.log('ob queue empty. not submitting ob')
             return
         }
-        const ob_id = props.selObs[idx]._id
+        const ob_id = props.selOBs[idx]._id
         console.log('submitting ob', ob_id)
         socket.emit('submit_ob', { ob_id: ob_id })
     }
 
     const save_sel_ob_as_json = () => {
         // Create a blob with the data we want to download as a file
-        const blob = new Blob([JSON.stringify(props.selObs, null, 4)], { type: 'text/plain' })
+        const blob = new Blob([JSON.stringify(props.selOBs, null, 4)], { type: 'text/plain' })
         // Create an anchor element and dispatch a click event on it
         // to trigger a download
         const a = document.createElement('a')
@@ -182,7 +180,7 @@ export const SelectionToolColumn = (props: Props) => {
     }
 
     const sync_sel_ob_with_magiq = () => {
-        const obData = { obs: props.selObs }
+        const obData = { obs: props.selOBs }
         socket.emit('sync_with_magiq', obData)
     }
 
@@ -222,7 +220,7 @@ export const SelectionToolColumn = (props: Props) => {
                             highlightOnEmpty={true}
                         />
                     </FormControl>
-                    <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
+                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} setSelObRows={setSelObRows} />
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
@@ -250,14 +248,15 @@ export const SelectionToolColumn = (props: Props) => {
                 </Tooltip>
             </Stack>
             <SelectedOBTable
-                selObs={props.selObs}
+                selOBs={props.selOBs}
+                setSelOBs={props.setSelOBs}
                 obBoneyard={props.obBoneyard}
                 onSubmitOB={onSubmitOB}
                 hideCompletedOBs={hideCompletedOBs}
             />
             {/* <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
             <OBQueue
-                selObs={props.selObs}
+                selOBs={props.selOBs}
                 obBoneyard={props.obBoneyard}
             /> */}
         </React.Fragment >

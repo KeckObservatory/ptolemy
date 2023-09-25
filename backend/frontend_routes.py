@@ -179,7 +179,7 @@ def submit_ob(data):
     logger.info("sending new obqueue and boneyard to clients")
     #ob_id_boneyard = [ submittedId, *[ x for x in ee.obs_q.boneyard ] ] # do not swap submitted OB
     ob_id_boneyard = [ x for x in ee.obs_q.boneyard ]
-    broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
+    # broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
     ob_id_queue = ee.obs_q.get_ob_ids() 
     idx = ob_id_queue.index(submittedId)
     #ob_id_queue.remove(submittedId) # do not swap submitted OB
@@ -190,7 +190,7 @@ def submit_ob(data):
     logger.info(f"new ob_queue length: {len(ob_id_queue)}, new ob boneyard length {len(ob_id_boneyard)}")
     write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_id_boneyard })
     emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
-    emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
+    # emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
 
     try:
         ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx)

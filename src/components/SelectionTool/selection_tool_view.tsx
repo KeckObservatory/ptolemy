@@ -26,7 +26,7 @@ interface Props {
 }
 
 interface State {
-    selObs: ObservationBlock[];
+    selOBs: ObservationBlock[];
     avlObRows: Scoby[];
     selObRows: Scoby[];
     sem_id: string
@@ -37,7 +37,7 @@ interface State {
 
 const defaultState: State = {
     avlObRows: [],
-    selObs: [],
+    selOBs: [],
     selObRows: [],
     sem_id: '',
     semIdList: [],
@@ -72,7 +72,7 @@ export const SelectionToolView = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
-    const [selObs, setSelObs] = useState(defaultState.selObs)
+    const [selOBs, setSelOBs] = useState(defaultState.selOBs)
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [chartType, setChartType] = useState(defaultState.chartType)
     const [avg, setAvg] = useState(0)
@@ -114,7 +114,7 @@ export const SelectionToolView = (props: Props) => {
 
     const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
         console.log(newSelObs)
-        setSelObs(newSelObs)
+        setSelOBs(newSelObs)
         const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
     }
@@ -123,7 +123,7 @@ export const SelectionToolView = (props: Props) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_queue_data && setSelObs(obs)
+        ob_queue_data && setSelOBs(obs)
         const ob_scoby = obs_to_scoby(obs)
         setSelObRows(ob_scoby)
     }
@@ -189,12 +189,12 @@ export const SelectionToolView = (props: Props) => {
             }
             >
                 <Grid item xs={6}>
-                    <AvailableOBTable rows={avlObRows} setSelObs={on_table_select_rows} setSelObRows={setSelObRows} />
+                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} setSelObRows={setSelObRows} />
                 </Grid>
                 <Grid item xs={6}>
                     <SelectedQueue
-                        selObs={selObs}
-                        setSelObs={setSelObs}
+                        selOBs={selOBs}
+                        setSelOBs={setSelOBs}
                         submittedOB={submittedOB}
                     />
                 </Grid>

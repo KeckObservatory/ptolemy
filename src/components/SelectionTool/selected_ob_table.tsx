@@ -3,39 +3,38 @@ import { SocketContext } from '../../contexts/socket'
 import MUIDataTable, { MUIDataTableIsRowCheck, MUIDataTableOptions } from "mui-datatables"
 import { ObservationBlock, Scoby, OBCell } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
-import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch"
-import { FormControlLabel, useTheme } from "@mui/material";
+import { FormControlLabel, IconButton, useTheme } from "@mui/material";
 import OBSubmit from "./ob_submit";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import ReactJson, { ThemeKeys } from "react-json-view";
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import { ob_api_funcs } from "../../api/ApiRoot";
+
+
 
 interface Props {
-    selObs: ObservationBlock[],
+    selOBs: ObservationBlock[],
+    setSelOBs: Function,
     obBoneyard: ObservationBlock[]
     onSubmitOB: Function
     hideCompletedOBs: boolean
 }
 
-interface SelectedRows {
-    data: {
-        index: number;
-        dataIndex: number;
-    }[];
-    lookup: {
-        [key: number]: boolean;
-    };
-}
-
 interface CTProps {
+    selOBs: ObservationBlock[];
+    setSelOBs: Function;
     onSubmitOB: Function
-    idx: number 
+    idx: number
 }
 
-const container_obs_to_cells = (obs: any, completed=true) => {
+const container_obs_to_cells = (obs: any, completed = true) => {
     let cells: any[] = []
     let uid = 0
     obs.forEach((ob: ObservationBlock, idx: number) => {
@@ -46,7 +45,7 @@ const container_obs_to_cells = (obs: any, completed=true) => {
             ob_id: ob._id,
             ra: ob.target?.parameters.target_coord_ra,
             dec: ob.target?.parameters.target_coord_dec,
-            completed: completed 
+            completed: completed
 
         }
         const tgt = ob.target
@@ -58,8 +57,43 @@ const container_obs_to_cells = (obs: any, completed=true) => {
 }
 
 const CustomToolbarSelect = (props: CTProps) => {
+
+    const handle_move = async (idx: number, jdx: number) => {
+        let ob_ids = props.selOBs.map(ob => ob._id)
+
+        if (idx <= 0 && idx >= props.selOBs.length-1) return
+        
+        const el = ob_ids[idx];
+        ob_ids.splice(idx, 1);
+        ob_ids.splice(jdx - 1, 0, el);
+        let selOBs = await ob_api_funcs.get_many(ob_ids)
+        console.log('selOb len', selOBs.length)
+        props.setSelOBs(selOBs)
+
+    };
+
     return (
         <React.Fragment>
+            <Tooltip title="Move up one row">
+                <IconButton onClick={() => { handle_move(props.idx, props.idx-1) }} aria-label='move-up'>
+                    <KeyboardArrowUpIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move to top">
+                <IconButton onClick={() => { handle_move(props.idx, 0) }} aria-label='move-top'>
+                    <KeyboardDoubleArrowUpIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move down one row">
+                <IconButton onClick={() => { handle_move(props.idx, props.idx+1) }} aria-label='move-down'>
+                    <KeyboardArrowDownIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move to bottom">
+                <IconButton onClick={() => { handle_move(props.idx, props.selOBs.length-1) }} aria-label='move-bottom'>
+                    <KeyboardDoubleArrowDownIcon />
+                </IconButton>
+            </Tooltip>
             <Tooltip title={"Sends OB to Target Queue"}>
                 <OBSubmit onSubmitOB={() => props.onSubmitOB(props.idx)} />
             </Tooltip>
@@ -98,9 +132,9 @@ const SelectedOBTable = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
 
-    let rows = container_obs_to_cells(props.selObs, false)
-    let obs = [...props.selObs]
-    console.log('creating selected ob table.') 
+    let rows = container_obs_to_cells(props.selOBs, false)
+    let obs = [...props.selOBs]
+    console.log('creating selected ob table.')
 
     if (!props.hideCompletedOBs) {
         const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
@@ -111,7 +145,7 @@ const SelectedOBTable = (props: Props) => {
     console.log('len of table:', rows.length)
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
-        
+
         console.log('tableMeta of clicked object', tableMeta, 'value', value)
         // const ob_id = obs[tableMeta.rowIndex]._id
         const ob_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
@@ -119,20 +153,20 @@ const SelectedOBTable = (props: Props) => {
         let selIds: string[] = []
         let boneyardIds: string[] = []
         let newOBList: ObservationBlock[] = []
-        if (checked) { // move from selObs to boneyard
-            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
-            const [removedOB, nList] = removeFromList(props.selObs, idx)
+        if (checked) { // move from selOBs to boneyard
+            const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
+            const [removedOB, nList] = removeFromList(props.selOBs, idx)
             newOBList = nList
             const insertIdx = props.obBoneyard.length - 1
             const newBoneyard = addToList(props.obBoneyard, insertIdx, removedOB)
             selIds = nList.map((ob: ObservationBlock) => ob._id)
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
-        else { //move from boneyard to selObs
+        else { //move from boneyard to selOBs
             const idx = props.obBoneyard.findIndex((ob: ObservationBlock) => ob._id === ob_id)
             const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
             const insertIdx = 0
-            newOBList = addToList(props.selObs, insertIdx, removedOB)
+            newOBList = addToList(props.selOBs, insertIdx, removedOB)
             selIds = newOBList.map((ob: ObservationBlock) => ob._id)
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
@@ -170,12 +204,14 @@ const SelectedOBTable = (props: Props) => {
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => {
             const selRow = rows[selectedRows.data[0].dataIndex]
-            const idx = props.selObs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
-            return(
-            <CustomToolbarSelect
-                idx={idx}
-                onSubmitOB={props.onSubmitOB}
-            />)
+            const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
+            return (
+                <CustomToolbarSelect
+                    idx={idx}
+                    selOBs={props.selOBs}
+                    setSelOBs={props.setSelOBs}
+                    onSubmitOB={props.onSubmitOB}
+                />)
         },
         selectableRows: 'single'
     }
@@ -197,7 +233,7 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-                    
+
                     return (
                         <FormControlLabel
                             label=""

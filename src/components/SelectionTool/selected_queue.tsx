@@ -8,8 +8,8 @@ import { socket } from '../../contexts/socket'
 import { ObservationBlock, Scoby } from '../../typings/ptolemy';
 
 interface Props {
-    selObs: ObservationBlock[];
-    setSelObs: Function;
+    selOBs: ObservationBlock[];
+    setSelOBs: Function;
     submittedOB: ObservationBlock
 }
 
@@ -124,15 +124,15 @@ const SelectedQueue = (props: Props) => {
         const { source, destination } = result;
         if (!destination) return;
         //@ts-ignore
-        let newObs = [...props.selObs]
+        let newObs = [...props.selOBs]
         newObs = reorder(newObs, source.index, destination.index)
-        props.setSelObs(newObs)
+        props.setSelOBs(newObs)
         const ids = newObs.map((ob: ObservationBlock) => ob._id)
         socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newObs })
     }
 
     const onSubmitOB = () => {
-        const ob_id = props.selObs[0]._id
+        const ob_id = props.selOBs[0]._id
         console.log('submitting ob', ob_id)
         socket.emit('submit_ob', { ob_id: ob_id })
     }
@@ -190,7 +190,7 @@ const SelectedQueue = (props: Props) => {
                 <SubmittedNook ob={props.submittedOB} />
             </DragDropContext>
             <DragDropContext onDragEnd={onDragEnd}>
-                {create_droppable(props.selObs, 'selObs', selTooltip, selTitle, onSubmitOB)}
+                {create_droppable(props.selOBs, 'selOBs', selTooltip, selTitle, onSubmitOB)}
             </DragDropContext>
         </React.Fragment>
     )

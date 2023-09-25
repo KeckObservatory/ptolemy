@@ -51,7 +51,7 @@ export const Ptolemy = (props: Props) => {
     const [snackbarMsg, setSnackbarMsg] = React.useState("default message")
     const [ob, setOB] = React.useState({} as ObservationBlock)
     const [task, setTask] = React.useState({})
-    const [selObs, setSelObs] = React.useState([] as ObservationBlock[])
+    const [selOBs, setSelOBs] = React.useState([] as ObservationBlock[])
     const [obBoneyard, setOBBoneyard] = React.useState([] as ObservationBlock[])
     const [sequences, setSequences] = React.useState([] as Science[])
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
@@ -115,7 +115,7 @@ export const Ptolemy = (props: Props) => {
             data.ob && setOB(data.ob)
             const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
             const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
-            newSelObs && setSelObs(newSelObs)
+            newSelObs && setSelOBs(newSelObs)
             newOBBoneyard && setOBBoneyard(newOBBoneyard)
             setSequences(data.sequence_queue)
             setSequenceBoneyard(data.sequence_boneyard)
@@ -230,8 +230,8 @@ export const Ptolemy = (props: Props) => {
                         <Grid container spacing={2} columns={18}>
                             < Grid item xs={6}>
                                 <SelectionToolColumn
-                                    selObs={selObs}
-                                    setSelObs={setSelObs}
+                                    selOBs={selOBs}
+                                    setSelOBs={setSelOBs}
                                     obBoneyard={obBoneyard}
                                     setOBBoneyard={setOBBoneyard}
                                 />
