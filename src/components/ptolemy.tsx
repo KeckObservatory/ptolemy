@@ -195,13 +195,6 @@ export const Ptolemy = (props: Props) => {
         socket.emit('release_event_queue_lock')
     }
 
-    const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setSnackbarOpen(false);
-    };
-
     const NotOAView = !role.includes('OA')
 
     return (
