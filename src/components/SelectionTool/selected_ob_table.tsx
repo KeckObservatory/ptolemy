@@ -63,7 +63,7 @@ const CustomToolbarSelect = (props: CTProps) => {
         let ob_ids = props.selOBs.map(ob => ob._id)
 
         console.log(`moving element at idx ${idx} to position jdx ${jdx}`) 
-        if (idx===jdx || jdx < 0 || jdx >= ob_ids.length-1) {
+        if (idx===jdx || jdx >= ob_ids.length) {
             console.log(`can't move from idx to position jdx`) 
             return
         }
