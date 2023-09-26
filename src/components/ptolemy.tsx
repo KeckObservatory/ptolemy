@@ -86,11 +86,10 @@ export const Ptolemy = (props: Props) => {
             const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
             newSelObs && setSelOBs(newSelObs)
             newOBBoneyard && setOBBoneyard(newOBBoneyard)
-            // setSequences(data.sequence_queue)
-            // setSequenceBoneyard(data.sequence_boneyard)
-
-            // setEvents(data.event_queue)
-            // setEventBoneyard(data.event_boneyard)
+            data.sequence_queue && setSequences(data.sequence_queue)
+            data.sequence_boneyard && setSequenceBoneyard(data.sequence_boneyard)
+            data.event_queue && setEvents(data.event_queue)
+            data.event_boneyard && setEventBoneyard(data.event_boneyard)
         })
 
         socket.on('task_broadcast', (data) => {
