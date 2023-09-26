@@ -51,7 +51,7 @@ export const Ptolemy = (props: Props) => {
         console.log('starting socket connections: ')
         create_connections()
         return () => socket.off();
-    }, [])
+    }, [socket])
 
     const create_connections = React.useCallback(() => {
 
@@ -177,7 +177,6 @@ export const Ptolemy = (props: Props) => {
         socket.emit('submit_event', { 'submitted_event': events[0] })
     }
 
-
     const releaseEventQueueLock = () => {
         console.log('releaseEventQueueLock button clicked.')
         socket.emit('release_event_queue_lock')
@@ -209,8 +208,6 @@ export const Ptolemy = (props: Props) => {
                                     submitSeq={submitSeq}
                                     sequences={sequences}
                                     sequenceBoneyard={sequenceBoneyard}
-                                    setSequences={setSequences}
-                                    setSequenceBoneyard={setSequenceBoneyard}
                                     ob={ob}
                                 />
                             </Grid>

@@ -96,19 +96,20 @@ export const SelectionToolColumn = (props: Props) => {
         socket.emit('set_ob_boneyard', { ob_id_boneyard: [] })
     }
 
-    const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
-        const ob_ids = ob_queue_data.ob_id_queue
-        const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_queue_data && props.setSelOBs(obs)
-    }
-
-    const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
-        const ob_ids = ob_boneyard_ids.ob_id_boneyard
-        const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
-        ob_boneyard_ids && props.setOBBoneyard(obs)
-    }
-
     const create_connections = React.useCallback(() => {
+
+        const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
+            const ob_ids = ob_queue_data.ob_id_queue
+            const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
+            ob_queue_data && props.setSelOBs(obs)
+        }
+
+        const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
+            const ob_ids = ob_boneyard_ids.ob_id_boneyard
+            const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
+            ob_boneyard_ids && props.setOBBoneyard(obs)
+        }
+
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
         socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
     }, [])

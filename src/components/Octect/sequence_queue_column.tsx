@@ -23,8 +23,6 @@ interface Props {
     submitSeq: MouseEventHandler<HTMLButtonElement> | undefined
     sequences: Science[];
     sequenceBoneyard: Science[];
-    setSequences: Function;
-    setSequenceBoneyard: Function;
     ob: ObservationBlock;
 }
 
@@ -65,7 +63,6 @@ export const SequenceQueueColumn = (props: Props) => {
             if (dKey === 'seqQueue') {
                 let newSeq = [...props.sequences]
                 newSeq = reorder(newSeq, source.index, destination.index)
-                // props.setSequences(newSeq)
                 socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
             }
             else {
