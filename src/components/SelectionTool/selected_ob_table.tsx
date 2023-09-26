@@ -243,14 +243,14 @@ const SelectedOBTable = (props: Props) => {
         }
     ]
 
-    return ( rows.length>0 && 
+    return ( rows.length>0 ? 
         (<MUIDataTable
             data={rows}
             columns={columns}
             options={options}
             title={"Selected OBs"}
             components={{ Checkbox: CustomCheckbox }}
-        />)
+        />) : (<React.Fragment></React.Fragment>)
     )
 }
 
