@@ -71,7 +71,7 @@ const CustomToolbarSelect = (props: CTProps) => {
         const el = ob_ids[idx];
         console.log(`el ${el} is moving.ob_ids ${ob_ids}`)
         ob_ids.splice(idx, 1);
-        ob_ids.splice(jdx - 1, 0, el);
+        ob_ids.splice(jdx, 0, el[0]);
         console.log(`el ${el} has been moved. ob_ids ${ob_ids}`)
         let selOBs = await ob_api_funcs.get_many(ob_ids)
         console.log('selOb len', selOBs.length)
