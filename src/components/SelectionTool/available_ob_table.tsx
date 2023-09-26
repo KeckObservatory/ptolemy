@@ -9,13 +9,11 @@ import { ob_api_funcs } from "../../api/ApiRoot";
 interface Props {
     rows: Scoby[],
     setSelOBs: Function
-    setSelObRows: Function
 }
 
 interface CTProps {
     selectedRows: SelectedRows,
     setSelOBs: Function,
-    setSelObRows: Function,
     rows: Scoby[]
 }
 
@@ -29,7 +27,6 @@ const CustomToolbarSelect = (props: CTProps) => {
         let selOBs = ob_ids ? await ob_api_funcs.get_many(ob_ids) : []
         console.log('selOb len', selOBs.length)
         props.setSelOBs(selOBs)
-        props.setSelObRows(selObRows)
     };
     return (
         <Tooltip title={"Add selected OBs to observation queue"}>
@@ -60,7 +57,6 @@ const AvailableOBTable = (props: Props) => {
             <CustomToolbarSelect
                 selectedRows={selectedRows}
                 setSelOBs={props.setSelOBs}
-                setSelObRows={props.setSelObRows}
                 rows={props.rows}
             />
         ),

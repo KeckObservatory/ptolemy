@@ -59,7 +59,6 @@ export const SelectionToolColumn = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
-    const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [hideCompletedOBs, setHideCompletedOBs] = useQueryParam('hide_completed_obs', withDefault(BooleanParam, defaultState.hideCompletedOBs))
     const [sem_id, setSemId] =
@@ -197,7 +196,7 @@ export const SelectionToolColumn = (props: Props) => {
                             highlightOnEmpty={true}
                         />
                     </FormControl>
-                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} setSelObRows={setSelObRows} />
+                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} />
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
