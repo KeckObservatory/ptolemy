@@ -222,35 +222,36 @@ const SelectedOBTable = (props: Props) => {
         { name: 'ra', label: 'RA', options: { display: true } },
         { name: 'dec', Label: 'Dec', options: { display: true } },
         { name: 'sem_id', Label: 'Semid', options: { display: false } },
-        // {
-        //     name: 'completed',
-        //     label: 'Completed',
-        //     options: {
-        //         display: true,
-        //         customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-        //             return (
-        //                 <FormControlLabel
-        //                     label=""
-        //                     value={value}
-        //                     control={<Switch checked={value} />}
-        //                     onChange={(_, checked) => update_value(value, checked, tableMeta)}
-        //                 />
-        //             )
+        {
+            name: 'completed',
+            label: 'Completed',
+            options: {
+                display: true,
+                customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
+                    return (
+                        <FormControlLabel
+                            label=""
+                            value={value}
+                            control={<Switch checked={value} />}
+                            onChange={(_, checked) => update_value(value, checked, tableMeta)}
+                        />
+                    )
 
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
     ]
 
-    return ( rows.length>0 ? 
-        (<MUIDataTable
-            data={rows}
-            columns={columns}
-            options={options}
-            title={"Selected OBs"}
-            // components={{ Checkbox: CustomCheckbox }}
-        />) : (<React.Fragment></React.Fragment>)
-    )
+    // return ( rows.length>0 ? 
+    //     (<MUIDataTable
+    //         data={rows}
+    //         columns={columns}
+    //         options={options}
+    //         title={"Selected OBs"}
+    //         components={{ Checkbox: CustomCheckbox }}
+    //     />) : (<React.Fragment></React.Fragment>)
+    // )
+    return (<React.Fragment></React.Fragment>)
 }
 
 export default SelectedOBTable
