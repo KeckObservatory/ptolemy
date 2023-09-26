@@ -66,16 +66,16 @@ export const SelectionToolColumn = (props: Props) => {
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
     useEffect(() => {
-        make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
-            const [scoby, cont] = scoby_cont
-            setavlObRows(scoby)
-        })
 
-        get_sem_id_list()
-            .then((semesters: SemesterIds) => {
-                setSemIdList(() => [...semesters.associations])
-            })
+        const set_rows = async () => {
+            const [scoby, _] = await make_semid_scoby_table_and_containers(sem_id)
+            setavlObRows(() => [...scoby])
 
+            const semesters = await get_sem_id_list()
+            setSemIdList(() => [...semesters.associations])
+        }
+
+        set_rows()
         create_connections()
     }, [])
 
