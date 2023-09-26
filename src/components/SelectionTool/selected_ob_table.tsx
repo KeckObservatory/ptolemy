@@ -71,8 +71,10 @@ const CustomToolbarSelect = (props: CTProps) => {
         ob_ids.splice(idx, 1);
         ob_ids.splice(jdx, 0, el);
         console.log(`el ${el} has been moved. ob_ids ${ob_ids}`)
-        let selOBs = await ob_api_funcs.get_many(ob_ids)
-        console.log('selOb len', selOBs.length)
+        let selOBs = [...props.selOBs] 
+        props.selOBs.sort(function(a, b){
+            return ob_ids.indexOf(a._id) - ob_ids.indexOf(b._id)
+        });
         props.setSelOBs(selOBs)
     };
 
