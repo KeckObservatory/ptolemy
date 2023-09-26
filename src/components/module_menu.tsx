@@ -47,11 +47,9 @@ const a11yProps = (index: number) => {
 }
 
 interface ModuleMenuProps {
-    observer_id: string;
-    jsonTheme: ThemeKeys | undefined;
 }
 
-export const ModuleMenu = (props: ModuleMenuProps) => {
+export const ModuleMenu = () => {
     const [tabIdx, setTabIdx] = useQueryParam('tab_index', withDefault(NumberParam, 1));
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {

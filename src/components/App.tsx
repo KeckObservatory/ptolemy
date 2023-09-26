@@ -23,7 +23,7 @@ function App() {
         display: "flex"
       }} >
         <TopBar darkTheme={theme} observer_id={observer_id} handleThemeChange={handleThemeChange} />
-        <ModuleMenu observer_id={observer_id} jsonTheme={jsonTheme} />
+        <ModuleMenu />
       </div>
     </ThemeProvider>
   );

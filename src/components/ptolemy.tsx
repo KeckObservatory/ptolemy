@@ -29,21 +29,9 @@ interface Props {
 interface OBServerData {
     ob: ObservationBlock
 }
-interface State {
-    avg: number
-    ob?: ObservationBlock
-    sequences?: Science[]
-    sequences_boneyard?: Science[]
-    events?: string[]
-    event_boneyard?: string[]
-}
-
-
-const defaultState: State = {
-    avg: 0,
-}
 
 export const Ptolemy = (props: Props) => {
+    console.log('rendering ptolemy')
 
     const socket = React.useContext(SocketContext);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
