@@ -56,6 +56,7 @@ const obs_to_cells = (obs: any, completed = true) => {
 
 const OBToolbarSelect = (props: OBTSProps) => {
 
+    const socket = React.useContext(SocketContext);
     const handle_move = async (idx: number, jdx: number) => {
         let ob_ids = props.selOBs.map(ob => ob._id)
         if (idx===jdx || jdx < 0 || jdx >= ob_ids.length) {
@@ -71,6 +72,7 @@ const OBToolbarSelect = (props: OBTSProps) => {
             return ob_ids.indexOf(a._id) - ob_ids.indexOf(b._id)
         });
         props.setSelOBs(selOBs)
+        socket.emit('set_ob_queue', { ob_id_queue: ob_ids, obs: selOBs})
     };
 
     return (
@@ -128,15 +130,10 @@ const addToList = (list: any[], idx: number, element: any) => {
 
 
 const SelectedOBTable = (props: Props) => {
-
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
-
     const socket = React.useContext(SocketContext);
-
     let rows = obs_to_cells(props.selOBs, false)
     let obs = [...props.selOBs]
-    console.log(`creating selected ob table.`, props)
-
     if (!props.hideCompletedOBs) {
         const boneyardRows = obs_to_cells(props.obBoneyard, true)
         rows = [...rows, ...boneyardRows]
