@@ -65,8 +65,6 @@ export const SelectionToolColumn = (props: Props) => {
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
-    console.log('rendering selectiotool column', props)
-
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
             const [scoby, cont] = scoby_cont

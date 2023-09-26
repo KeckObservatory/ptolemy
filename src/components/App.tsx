@@ -12,6 +12,7 @@ function App() {
   const [observer_id] =
     useQueryParam('observer_id', withDefault(StringParam, '2003'))
   const [theme, jsonTheme] = handleTheme(darkState)
+  console.log('rendering app')
 
   const handleThemeChange = (): void => {
     setDarkState(!darkState);
