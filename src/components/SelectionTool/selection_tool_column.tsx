@@ -196,7 +196,7 @@ export const SelectionToolColumn = (props: Props) => {
                             highlightOnEmpty={true}
                         />
                     </FormControl>
-                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} />
+                    {/* <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} /> */}
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
