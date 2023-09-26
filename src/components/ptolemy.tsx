@@ -59,7 +59,6 @@ export const Ptolemy = (props: Props) => {
             console.log('new ob event triggered. setting ob, and queues', ob_data)
 
             const newOBID = ob_data.ob._id
-
             //get the source of truth from the database
             ob_api_funcs.get(newOBID).then((ob: ObservationBlock) => {
                 console.log('setting ob to:', ob)

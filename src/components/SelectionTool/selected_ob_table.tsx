@@ -146,10 +146,6 @@ const SelectedOBTable = (props: Props) => {
         obs = [...obs, ...props.obBoneyard]
     }
 
-
-
-    console.log('len of table:', rows.length)
-
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
         console.log('update value checked')
 

@@ -63,7 +63,6 @@ export const SelectionToolColumn = (props: Props) => {
     const [hideCompletedOBs, setHideCompletedOBs] = useQueryParam('hide_completed_obs', withDefault(BooleanParam, defaultState.hideCompletedOBs))
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
-    console.log('rendering selection tool column')
 
     useEffect(() => {
 
