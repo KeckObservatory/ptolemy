@@ -17,11 +17,11 @@ interface Data {
 const format_values = (values: number[], times: Date[], sd: Scoby, units: string, chartType: string): Data[] => {
     let data: Data[] = []
     for (let idx = 0; idx < times.length; idx++) {
-        const nm = sd.name ? sd.name.replaceAll(/[\W+]+/g, '_') : "unlabled_tgt"
+        const nm = typeof(sd.name, 'string') ? sd.name?.replaceAll(/[\W+]+/g, '_') : "unlabled_tgt"
         const d: Data = {
             time: times[idx], value: values[idx], units: units,
             type: chartType,
-            tgt: nm,
+            tgt: nm ? nm : "unlabeled_tgt",
             ra: sd.ra_deg,
             dec: sd.dec_deg
 
