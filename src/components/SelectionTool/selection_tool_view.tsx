@@ -189,7 +189,7 @@ export const SelectionToolView = (props: Props) => {
             }
             >
                 <Grid item xs={6}>
-                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows} setSelObRows={setSelObRows} />
+                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows}/>
                 </Grid>
                 <Grid item xs={6}>
                     <SelectedQueue
