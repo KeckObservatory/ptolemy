@@ -49,7 +49,7 @@ export const Ptolemy = (props: Props) => {
 
     useEffect((): any => {
         console.log('starting socket connections: ')
-        // create_connections()
+        create_connections()
         return () => socket.off();
     }, [socket])
 
@@ -152,9 +152,9 @@ export const Ptolemy = (props: Props) => {
             setSnackbarOpen(true)
         })
 
-        console.log('requesting ob to be sent to octect')
-        //socket.emit('request_ob')
-        socket.emit('request_ee_state')
+        // console.log('requesting ob to be sent to octect')
+        // //socket.emit('request_ob')
+        // socket.emit('request_ee_state')
 
     }, [])
 
@@ -191,15 +191,15 @@ export const Ptolemy = (props: Props) => {
                     <React.Fragment>
                         <Grid container spacing={2} columns={18}>
                             < Grid item xs={6}>
-                                {/* <SelectionToolColumn
+                                <SelectionToolColumn
                                     selOBs={selOBs}
                                     setSelOBs={setSelOBs}
                                     obBoneyard={obBoneyard}
                                     setOBBoneyard={setOBBoneyard}
-                                /> */}
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                                {/* <SequenceQueueColumn
+                                <SequenceQueueColumn
                                     enableClipboard={props.enableClipboard}
                                     collapseStringsAfter={props.collapseStringsAfter}
                                     collapsed={props.collapsed}
@@ -209,10 +209,10 @@ export const Ptolemy = (props: Props) => {
                                     sequences={sequences}
                                     sequenceBoneyard={sequenceBoneyard}
                                     ob={ob}
-                                /> */}
+                                />
                             </Grid>
                             <Grid item xs={6}>
-                                {/* <EventQueueColumn
+                                <EventQueueColumn
                                     setSnackbarOpen={setSnackbarOpen}
                                     snackbarMsg={snackbarMsg}
                                     snackbarOpen={snackbarOpen}
@@ -225,7 +225,7 @@ export const Ptolemy = (props: Props) => {
                                     iconStyle={props.iconStyle}
                                     events={events}
                                     eventBoneyard={eventBoneyard}
-                                /> */}
+                                />
                             </Grid>
                         </Grid>
 
