@@ -1,26 +1,15 @@
 import MUIDataTable, { MUIDataTableOptions } from "mui-datatables"
-import { Scoby } from "../../typings/ptolemy"
+import { Scoby, SelectedRows } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox";
 import { ob_api_funcs } from "../../api/ApiRoot";
-import Paper from "@mui/material/Paper";
 
 
 interface Props {
     rows: Scoby[],
     setSelOBs: Function
     setSelObRows: Function
-}
-
-interface SelectedRows {
-    data: {
-        index: number;
-        dataIndex: number;
-    }[];
-    lookup: {
-        [key: number]: boolean;
-    };
 }
 
 interface CTProps {

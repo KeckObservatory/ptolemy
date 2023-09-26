@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
-import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
+import { DetailedContainer, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
 import { useQueryParam, StringParam, withDefault, BooleanParam } from 'use-query-params'
 import { SocketContext } from '../../contexts/socket';
 import DropDown from '../drop_down'
@@ -8,7 +8,6 @@ import AvailableOBTable from './available_ob_table'
 import SelectedOBTable from './selected_ob_table'
 import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
-import { OBQueue } from './ob_queue';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -21,7 +20,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import SyncIcon from '@mui/icons-material/Sync';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import OBSubmit from './ob_submit';
 
 interface OBQueueData {
     ob_id_queue: string[]
@@ -67,9 +65,6 @@ export const SelectionToolColumn = (props: Props) => {
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
-    let start_time: number
-    let ping_pong_times: number[] = []
-
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
             const [scoby, cont] = scoby_cont
@@ -101,38 +96,18 @@ export const SelectionToolColumn = (props: Props) => {
     }
 
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
-        console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_queue_data && props.setSelOBs(obs)
     }
 
     const set_ob_boneyard_from_server = async (ob_boneyard_ids: OBBoneyardData) => {
-        console.log('setting ob_boneyard', ob_boneyard_ids)
         const ob_ids = ob_boneyard_ids.ob_id_boneyard
         const obs = ob_ids.length > 0 ? await ob_api_funcs.get_many(ob_ids) : []
         ob_boneyard_ids && props.setOBBoneyard(obs)
     }
 
     const create_connections = React.useCallback(() => {
-
-        console.log('creating connections')
-
-        // window.setInterval(function () {
-        //     start_time = (new Date).getTime();
-        //     socket.emit('my_ping');
-        // }, 1000);
-
-        // socket.on('my_pong', function () {
-        //     var latency = new Date().getTime() - start_time;
-        //     ping_pong_times.push(latency);
-        //     ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
-        //     var sum = 0;
-        //     for (var i = 0; i < ping_pong_times.length; i++)
-        //         sum += ping_pong_times[i];
-        //     setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
-        // });
-
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
         socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
     }, [])
@@ -254,11 +229,6 @@ export const SelectionToolColumn = (props: Props) => {
                 onSubmitOB={onSubmitOB}
                 hideCompletedOBs={hideCompletedOBs}
             />
-            {/* <OBSubmit onSubmitOB={() => onSubmitOB(0)} />
-            <OBQueue
-                selOBs={props.selOBs}
-                obBoneyard={props.obBoneyard}
-            /> */}
         </React.Fragment >
     )
 }

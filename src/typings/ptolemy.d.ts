@@ -90,6 +90,17 @@ export interface OBCell {
 	completed?: boolean
 }
 
+export interface SelectedRows {
+    data: {
+        index: number;
+        dataIndex: number;
+    }[];
+    lookup: {
+        [key: number]: boolean;
+    };
+}
+
+
 export interface OBMetadata {
 	name: string;
 	version: string | number;

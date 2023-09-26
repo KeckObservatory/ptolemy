@@ -17,8 +17,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { ob_api_funcs } from "../../api/ApiRoot";
 
-
-
 interface Props {
     selOBs: ObservationBlock[],
     setSelOBs: Function,
@@ -34,7 +32,7 @@ interface CTProps {
     idx: number
 }
 
-const container_obs_to_cells = (obs: any, completed = true) => {
+const obs_to_cells = (obs: any, completed = true) => {
     let cells: any[] = []
     let uid = 0
     obs.forEach((ob: ObservationBlock, idx: number) => {
@@ -112,7 +110,7 @@ const CustomCheckbox = (props: any) => {
     newProps.color = props['data-description'] === 'row-select' ? 'secondary' : 'primary';
 
     return (
-        <Tooltip title='select row'>
+        <Tooltip title='select ob'>
             <Checkbox {...newProps} />
         </Tooltip>
     );
@@ -138,12 +136,12 @@ const SelectedOBTable = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
 
-    let rows = container_obs_to_cells(props.selOBs, false)
+    let rows = obs_to_cells(props.selOBs, false)
     let obs = [...props.selOBs]
-    console.log('creating selected ob table.')
+    console.log(`creating selected ob table.`, props)
 
     if (!props.hideCompletedOBs) {
-        const boneyardRows = container_obs_to_cells(props.obBoneyard, true)
+        const boneyardRows = obs_to_cells(props.obBoneyard, true)
         rows = [...rows, ...boneyardRows]
         obs = [...obs, ...props.obBoneyard]
     }
@@ -224,16 +222,9 @@ const SelectedOBTable = (props: Props) => {
 
     const columns = [
         { name: 'ob_id', label: 'OB ID', options: { display: false } },
-        {
-            name: 'name', label: 'OB Name',
-            options: {}
-        },
-        {
-            name: 'tgt_name', label: 'Target Name',
-            options: {}
-        },
+        { name: 'name', label: 'OB Name', options: {} },
+        { name: 'tgt_name', label: 'Target Name', options: {} },
         { name: 'version', label: 'Version', options: { display: false } },
-
         { name: 'comment', label: 'Comment', options: { display: false } },
         { name: 'ra', label: 'RA', options: { display: true } },
         { name: 'dec', Label: 'Dec', options: { display: true } },
@@ -244,7 +235,6 @@ const SelectedOBTable = (props: Props) => {
             options: {
                 display: true,
                 customBodyRender: (value: boolean, tableMeta: any, updateValue: any) => {
-
                     return (
                         <FormControlLabel
                             label=""
