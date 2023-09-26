@@ -31,9 +31,9 @@ interface OBTSProps {
     idx: number
 }
 
-const obs_to_cells = (obs: any, completed = true) => {
+const obs_to_cells = (obs: any, completed = true, startUid=0) => {
     let cells: any[] = []
-    let uid = 0
+    let uid = startUid 
     obs.forEach((ob: ObservationBlock, idx: number) => {
         const obCell: OBCell = {
             name: ob.metadata.name,
@@ -51,7 +51,7 @@ const obs_to_cells = (obs: any, completed = true) => {
         cells.push(obCell)
         uid += 1
     })
-    return cells
+    return [cells, uid]
 }
 
 const OBToolbarSelect = (props: OBTSProps) => {
@@ -132,10 +132,10 @@ const addToList = (list: any[], idx: number, element: any) => {
 const SelectedOBTable = (props: Props) => {
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
     const socket = React.useContext(SocketContext);
-    let rows = obs_to_cells(props.selOBs, false)
+    let [rows, startUid] = obs_to_cells(props.selOBs, false, 0) as [any[], number]
     let obs = [...props.selOBs]
     if (!props.hideCompletedOBs) {
-        const boneyardRows = obs_to_cells(props.obBoneyard, true)
+        const [boneyardRows, _] = obs_to_cells(props.obBoneyard, true, startUid) as [any[], number]
         rows = [...rows, ...boneyardRows]
         obs = [...obs, ...props.obBoneyard]
     }
@@ -143,6 +143,8 @@ const SelectedOBTable = (props: Props) => {
     console.log('len of table:', rows.length)
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
+        console.log('update value checked')
+
 
         const ob_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
 
