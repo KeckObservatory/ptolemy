@@ -46,7 +46,6 @@ const defaultState: State = {
 export const Ptolemy = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
-    const [avg, setAvg] = React.useState(defaultState.avg)
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [snackbarMsg, setSnackbarMsg] = React.useState("default message")
     const [ob, setOB] = React.useState({} as ObservationBlock)
@@ -59,8 +58,6 @@ export const Ptolemy = (props: Props) => {
     const [eventBoneyard, setEventBoneyard] = React.useState([] as EventDict[])
 
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
-    let ping_pong_times: number[] = []
-    let start_time: number
 
     useEffect((): any => {
         console.log('starting socket connections: ')
@@ -69,21 +66,6 @@ export const Ptolemy = (props: Props) => {
     }, [socket])
 
     const create_connections = React.useCallback(() => {
-
-        window.setInterval(function () {
-            start_time = (new Date).getTime();
-            socket.emit('my_ping');
-        }, 1000);
-
-        socket.on('my_pong', function () {
-            var latency = new Date().getTime() - start_time;
-            ping_pong_times.push(latency);
-            ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
-            var sum = 0;
-            for (var i = 0; i < ping_pong_times.length; i++)
-                sum += ping_pong_times[i];
-            // setAvg(Math.round(10 * sum / ping_pong_times.length) / 10)
-        });
 
         socket.on('broadcast_submitted_ob_from_server', (ob_data: OBServerData) => {
             console.log('new ob event triggered. setting ob, and queues', ob_data)
