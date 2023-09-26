@@ -51,7 +51,7 @@ export const Ptolemy = (props: Props) => {
         console.log('starting socket connections: ')
         create_connections()
         return () => socket.off();
-    }, [socket])
+    }, [])
 
     const create_connections = React.useCallback(() => {
 
