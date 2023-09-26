@@ -112,7 +112,7 @@ export const SelectionToolColumn = (props: Props) => {
 
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
         socket.on('broadcast_ob_boneyard_from_server', set_ob_boneyard_from_server)
-    }, [])
+    }, [props.selOBs, props.obBoneyard])
 
     const handleSemIdSubmit = (new_sem_id: string) => {
         setSemId(new_sem_id)

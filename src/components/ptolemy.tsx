@@ -49,7 +49,7 @@ export const Ptolemy = (props: Props) => {
 
     useEffect((): any => {
         console.log('starting socket connections: ')
-        // create_connections()
+        create_connections()
         return () => socket.off();
     }, [socket])
 
