@@ -199,7 +199,7 @@ export const Ptolemy = (props: Props) => {
                                 /> */}
                             </Grid>
                             <Grid item xs={6}>
-                                <SequenceQueueColumn
+                                {/* <SequenceQueueColumn
                                     enableClipboard={props.enableClipboard}
                                     collapseStringsAfter={props.collapseStringsAfter}
                                     collapsed={props.collapsed}
@@ -209,10 +209,10 @@ export const Ptolemy = (props: Props) => {
                                     sequences={sequences}
                                     sequenceBoneyard={sequenceBoneyard}
                                     ob={ob}
-                                />
+                                /> */}
                             </Grid>
                             <Grid item xs={6}>
-                                <EventQueueColumn
+                                {/* <EventQueueColumn
                                     setSnackbarOpen={setSnackbarOpen}
                                     snackbarMsg={snackbarMsg}
                                     snackbarOpen={snackbarOpen}
@@ -225,7 +225,7 @@ export const Ptolemy = (props: Props) => {
                                     iconStyle={props.iconStyle}
                                     events={events}
                                     eventBoneyard={eventBoneyard}
-                                />
+                                /> */}
                             </Grid>
                         </Grid>
 
