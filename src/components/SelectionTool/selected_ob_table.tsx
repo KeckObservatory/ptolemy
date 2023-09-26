@@ -199,17 +199,17 @@ const SelectedOBTable = (props: Props) => {
         },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
-        customToolbarSelect: selectedRows => {
-            const selRow = rows[selectedRows.data[0].dataIndex]
-            const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
-            return (
-                <OBToolbarSelect
-                    idx={idx}
-                    selOBs={props.selOBs}
-                    setSelOBs={props.setSelOBs}
-                    onSubmitOB={props.onSubmitOB}
-                />)
-        },
+        // customToolbarSelect: selectedRows => {
+        //     const selRow = rows[selectedRows.data[0].dataIndex]
+        //     const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
+        //     return (
+        //         <OBToolbarSelect
+        //             idx={idx}
+        //             selOBs={props.selOBs}
+        //             setSelOBs={props.setSelOBs}
+        //             onSubmitOB={props.onSubmitOB}
+        //         />)
+        // },
         selectableRows: 'single'
     }
 
