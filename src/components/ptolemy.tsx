@@ -191,12 +191,12 @@ export const Ptolemy = (props: Props) => {
                     <React.Fragment>
                         <Grid container spacing={2} columns={18}>
                             < Grid item xs={6}>
-                                {/* <SelectionToolColumn
+                                <SelectionToolColumn
                                     selOBs={selOBs}
                                     setSelOBs={setSelOBs}
                                     obBoneyard={obBoneyard}
                                     setOBBoneyard={setOBBoneyard}
-                                /> */}
+                                />
                             </Grid>
                             <Grid item xs={6}>
                                 <SequenceQueueColumn
