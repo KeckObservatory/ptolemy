@@ -31,9 +31,9 @@ interface OBTSProps {
     idx: number
 }
 
-const obs_to_cells = (obs: any, completed = true, startUid = 0) => {
+const obs_to_cells = (obs: any, completed = true, startUid=0) => {
     let cells: any[] = []
-    let uid = startUid
+    let uid = startUid 
     obs.forEach((ob: ObservationBlock, idx: number) => {
         const obCell: OBCell = {
             name: ob.metadata.name,
@@ -59,26 +59,26 @@ const OBToolbarSelect = (props: OBTSProps) => {
     const socket = React.useContext(SocketContext);
     const handle_move = async (idx: number, jdx: number) => {
         let ob_ids = props.selOBs.map(ob => ob._id)
-        if (idx === jdx || jdx < 0 || jdx >= ob_ids.length) {
-            console.log(`can't move from idx to position jdx`)
+        if (idx===jdx || jdx < 0 || jdx >= ob_ids.length) {
+            console.log(`can't move from idx to position jdx`) 
             return
         }
-
+        
         const el = ob_ids[idx];
         ob_ids.splice(idx, 1);
         ob_ids.splice(jdx, 0, el);
-        let selOBs = [...props.selOBs]
-        selOBs.sort(function (a, b) {
+        let selOBs = [...props.selOBs] 
+        selOBs.sort(function(a, b){
             return ob_ids.indexOf(a._id) - ob_ids.indexOf(b._id)
         });
         props.setSelOBs(selOBs)
-        socket.emit('set_ob_queue', { ob_id_queue: ob_ids, obs: selOBs })
+        socket.emit('set_ob_queue', { ob_id_queue: ob_ids, obs: selOBs})
     };
 
     return (
         <React.Fragment>
             <Tooltip title="Move up one row">
-                <IconButton onClick={() => { handle_move(props.idx, props.idx - 1) }} aria-label='move-up'>
+                <IconButton onClick={() => { handle_move(props.idx, props.idx-1) }} aria-label='move-up'>
                     <KeyboardArrowUpIcon />
                 </IconButton>
             </Tooltip>
@@ -88,12 +88,12 @@ const OBToolbarSelect = (props: OBTSProps) => {
                 </IconButton>
             </Tooltip>
             <Tooltip title="Move down one row">
-                <IconButton onClick={() => { handle_move(props.idx, props.idx + 1) }} aria-label='move-down'>
+                <IconButton onClick={() => { handle_move(props.idx, props.idx+1) }} aria-label='move-down'>
                     <KeyboardArrowDownIcon />
                 </IconButton>
             </Tooltip>
             <Tooltip title="Move to bottom">
-                <IconButton onClick={() => { handle_move(props.idx, props.selOBs.length - 1) }} aria-label='move-bottom'>
+                <IconButton onClick={() => { handle_move(props.idx, props.selOBs.length-1) }} aria-label='move-bottom'>
                     <KeyboardDoubleArrowDownIcon />
                 </IconButton>
             </Tooltip>
@@ -115,7 +115,6 @@ const CustomCheckbox = (props: any) => {
     );
 };
 
-
 const removeFromList = (list: any[], idx: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(idx, 1);
@@ -128,57 +127,55 @@ const addToList = (list: any[], idx: number, element: any) => {
     return result
 }
 
-
 const SelectedOBTable = (props: Props) => {
-    const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
-    const socket = React.useContext(SocketContext);
-    const [rews, setRews] = React.useState([] as any[])
-    const [erbs, setErbs] = React.useState([] as ObservationBlock[])
+    // const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
-    React.useEffect(() => {
+    // const socket = React.useContext(SocketContext);
 
-        let [rows, startUid] = obs_to_cells(props.selOBs, false, 0) as [any[], number]
-        let obs = [...props.selOBs]
-        if (!props.hideCompletedOBs) {
-            const [boneyardRows, _] = obs_to_cells(props.obBoneyard, true, startUid) as [any[], number]
-            rows = [...rows, ...boneyardRows]
-            obs = [...obs, ...props.obBoneyard]
-        }
-        setErbs(obs)
-        setRews(rows)
-    }, [])
+    // let [rows, startUid] = obs_to_cells(props.selOBs, false, 0) as [any[], number]
+    // let obs = [...props.selOBs]
+    // if (!props.hideCompletedOBs) {
+    //     const [boneyardRows, _] = obs_to_cells(props.obBoneyard, true, startUid) as [any[], number]
+    //     rows = [...rows, ...boneyardRows]
+    //     obs = [...obs, ...props.obBoneyard]
+    // }
 
-    console.log('len of table:', rews.length)
+    const rows = [] as any
+    const obs = [] as any
+    const jsontheme = '' as any
+    const socket = {} as any
+
+    console.log('len of table:', rows.length)
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
-        console.log('update value checked')
+        // console.log('update value checked')
 
 
-        const ob_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
+        // const ob_id = tableMeta.rowData[1] // selected row is first row and OB_ID is first col
 
-        let selIds: string[] = []
-        let boneyardIds: string[] = []
-        let newOBList: ObservationBlock[] = []
-        if (checked) { // move from selOBs to boneyard
-            const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
-            const [removedOB, nList] = removeFromList(props.selOBs, idx)
-            newOBList = nList
-            const insertIdx = props.obBoneyard.length - 1
-            const newBoneyard = addToList(props.obBoneyard, insertIdx, removedOB)
-            selIds = nList.map((ob: ObservationBlock) => ob._id)
-            boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
-        }
-        else { //move from boneyard to selOBs
-            const idx = props.obBoneyard.findIndex((ob: ObservationBlock) => ob._id === ob_id)
-            const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
-            const insertIdx = 0
-            newOBList = addToList(props.selOBs, insertIdx, removedOB)
-            selIds = newOBList.map((ob: ObservationBlock) => ob._id)
-            boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
-        }
+        // let selIds: string[] = []
+        // let boneyardIds: string[] = []
+        // let newOBList: ObservationBlock[] = []
+        // if (checked) { // move from selOBs to boneyard
+        //     const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === ob_id)
+        //     const [removedOB, nList] = removeFromList(props.selOBs, idx)
+        //     newOBList = nList
+        //     const insertIdx = props.obBoneyard.length - 2
+        //     const newBoneyard = addToList(props.obBoneyard, insertIdx, removedOB)
+        //     selIds = nList.map((ob: ObservationBlock) => ob._id)
+        //     boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
+        // }
+        // else { //move from boneyard to selOBs
+        //     const idx = props.obBoneyard.findIndex((ob: ObservationBlock) => ob._id === ob_id)
+        //     const [removedOB, newBoneyard] = removeFromList(props.obBoneyard, idx)
+        //     const insertIdx = 1
+        //     newOBList = addToList(props.selOBs, insertIdx, removedOB)
+        //     selIds = newOBList.map((ob: ObservationBlock) => ob._id)
+        //     boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
+        // }
 
-        socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
-        socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
+        // socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
+        // socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
     }
 
     const options: MUIDataTableOptions = {
@@ -186,7 +183,7 @@ const SelectedOBTable = (props: Props) => {
         onRowsDelete: () => false,
         expandableRows: true,
         renderExpandableRow: (rowData, rowMeta: { dataIndex: number, rowIndex: number }) => {
-            const ob = erbs[rowMeta.dataIndex]
+            const ob = obs[rowMeta.dataIndex]
             const colSpan = rowData.length + 1;
             return (
                 <TableRow>
@@ -203,12 +200,12 @@ const SelectedOBTable = (props: Props) => {
             )
         },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
-            return !rews[dataIndex].completed
+            return !rows[dataIndex].completed
         },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => {
-            const selRow = rews[selectedRows.data[0].dataIndex]
+            const selRow = rows[selectedRows.data[0].dataIndex]
             const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
             return (
                 <OBToolbarSelect
@@ -250,16 +247,15 @@ const SelectedOBTable = (props: Props) => {
         }
     ]
 
-    // return ( rows.length>0 ? 
-    //     (<MUIDataTable
-    //         data={rows}
-    //         columns={columns}
-    //         options={options}
-    //         title={"Selected OBs"}
-    //         components={{ Checkbox: CustomCheckbox }}
-    //     />) : (<React.Fragment></React.Fragment>)
-    // )
-    return (<React.Fragment></React.Fragment>)
+    return ( rows.length>0 ? 
+        (<MUIDataTable
+            data={rows}
+            columns={columns}
+            options={options}
+            title={"Selected OBs"}
+            components={{ Checkbox: CustomCheckbox }}
+        />) : (<React.Fragment></React.Fragment>)
+    )
 }
 
 export default SelectedOBTable
