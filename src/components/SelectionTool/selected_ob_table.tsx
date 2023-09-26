@@ -43,6 +43,7 @@ const container_obs_to_cells = (obs: any, completed = true) => {
             type: 'ob',
             id: JSON.stringify(uid),
             ob_id: ob._id,
+            tgt_name: ob.target?.parameters.target_info_name,
             ra: ob.target?.parameters.target_coord_ra,
             dec: ob.target?.parameters.target_coord_dec,
             completed: completed
@@ -61,7 +62,11 @@ const CustomToolbarSelect = (props: CTProps) => {
     const handle_move = async (idx: number, jdx: number) => {
         let ob_ids = props.selOBs.map(ob => ob._id)
 
-        if (idx <= 0 && idx >= props.selOBs.length-1) return
+        console.log(`moving element at idx ${idx} to position jdx ${jdx}`) 
+        if (idx===jdx || jdx < 0 || jdx >= ob_ids.length-1) {
+            console.log(`can't move from idx to position jdx`) 
+            return
+        }
         
         const el = ob_ids[idx];
         ob_ids.splice(idx, 1);
@@ -69,7 +74,6 @@ const CustomToolbarSelect = (props: CTProps) => {
         let selOBs = await ob_api_funcs.get_many(ob_ids)
         console.log('selOb len', selOBs.length)
         props.setSelOBs(selOBs)
-
     };
 
     return (
@@ -222,7 +226,12 @@ const SelectedOBTable = (props: Props) => {
             name: 'name', label: 'OB Name',
             options: {}
         },
+        {
+            name: 'tgt_name', label: 'Target Name',
+            options: {}
+        },
         { name: 'version', label: 'Version', options: { display: false } },
+
         { name: 'comment', label: 'Comment', options: { display: false } },
         { name: 'ra', label: 'RA', options: { display: true } },
         { name: 'dec', Label: 'Dec', options: { display: true } },
