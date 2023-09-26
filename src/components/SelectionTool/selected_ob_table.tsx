@@ -1,7 +1,7 @@
 import React from "react";
 import { SocketContext } from '../../contexts/socket'
 import MUIDataTable, { MUIDataTableIsRowCheck, MUIDataTableOptions } from "mui-datatables"
-import { ObservationBlock, Scoby, OBCell } from "../../typings/ptolemy"
+import { ObservationBlock, OBCell } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch"
@@ -15,7 +15,6 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
-import { ob_api_funcs } from "../../api/ApiRoot";
 
 interface Props {
     selOBs: ObservationBlock[],
@@ -25,7 +24,7 @@ interface Props {
     hideCompletedOBs: boolean
 }
 
-interface CTProps {
+interface OBTSProps {
     selOBs: ObservationBlock[];
     setSelOBs: Function;
     onSubmitOB: Function
@@ -55,22 +54,18 @@ const obs_to_cells = (obs: any, completed = true) => {
     return cells
 }
 
-const CustomToolbarSelect = (props: CTProps) => {
+const OBToolbarSelect = (props: OBTSProps) => {
 
     const handle_move = async (idx: number, jdx: number) => {
         let ob_ids = props.selOBs.map(ob => ob._id)
-
-        console.log(`moving element at idx ${idx} to position jdx ${jdx}`) 
         if (idx===jdx || jdx < 0 || jdx >= ob_ids.length) {
             console.log(`can't move from idx to position jdx`) 
             return
         }
         
         const el = ob_ids[idx];
-        console.log(`el ${el} is moving.ob_ids ${ob_ids}`)
         ob_ids.splice(idx, 1);
         ob_ids.splice(jdx, 0, el);
-        console.log(`el ${el} has been moved. ob_ids ${ob_ids}`)
         let selOBs = [...props.selOBs] 
         selOBs.sort(function(a, b){
             return ob_ids.indexOf(a._id) - ob_ids.indexOf(b._id)
@@ -152,8 +147,6 @@ const SelectedOBTable = (props: Props) => {
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
 
-        console.log('tableMeta of clicked object', tableMeta, 'value', value)
-        // const ob_id = obs[tableMeta.rowIndex]._id
         const ob_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
 
         let selIds: string[] = []
@@ -177,7 +170,6 @@ const SelectedOBTable = (props: Props) => {
             boneyardIds = newBoneyard.map((ob: ObservationBlock) => ob._id)
         }
 
-        console.log('clicked will update boneyard', checked, ob_id, selIds.length, boneyardIds.length)
         socket.emit('set_ob_queue', { ob_id_queue: selIds, obs: newOBList })
         socket.emit('set_ob_boneyard', { ob_id_boneyard: boneyardIds })
     }
@@ -212,7 +204,7 @@ const SelectedOBTable = (props: Props) => {
             const selRow = rows[selectedRows.data[0].dataIndex]
             const idx = props.selOBs.findIndex((ob: ObservationBlock) => ob._id === selRow.ob_id)
             return (
-                <CustomToolbarSelect
+                <OBToolbarSelect
                     idx={idx}
                     selOBs={props.selOBs}
                     setSelOBs={props.setSelOBs}
@@ -251,14 +243,14 @@ const SelectedOBTable = (props: Props) => {
         }
     ]
 
-    return (
-        <MUIDataTable
+    return ( rows.length>0 && 
+        (<MUIDataTable
             data={rows}
             columns={columns}
             options={options}
             title={"Selected OBs"}
             components={{ Checkbox: CustomCheckbox }}
-        />
+        />)
     )
 }
 
