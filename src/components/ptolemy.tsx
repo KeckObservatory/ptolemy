@@ -151,9 +151,9 @@ export const Ptolemy = (props: Props) => {
             setSnackbarOpen(true)
         })
 
-        // console.log('requesting ob to be sent to octect')
-        // //socket.emit('request_ob')
-        // socket.emit('request_ee_state')
+        console.log('requesting ob to be sent to octect')
+        //socket.emit('request_ob')
+        socket.emit('request_ee_state')
 
     }, [])
 
