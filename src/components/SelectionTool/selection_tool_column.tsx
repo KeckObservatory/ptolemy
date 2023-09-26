@@ -223,13 +223,13 @@ export const SelectionToolColumn = (props: Props) => {
                     />
                 </Tooltip>
             </Stack>
-            {/* <SelectedOBTable
+            <SelectedOBTable
                 selOBs={props.selOBs}
                 setSelOBs={props.setSelOBs}
                 obBoneyard={props.obBoneyard}
                 onSubmitOB={onSubmitOB}
                 hideCompletedOBs={hideCompletedOBs}
-            /> */}
+            />
         </React.Fragment >
     )
 }
