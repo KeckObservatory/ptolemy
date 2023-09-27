@@ -66,6 +66,8 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
         arr.sort(function (a, b) {
             return seq_ids.indexOf(a) - seq_ids.indexOf(b)
         });
+
+        console.log(`new_sequence_queue`, arr)
         socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
     };
 
