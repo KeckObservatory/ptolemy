@@ -224,7 +224,11 @@ const SelectedSequenceTable = (props: Props) => {
     }
 
     const columns = [
-        { name: 'sequence_number', label: 'Seq number', options: { display: true } },
+        { name: 'sequence_number', label: 'Seq number', options: { 
+            setCellProps: () => ({
+                align: "center"
+            }),
+            display: true } },
         { name: 'name', label: 'Name', options: {} },
         { name: 'exposure_time', label: 'Exposure Time', options: {} },
         { name: 'det_type', label: 'Detecter Type', options: { display: true } },
