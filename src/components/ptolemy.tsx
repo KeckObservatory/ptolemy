@@ -45,8 +45,6 @@ export const Ptolemy = (props: Props) => {
     const [events, setEvents] = React.useState([] as EventDict[])
     const [eventBoneyard, setEventBoneyard] = React.useState([] as EventDict[])
 
-    const [isPending, startTransition] = React.useTransition()
-
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
     useEffect((): any => {
@@ -81,20 +79,18 @@ export const Ptolemy = (props: Props) => {
             })
         })
 
-        socket.on('broadcast_ee_state_from_server', (data: EEState) => {
+        socket.on('broadcast_ee_state_from_server', async (data: EEState) => {
             console.log('ee state recieved', data)
             data.ob && setOB(data.ob)
 
-            startTransition( async () => {
-                const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
-                const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
-                newSelObs && setSelOBs(newSelObs)
-                newOBBoneyard && setOBBoneyard(newOBBoneyard)
-                setSequences(data.sequence_queue)
-                setSequenceBoneyard(data.sequence_boneyard)
-                setEvents(data.event_queue)
-                setEventBoneyard(data.event_boneyard)
-            })
+            const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
+            const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
+            newSelObs && setSelOBs(newSelObs)
+            newOBBoneyard && setOBBoneyard(newOBBoneyard)
+            data.sequence_queue.length > 0 && setSequences(data.sequence_queue)
+            data.sequence_boneyard.length > 0 && setSequenceBoneyard(data.sequence_boneyard)
+            data.event_queue.length > 0 && setEvents(data.event_queue)
+            data.event_boneyard.length > 0 && setEventBoneyard(data.event_boneyard)
         })
 
         socket.on('task_broadcast', (data) => {
