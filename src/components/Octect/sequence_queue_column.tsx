@@ -13,6 +13,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SelectedSequenceTable from './selected_sequence_table'
 
 interface Props {
     enableClipboard: boolean | ((copy: OnCopyProps) => void) | undefined
@@ -32,7 +33,7 @@ const DragSeqCell = (seqCell: Science) => {
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
     const theme = useTheme()
     return (
-        <div style={{'background': theme.palette.secondary.dark}}>
+        <div style={{ 'background': theme.palette.secondary.dark }}>
             <p> id: {seqCell.metadata.sequence_number} </p>
             <p> sequence: {seqCell.metadata.ui_name} </p>
             <ReactJson
@@ -109,7 +110,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 >
                     <h2 style={{ margin: '0px', marginRight: '10px' }}>Selected OB</h2>
                     <Tooltip title={'Open separate tab in the ODT that reads the OB'}>
-                        <Button sx={{margin: '0px'}} onClick={handle_edit_ob}>EDIT OB</Button>
+                        <Button sx={{ margin: '0px' }} onClick={handle_edit_ob}>EDIT OB</Button>
                     </Tooltip>
                 </AccordionSummary>
                 <AccordionDetails
@@ -133,10 +134,17 @@ export const SequenceQueueColumn = (props: Props) => {
                 <Tooltip title={'Request target acquisition'}>
                     <Button variant="contained" onClick={props.submitAcq}>Request Acquisition</Button>
                 </Tooltip>
-                <Tooltip title={'Send sequence to event queue'}>
+                {/* <Tooltip title={'Send sequence to event queue'}>
                     <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
-                </Tooltip>
+                </Tooltip> */}
             </Stack>
+            <SelectedSequenceTable
+                ob={props.ob}
+                sequence={props.sequences}
+                seqBoneyard={props.sequenceBoneyard}
+                onSubmitSeq={props.submitSeq as Function} 
+                hideCompletedSequences={false}
+            />
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Target Queue', DragSeqCell, isDragDisabled)}
                 <Accordion sx={{
