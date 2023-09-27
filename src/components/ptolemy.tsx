@@ -1,4 +1,4 @@
-import React, { useEffect, useTransition } from 'react'
+import React, { useEffect } from 'react'
 import { ObservationBlock, Science } from '../typings/ptolemy'
 import Grid from '@mui/material/Grid'
 import { SocketContext } from './../contexts/socket';
@@ -81,13 +81,13 @@ export const Ptolemy = (props: Props) => {
             })
         })
 
-        socket.on('broadcast_ee_state_from_server', async (data: EEState) => {
+        socket.on('broadcast_ee_state_from_server', (data: EEState) => {
             console.log('ee state recieved', data)
             data.ob && setOB(data.ob)
 
-            const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
-            const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
-            startTransition(() => {
+            startTransition( async () => {
+                const newSelObs = data.ob_id_queue.length > 0 && await ob_api_funcs.get_many(data.ob_id_queue)
+                const newOBBoneyard = data.ob_id_boneyard.length > 0 && await ob_api_funcs.get_many(data.ob_id_boneyard)
                 newSelObs && setSelOBs(newSelObs)
                 newOBBoneyard && setOBBoneyard(newOBBoneyard)
                 setSequences(data.sequence_queue)
