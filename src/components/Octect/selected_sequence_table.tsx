@@ -30,9 +30,9 @@ interface SeqTSProps {
     idx: number
 }
 
-const arr_to_rows = (arr: any[], completed = true, startUid=0) => {
+const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
     let rows: any[] = []
-    let uid = startUid 
+    let uid = startUid
     arr.forEach((el: any, idx: number) => {
         const row = {
             name: el.metadata.name,
@@ -50,75 +50,76 @@ const arr_to_rows = (arr: any[], completed = true, startUid=0) => {
 
 const SeqToolbarSelect = (props: SeqTSProps) => {
 
- const socket = React.useContext(SocketContext);
- const handle_move = async (idx: number, jdx: number) => {
-     let seq_ids = props.sequence.map(seq => seq.metadata.sequence_number)
-     if (idx===jdx || jdx < 0 || jdx >= seq_ids.length)  {
-          console.log(`can't move from idx to position jdx`) 
-          return 
-     }
-        
-      const el = seq_ids[idx];
-     seq_ids.splice(idx, 1);
-      seq_ids.splice(jdx, 0, el);
-     let arr = [...props.sequence] 
-      arr.sort(function(a, b){
-         return seq_ids.indexOf(a) - seq_ids.indexOf(b)
-     });
-     socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
- };
+    const socket = React.useContext(SocketContext);
+    const handle_move = async (idx: number, jdx: number) => {
+        let seq_ids = props.sequence.map(seq => seq.metadata.sequence_number)
+        if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
+            console.log(`can't move from idx to position jdx`)
+            return
+        }
 
- return (
-     <React.Fragment>
-         <Tooltip title="Move up one row">
-             <IconButton onClick={() => { handle_move(props.idx, props.idx-1) }} aria-label='move-up'>
-                 <KeyboardArrowUpIcon />
-             </IconButton>
-         </Tooltip>
-         <Tooltip title="Move to top">
-             <IconButton onClick={() => { handle_move(props.idx, 0) }} aria-label='move-top'>
-                 <KeyboardDoubleArrowUpIcon />
-             </IconButton>
-         </Tooltip>
-         <Tooltip title="Move down one row">
-              <IconButton onClick={() => { handle_move(props.idx, props.idx+1) }} aria-label='move-down'>
-                 <KeyboardArrowDownIcon />
-              </IconButton>
-         </Tooltip>
-         <Tooltip title="Move to bottom">
-             <IconButton onClick={() => { handle_move(props.idx, props.sequence.length-1) }} aria-label='move-bottom'>
-                  <KeyboardDoubleArrowDownIcon />
-             </IconButton>
-         </Tooltip>
-     </React.Fragment>
- );
+        const el = seq_ids[idx];
+        console.log(`moving el ${el} from idx ${idx} to jdx ${jdx}`)
+        seq_ids.splice(idx, 1);
+        seq_ids.splice(jdx, 0, el);
+        let arr = [...props.sequence]
+        arr.sort(function (a, b) {
+            return seq_ids.indexOf(a) - seq_ids.indexOf(b)
+        });
+        socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
+    };
+
+    return (
+        <React.Fragment>
+            <Tooltip title="Move up one row">
+                <IconButton onClick={() => { handle_move(props.idx, props.idx - 1) }} aria-label='move-up'>
+                    <KeyboardArrowUpIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move to top">
+                <IconButton onClick={() => { handle_move(props.idx, 0) }} aria-label='move-top'>
+                    <KeyboardDoubleArrowUpIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move down one row">
+                <IconButton onClick={() => { handle_move(props.idx, props.idx + 1) }} aria-label='move-down'>
+                    <KeyboardArrowDownIcon />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Move to bottom">
+                <IconButton onClick={() => { handle_move(props.idx, props.sequence.length - 1) }} aria-label='move-bottom'>
+                    <KeyboardDoubleArrowDownIcon />
+                </IconButton>
+            </Tooltip>
+        </React.Fragment>
+    );
 }
 
 
 const CustomCheckbox = (props: any) => {
- let newProps = Object.assign({}, props);
-  newProps.color = props['data-description'] === 'row-select' ? 'secondary' : 'primary';
+    let newProps = Object.assign({}, props);
+    newProps.color = props['data-description'] === 'row-select' ? 'secondary' : 'primary';
 
- return (
-     <Tooltip title='select sequence'>
-         <Checkbox {...newProps} />
-     </Tooltip>
- );
+    return (
+        <Tooltip title='select sequence'>
+            <Checkbox {...newProps} />
+        </Tooltip>
+    );
 }
 
 
 
 const removeFromList = (list: any[], idx: number) => {
- const result = Array.from(list);
- const [removed] = result.splice(idx, 1);
- return [removed, result]
+    const result = Array.from(list);
+    const [removed] = result.splice(idx, 1);
+    return [removed, result]
 }
 
 
 const addToList = (list: any[], idx: number, element: any) => {
- const result = Array.from(list);
-  result.splice(idx, 0, element)
- return result
+    const result = Array.from(list);
+    result.splice(idx, 0, element)
+    return result
 }
 
 
@@ -196,13 +197,13 @@ const SelectedSequenceTable = (props: Props) => {
             const selRow = rows[selectedRows.data[0].dataIndex]
             const idx = props.sequence.findIndex(seq => seq.metadata.sequence_number === selRow.sequence_number)
             return (
-             <SeqToolbarSelect
-                 idx={idx}
-                 ob={props.ob}
-                 sequence={props.sequence}
-                 onSubmitSeq={props.onSubmitSeq}
-             /> )
-     },
+                <SeqToolbarSelect
+                    idx={idx}
+                    ob={props.ob}
+                    sequence={props.sequence}
+                    onSubmitSeq={props.onSubmitSeq}
+                />)
+        },
         selectableRows: 'single'
     }
 
@@ -210,7 +211,7 @@ const SelectedSequenceTable = (props: Props) => {
         { name: 'sequence_number', label: 'Seq number', options: { display: true } },
         { name: 'name', label: 'Name', options: {} },
         { name: 'exposure_time', label: 'Exposure Time', options: {} },
-        { name: 'det_type', label: 'Detecter Type', options: { display: true} },
+        { name: 'det_type', label: 'Detecter Type', options: { display: true } },
         { name: 'id', label: 'ID', options: { display: false } },
         {
             name: 'completed',
@@ -232,7 +233,7 @@ const SelectedSequenceTable = (props: Props) => {
         }
     ]
 
-    return ( rows.length>0 ? 
+    return (rows.length > 0 ?
         (<MUIDataTable
             data={rows}
             columns={columns}
@@ -241,6 +242,6 @@ const SelectedSequenceTable = (props: Props) => {
             components={{ Checkbox: CustomCheckbox }}
         />) : (<React.Fragment></React.Fragment>)
     )
- }
+}
 
 export default SelectedSequenceTable
