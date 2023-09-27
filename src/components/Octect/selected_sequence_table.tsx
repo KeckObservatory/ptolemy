@@ -191,7 +191,14 @@ const SelectedSequenceTable = (props: Props) => {
             }
         },
         { name: 'name', label: 'Name', options: {} },
-        { name: 'exposure_time', label: 'Exposure Time', options: {} },
+        {
+            name: 'exposure_time', label: 'Exposure Time', options: {
+                setCellProps: () => ({
+                    align: "center",
+                    textAlign: "center"
+                }),
+            }
+        },
         { name: 'det_type', label: 'Detecter Type', options: { display: true } },
         { name: 'id', label: 'ID', options: { display: false } },
         {
