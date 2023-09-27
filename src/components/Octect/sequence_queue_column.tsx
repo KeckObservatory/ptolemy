@@ -20,8 +20,8 @@ interface Props {
     collapseStringsAfter: number | false | undefined
     collapsed: number | boolean | undefined
     iconStyle: "circle" | "triangle" | "square" | undefined
-    submitAcq: MouseEventHandler<HTMLButtonElement> | undefined
-    submitSeq: MouseEventHandler<HTMLButtonElement> | undefined
+    submitAcq: MouseEventHandler<HTMLButtonElement>
+    submitSeq: MouseEventHandler<HTMLButtonElement>
     sequences: Science[];
     sequenceBoneyard: Science[];
     ob: ObservationBlock;
@@ -158,7 +158,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 ob={props.ob}
                 sequences={props.sequences}
                 sequenceBoneyard={props.sequenceBoneyard}
-                submitSeq={props.submitSeq as Function} 
+                submitSeq={props.submitSeq} 
                 hideCompletedSequences={hideCompletedSequences}
             />
             <DragDropContext onDragEnd={onDragEnd}>

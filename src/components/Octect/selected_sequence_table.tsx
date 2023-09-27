@@ -16,18 +16,18 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 interface Props {
-    ob: ObservationBlock,
-    sequences: Science[],
-    sequenceBoneyard: Science[]
-    submitSeq: Function
-    hideCompletedSequences: boolean
+    ob: ObservationBlock;
+    sequences: Science[];
+    sequenceBoneyard: Science[];
+    submitSeq: React.MouseEventHandler<HTMLButtonElement>;
+    hideCompletedSequences: boolean;
 }
 
 interface SeqTSProps {
     ob: ObservationBlock;
     sequences: Science[];
-    submitSeq: Function
-    idx: number
+    submitSeq: React.MouseEventHandler<HTMLButtonElement>;
+    idx: number;
 }
 
 const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
@@ -94,7 +94,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
                 </IconButton>
             </Tooltip> */}
             <Tooltip title={'Send sequence to event queue'}>
-                <Button variant="contained" onClick={() => props.submitSeq}>Submit Top Seq</Button>
+                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
             </Tooltip>
         </React.Fragment>
     );
