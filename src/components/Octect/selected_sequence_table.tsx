@@ -38,7 +38,7 @@ const arr_to_rows = (arr: any[], completed = true, startUid=0) => {
             name: el.metadata.name,
             id: JSON.stringify(uid),
             exposure_time: el.parameters.det_exp_time,
-            exp_type: el.parameters.det_exp_type,
+            det_type: el.parameters.det_type_mode,
             sequence_number: JSON.stringify(el.metadata.sequence_number),
             completed: completed
         }
@@ -210,7 +210,7 @@ const SelectedSequenceTable = (props: Props) => {
         { name: 'sequence_number', label: 'Seq number', options: { display: true } },
         { name: 'name', label: 'Name', options: {} },
         { name: 'exposure_time', label: 'Exposure Time', options: {} },
-        { name: 'exp_type', label: 'Exposure Type', options: { display: true} },
+        { name: 'det_type', label: 'Detecter Type', options: { display: true} },
         { name: 'id', label: 'ID', options: { display: false } },
         {
             name: 'completed',
