@@ -50,7 +50,7 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
 
 const SeqToolbarSelect = (props: SeqTSProps) => {
 
-    const socket = React.useContext(SocketContext);
+    // const socket = React.useContext(SocketContext);
     // const handle_move = async (idx: number, jdx: number) => {
     //     let seq_ids = props.sequences.map(seq => seq.metadata.sequence_number)
     //     if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
@@ -94,7 +94,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
                 </IconButton>
             </Tooltip> */}
             <Tooltip title={'Send sequence to event queue'}>
-                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
+                <Button variant="contained" onClick={() => props.submitSeq}>Submit Top Seq</Button>
             </Tooltip>
         </React.Fragment>
     );
@@ -217,7 +217,7 @@ const SelectedSequenceTable = (props: Props) => {
                     idx={idx}
                     ob={props.ob}
                     sequences={props.sequences}
-                    onSubmitSeq={props.onSubmitSeq}
+                    submitSeq={props.submitSeq}
                 />)
         },
         selectableRows: 'single'
