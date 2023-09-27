@@ -192,7 +192,7 @@ const SelectedSequenceTable = (props: Props) => {
         },
         { name: 'name', label: 'Name', options: {} },
         {
-            name: 'exposure_time', label: 'Exposure Time', options: {
+            name: 'exposure_time', label: 'Exposure Time (sec)', options: {
                 setCellProps: () => ({
                     align: "center",
                     textAlign: "center"
