@@ -198,6 +198,16 @@ const SelectedOBTable = (props: Props) => {
                 </TableRow >
             )
         },
+        setRowProps: (row, dataIndex, rowIndex) => {
+            return {
+                style: { padding: '0px' },
+            };
+        },
+        setTableProps: () => {
+            return {
+                padding: 'none',
+            };
+        },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
             return !rows[dataIndex].completed
         },

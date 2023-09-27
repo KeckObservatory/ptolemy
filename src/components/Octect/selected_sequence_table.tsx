@@ -191,6 +191,16 @@ const SelectedSequenceTable = (props: Props) => {
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
             return !rows[dataIndex].completed
         },
+        setRowProps: (row, dataIndex, rowIndex) => {
+            return {
+                style: { padding: '0px' },
+            };
+        },
+        setTableProps: () => {
+            return {
+                padding: 'none',
+            };
+        },
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => {
