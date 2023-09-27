@@ -141,9 +141,6 @@ export const SequenceQueueColumn = (props: Props) => {
                 <Tooltip title={'Request target acquisition'}>
                     <Button variant="contained" onClick={props.submitAcq}>Request Acquisition</Button>
                 </Tooltip>
-                {/* <Tooltip title={'Send sequence to event queue'}>
-                    <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
-                </Tooltip> */}
                 <Tooltip title="Hide sequences that have been completed">
                     <FormControlLabel
                         label=""
@@ -161,33 +158,6 @@ export const SequenceQueueColumn = (props: Props) => {
                 submitSeq={props.submitSeq} 
                 hideCompletedSequences={hideCompletedSequences}
             />
-            <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Target Queue', DragSeqCell, isDragDisabled)}
-                <Accordion sx={{
-                    margin: '4px',
-                }}>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        sx={{
-                            maxHeight: 50,
-                            margin: '0px',
-                            padding: '4px'
-                        }}
-
-                    >
-                        <h2 style={{ margin: '0px' }}>Target Queue Boneyard</h2>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{
-                            padding: '0px',
-                            margin: '4px',
-                        }}
-                    >
-                        {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'sequenceBoneyard', 'Discarded sequences live here', '', DragSeqCell, false)}
-
-                    </AccordionDetails>
-                </Accordion>
-            </DragDropContext>
         </React.Fragment >
     )
 }
