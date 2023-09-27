@@ -50,53 +50,10 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
 
 const SeqToolbarSelect = (props: SeqTSProps) => {
 
-    // const socket = React.useContext(SocketContext);
-    // const handle_move = async (idx: number, jdx: number) => {
-    //     let seq_ids = props.sequences.map(seq => seq.metadata.sequence_number)
-    //     if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
-    //         console.log(`can't move from idx to position jdx`)
-    //         return
-    //     }
-
-    //     const el = seq_ids[idx];
-    //     console.log(`moving el ${el} from idx ${idx} to jdx ${jdx}`)
-    //     seq_ids.splice(idx, 1);
-    //     seq_ids.splice(jdx, 0, el);
-    //     let arr = [...props.sequences]
-    //     arr.sort(function (a, b) {
-    //         return seq_ids.indexOf(a) - seq_ids.indexOf(b)
-    //     });
-
-    //     console.log(`new_sequence_queue`, arr, 'sorted from seq_ids', seq_ids)
-    //     socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
-    // };
-
     return (
-        <React.Fragment>
-            {/* <Tooltip title="Move up one row">
-                <IconButton onClick={() => { handle_move(props.idx, props.idx - 1) }} aria-label='move-up'>
-                    <KeyboardArrowUpIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Move to top">
-                <IconButton onClick={() => { handle_move(props.idx, 0) }} aria-label='move-top'>
-                    <KeyboardDoubleArrowUpIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Move down one row">
-                <IconButton onClick={() => { handle_move(props.idx, props.idx + 1) }} aria-label='move-down'>
-                    <KeyboardArrowDownIcon />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Move to bottom">
-                <IconButton onClick={() => { handle_move(props.idx, props.sequences.length - 1) }} aria-label='move-bottom'>
-                    <KeyboardDoubleArrowDownIcon />
-                </IconButton>
-            </Tooltip> */}
-            <Tooltip title={'Send sequence to event queue'}>
-                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
-            </Tooltip>
-        </React.Fragment>
+        <Tooltip title={'Send sequence to event queue'}>
+            <Button variant="contained" onClick={props.submitSeq}>Submit Sequence</Button>
+        </Tooltip>
     );
 }
 
@@ -224,11 +181,15 @@ const SelectedSequenceTable = (props: Props) => {
     }
 
     const columns = [
-        { name: 'sequence_number', label: 'Seq number', options: { 
-            setCellProps: () => ({
-                align: "center"
-            }),
-            display: true } },
+        {
+            name: 'sequence_number', label: 'Seq number', options: {
+                setCellProps: () => ({
+                    align: "center",
+                    textAlign: "center"
+                }),
+                display: true
+            }
+        },
         { name: 'name', label: 'Name', options: {} },
         { name: 'exposure_time', label: 'Exposure Time', options: {} },
         { name: 'det_type', label: 'Detecter Type', options: { display: true } },
