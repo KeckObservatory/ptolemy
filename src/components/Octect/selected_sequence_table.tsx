@@ -5,7 +5,7 @@ import { ObservationBlock, OBCell, Science } from "../../typings/ptolemy"
 import Tooltip from '@mui/material/Tooltip'
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch"
-import { FormControlLabel, IconButton, useTheme } from "@mui/material";
+import { Button, FormControlLabel, IconButton, useTheme } from "@mui/material";
 import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import ReactJson, { ThemeKeys } from "react-json-view";
 import TableRow from '@mui/material/TableRow';
@@ -19,14 +19,14 @@ interface Props {
     ob: ObservationBlock,
     sequences: Science[],
     sequenceBoneyard: Science[]
-    onSubmitSeq: Function
+    submitSeq: Function
     hideCompletedSequences: boolean
 }
 
 interface SeqTSProps {
     ob: ObservationBlock;
     sequences: Science[];
-    onSubmitSeq: Function
+    submitSeq: Function
     idx: number
 }
 
@@ -51,29 +51,29 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
 const SeqToolbarSelect = (props: SeqTSProps) => {
 
     const socket = React.useContext(SocketContext);
-    const handle_move = async (idx: number, jdx: number) => {
-        let seq_ids = props.sequences.map(seq => seq.metadata.sequence_number)
-        if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
-            console.log(`can't move from idx to position jdx`)
-            return
-        }
+    // const handle_move = async (idx: number, jdx: number) => {
+    //     let seq_ids = props.sequences.map(seq => seq.metadata.sequence_number)
+    //     if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
+    //         console.log(`can't move from idx to position jdx`)
+    //         return
+    //     }
 
-        const el = seq_ids[idx];
-        console.log(`moving el ${el} from idx ${idx} to jdx ${jdx}`)
-        seq_ids.splice(idx, 1);
-        seq_ids.splice(jdx, 0, el);
-        let arr = [...props.sequences]
-        arr.sort(function (a, b) {
-            return seq_ids.indexOf(a) - seq_ids.indexOf(b)
-        });
+    //     const el = seq_ids[idx];
+    //     console.log(`moving el ${el} from idx ${idx} to jdx ${jdx}`)
+    //     seq_ids.splice(idx, 1);
+    //     seq_ids.splice(jdx, 0, el);
+    //     let arr = [...props.sequences]
+    //     arr.sort(function (a, b) {
+    //         return seq_ids.indexOf(a) - seq_ids.indexOf(b)
+    //     });
 
-        console.log(`new_sequence_queue`, arr, 'sorted from seq_ids', seq_ids)
-        socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
-    };
+    //     console.log(`new_sequence_queue`, arr, 'sorted from seq_ids', seq_ids)
+    //     socket.emit('new_sequence_queue', { sequence_queue: arr, ob: props.ob })
+    // };
 
     return (
         <React.Fragment>
-            <Tooltip title="Move up one row">
+            {/* <Tooltip title="Move up one row">
                 <IconButton onClick={() => { handle_move(props.idx, props.idx - 1) }} aria-label='move-up'>
                     <KeyboardArrowUpIcon />
                 </IconButton>
@@ -92,6 +92,9 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
                 <IconButton onClick={() => { handle_move(props.idx, props.sequences.length - 1) }} aria-label='move-bottom'>
                     <KeyboardDoubleArrowDownIcon />
                 </IconButton>
+            </Tooltip> */}
+            <Tooltip title={'Send sequence to event queue'}>
+                <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
             </Tooltip>
         </React.Fragment>
     );

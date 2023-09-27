@@ -158,7 +158,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 ob={props.ob}
                 sequences={props.sequences}
                 sequenceBoneyard={props.sequenceBoneyard}
-                onSubmitSeq={props.submitSeq as Function} 
+                submitSeq={props.submitSeq as Function} 
                 hideCompletedSequences={hideCompletedSequences}
             />
             <DragDropContext onDragEnd={onDragEnd}>
