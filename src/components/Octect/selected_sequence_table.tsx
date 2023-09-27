@@ -134,7 +134,7 @@ const SelectedSequenceTable = (props: Props) => {
     let [rows, startUid] = arr_to_rows(props.sequences, false, 0) as [any[], number]
     let seqs = [...props.sequences]
     if (!props.hideCompletedSequences) {
-        const [boneyardRows, _] = arr_to_rows(props.sequences, true, startUid) as [any[], number]
+        const [boneyardRows, _] = arr_to_rows(props.sequenceBoneyard, true, startUid) as [any[], number]
         rows = [...rows, ...boneyardRows]
         seqs = [...seqs, ...props.sequenceBoneyard]
     }

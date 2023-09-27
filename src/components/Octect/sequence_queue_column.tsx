@@ -4,8 +4,8 @@ import { ObservationBlock, Science } from '../../typings/ptolemy'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { reorder, move, CreateDroppable } from './../dnd_divs'
 import ReactJson, { OnCopyProps, ThemeKeys } from 'react-json-view'
-import { StringParam, useQueryParam, withDefault } from 'use-query-params'
-import { Button, FormControl, Paper, Stack, Tooltip } from '@mui/material'
+import { BooleanParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
+import { Button, FormControl, FormControlLabel, Paper, Stack, Switch, Tooltip } from '@mui/material'
 import JsonViewTheme from '../json_view_theme'
 import { SocketContext } from '../../contexts/socket';
 import { useTheme } from '@mui/material/styles';
@@ -54,6 +54,13 @@ export const SequenceQueueColumn = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
+
+    const [hideCompletedSequences, setHideCompletedSequences] = 
+        useQueryParam('hide_completed_sequences', withDefault(BooleanParam, false))
+
+    const hide_submitted_sequences = (checked: boolean) => {
+        setHideCompletedSequences(checked)
+    }
 
     const onDragEnd = (result: any) => {
         const { source, destination } = result;
@@ -137,13 +144,22 @@ export const SequenceQueueColumn = (props: Props) => {
                 {/* <Tooltip title={'Send sequence to event queue'}>
                     <Button variant="contained" onClick={props.submitSeq}>Submit Top Seq</Button>
                 </Tooltip> */}
+                <Tooltip title="Hide sequences that have been completed">
+                    <FormControlLabel
+                        label=""
+                        value={hideCompletedSequences}
+                        control={<Switch value={hideCompletedSequences} />}
+                        onChange={(_, checked) => hide_submitted_sequences(checked)
+                        }
+                    />
+                </Tooltip>
             </Stack>
             <SelectedSequenceTable
                 ob={props.ob}
                 sequences={props.sequences}
                 sequenceBoneyard={props.sequenceBoneyard}
                 onSubmitSeq={props.submitSeq as Function} 
-                hideCompletedSequences={false}
+                hideCompletedSequences={hideCompletedSequences}
             />
             <DragDropContext onDragEnd={onDragEnd}>
                 {CreateDroppable(props.sequences, 'seq1', 'seqQueue', 'Sort sequences here', 'Target Queue', DragSeqCell, isDragDisabled)}
