@@ -39,7 +39,7 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
             id: JSON.stringify(uid),
             exposure_time: el.parameters.det_exp_time,
             det_type: el.parameters.det_type_mode,
-            sequence_number: JSON.stringify(el.metadata.sequence_number),
+            sequence_number: el.metadata.sequence_number,
             completed: completed
         }
         rows.push(row)
