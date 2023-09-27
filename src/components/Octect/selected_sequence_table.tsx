@@ -17,15 +17,15 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 
 interface Props {
     ob: ObservationBlock,
-    sequence: Science[],
-    seqBoneyard: Science[]
+    sequences: Science[],
+    sequenceBoneyard: Science[]
     onSubmitSeq: Function
     hideCompletedSequences: boolean
 }
 
 interface SeqTSProps {
     ob: ObservationBlock;
-    sequence: Science[];
+    sequences: Science[];
     onSubmitSeq: Function
     idx: number
 }
@@ -52,7 +52,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
 
     const socket = React.useContext(SocketContext);
     const handle_move = async (idx: number, jdx: number) => {
-        let seq_ids = props.sequence.map(seq => seq.metadata.sequence_number)
+        let seq_ids = props.sequences.map(seq => seq.metadata.sequence_number)
         if (idx === jdx || jdx < 0 || jdx >= seq_ids.length) {
             console.log(`can't move from idx to position jdx`)
             return
@@ -62,7 +62,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
         console.log(`moving el ${el} from idx ${idx} to jdx ${jdx}`)
         seq_ids.splice(idx, 1);
         seq_ids.splice(jdx, 0, el);
-        let arr = [...props.sequence]
+        let arr = [...props.sequences]
         arr.sort(function (a, b) {
             return seq_ids.indexOf(a) - seq_ids.indexOf(b)
         });
@@ -87,7 +87,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
                 </IconButton>
             </Tooltip>
             <Tooltip title="Move to bottom">
-                <IconButton onClick={() => { handle_move(props.idx, props.sequence.length - 1) }} aria-label='move-bottom'>
+                <IconButton onClick={() => { handle_move(props.idx, props.sequences.length - 1) }} aria-label='move-bottom'>
                     <KeyboardDoubleArrowDownIcon />
                 </IconButton>
             </Tooltip>
@@ -129,12 +129,12 @@ const SelectedSequenceTable = (props: Props) => {
 
     const socket = React.useContext(SocketContext);
 
-    let [rows, startUid] = arr_to_rows(props.sequence, false, 0) as [any[], number]
-    let seqs = [...props.sequence]
+    let [rows, startUid] = arr_to_rows(props.sequences, false, 0) as [any[], number]
+    let seqs = [...props.sequences]
     if (!props.hideCompletedSequences) {
-        const [boneyardRows, _] = arr_to_rows(props.sequence, true, startUid) as [any[], number]
+        const [boneyardRows, _] = arr_to_rows(props.sequences, true, startUid) as [any[], number]
         rows = [...rows, ...boneyardRows]
-        seqs = [...seqs, ...props.seqBoneyard]
+        seqs = [...seqs, ...props.sequenceBoneyard]
     }
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
@@ -147,19 +147,19 @@ const SelectedSequenceTable = (props: Props) => {
         let newBoneyard: string[] = []
         let newSeqList: Science[] = []
         if (checked) { // move from selOBs to boneyard
-            const idx = props.sequence.findIndex(seq => seq.metadata.sequence_number === seq_id)
-            const [removedSeq, nList] = removeFromList(props.sequence, idx)
+            const idx = props.sequences.findIndex(seq => seq.metadata.sequence_number === seq_id)
+            const [removedSeq, nList] = removeFromList(props.sequences, idx)
             newSeqList = nList
-            const insertIdx = props.seqBoneyard.length - 1
-            newBoneyard = addToList(props.seqBoneyard, insertIdx, removedSeq)
+            const insertIdx = props.sequenceBoneyard.length - 1
+            newBoneyard = addToList(props.sequenceBoneyard, insertIdx, removedSeq)
             selIds = (nList as Science[]).map(seq => seq.metadata.sequence_number)
         }
         else { //move from boneyard to selOBs
-            const idx = props.seqBoneyard.findIndex(seq => seq.metadata.sequence_number === seq_id)
-            const [removedOB, nBY] = removeFromList(props.seqBoneyard, idx)
+            const idx = props.sequenceBoneyard.findIndex(seq => seq.metadata.sequence_number === seq_id)
+            const [removedOB, nBY] = removeFromList(props.sequenceBoneyard, idx)
             newBoneyard = nBY
             const insertIdx = 0
-            newSeqList = addToList(props.sequence, insertIdx, removedOB) as Science[]
+            newSeqList = addToList(props.sequences, insertIdx, removedOB) as Science[]
             selIds = newSeqList.map(seq => seq.metadata.sequence_number)
         }
 
@@ -195,12 +195,13 @@ const SelectedSequenceTable = (props: Props) => {
         selectableRowsHideCheckboxes: false,
         customToolbarSelect: selectedRows => {
             const selRow = rows[selectedRows.data[0].dataIndex]
-            const idx = props.sequence.findIndex(seq => seq.metadata.sequence_number === selRow.sequence_number)
+            console.log(selRow, props.sequences)
+            const idx = props.sequences.findIndex(seq => seq.metadata.sequence_number === selRow.sequence_number)
             return (
                 <SeqToolbarSelect
                     idx={idx}
                     ob={props.ob}
-                    sequence={props.sequence}
+                    sequences={props.sequences}
                     onSubmitSeq={props.onSubmitSeq}
                 />)
         },

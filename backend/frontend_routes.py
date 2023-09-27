@@ -213,10 +213,10 @@ def new_sequence_queue(data):
 @socketio.on('new_sequence_boneyard')
 def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
-    seqBoneyard = data.get('sequence_boneyard')
+    sequenceBoneyard = data.get('sequence_boneyard')
     ob = data.get('ob')
-    logger.info(f'new sequence boneyard len {len(seqBoneyard)}')
-    ee.seq_q.boneyard = [ SequenceItem(x, ob) for x in seqBoneyard ]
+    logger.info(f'new sequence boneyard len {len(sequenceBoneyard)}')
+    ee.seq_q.boneyard = [ SequenceItem(x, ob) for x in sequenceBoneyard ]
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
@@ -370,9 +370,9 @@ def new_task(data):
             ee.ODBInterface.update_OB(ob)
 
 
-            seqBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
+            sequenceBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
             seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
-            emit('sequence_boneyard_broadcast', seqBoneyardData, broadcast=True)
+            emit('sequence_boneyard_broadcast', sequenceBoneyardData, broadcast=True)
             emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
             logger.info(f'new sequence from queue {newSeqItem.sequence}')
             ee.ev_q.load_events_from_sequence(newSeqItem)

@@ -100,7 +100,7 @@ export const OBQueue = (props: Props) => {
                     }}
 
                 >
-                    {CreateDroppable(props.obBoneyard, 'obboneyard', 'seqBoneyard', 'Discarded OBs live here', '', DragDiv, false)}
+                    {CreateDroppable(props.obBoneyard, 'obboneyard', 'sequenceBoneyard', 'Discarded OBs live here', '', DragDiv, false)}
                 </AccordionDetails>
             </Accordion>
         </DragDropContext>

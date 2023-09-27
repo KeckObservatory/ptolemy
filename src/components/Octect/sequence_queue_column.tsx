@@ -140,8 +140,8 @@ export const SequenceQueueColumn = (props: Props) => {
             </Stack>
             <SelectedSequenceTable
                 ob={props.ob}
-                sequence={props.sequences}
-                seqBoneyard={props.sequenceBoneyard}
+                sequences={props.sequences}
+                sequenceBoneyard={props.sequenceBoneyard}
                 onSubmitSeq={props.submitSeq as Function} 
                 hideCompletedSequences={false}
             />
@@ -167,7 +167,7 @@ export const SequenceQueueColumn = (props: Props) => {
                             margin: '4px',
                         }}
                     >
-                        {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'seqBoneyard', 'Discarded sequences live here', '', DragSeqCell, false)}
+                        {CreateDroppable(props.sequenceBoneyard, 'seqboneyard', 'sequenceBoneyard', 'Discarded sequences live here', '', DragSeqCell, false)}
 
                     </AccordionDetails>
                 </Accordion>
