@@ -140,7 +140,6 @@ const SelectedSequenceTable = (props: Props) => {
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
         console.log('update value checked')
 
-
         const seq_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
 
         let selIds: string[] = []
@@ -163,6 +162,7 @@ const SelectedSequenceTable = (props: Props) => {
             selIds = newSeqList.map(seq => seq.metadata.sequence_number)
         }
 
+        console.log(`new_sequence_queue`, newSeqList, `new_sequence_boneyard`, newBoneyard)
         socket.emit('new_sequence_queue', { sequence_queue: newSeqList, ob: props.ob })
         socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard, ob: props.ob })
     }
