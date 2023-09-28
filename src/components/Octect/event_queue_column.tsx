@@ -12,13 +12,17 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControlLabel,
     Snackbar,
-    Stack
+    Stack,
+    Switch,
+    Tooltip
 } from '@mui/material'
-import { StringParam, useQueryParam, withDefault } from 'use-query-params'
+import { BooleanParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
 import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SelectedEventTable from './selected_event_table'
 
 export interface EventDict {
     id: string,
@@ -55,8 +59,8 @@ interface Props {
     snackbarMsg: string
     snackbarOpen: boolean
     task: object
-    releaseEventQueueLock: MouseEventHandler<HTMLButtonElement> | undefined
-    submitEvent: MouseEventHandler<HTMLButtonElement> | undefined
+    releaseEventQueueLock: MouseEventHandler<HTMLButtonElement> 
+    submitEvent: MouseEventHandler<HTMLButtonElement> 
     enableClipboard: any
     collapseStringsAfter: any
     collapsed: any
@@ -71,41 +75,12 @@ export const EventQueueColumn = (props: Props) => {
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
+    const [hideCompletedEvents, setHideCompletedEvents] = useQueryParam('hide_completed_events', withDefault(BooleanParam, false))
+
     const [open, setOpen] = React.useState(false)
 
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
-    const onDragEnd = (result: any) => {
-        const { source, destination } = result;
-        if (!destination) return;
-        const sKey: string = source.droppableId;
-        const dKey: string = destination.droppableId;
-        console.log('skey, dkey', sKey, dKey)
-
-
-        if (sKey === dKey) { //shuffling items around
-            if (dKey === 'eventQueue') {
-                let newEvents = [...props.events]
-                newEvents = reorder(newEvents, source.index, destination.index)
-                socket.emit('new_event_queue', { event_queue: newEvents })
-            }
-            else {
-                let newBoneyard = [...props.eventBoneyard]
-                newBoneyard = reorder(newBoneyard, source.index, destination.index)
-                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard })
-            }
-        } else { // item in droppable 
-            if (dKey === 'eventQueue') { // event added to event queue
-                const result = move(props.eventBoneyard, props.events, source, destination);
-                socket.emit('event_queue_boneyard_swap', { event_queue: result[dKey], event_boneyard: result[sKey] })
-            }
-            else { // event added to boneyard
-                const result = move(props.events, props.eventBoneyard, source, destination);
-                console.log('result', result)
-                socket.emit('event_queue_boneyard_swap', { event_queue: result[sKey], event_boneyard: result[dKey] })
-            }
-        }
-    }
     const isDragDisabled = role === "Observer" ? true : false
 
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -134,6 +109,9 @@ export const EventQueueColumn = (props: Props) => {
         handleClose()
     }
 
+    const hide_submitted_events = (checked: boolean) => {
+        setHideCompletedEvents(checked)
+    }
 
     const disableQueueUnlock = role === "Observer"
 
@@ -173,8 +151,17 @@ export const EventQueueColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
-                <Button disabled={role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button>
+                {/* <Button disabled={role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button> */}
                 <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
+                <Tooltip title="Hide Events that have been completed">
+                    <FormControlLabel
+                        label=""
+                        value={hideCompletedEvents}
+                        control={<Switch value={hideCompletedEvents} />}
+                        onChange={(_, checked) => hide_submitted_events(checked)
+                        }
+                    />
+                </Tooltip>
             </Stack>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
                 <div>
@@ -211,34 +198,13 @@ export const EventQueueColumn = (props: Props) => {
                     {props.snackbarMsg}
                 </Alert>
             </Snackbar>
-            <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(props.events, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
-
-                <Accordion sx={{
-                    margin: '4px',
-                }}>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        sx={{
-                            maxHeight: 50,
-                            margin: '0px',
-                            padding: '4px'
-
-                        }}
-
-                    >
-                        <h2 style={{ margin: '0px' }}>Event Boneyard</h2>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{
-                            padding: '0px',
-                            margin: '4px',
-                        }}
-                    >
-                        {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
-                    </AccordionDetails>
-                </Accordion>
-            </DragDropContext>
+            <SelectedEventTable 
+                role={role}
+                events={props.events}
+                eventBoneyard={props.eventBoneyard}
+                submitEvent={props.submitEvent}
+                hideCompletedEvents={hideCompletedEvents}
+            />
         </React.Fragment>
     )
 }

@@ -51,7 +51,6 @@ const DragSeqCell = (seqCell: Science) => {
 
 export const SequenceQueueColumn = (props: Props) => {
 
-    const socket = React.useContext(SocketContext);
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
@@ -60,36 +59,6 @@ export const SequenceQueueColumn = (props: Props) => {
 
     const hide_submitted_sequences = (checked: boolean) => {
         setHideCompletedSequences(checked)
-    }
-
-    const onDragEnd = (result: any) => {
-        const { source, destination } = result;
-        if (!destination || !source) return;
-        const sKey: string = source.droppableId;
-        const dKey: string = destination.droppableId;
-        if (sKey === dKey) { //shuffling items around
-            if (dKey === 'seqQueue') {
-                let newSeq = [...props.sequences]
-                newSeq = reorder(newSeq, source.index, destination.index)
-                socket.emit('new_sequence_queue', { sequence_queue: newSeq, ob: props.ob })
-            }
-            else {
-                let newBoneyard = [...props.sequenceBoneyard]
-                newBoneyard = reorder(newBoneyard, source.index, destination.index)
-                socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard, ob: props.ob })
-            }
-        } else { // item in droppable 
-            if (dKey === 'seqQueue') { // sequence added to sequence queue
-                const moveResult = move(props.sequenceBoneyard, props.sequences, source, destination);
-                socket.emit('new_sequence_queue', { sequence_queue: moveResult[dKey], ob: props.ob })
-                socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[sKey], ob: props.ob })
-            }
-            else { // sequence added to boneyard
-                const moveResult = move(props.sequences, props.sequenceBoneyard, source, destination);
-                socket.emit('new_sequence_queue', { sequence_queue: moveResult[sKey], ob: props.ob })
-                socket.emit('new_sequence_boneyard', { sequence_boneyard: moveResult[dKey], ob: props.ob })
-            }
-        }
     }
 
     const handle_edit_ob = () => {

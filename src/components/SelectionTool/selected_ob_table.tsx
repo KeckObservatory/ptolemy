@@ -118,14 +118,14 @@ const CustomCheckbox = (props: any) => {
 
 
 
-const removeFromList = (list: any[], idx: number) => {
+export const removeFromList = (list: any[], idx: number) => {
  const result = Array.from(list);
  const [removed] = result.splice(idx, 1);
  return [removed, result]
 }
 
 
-const addToList = (list: any[], idx: number, element: any) => {
+export const addToList = (list: any[], idx: number, element: any) => {
  const result = Array.from(list);
   result.splice(idx, 0, element)
  return result

@@ -10,10 +10,7 @@ import { StringParam, useQueryParam, withDefault } from "use-query-params";
 import ReactJson, { ThemeKeys } from "react-json-view";
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import { addToList, removeFromList } from "../SelectionTool/selected_ob_table";
 
 interface Props {
     ob: ObservationBlock;
@@ -70,22 +67,6 @@ const CustomCheckbox = (props: any) => {
 }
 
 
-
-const removeFromList = (list: any[], idx: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(idx, 1);
-    return [removed, result]
-}
-
-
-const addToList = (list: any[], idx: number, element: any) => {
-    const result = Array.from(list);
-    result.splice(idx, 0, element)
-    return result
-}
-
-
-
 const SelectedSequenceTable = (props: Props) => {
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
@@ -104,7 +85,6 @@ const SelectedSequenceTable = (props: Props) => {
 
         const seq_id = tableMeta.rowData[0] // selected row is first row and OB_ID is first col
 
-        let selIds: string[] = []
         let newBoneyard: string[] = []
         let newSeqList: Science[] = []
         if (checked) { // move from selOBs to boneyard
@@ -113,7 +93,6 @@ const SelectedSequenceTable = (props: Props) => {
             newSeqList = nList
             const insertIdx = props.sequenceBoneyard.length - 1
             newBoneyard = addToList(props.sequenceBoneyard, insertIdx, removedSeq)
-            selIds = (nList as Science[]).map(seq => seq.metadata.sequence_number)
         }
         else { //move from boneyard to selOBs
             const idx = props.sequenceBoneyard.findIndex(seq => seq.metadata.sequence_number === seq_id)
@@ -121,7 +100,6 @@ const SelectedSequenceTable = (props: Props) => {
             newBoneyard = nBY
             const insertIdx = 0
             newSeqList = addToList(props.sequences, insertIdx, removedOB) as Science[]
-            selIds = newSeqList.map(seq => seq.metadata.sequence_number)
         }
 
         console.log(`new_sequence_queue`, newSeqList, `new_sequence_boneyard`, newBoneyard)
