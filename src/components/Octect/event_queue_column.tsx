@@ -34,6 +34,7 @@ export interface EventDict {
     block: boolean
 }
 
+
 //@ts-ignore
 const DragEventCell = (eventDict: EventDict) => {
     const [theme, setTheme] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
@@ -59,8 +60,8 @@ interface Props {
     snackbarMsg: string
     snackbarOpen: boolean
     task: object
-    releaseEventQueueLock: MouseEventHandler<HTMLButtonElement> 
-    submitEvent: MouseEventHandler<HTMLButtonElement> 
+    releaseEventQueueLock: MouseEventHandler<HTMLButtonElement>
+    submitEvent: MouseEventHandler<HTMLButtonElement>
     enableClipboard: any
     collapseStringsAfter: any
     collapsed: any
@@ -81,7 +82,41 @@ export const EventQueueColumn = (props: Props) => {
 
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
+
     const isDragDisabled = role === "Observer" ? true : false
+
+
+    const onDragEnd = (result: any) => {
+        const { source, destination } = result;
+        if (!destination) return;
+        const sKey: string = source.droppableId;
+        const dKey: string = destination.droppableId;
+        console.log('skey, dkey', sKey, dKey)
+
+
+        if (sKey === dKey) { //shuffling items around
+            if (dKey === 'eventQueue') {
+                let newEvents = [...props.events]
+                newEvents = reorder(newEvents, source.index, destination.index)
+                socket.emit('new_event_queue', { event_queue: newEvents })
+            }
+            else {
+                let newBoneyard = [...props.eventBoneyard]
+                newBoneyard = reorder(newBoneyard, source.index, destination.index)
+                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard })
+            }
+        } else { // item in droppable 
+            if (dKey === 'eventQueue') { // event added to event queue
+                const result = move(props.eventBoneyard, props.events, source, destination);
+                socket.emit('event_queue_boneyard_swap', { event_queue: result[dKey], event_boneyard: result[sKey] })
+            }
+            else { // event added to boneyard
+                const result = move(props.events, props.eventBoneyard, source, destination);
+                console.log('result', result)
+                socket.emit('event_queue_boneyard_swap', { event_queue: result[sKey], event_boneyard: result[dKey] })
+            }
+        }
+    }
 
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -198,13 +233,41 @@ export const EventQueueColumn = (props: Props) => {
                     {props.snackbarMsg}
                 </Alert>
             </Snackbar>
-            <SelectedEventTable 
+            <SelectedEventTable
                 role={role}
                 events={props.events}
                 eventBoneyard={props.eventBoneyard}
                 submitEvent={props.submitEvent}
                 hideCompletedEvents={hideCompletedEvents}
             />
+            <DragDropContext onDragEnd={onDragEnd}>
+                {CreateDroppable(props.events, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
+
+                <Accordion sx={{
+                    margin: '4px',
+                }}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{
+                            maxHeight: 50,
+                            margin: '0px',
+                            padding: '4px'
+
+                        }}
+
+                    >
+                        <h2 style={{ margin: '0px' }}>Event Boneyard</h2>
+                    </AccordionSummary>
+                    <AccordionDetails
+                        sx={{
+                            padding: '0px',
+                            margin: '4px',
+                        }}
+                    >
+                        {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
+                    </AccordionDetails>
+                </Accordion>
+            </DragDropContext>
         </React.Fragment>
     )
 }
