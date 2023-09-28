@@ -41,7 +41,7 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
             subsystem: el.subsystem,
             event_type: el.event_type,
             script_name: el.script_name,
-            block: el.block 
+            block: el.block
         }
         rows.push(row)
         uid += 1
@@ -109,6 +109,33 @@ const CustomCheckbox = (props: any) => {
     );
 }
 
+interface CRR {
+    name: string,
+    subsystem: string,
+    block: boolean,
+    completed: boolean
+    id: string
+
+}
+
+const CustomRowRender = (props: CRR) => {
+
+    return (
+        <div>
+            <h1>
+                {props.name}
+            </h1>
+            <p>
+                Subsystem: {props.subsystem} <br />
+                Blocking?: {props.block}
+                Completed: {props.completed} <br />
+            </p>
+        </div>
+    );
+}
+
+
+
 const SelectedEventTable = (props: Props) => {
     const [jsontheme, _] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
@@ -170,6 +197,22 @@ const SelectedEventTable = (props: Props) => {
                 </TableRow >
             )
         },
+        customRowRender: data => {
+            const [id, subsystem, name, block, completed] = data;
+            return (
+                <tr key={id}>
+                    <td colSpan={5} style={{ padding: "0px" }}>
+                        <CustomRowRender
+                            id={id}
+                            name={name}
+                            subsystem={subsystem}
+                            block={block}
+                            completed={completed}
+                        />
+                    </td>
+                </tr>
+            );
+        },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
             return !rows[dataIndex].completed
         },
@@ -188,7 +231,7 @@ const SelectedEventTable = (props: Props) => {
         customToolbarSelect: selectedRows => {
             const selRow = rows[selectedRows.data[0].dataIndex]
             console.log(selRow, props.events)
-            const idx = props.events.findIndex(evt=> evt.id === selRow.id)
+            const idx = props.events.findIndex(evt => evt.id === selRow.id)
             return (
                 <EventToolbarSelect
                     idx={idx}
@@ -202,7 +245,7 @@ const SelectedEventTable = (props: Props) => {
 
     const columns = [
         { name: 'id', label: 'ID', options: { display: false } },
-        { name: 'subsystem', label: 'Subystem', options: { display: false} },
+        { name: 'subsystem', label: 'Subystem', options: { display: false } },
         { name: 'script_name', label: 'Name', options: {} },
         { name: 'block', label: 'Blocks?', options: {} },
         {
