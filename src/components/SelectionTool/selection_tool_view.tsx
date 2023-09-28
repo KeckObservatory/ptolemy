@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { get_sem_id_list, make_semid_scoby_table_and_containers } from '../../api/utils'
-import { DetailedContainer, OBCell, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
+import { DetailedContainer, ObservationBlock, Scoby, SemesterIds } from '../../typings/ptolemy'
 import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import { SocketContext } from './../../contexts/socket';
 import Tooltip from '@mui/material/Tooltip'
 import SkyView from './sky-view/sky_view'
 import DropDown from '../drop_down'
-import AvailableOBTable from './available_ob_table'
-import SelectedQueue from './selected_queue'
-import FormControl from '@mui/material/FormControl'
 import { ob_api_funcs } from '../../api/ApiRoot'
 import TwoDView from './sky-view/two_d_view'
 
@@ -75,16 +71,12 @@ export const SelectionToolView = (props: Props) => {
     const [selOBs, setSelOBs] = useState(defaultState.selOBs)
     const [selObRows, setSelObRows] = useState(defaultState.selObRows)
     const [chartType, setChartType] = useState(defaultState.chartType)
-    const [avg, setAvg] = useState(0)
 
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
     const [sem_id, setSemId] =
         useQueryParam('sem_id', withDefault(StringParam, defaultState.sem_id))
 
     const [submittedOB, changeSubmittedOB] = React.useState({} as ObservationBlock)
-
-    let start_time: number
-    let ping_pong_times: number[] = []
 
     useEffect(() => {
         make_semid_scoby_table_and_containers(sem_id).then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
@@ -112,13 +104,6 @@ export const SelectionToolView = (props: Props) => {
             })
     }, [sem_id])
 
-    const on_table_select_rows = (newSelObs: ObservationBlock[]) => {
-        console.log(newSelObs)
-        setSelOBs(newSelObs)
-        const ids = newSelObs.map((ob: ObservationBlock) => ob._id)
-        socket.emit('set_ob_queue', { ob_id_queue: ids, obs: newSelObs })
-    }
-
     const set_ob_queue_from_server = async (ob_queue_data: OBQueueData) => {
         console.log('setting ob_queue', ob_queue_data)
         const ob_ids = ob_queue_data.ob_id_queue
@@ -144,26 +129,12 @@ export const SelectionToolView = (props: Props) => {
 
     }, [])
 
-    const handleSemIdSubmit = (new_sem_id: string) => {
-        setSemId(new_sem_id)
-    }
-
     const handleChartTypeSelect = (newChartType: string) => {
         setChartType(newChartType)
     }
 
     return (
         <React.Fragment>
-            <FormControl sx={{ m: 2, width: 150 }}>
-                <DropDown
-                    placeholder={'semester id'}
-                    arr={semIdList}
-                    value={sem_id}
-                    handleChange={handleSemIdSubmit}
-                    label={'Semester ID'}
-                    highlightOnEmpty={true}
-                />
-            </FormControl>
             <Grid container spacing={1} sx={
                 {
                     textAlign: 'left',
@@ -173,16 +144,6 @@ export const SelectionToolView = (props: Props) => {
                 }
             }
             >
-                <Grid item xs={6}>
-                    <AvailableOBTable rows={avlObRows} setSelOBs={on_table_select_rows}/>
-                </Grid>
-                <Grid item xs={6}>
-                    <SelectedQueue
-                        selOBs={selOBs}
-                        setSelOBs={setSelOBs}
-                        submittedOB={submittedOB}
-                    />
-                </Grid>
                 <Grid item xs={6}>
                     <TwoDView selObRows={selObRows} />
                 </Grid>

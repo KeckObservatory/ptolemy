@@ -41,7 +41,6 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
             subsystem: el.subsystem,
             event_type: el.event_type,
             script_name: el.script_name,
-            block: el.block,
             completed: completed
         }
         rows.push(row)
@@ -250,7 +249,6 @@ const SelectedEventTable = (props: Props) => {
         { name: 'id', label: 'ID', options: { display: false } },
         { name: 'subsystem', label: 'Subystem', options: { display: false } },
         { name: 'script_name', label: 'Name', options: {} },
-        { name: 'block', label: 'Blocks?', options: {} },
         {
             name: 'completed',
             label: 'Completed',
