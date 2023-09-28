@@ -15,7 +15,7 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export const Control = (props: Props) => {
 
-    const [nLogs, setNLogs] = useQueryParam('n_logs', withDefault(NumberParam, 100))
+    const [n_logs, setNLogs] = useQueryParam('n_logs', withDefault(NumberParam, 100))
     const [minutes, setMinutes] = useQueryParam('log_minutes', withDefault(NumberParam, 10))
     const [minuteSwitch, setMinuteSwitch] = useQueryParam('minute_switch', withDefault(BooleanParam, false))
 
@@ -25,14 +25,14 @@ export const Control = (props: Props) => {
 
     const query_logs = () => {
         if (!minuteSwitch) {
-            log_functions.get_logs(nLogs).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
             })
         }
         else {
-            log_functions.get_logs(nLogs, minutes).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs, minutes).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
@@ -52,7 +52,7 @@ export const Control = (props: Props) => {
     const on_n_logs_change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let value = Number(event.target.value)
         value = value <= 500 ? value : 500
-        console.log("nLogs", event.target.value, value)
+        console.log("n_logs", event.target.value, value)
         setNLogs(value)
     }
 
@@ -80,7 +80,7 @@ export const Control = (props: Props) => {
                 <TextField
                     label="number of logs"
                     onChange={on_n_logs_change}
-                    value={nLogs}
+                    value={n_logs}
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 />
             }

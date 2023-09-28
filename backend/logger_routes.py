@@ -19,11 +19,11 @@ def get_logs():
     params = dict(request.args)
 
     minutes = params.get('minutes', None)
-    nLogs = params.get('n_logs', None)
+    n_logs = params.get('n_logs', None)
     if isinstance(minutes, str):
         minutes = float(minutes) 
-    if isinstance(nLogs, str):
-        nLogs = int(nLogs) 
+    if isinstance(n_logs, str):
+        n_logs = int(n_logs) 
 
     logs = glf.get_logz(
         url,
@@ -31,6 +31,6 @@ def get_logs():
         minutes,
         params.get('startDate', None),
         params.get('endDate', None),
-        nLogs,
+        n_logs,
         DATE_FORMAT)
     return jsonify(logs) 
