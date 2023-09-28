@@ -5,8 +5,9 @@ import { Scoby } from '../../../typings/ptolemy';
 import { LngLatEl } from './sky_view';
 import NightPicker from './night_picker'
 import dayjs, { Dayjs } from 'dayjs';
-import { DateParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import * as SunCalc from 'suncalc'
+import { BooleanParam, DateParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch } from '@mui/material';
 
 interface Props {
     selObRows: Scoby[]
@@ -22,7 +23,7 @@ const KECK_GEOMETRY: any = {
         t0: 0,
         t1: 361,
         t2: 5.3,
-        t3: 146.2 
+        t3: 146.2
     },
     K2: {
         r0: 0,
@@ -32,7 +33,7 @@ const KECK_GEOMETRY: any = {
         t0: 0,
         t1: 361,
         t2: 185.3,
-        t3: 332.8 
+        t3: 332.8
     }
 }
 
@@ -81,6 +82,7 @@ const TwoDView = (props: Props) => {
     const today = new Date()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
+    const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
 
     const nadir = util.get_nadir(keckLngLat, date)
     const times = util.get_times(nadir, 105)
@@ -97,8 +99,45 @@ const TwoDView = (props: Props) => {
         }
     })
 
-
     let traces: any[] = []
+
+    if (showMoon) {
+        let [rr, tt] = [[] as number[], [] as number[]]
+        const texts: string[] = []
+        times.forEach((time: Date, idx: number) => {
+            const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
+            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
+            rr.push(90 - ae[1])
+            tt.push(ae[0])
+            let txt = ""
+            txt += `Az: ${ae[0].toFixed(2)}<br>`
+            txt += `El: ${ae[1].toFixed(2)}<br>`
+            txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
+            txt += `Date: ${times[idx].toUTCString()}`
+            texts.push(txt)
+        })
+
+        const trace = {
+            r: rr,
+            theta: tt,
+            text: texts,
+            opacity: .5,
+            color: "rgb(0,0,0)",
+            hovorinfo: 'text',
+            hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
+            line: {
+                width: 10
+            },
+            textposition: 'top left',
+            type: 'scatterpolar',
+            mode: 'lines',
+            namelength: -1,
+            name: 'Moon'
+        }
+        traces.push(trace)
+    }
+
+
     scoby_deg.forEach((sd: Scoby) => {
         const ra = sd.ra_deg as number
         const dec = sd.dec_deg as number
@@ -109,7 +148,7 @@ const TwoDView = (props: Props) => {
         const texts: string[] = []
         azEl.forEach((ae: [number, number], idx: number) => {
             if (ae[1] >= 0) {
-                rr.push(90-ae[1])
+                rr.push(90 - ae[1])
                 tt.push(ae[0])
 
                 let txt = ""
@@ -139,13 +178,13 @@ const TwoDView = (props: Props) => {
         traces.push(trace)
     })
 
-    const r0 = 90-KECK_GEOMETRY[dome].r0
-    const r1 = 90-KECK_GEOMETRY[dome].r1
-    const t0 = KECK_GEOMETRY[dome].t0 
+    const r0 = 90 - KECK_GEOMETRY[dome].r0
+    const r1 = 90 - KECK_GEOMETRY[dome].r1
+    const t0 = KECK_GEOMETRY[dome].t0
     const t1 = KECK_GEOMETRY[dome].t1
-    const r2 = 90 - KECK_GEOMETRY[dome].r2 
+    const r2 = 90 - KECK_GEOMETRY[dome].r2
     const r3 = 90 - KECK_GEOMETRY[dome].r3
-    const t2 = KECK_GEOMETRY[dome].t2 
+    const t2 = KECK_GEOMETRY[dome].t2
     const t3 = KECK_GEOMETRY[dome].t3
     const d1 = make_disk_polar(r0, r1, t0, t1)
     const d2 = make_disk_polar(r2, r3, t2, t3)
@@ -225,6 +264,12 @@ const TwoDView = (props: Props) => {
                     <FormControlLabel value="K1" control={<Radio />} label="K1" />
                     <FormControlLabel value="K2" control={<Radio />} label="K2" />
                 </RadioGroup>
+                <FormControlLabel
+                    label="Show Moon"
+                    value={showMoon}
+                    control={<Switch checked={showMoon} />}
+                    onChange={(_, checked) => setShowMoon(checked)}
+                />
             </FormControl>
             <Plot
                 data={traces}
