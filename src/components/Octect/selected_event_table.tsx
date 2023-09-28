@@ -41,7 +41,8 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
             subsystem: el.subsystem,
             event_type: el.event_type,
             script_name: el.script_name,
-            block: el.block
+            block: el.block,
+            completed: completed
         }
         rows.push(row)
         uid += 1
