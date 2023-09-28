@@ -172,8 +172,8 @@ const SelectedEventTable = (props: Props) => {
         }
 
         console.log(`new_event_queue`, newEventList, `new_event_boneyard`, newBoneyard)
-        socket.emit('new_event_queue', { event_queue: newEventList })
-        socket.emit('new_event_boneyard', { event_boneyard: newBoneyard })
+
+        socket.emit('event_queue_boneyard_swap', { event_queue: newEventList, event_boneyard: newBoneyard })
     }
 
     const options: MUIDataTableOptions = {
