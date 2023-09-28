@@ -197,22 +197,22 @@ const SelectedEventTable = (props: Props) => {
                 </TableRow >
             )
         },
-        customRowRender: data => {
-            const [id, subsystem, name, block, completed] = data;
-            return (
-                <tr key={id}>
-                    <td colSpan={5} style={{ padding: "0px" }}>
-                        <CustomRowRender
-                            id={id}
-                            name={name}
-                            subsystem={subsystem}
-                            block={block}
-                            completed={completed}
-                        />
-                    </td>
-                </tr>
-            );
-        },
+        // customRowRender: data => {
+        //     const [id, subsystem, name, block, completed] = data;
+        //     return (
+        //         <tr key={id}>
+        //             <td colSpan={5} style={{ padding: "0px" }}>
+        //                 <CustomRowRender
+        //                     id={id}
+        //                     name={name}
+        //                     subsystem={subsystem}
+        //                     block={block}
+        //                     completed={completed}
+        //                 />
+        //             </td>
+        //         </tr>
+        //     );
+        // },
         isRowSelectable: (dataIndex: number, selectedRows: MUIDataTableIsRowCheck | undefined) => {
             return !rows[dataIndex].completed
         },
