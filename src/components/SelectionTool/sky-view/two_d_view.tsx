@@ -186,17 +186,18 @@ const TwoDView = (props: Props) => {
 
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
+        const now = new Date()
         scoby_deg.forEach((sd: Scoby) => { //add current location trace
             const ra = sd.ra_deg as number
             const dec = sd.dec_deg as number
-            const azEl = util.get_target_traj(ra, dec, [date], keckLngLat) as [number, number][]
+            const azEl = util.get_target_traj(ra, dec, [now], keckLngLat) as [number, number][]
             rr.push(90 - azEl[0][1])
             tt.push(azEl[0][0])
             let txt = ""
             txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
             txt += `El: ${azEl[0][1].toFixed(2)}<br>`
             txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
-            txt += `Date: ${date.toUTCString()}`
+            txt += `Date: ${now.toUTCString()}`
             texts.push(txt)
         })
 
