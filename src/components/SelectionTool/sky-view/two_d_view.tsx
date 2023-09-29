@@ -83,6 +83,7 @@ const TwoDView = (props: Props) => {
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
+    const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
 
     const nadir = util.get_nadir(keckLngLat, date)
     const times = util.get_times(nadir, 105)
@@ -101,36 +102,6 @@ const TwoDView = (props: Props) => {
 
     let traces: any[] = []
 
-    let [rr, tt] = [[] as number[], [] as number[]]
-    const texts: string[] = []
-    scoby_deg.forEach((sd: Scoby) => { //add current location trace
-        const ra = sd.ra_deg as number
-        const dec = sd.dec_deg as number
-        const azEl = util.get_target_traj(ra, dec, [date], keckLngLat) as [number, number][]
-        rr.push(90 - azEl[0][1])
-        tt.push(azEl[0][0])
-        let txt = ""
-        txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
-        txt += `El: ${azEl[0][1].toFixed(2)}<br>`
-        txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
-        txt += `Date: ${date.toUTCString()}`
-        texts.push(txt)
-    })
-
-    const trace = {
-        r: rr,
-        theta: tt,
-        text: texts,
-        hovorinfo: 'text',
-        hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
-        textposition: 'top left',
-        type: 'scatterpolar',
-        mode: 'markers',
-        marker: { size: 12 },
-        namelength: -1,
-        name: 'Current location'
-    }
-    traces.push(trace)
 
     scoby_deg.forEach((sd: Scoby) => {
         const ra = sd.ra_deg as number
@@ -196,8 +167,8 @@ const TwoDView = (props: Props) => {
             theta: tt,
             text: texts,
             opacity: .5,
-            color: "rgb(0,0,0)",
             hovorinfo: 'text',
+            color: "rgb(0,0,0)",
             hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
             line: {
                 width: 10
@@ -207,6 +178,41 @@ const TwoDView = (props: Props) => {
             mode: 'lines',
             namelength: -1,
             name: 'Moon'
+        }
+        traces.push(trace)
+    }
+
+    if (showCurrLoc) {
+
+        let [rr, tt] = [[] as number[], [] as number[]]
+        const texts: string[] = []
+        scoby_deg.forEach((sd: Scoby) => { //add current location trace
+            const ra = sd.ra_deg as number
+            const dec = sd.dec_deg as number
+            const azEl = util.get_target_traj(ra, dec, [date], keckLngLat) as [number, number][]
+            rr.push(90 - azEl[0][1])
+            tt.push(azEl[0][0])
+            let txt = ""
+            txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
+            txt += `El: ${azEl[0][1].toFixed(2)}<br>`
+            txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
+            txt += `Date: ${date.toUTCString()}`
+            texts.push(txt)
+        })
+
+        const trace = {
+            r: rr,
+            theta: tt,
+            text: texts,
+            hovorinfo: 'text',
+            hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
+            color: "rgb(0,0,0)",
+            textposition: 'top left',
+            type: 'scatterpolar',
+            mode: 'markers',
+            marker: { size: 12, color: 'red' },
+            namelength: -1,
+            name: 'Current location'
         }
         traces.push(trace)
     }
@@ -298,6 +304,12 @@ const TwoDView = (props: Props) => {
                     <FormControlLabel value="K2" control={<Radio />} label="K2" />
                 </RadioGroup>
             </FormControl>
+            <FormControlLabel
+                label="Show Moon"
+                value={showCurrLoc}
+                control={<Switch checked={showCurrLoc} />}
+                onChange={(_, checked) => setShowCurrLoc(checked)}
+            />
             <FormControlLabel
                 label="Show Moon"
                 value={showMoon}
