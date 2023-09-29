@@ -187,6 +187,22 @@ const TwoDView = (props: Props) => {
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
         const now = new Date()
+
+        if (showMoon) {
+            const azel = SunCalc.getMoonPosition(now, keckLngLat.lat, keckLngLat.lng)
+            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
+            const r = 90 - ae[1]
+            if (r <= 90) {
+                rr.push(90 - ae[1])
+                tt.push(ae[0])
+                let txt = ""
+                txt += `Az: ${ae[0].toFixed(2)}<br>`
+                txt += `El: ${ae[1].toFixed(2)}<br>`
+                txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
+                txt += `Date: ${now.toUTCString()}`
+                texts.push(txt)
+            }
+        }
         scoby_deg.forEach((sd: Scoby) => { //add current location trace
             const ra = sd.ra_deg as number
             const dec = sd.dec_deg as number
