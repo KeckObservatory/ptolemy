@@ -325,7 +325,7 @@ const TwoDView = (props: Props) => {
                 </RadioGroup>
             </FormControl>
             <FormControlLabel
-                label="Show Moon"
+                label="Show Current Location"
                 value={showCurrLoc}
                 control={<Switch checked={showCurrLoc} />}
                 onChange={(_, checked) => setShowCurrLoc(checked)}
