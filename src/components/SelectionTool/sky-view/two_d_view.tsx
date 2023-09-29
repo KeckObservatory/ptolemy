@@ -101,44 +101,6 @@ const TwoDView = (props: Props) => {
 
     let traces: any[] = []
 
-    if (showMoon) {
-        let [rr, tt] = [[] as number[], [] as number[]]
-        const texts: string[] = []
-        times.forEach((time: Date, idx: number) => {
-            const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
-            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
-            const r = 90 - ae[1]
-            if (r <= 90) {
-                rr.push(90 - ae[1])
-                tt.push(ae[0])
-                let txt = ""
-                txt += `Az: ${ae[0].toFixed(2)}<br>`
-                txt += `El: ${ae[1].toFixed(2)}<br>`
-                txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${times[idx].toUTCString()}`
-                texts.push(txt)
-            }
-        })
-
-        const trace = {
-            r: rr,
-            theta: tt,
-            text: texts,
-            opacity: .5,
-            color: "rgb(0,0,0)",
-            hovorinfo: 'text',
-            hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
-            line: {
-                width: 10
-            },
-            textposition: 'top left',
-            type: 'scatterpolar',
-            mode: 'lines',
-            namelength: -1,
-            name: 'Moon'
-        }
-        traces.push(trace)
-    }
 
 
     scoby_deg.forEach((sd: Scoby) => {
@@ -180,6 +142,45 @@ const TwoDView = (props: Props) => {
         }
         traces.push(trace)
     })
+
+    if (showMoon) {
+        let [rr, tt] = [[] as number[], [] as number[]]
+        const texts: string[] = []
+        times.forEach((time: Date, idx: number) => {
+            const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
+            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
+            const r = 90 - ae[1]
+            if (r <= 90) {
+                rr.push(90 - ae[1])
+                tt.push(ae[0])
+                let txt = ""
+                txt += `Az: ${ae[0].toFixed(2)}<br>`
+                txt += `El: ${ae[1].toFixed(2)}<br>`
+                txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
+                txt += `Date: ${times[idx].toUTCString()}`
+                texts.push(txt)
+            }
+        })
+
+        const trace = {
+            r: rr,
+            theta: tt,
+            text: texts,
+            opacity: .5,
+            color: "rgb(0,0,0)",
+            hovorinfo: 'text',
+            hovertemplate: '<b>%{text}</b>', //disable to show xyz coords
+            line: {
+                width: 10
+            },
+            textposition: 'top left',
+            type: 'scatterpolar',
+            mode: 'lines',
+            namelength: -1,
+            name: 'Moon'
+        }
+        traces.push(trace)
+    }
 
     const r0 = 90 - KECK_GEOMETRY[dome].r0
     const r1 = 90 - KECK_GEOMETRY[dome].r1
