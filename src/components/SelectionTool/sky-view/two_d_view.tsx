@@ -107,14 +107,17 @@ const TwoDView = (props: Props) => {
         times.forEach((time: Date, idx: number) => {
             const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
             const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
-            rr.push(90 - ae[1])
-            tt.push(ae[0])
-            let txt = ""
-            txt += `Az: ${ae[0].toFixed(2)}<br>`
-            txt += `El: ${ae[1].toFixed(2)}<br>`
-            txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-            txt += `Date: ${times[idx].toUTCString()}`
-            texts.push(txt)
+            const r = 90 - ae[1]
+            if (r <= 90) {
+                rr.push(90 - ae[1])
+                tt.push(ae[0])
+                let txt = ""
+                txt += `Az: ${ae[0].toFixed(2)}<br>`
+                txt += `El: ${ae[1].toFixed(2)}<br>`
+                txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
+                txt += `Date: ${times[idx].toUTCString()}`
+                texts.push(txt)
+            }
         })
 
         const trace = {
@@ -264,13 +267,13 @@ const TwoDView = (props: Props) => {
                     <FormControlLabel value="K1" control={<Radio />} label="K1" />
                     <FormControlLabel value="K2" control={<Radio />} label="K2" />
                 </RadioGroup>
-                <FormControlLabel
-                    label="Show Moon"
-                    value={showMoon}
-                    control={<Switch checked={showMoon} />}
-                    onChange={(_, checked) => setShowMoon(checked)}
-                />
             </FormControl>
+            <FormControlLabel
+                label="Show Moon"
+                value={showMoon}
+                control={<Switch checked={showMoon} />}
+                onChange={(_, checked) => setShowMoon(checked)}
+            />
             <Plot
                 data={traces}
                 layout={layout}
