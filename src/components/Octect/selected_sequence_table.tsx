@@ -16,14 +16,14 @@ interface Props {
     ob: ObservationBlock;
     sequences: Science[];
     sequenceBoneyard: Science[];
-    submitSeq: React.MouseEventHandler<HTMLButtonElement>;
+    submitSeq: Function;
     hideCompletedSequences: boolean;
 }
 
 interface SeqTSProps {
     ob: ObservationBlock;
     sequences: Science[];
-    submitSeq: React.MouseEventHandler<HTMLButtonElement>;
+    submitSeq: Function;
     idx: number;
 }
 
@@ -49,7 +49,7 @@ const SeqToolbarSelect = (props: SeqTSProps) => {
 
     return (
         <Tooltip title={'Send sequence to event queue'}>
-            <Button variant="contained" onClick={props.submitSeq}>Submit Sequence</Button>
+            <Button variant="contained" onClick={() => props.submitSeq(props.idx)}>Submit Sequence</Button>
         </Tooltip>
     );
 }

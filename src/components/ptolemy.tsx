@@ -163,9 +163,9 @@ export const Ptolemy = (props: Props) => {
         socket.emit('new_task', data)
     }
 
-    const submitSeq = () => {
-        const task = sequences[0]
-        console.log('submit sequence button clicked. sending sequence task', task)
+    const submitSeq = (idx: number) => {
+        const task = sequences[idx]
+        console.log(`submit sequence button clicked. sending sequence task idx ${idx}`, task)
         const data = { task: task, isAcq: false }
         socket.emit('new_task', data)
     }

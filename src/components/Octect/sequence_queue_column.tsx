@@ -21,7 +21,7 @@ interface Props {
     collapsed: number | boolean | undefined
     iconStyle: "circle" | "triangle" | "square" | undefined
     submitAcq: MouseEventHandler<HTMLButtonElement>
-    submitSeq: MouseEventHandler<HTMLButtonElement>
+    submitSeq: Function 
     sequences: Science[];
     sequenceBoneyard: Science[];
     ob: ObservationBlock;
