@@ -170,10 +170,10 @@ export const Ptolemy = (props: Props) => {
         socket.emit('new_task', data)
     }
 
-    const submitEvent = () => {
+    const submitEvent = (idx: number) => {
         console.log('submit event button clicked.')
-        console.log('trying to submit', events[0])
-        socket.emit('submit_event', { 'submitted_event': events[0] })
+        console.log(`trying to submit event idx ${idx}`, events[idx])
+        socket.emit('submit_event', { 'submitted_event': events[idx] })
     }
 
     const releaseEventQueueLock = () => {

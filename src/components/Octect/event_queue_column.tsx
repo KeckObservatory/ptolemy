@@ -34,34 +34,13 @@ export interface EventDict {
     block: boolean
 }
 
-
-//@ts-ignore
-const DragEventCell = (eventDict: EventDict) => {
-    const [theme, setTheme] = useQueryParam('theme', withDefault(StringParam, 'bespin'))
-    return (
-        <div>
-            <p> name: {eventDict.script_name} </p>
-            <p> type: {eventDict.event_type} </p>
-            <ReactJson
-                src={eventDict.args as object}
-                theme={theme as ThemeKeys | undefined}
-                iconStyle={'circle'}
-                collapsed={0}
-                collapseStringsAfterLength={15}
-                enableClipboard={true}
-                onEdit={false}
-            />
-        </div>
-    )
-}
-
 interface Props {
     setSnackbarOpen: Function
     snackbarMsg: string
     snackbarOpen: boolean
     task: object
     releaseEventQueueLock: MouseEventHandler<HTMLButtonElement>
-    submitEvent: MouseEventHandler<HTMLButtonElement>
+    submitEvent: Function 
     enableClipboard: any
     collapseStringsAfter: any
     collapsed: any
@@ -240,34 +219,6 @@ export const EventQueueColumn = (props: Props) => {
                 submitEvent={props.submitEvent}
                 hideCompletedEvents={hideCompletedEvents}
             />
-            <DragDropContext onDragEnd={onDragEnd}>
-                {CreateDroppable(props.events, 'eventQueue', 'eventQueue', 'Sort events here', 'Event Queue', DragEventCell, isDragDisabled)}
-
-                <Accordion sx={{
-                    margin: '4px',
-                }}>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        sx={{
-                            maxHeight: 50,
-                            margin: '0px',
-                            padding: '4px'
-
-                        }}
-
-                    >
-                        <h2 style={{ margin: '0px' }}>Event Boneyard</h2>
-                    </AccordionSummary>
-                    <AccordionDetails
-                        sx={{
-                            padding: '0px',
-                            margin: '4px',
-                        }}
-                    >
-                        {CreateDroppable(props.eventBoneyard, 'eventBoneyard', 'eventBoneyard', 'Discarded events live here', 'Event Boneyard', DragEventCell, isDragDisabled)}
-                    </AccordionDetails>
-                </Accordion>
-            </DragDropContext>
         </React.Fragment>
     )
 }

@@ -21,14 +21,14 @@ interface Props {
     role: string;
     events: EventDict[];
     eventBoneyard: EventDict[];
-    submitEvent: React.MouseEventHandler<HTMLButtonElement>;
+    submitEvent: Function;
     hideCompletedEvents: boolean;
 }
 
 interface EventTSProps {
     role: string;
     events: EventDict[];
-    submitEvent: React.MouseEventHandler<HTMLButtonElement>;
+    submitEvent: Function;
     idx: number;
 }
 
@@ -92,7 +92,12 @@ const EventToolbarSelect = (props: EventTSProps) => {
                 </IconButton>
             </Tooltip>
             <Tooltip title={"Sends Event to Execution Engine"}>
-                <Button disabled={props.role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button>
+                <Button
+                    disabled={props.role.includes('OA')}
+                    variant="contained"
+                    onClick={() => props.submitEvent(props.idx)}>
+                    Submit Event
+                </Button>
             </Tooltip>
         </React.Fragment>
     );
