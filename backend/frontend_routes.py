@@ -134,7 +134,7 @@ def set_ob_queue(data):
     if obs:
         try:
             ee.magiq_interface.check_if_connected_to_magiq_server()
-            resp = ee.magiq_interface.add_target_list_to_magiq(obs)
+            resp = ee.magiq_interface.add_target_list_to_magiq(obs, logger)
         except request.exceptions.ConnectionError as err:
             msg = f'did not add target to magiq.'
             logger.warning(msg)
@@ -157,7 +157,7 @@ def set_ob_boneyard(data):
 @socketio.on('sync_with_magiq')
 def sync_with_magiq(data):
     obs = data.get('obs')
-    resp = ee.magiq_interface.add_target_list_to_magiq(obs, config_parser)
+    resp = ee.magiq_interface.add_target_list_to_magiq(obs, config_parser, logger)
 
 @socketio.on('submit_ob')
 def submit_ob(data):
@@ -194,7 +194,7 @@ def submit_ob(data):
 
     try:
         ee.magiq_interface.check_if_connected_to_magiq_server()
-        resp = ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx)
+        resp = ee.magiq_interface.select_target_in_magiq(ob.get('target'), idx, logger)
     except request.exceptions.ConnectionError as err:
         msg = f'did not highlight target in magiq.'
         logger.warning(msg)
