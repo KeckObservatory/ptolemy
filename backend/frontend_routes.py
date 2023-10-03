@@ -73,7 +73,7 @@ def request_ee_state():
             _id = ob['_id']
             logger.info(f'sending ob {_id}')
         # get ob queue and ob boneyard
-        data['ob_id_queue'] = ee.obs_q.obsIds 
+        data['ob_id_queue'] = ee.obs_q.obIds 
         data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences 
