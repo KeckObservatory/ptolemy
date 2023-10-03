@@ -152,7 +152,6 @@ export const Ptolemy = (props: Props) => {
         })
 
         console.log('requesting ob to be sent to octect')
-        //socket.emit('request_ob')
         socket.emit('request_ee_state')
 
     }, [])

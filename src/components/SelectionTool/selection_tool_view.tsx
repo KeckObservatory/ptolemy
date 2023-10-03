@@ -92,7 +92,7 @@ export const SelectionToolView = (props: Props) => {
         console.log('requesting obs data from backend')
 
         socket.emit('request_ob_queue')
-        socket.emit('request_ob')
+        // socket.emit('request_ob')
         create_connections()
     }, [])
 
@@ -113,20 +113,9 @@ export const SelectionToolView = (props: Props) => {
         setSelObRows(ob_scoby)
     }
 
-    const set_ob_from_server = (ob_data: OBServerData) => {
-        console.log('new selected OB: ', ob_data)
-        const ob = ob_data.ob
-        changeSubmittedOB(ob)
-    }
-
     const create_connections = React.useCallback(() => {
-
         console.log('creating connections')
-
         socket.on('broadcast_ob_queue_from_server', set_ob_queue_from_server)
-
-        socket.on('broadcast_submitted_ob_from_server', set_ob_from_server)
-
     }, [])
 
     const handleChartTypeSelect = (newChartType: string) => {

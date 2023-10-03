@@ -10,7 +10,6 @@ from DDOILoggerClient import DDOILogger as dl
 import json
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
-from execution_engine.core.Queues.ObservingQueue.ObservingBlockItem import ObservingBlockItem
 from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 
 def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
@@ -52,7 +51,7 @@ if os.path.exists(state_file_name):
 else:
     init_ob_queue = []
 
-ee.obs_q.set_queue([ObservingBlockItem(x) for x in init_ob_queue])
+ee.obs_q.obIds = init_ob_queue
 
 @app.route('/ptolemy')
 def index():
@@ -60,24 +59,6 @@ def index():
     print(app.static_folder)
     print(os.path.exists(os.path.join(app.static_folder, 'index.html')))
     return send_from_directory(app.static_folder, 'index.html')
-
-@socketio.on('request_ob')
-def request_ob():
-    """Sends OB stored on EE (first item in queue)"""
-    logger.info('sending ob request recieved')
-    ob_ids = ee.obs_q.get_ob_ids() 
-    if len(ob_ids) > 0:
-        try: 
-            # get most recent ob from db
-            ob = ee.ODBInterface.get_OB_from_id(ob_ids[0]) 
-            data = {'ob': ob}
-            _id = ob['_id']
-            logger.info(f'sending ob {_id}')
-            emit('broadcast_submitted_ob_from_server', data, room=request.sid)
-        except RuntimeError as err: 
-            data = {'msg': f'{err}'}
-            emit('snackbar_msg', data, room=request.sid)
-            return
 
 @socketio.on("request_ee_state")
 def request_ee_state():
@@ -93,11 +74,10 @@ def request_ee_state():
             _id = ob['_id']
             logger.info(f'sending ob {_id}')
         # get ob queue and ob boneyard
-        ob_id_queue = ee.obs_q.get_ob_ids() 
-        data['ob_id_queue'] = ob_id_queue 
+        data['ob_id_queue'] = ee.obs_q.obsIds 
         data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
         # get sequence queue and sequence boneyard
-        data['sequence_queue'] = ee.seq_q.get_sequences() 
+        data['sequence_queue'] = ee.seq_q.sequences 
         data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
@@ -117,8 +97,7 @@ def request_ee_state():
 def request_ob_queue():
     """Sends list of selected OBs stored on disk"""
     logger.info(f'sending ob_queue to {request.sid}')
-    ob_id_queue = ee.obs_q.get_ob_ids() 
-    data = { 'ob_id_queue': ob_id_queue }
+    data = { 'ob_id_queue': ee.obs_q.obIds}
     emit('broadcast_ob_queue_from_server', data, room=request.sid)
 
 @socketio.on('set_ob_queue')
@@ -129,7 +108,7 @@ def set_ob_queue(data):
     write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard})
     
     boneyard = ee.obs_q.boneyard
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_ids])
+    ee.obs_q.obIds = ob_ids 
     ee.obs_q.boneyard = boneyard # set_queue clears boneyard
     if obs:
         try:
@@ -150,8 +129,7 @@ def set_ob_boneyard(data):
     logger.info(f'new ob queue boneyard len: {len(ob_ids)}')
     ee.obs_q.boneyard = ob_ids
 
-    ob_id_queue = ee.obs_q.get_ob_ids() 
-    write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_ids})
+    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': ob_ids})
     emit('broadcast_ob_boneyard_from_server', data, broadcast=True)
 
 @socketio.on('sync_with_magiq')
@@ -170,27 +148,16 @@ def submit_ob(data):
         ob = ee.ODBInterface.get_OB_from_id(submittedId) 
         broadcastData = { 'ob': ob }
         emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
-        ee.seq_q.set_queue([])
+        ee.seq_q.sequences = []
         ee.ev_q.set_queue([])
     except RuntimeError as err:
         data = {'msg': str(err)}
         emit('snackbar_msg', data, room=request.sid)
 
     logger.info("sending new obqueue and boneyard to clients")
-    #ob_id_boneyard = [ submittedId, *[ x for x in ee.obs_q.boneyard ] ] # do not swap submitted OB
     ob_id_boneyard = [ x for x in ee.obs_q.boneyard ]
-    # broadcastBoneyard = { 'ob_id_boneyard': ob_id_boneyard }
-    ob_id_queue = ee.obs_q.get_ob_ids() 
-    idx = ob_id_queue.index(submittedId)
-    #ob_id_queue.remove(submittedId) # do not swap submitted OB
-
-    ee.obs_q.set_queue([ObservingBlockItem(x) for x in ob_id_queue])
-    ee.obs_q.boneyard = ob_id_boneyard # make sure this is after set_queue
-    obQueueData = { 'ob_id_queue': ob_id_queue }
-    logger.info(f"new ob_queue length: {len(ob_id_queue)}, new ob boneyard length {len(ob_id_boneyard)}")
-    write_to_file({'ob_queue': ob_id_queue, 'ob_boneyard': ob_id_boneyard })
-    emit('broadcast_ob_queue_from_server', obQueueData, broadcast=True)
-    # emit('broadcast_ob_boneyard_from_server', broadcastBoneyard, broadcast=True)
+    idx = ee.obs_q.obIds.index(submittedId)
+    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': ob_id_boneyard })
 
     try:
         ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -205,9 +172,7 @@ def submit_ob(data):
 def new_sequence_queue(data):
     """Sets sequence queue to EE, and sends it to the frontend"""
     seqQueue = data.get('sequence_queue')
-    ob = data.get('ob')
-    newSequenceQueue = [ SequenceItem(x, ob) for x in seqQueue ]
-    ee.seq_q.set_queue(newSequenceQueue)
+    ee.seq_q.sequences = seqQueue 
     logger.info(f'new_sequence_queue len: {len(seqQueue)}')
     emit('sequence_queue_broadcast', data, broadcast=True)
 
@@ -215,9 +180,8 @@ def new_sequence_queue(data):
 def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
     sequenceBoneyard = data.get('sequence_boneyard')
-    ob = data.get('ob')
     logger.info(f'new sequence boneyard len {len(sequenceBoneyard)}')
-    ee.seq_q.boneyard = [ SequenceItem(x, ob) for x in sequenceBoneyard ]
+    ee.seq_q.boneyard = sequenceBoneyard
     emit('sequence_boneyard_broadcast', data, broadcast=True)
 
 @socketio.on('new_event_queue')
@@ -293,11 +257,8 @@ def event_queue_boneyard_swap(data):
 
 def get_fresh_sequence(ob, seqItem):
     sequence_number = seqItem.sequence['metadata']['sequence_number']
-    newSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
-    newSeqItem = seqItem
-    newSeqItem.sequence = newSequence
-    newSeqItem.OB = ob
-    return  sequence_number, newSeqItem
+    freshSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
+    return  sequence_number, freshSequence 
 
 def get_fresh_ob():
     # Get a fresh OB for the new task
@@ -357,26 +318,24 @@ def new_task(data):
         logger.info(f"new acquistion task from queue {acqSeq['metadata']['script']}")
         ee.ev_q.load_events_from_acquisition_and_target(ob)
     else: # is sequence
-        seq_queue = [*ee.seq_q.queue]
-        if len(seq_queue) == 0:
+        if len(ee.seq_q.sequences) == 0:
             logger.warning('sequence queue empty')
             data = {'msg': 'sequence queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
-        else:
-            seqItem = ee.seq_q.get()
-            sequence_number, newSeqItem = get_fresh_sequence(ob, seqItem)
-            ob['status']['surrent_seq'] = sequence_number
-            #TODO: update OB status with current sequence_number
-            ee.ODBInterface.update_OB(ob)
+        seqItem = ee.seq_q.sequences.pop(0)
+        ee.seq_q.boneyard.append(seqItem)
+        sequence_number, freshSequence = get_fresh_sequence(ob, seqItem)
+        ob['status']['current_seq'] = sequence_number
+        #TODO: update OB status with current sequence_number
+        ee.ODBInterface.update_OB(ob)
 
-
-            sequenceBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
-            seqQueueData = { 'sequence_queue': ee.seq_q.get_sequences() }
-            emit('sequence_boneyard_broadcast', sequenceBoneyardData, broadcast=True)
-            emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
-            logger.info(f'new sequence from queue {newSeqItem.sequence}')
-            ee.ev_q.load_events_from_sequence(newSeqItem)
+        sequenceBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
+        seqQueueData = { 'sequence_queue': ee.seq_q.sequences }
+        emit('sequence_boneyard_broadcast', sequenceBoneyardData, broadcast=True)
+        emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
+        logger.info(f'new sequence from queue {freshSequence}')
+        ee.ev_q.load_events_from_sequence(freshSequence, ob['metadata']['sem_id'])
     ee.ev_q.boneyard = []
     outData = make_event_out_data()
 
