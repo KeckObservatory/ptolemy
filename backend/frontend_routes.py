@@ -10,7 +10,6 @@ from DDOILoggerClient import DDOILogger as dl
 import json
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine 
-from execution_engine.core.Queues.SequenceQueue.SequenceItem import SequenceItem
 
 def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
