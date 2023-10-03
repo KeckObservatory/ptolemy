@@ -335,7 +335,7 @@ def new_task(data):
         emit('sequence_boneyard_broadcast', sequenceBoneyardData, broadcast=True)
         emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
         logger.info(f'new sequence from queue {freshSequence}')
-        ee.ev_q.load_events_from_sequence(freshSequence, ob['metadata']['sem_id'])
+        ee.ev_q.load_events_from_sequence(freshSequence, ob)
     ee.ev_q.boneyard = []
     outData = make_event_out_data()
 
