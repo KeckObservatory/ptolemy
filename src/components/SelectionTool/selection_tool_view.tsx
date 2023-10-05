@@ -92,7 +92,6 @@ export const SelectionToolView = (props: Props) => {
         console.log('requesting obs data from backend')
 
         socket.emit('request_ob_queue')
-        // socket.emit('request_ob')
         create_connections()
     }, [])
 

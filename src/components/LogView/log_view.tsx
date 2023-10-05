@@ -69,7 +69,14 @@ export const LogView = (props: Props) => {
         { name: 'author', label: 'Author', options: { display: false } },
         { name: 'SEMID', label: 'Semid' },
         { name: 'PROGID', label: 'ProgID', options: { display: false } },
-        { name: 'message', label: 'Message', options: { display: true } },
+        { name: 'message', label: 'Message', 
+          options: { 
+            filter: false,
+            display: true,
+            customBodyRender: (value: string, tableMeta: any, updateValue: any) => {
+                return (value.split('\n').map((str: string) => {return <div style={{padding: "0px"}}>{str}</div>}))
+            }
+         } },
     ]
 
     return (

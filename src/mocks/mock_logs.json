@@ -108,6 +108,6 @@
         "author": "ttucker",
         "SEMID": "2023A_1234",
         "PROGID": null,
-        "message": "Target acquisition event submitted"
+        "message": "Target acquisition event submitted \n here is another line"
     }
 ]
