@@ -84,6 +84,7 @@ const TwoDView = (props: Props) => {
     const KECK_LONG = 360 - 155.4747 // Keck Observatory longitude west of Greenwich [deg]
     const KECK_LAT = 19.8260 //[deg]
     const KECK_ELEVATION = 4144.9752 // m
+    const N_POINTS = 105
     const keckLngLat: LngLatEl = { lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION }
 
     const today = dayjs(new Date()).tz(TIMEZONE).toDate()
@@ -94,7 +95,7 @@ const TwoDView = (props: Props) => {
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
 
     const nadir = util.get_nadir(keckLngLat, date)
-    const times = util.get_times(nadir, 105)
+    const times = util.get_times(nadir, N_POINTS)
 
     let scoby_deg: Scoby[] = []
     props.selObRows.forEach((s: Scoby) => {
@@ -194,7 +195,9 @@ const TwoDView = (props: Props) => {
 
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
-        let now = dayjs(new Date()).subtract(hourOffset, 'hours').tz(TIMEZONE).toDate()
+        const now = dayjs(date)
+                   .add(hourOffset, 'hours')
+                   .subtract(date.getTimezoneOffset(), 'minutes').toDate()
         console.log('current location time', now)
 
         if (showMoon) {

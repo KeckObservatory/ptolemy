@@ -78,7 +78,7 @@ const linspace = (start: number, end: number, nLen: number, endpoint = true) => 
     return Array.from({ length: nLen }, (_, idx) => start + step * idx)
 }
 
-const addHours = (date: Date, hours: number): Date => {
+export const add_hours = (date: Date, hours: number): Date => {
     const newDate = new Date(date.getTime())
     newDate.setTime(date.getTime() + hours * 3600000)
     return newDate
@@ -100,7 +100,7 @@ export const get_times = (nadir: Date, nPoints: number = 20) => {
     const deltaNadir = linspace(-7, 7, nPoints)
     let times: Date[] = []
     deltaNadir.forEach((hour: number) => {
-        times.push(addHours(nadir, hour))
+        times.push(add_hours(nadir, hour))
     })
     return times
 }
