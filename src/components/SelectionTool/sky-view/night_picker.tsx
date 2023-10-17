@@ -4,13 +4,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { TIMEZONE } from './two_d_view';
 
 const datePickerStyle = {
-    margin: '16px',
+    margin: '0px',
+    padding: '0px'
 }
 
 interface Props {
-    date: Date 
+    date: Date
     handleDateChange: (date: Dayjs | null, keyboardInputValue?: string | undefined) => void
 }
 
@@ -20,7 +22,7 @@ export default function NightPicker(props: Props) {
         <LocalizationProvider sx={datePickerStyle} dateAdapter={AdapterDayjs}>
             <DatePicker
                 views={['year', 'month', 'day']}
-                label="Date of observation"
+                label="Date of observation (HT)"
                 value={dayjs(props.date)}
                 onChange={props.handleDateChange}
                 renderInput={(params: any) => <TextField {...params} helperText={null} />}

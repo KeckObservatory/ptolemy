@@ -5,9 +5,16 @@ import { Scoby } from '../../../typings/ptolemy';
 import { LngLatEl } from './sky_view';
 import NightPicker from './night_picker'
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import * as SunCalc from 'suncalc'
-import { BooleanParam, DateParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch } from '@mui/material';
+import { BooleanParam, DateParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Switch, Tooltip, Typography } from '@mui/material';
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
+export const TIMEZONE = "Pacific/Honolulu"
 
 interface Props {
     selObRows: Scoby[]
@@ -79,8 +86,9 @@ const TwoDView = (props: Props) => {
     const KECK_ELEVATION = 4144.9752 // m
     const keckLngLat: LngLatEl = { lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION }
 
-    const today = new Date()
+    const today = dayjs(new Date()).tz(TIMEZONE).toDate()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
+    const [hourOffset, setHourOffset] = useQueryParam('hour_offset', withDefault(NumberParam, 0))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
@@ -120,7 +128,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${times[idx].toUTCString()}`
+                txt += `Date: ${times[idx].toString()}`
                 texts.push(txt)
             }
         })
@@ -157,7 +165,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${times[idx].toUTCString()}`
+                txt += `Date: ${times[idx].toString()}`
                 texts.push(txt)
             }
         })
@@ -186,7 +194,8 @@ const TwoDView = (props: Props) => {
 
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
-        const now = new Date()
+        let now = dayjs(new Date()).subtract(hourOffset, 'hours').tz(TIMEZONE).toDate()
+        console.log('current location time', now)
 
         if (showMoon) {
             const azel = SunCalc.getMoonPosition(now, keckLngLat.lat, keckLngLat.lng)
@@ -199,7 +208,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${now.toUTCString()}`
+                txt += `Date: ${now.toString()}`
                 texts.push(txt)
             }
         }
@@ -215,7 +224,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
                 txt += `El: ${azEl[0][1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
-                txt += `Date: ${now.toUTCString()}`
+                txt += `Date: ${now.toString()}`
                 texts.push(txt)
             }
         })
@@ -306,11 +315,30 @@ const TwoDView = (props: Props) => {
     }
 
     const handleDateChange = (date: Dayjs | null) => {
-        if (date) setDate(date.toDate())
+        if (date) setDate(date.tz(TIMEZONE).toDate())
+    }
+
+    const handleHourOffsetChange = (event: Event, value: number | number[]) => {
+        if (typeof (value) === 'number') {
+            setHourOffset(value as number)
+        }
     }
     return (
         <React.Fragment>
             <NightPicker date={date} handleDateChange={handleDateChange} />
+            <Box padding={0}>
+                <FormLabel id="hour-offset-from-now-label">Hour Offset From Now</FormLabel>
+                    <Slider
+                        aria-label="Hours from now"
+                        defaultValue={0}
+                        onChange={handleHourOffsetChange}
+                        valueLabelDisplay="auto"
+                        step={.5}
+                        marks
+                        min={-12}
+                        max={12}
+                    />
+            </Box>
             <FormControl>
                 <FormLabel id="dome-row-radio-buttons-group-label">Dome</FormLabel>
                 <RadioGroup
