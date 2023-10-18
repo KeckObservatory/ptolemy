@@ -200,11 +200,8 @@ const TwoDView = (props: Props) => {
     }
 
     if (showCurrLoc) {
-
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
-        console.log('current location time', time)
-
         if (showMoon) {
             const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
             const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
