@@ -16,6 +16,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 
 export const TIMEZONE = "Pacific/Honolulu"
+const DATE_TIME_FORMAT = "MM:DD HH:mm"
 
 interface Props {
     selObRows: Scoby[]
@@ -137,7 +138,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${times[idx].toString()}`
+                txt += `HT: ${dayjs(times[idx]).format(DATE_TIME_FORMAT)}`
                 texts.push(txt)
             }
         })
@@ -174,7 +175,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${times[idx].toString()}`
+                txt += `HT: ${dayjs(times[idx]).format(DATE_TIME_FORMAT)}`
                 texts.push(txt)
             }
         })
@@ -213,7 +214,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${time.toString()}`
+                txt += `HT: ${dayjs(time).format(DATE_TIME_FORMAT)}`
                 texts.push(txt)
             }
         }
@@ -229,7 +230,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
                 txt += `El: ${azEl[0][1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
-                txt += `Date: ${time.toString()}`
+                txt += `HT: ${dayjs(time).format(DATE_TIME_FORMAT)}`
                 texts.push(txt)
             }
         })
