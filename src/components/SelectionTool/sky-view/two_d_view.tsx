@@ -206,7 +206,7 @@ const TwoDView = (props: Props) => {
             const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
             const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
             const r = 90 - ae[1]
-            if (r <= 90) {
+            if (r <= 88) {
                 rr.push(90 - ae[1])
                 tt.push(ae[0])
                 let txt = ""
@@ -222,7 +222,7 @@ const TwoDView = (props: Props) => {
             const dec = sd.dec_deg as number
             const azEl = util.get_target_traj(ra, dec, [time], keckLngLat) as [number, number][]
             const r = 90 - azEl[0][1]
-            if (r <= 90) {
+            if (r <= 88) {
                 rr.push(r)
                 tt.push(azEl[0][0])
                 let txt = ""
@@ -274,7 +274,6 @@ const TwoDView = (props: Props) => {
         height: 800,
         title: 'Target Trajectories',
         polar: {
-
             radialaxis: {
                 showticklabels: true,
                 tickmode: "array",
