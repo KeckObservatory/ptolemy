@@ -8,7 +8,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import * as SunCalc from 'suncalc'
-import { BooleanParam, DateParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
+import { BooleanParam, DateParam, DateTimeParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Switch, Tooltip, Typography } from '@mui/material';
 
 dayjs.extend(utc)
@@ -89,7 +89,6 @@ const TwoDView = (props: Props) => {
 
     const today = dayjs(new Date()).tz(TIMEZONE).toDate()
     const [date, setDate] = useQueryParam('date', withDefault(DateParam, today))
-    const [hourOffset, setHourOffset] = useQueryParam('hour_offset', withDefault(NumberParam, 0))
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
@@ -97,6 +96,8 @@ const TwoDView = (props: Props) => {
 
     const nadir = util.get_nadir(keckLngLat, date)
     const times = util.get_times(nadir, N_POINTS)
+
+    const [time, setTime] = useQueryParam('time', withDefault(DateTimeParam, nadir))
 
     let scoby_deg: Scoby[] = []
     props.selObRows.forEach((s: Scoby) => {
@@ -196,13 +197,10 @@ const TwoDView = (props: Props) => {
 
         let [rr, tt] = [[] as number[], [] as number[]]
         const texts: string[] = []
-        const now = dayjs(date)
-                   .add(hourOffset, 'hours')
-                   .toDate()
-        console.log('current location time', now)
+        console.log('current location time', time)
 
         if (showMoon) {
-            const azel = SunCalc.getMoonPosition(now, keckLngLat.lat, keckLngLat.lng)
+            const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
             const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
             const r = 90 - ae[1]
             if (r <= 90) {
@@ -212,14 +210,14 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${ae[0].toFixed(2)}<br>`
                 txt += `El: ${ae[1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(ae[1]).toFixed(2)}<br>`
-                txt += `Date: ${now.toString()}`
+                txt += `Date: ${time.toString()}`
                 texts.push(txt)
             }
         }
         scoby_deg.forEach((sd: Scoby) => { //add current location trace
             const ra = sd.ra_deg as number
             const dec = sd.dec_deg as number
-            const azEl = util.get_target_traj(ra, dec, [now], keckLngLat) as [number, number][]
+            const azEl = util.get_target_traj(ra, dec, [time], keckLngLat) as [number, number][]
             const r = 90 - azEl[0][1]
             if (r <= 90) {
                 rr.push(r)
@@ -228,7 +226,7 @@ const TwoDView = (props: Props) => {
                 txt += `Az: ${azEl[0][0].toFixed(2)}<br>`
                 txt += `El: ${azEl[0][1].toFixed(2)}<br>`
                 txt += `Airmass: ${util.air_mass(azEl[0][1]).toFixed(2)}<br>`
-                txt += `Date: ${now.toString()}`
+                txt += `Date: ${time.toString()}`
                 texts.push(txt)
             }
         })
@@ -324,9 +322,21 @@ const TwoDView = (props: Props) => {
 
     const handleHourOffsetChange = (event: Event, value: number | number[]) => {
         if (typeof (value) === 'number') {
-            setHourOffset(value as number)
+            const dte = new Date(value)
+            setTime(dte)
         }
     }
+
+    const valueLabelFormat = (value: number) => {
+        const dte = new Date(value)
+        return dte.toTimeString()
+    }
+
+    const marks = times.map( (dte: Date) => {
+        return {value: dte.valueOf()}
+    })
+
+
     return (
         <React.Fragment>
             <NightPicker date={date} handleDateChange={handleDateChange} />
@@ -334,13 +344,14 @@ const TwoDView = (props: Props) => {
                 <FormLabel id="hour-offset-from-now-label">Hour Offset From Now</FormLabel>
                     <Slider
                         aria-label="Hours from now"
-                        defaultValue={0}
                         onChange={handleHourOffsetChange}
+                        defaultValue={times[Math.round(N_POINTS/2)].valueOf()}
                         valueLabelDisplay="auto"
-                        step={.5}
-                        marks
-                        min={-12}
-                        max={12}
+                        valueLabelFormat={valueLabelFormat}
+                        step={null}
+                        min={times[0].valueOf()}
+                        max={times[times.length-1].valueOf()}
+                        marks={marks}
                     />
             </Box>
             <FormControl>
