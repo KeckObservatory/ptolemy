@@ -273,6 +273,7 @@ const TwoDView = (props: Props) => {
         width: 900,
         height: 800,
         title: 'Target Trajectories',
+        hovermode: "closest",
         polar: {
             radialaxis: {
                 showticklabels: true,
