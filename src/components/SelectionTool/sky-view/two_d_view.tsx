@@ -345,7 +345,7 @@ const TwoDView = (props: Props) => {
                     <Slider
                         aria-label="Hours from now"
                         onChange={handleHourOffsetChange}
-                        defaultValue={times[Math.round(N_POINTS/2)].valueOf()}
+                        defaultValue={nadir.valueOf()}
                         valueLabelDisplay="auto"
                         valueLabelFormat={valueLabelFormat}
                         step={null}
