@@ -10,6 +10,7 @@ import timezone from 'dayjs/plugin/timezone'
 import * as SunCalc from 'suncalc'
 import { BooleanParam, DateParam, DateTimeParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Switch, Tooltip, Typography } from '@mui/material';
+import TimeSlider from './time_slider';
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -92,12 +93,17 @@ const TwoDView = (props: Props) => {
     const [dome, setDome] = useQueryParam('dome', withDefault(StringParam, "K2"))
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
+    const [nadir, setNadir] = React.useState(util.get_nadir(keckLngLat, date))
+    const [times, setTimes] = React.useState(util.get_times(nadir, N_POINTS))
+    const [time, setTime] = React.useState(nadir)
 
+    React.useEffect(() => {
+        const newNadir = util.get_nadir(keckLngLat, date)
+        setNadir(newNadir)
+        setTimes(() => util.get_times(newNadir, N_POINTS))
+        setTime(newNadir)
+    }, [date])
 
-    const nadir = util.get_nadir(keckLngLat, date)
-    const times = util.get_times(nadir, N_POINTS)
-
-    const [time, setTime] = useQueryParam('time', withDefault(DateTimeParam, nadir))
 
     let scoby_deg: Scoby[] = []
     props.selObRows.forEach((s: Scoby) => {
@@ -320,40 +326,16 @@ const TwoDView = (props: Props) => {
         if (date) setDate(date.tz(TIMEZONE).toDate())
     }
 
-    const handleHourOffsetChange = (event: Event, value: number | number[]) => {
-        if (typeof (value) === 'number') {
-            const dte = new Date(value)
-            setTime(dte)
-        }
-    }
-
-    const valueLabelFormat = (value: number) => {
-        const dte = new Date(value)
-        return dte.toTimeString()
-    }
-
-    const marks = times.map( (dte: Date) => {
-        return {value: dte.valueOf()}
-    })
-
 
     return (
         <React.Fragment>
             <NightPicker date={date} handleDateChange={handleDateChange} />
-            <Box padding={0}>
-                <FormLabel id="hour-offset-from-now-label">Hour Offset From Now</FormLabel>
-                    <Slider
-                        aria-label="Hours from now"
-                        onChange={handleHourOffsetChange}
-                        defaultValue={nadir.valueOf()}
-                        valueLabelDisplay="auto"
-                        valueLabelFormat={valueLabelFormat}
-                        step={null}
-                        min={times[0].valueOf()}
-                        max={times[times.length-1].valueOf()}
-                        marks={marks}
-                    />
-            </Box>
+            <TimeSlider 
+              nadir={nadir}
+              times={times}
+              time={time}
+              setTime={setTime}
+            />
             <FormControl>
                 <FormLabel id="dome-row-radio-buttons-group-label">Dome</FormLabel>
                 <RadioGroup
