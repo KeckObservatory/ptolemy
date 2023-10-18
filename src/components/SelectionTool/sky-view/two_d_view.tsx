@@ -94,6 +94,7 @@ const TwoDView = (props: Props) => {
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
 
+
     const nadir = util.get_nadir(keckLngLat, date)
     const times = util.get_times(nadir, N_POINTS)
 
@@ -197,7 +198,7 @@ const TwoDView = (props: Props) => {
         const texts: string[] = []
         const now = dayjs(date)
                    .add(hourOffset, 'hours')
-                   .subtract(date.getTimezoneOffset(), 'minutes').toDate()
+                   .toDate()
         console.log('current location time', now)
 
         if (showMoon) {
