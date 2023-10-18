@@ -2,6 +2,10 @@ import * as SunCalc from 'suncalc'
 import { LngLatEl } from './sky_view'
 
 export const KECK_LONG = 360 - 155.4747 // Keck Observatory longitude west of Greenwich [deg]
+export const STEP_SIZE = 10 / 60 //hours
+export const TIMES_START = -7 //hours from nadir
+export const TIMES_END = 7 //hours from nadir
+
 const KECK_LAT = 19.8260 //[deg]
 const KECK_ELEVATION = 4.1449752 // km
 const RADIUS_EARTH = 6378.1000 // km
@@ -97,10 +101,9 @@ const get_rounded_date = (minutes: number, date: Date) => {
     return roundedDate
 }
 
-export const get_times = (nadir: Date, stepSize: number) => {
-    const deltaHours = 14
-    const nLen = Math.round(deltaHours / stepSize)
-    const deltaNadir = Array.from({ length: nLen }, (_, idx) => -7 + stepSize * idx )
+export const get_times = (nadir: Date) => {
+    const nLen = Math.round(TIMES_END - TIMES_START / STEP_SIZE)
+    const deltaNadir = Array.from({ length: nLen }, (_, idx) => -7 + STEP_SIZE * idx )
     const roundedNadir = get_rounded_date(10, nadir)
     let times: Date[] = []
     deltaNadir.forEach((hour: number) => {

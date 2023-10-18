@@ -34,7 +34,7 @@ const format_values = (values: number[], times: Date[], sd: Scoby, units: string
 const make_data = (scoby_deg: Scoby[], units: string, chartType: string, date: Date, lngLatEl: LngLatEl ) => {
 
     const nadir = util.get_nadir(lngLatEl, date)
-    const times = util.get_times(nadir, 105)
+    const times = util.get_times(nadir)
     let myData: Data[][] = []
     let mergedData: Data[] = []
 
