@@ -73,11 +73,6 @@ export const ra_dec_to_az_alt = (ra: number, dec: number, date: Date, lngLatEl: 
     return [(180 / Math.PI * az), (180 / Math.PI * el)]
 }
 
-const linspace = (start: number, end: number, nLen: number, endpoint = true) => {
-    const step = (end - start) / nLen;
-    return Array.from({ length: nLen }, (_, idx) => start + step * idx)
-}
-
 export const add_hours = (date: Date, hours: number): Date => {
     const newDate = new Date(date.getTime())
     newDate.setTime(date.getTime() + hours * 3600000)
@@ -96,11 +91,20 @@ export const get_nadir = (lngLatEl: LngLatEl, date?: Date) => {
     return times.nadir
 }
 
-export const get_times = (nadir: Date, nPoints: number = 20) => {
-    const deltaNadir = linspace(-7, 7, nPoints)
+const get_rounded_date = (minutes: number, date: Date) => {
+    const ms = 1000 * 60 * minutes;
+    const roundedDate = new Date(Math.round(date.getTime() / ms ) * ms)
+    return roundedDate
+}
+
+export const get_times = (nadir: Date, stepSize: number) => {
+    const deltaHours = 14
+    const nLen = Math.round(deltaHours / stepSize)
+    const deltaNadir = Array.from({ length: nLen }, (_, idx) => -7 + stepSize * idx )
+    const roundedNadir = get_rounded_date(10, nadir)
     let times: Date[] = []
     deltaNadir.forEach((hour: number) => {
-        times.push(add_hours(nadir, hour))
+        times.push(add_hours(roundedNadir, hour))
     })
     return times
 }

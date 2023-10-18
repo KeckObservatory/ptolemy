@@ -86,7 +86,7 @@ const TwoDView = (props: Props) => {
     const KECK_LONG = 360 - 155.4747 // Keck Observatory longitude west of Greenwich [deg]
     const KECK_LAT = 19.8260 //[deg]
     const KECK_ELEVATION = 4144.9752 // m
-    const N_POINTS = 105
+    const STEP_SIZE = 10 / 60 //hours
     const keckLngLat: LngLatEl = { lng: KECK_LONG, lat: KECK_LAT, ele: KECK_ELEVATION }
 
     const today = dayjs(new Date()).tz(TIMEZONE).toDate()
@@ -95,13 +95,13 @@ const TwoDView = (props: Props) => {
     const [showMoon, setShowMoon] = useQueryParam('show_moon', withDefault(BooleanParam, true))
     const [showCurrLoc, setShowCurrLoc] = useQueryParam('show_current_location', withDefault(BooleanParam, true))
     const [nadir, setNadir] = React.useState(util.get_nadir(keckLngLat, date))
-    const [times, setTimes] = React.useState(util.get_times(nadir, N_POINTS))
+    const [times, setTimes] = React.useState(util.get_times(nadir, STEP_SIZE))
     const [time, setTime] = React.useState(nadir)
 
     React.useEffect(() => {
         const newNadir = util.get_nadir(keckLngLat, date)
         setNadir(newNadir)
-        setTimes(() => util.get_times(newNadir, N_POINTS))
+        setTimes(() => util.get_times(newNadir, STEP_SIZE))
         setTime(newNadir)
     }, [date])
 
