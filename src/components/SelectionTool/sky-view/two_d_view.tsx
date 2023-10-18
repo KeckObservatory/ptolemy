@@ -180,7 +180,7 @@ const TwoDView = (props: Props) => {
             }
         })
 
-        const trace = {
+        const moonTrace = {
             r: rr,
             theta: tt,
             text: texts,
@@ -193,11 +193,11 @@ const TwoDView = (props: Props) => {
             },
             textposition: 'top left',
             type: 'scatterpolar',
-            mode: 'lines',
+            mode: 'markers',
             namelength: -1,
             name: 'Moon'
         }
-        traces.push(trace)
+        traces.push(moonTrace)
     }
 
     if (showCurrLoc) {
