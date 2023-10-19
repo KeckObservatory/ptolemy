@@ -8,7 +8,8 @@ import Tooltip from '@mui/material/Tooltip'
 import SkyView from './sky-view/sky_view'
 import DropDown from '../drop_down'
 import { ob_api_funcs } from '../../api/ApiRoot'
-import TwoDView from './sky-view/two_d_view'
+import TwoDView from './two-d-view/two_d_view'
+import Aladin from './target-resolver/aladin'
 
 interface OBServerData {
     ob: ObservationBlock
@@ -55,7 +56,7 @@ const obs_to_scoby = (obs: ObservationBlock[]) => {
             comment: ob.metadata.comment,
             ob_type: ob.metadata.ob_type,
             version: ob.metadata.version as string,
-        } 
+        }
         scoby.push(s)
     })
 
@@ -132,6 +133,11 @@ export const SelectionToolView = (props: Props) => {
                 }
             }
             >
+                <Grid item xs={6}>
+                    <Aladin
+                        selOBRows={selObRows}
+                    />
+                </Grid>
                 <Grid item xs={6}>
                     <TwoDView selObRows={selObRows} />
                 </Grid>

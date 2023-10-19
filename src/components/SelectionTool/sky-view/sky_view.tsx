@@ -8,7 +8,7 @@ import { useQueryParam, NumericObjectParam, withDefault, DateParam } from 'use-q
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { TIMEZONE } from './two_d_view';
+import { TIMEZONE } from '../two-d-view/two_d_view';
 dayjs.extend(utc)
 dayjs.extend(timezone)
 

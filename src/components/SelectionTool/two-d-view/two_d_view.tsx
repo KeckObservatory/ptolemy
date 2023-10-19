@@ -1,9 +1,8 @@
 import React from 'react';
-import * as util from './sky_view_util'
+import * as util from '../sky-view/sky_view_util'
 import Plot from 'react-plotly.js';
-import { Scoby } from '../../../typings/ptolemy';
-import { LngLatEl } from './sky_view';
-import NightPicker from './night_picker'
+import { LngLatEl } from '../sky-view/sky_view';
+import NightPicker from '../two-d-view/night_picker'
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -11,6 +10,7 @@ import * as SunCalc from 'suncalc'
 import { BooleanParam, DateParam, DateTimeParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params';
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Slider, Switch, Tooltip, Typography } from '@mui/material';
 import TimeSlider from './time_slider';
+import { Scoby } from '../../../typings/ptolemy';
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
