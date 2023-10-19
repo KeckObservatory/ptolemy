@@ -46,16 +46,16 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
 
     for (let idx = 0; idx < selOBRows.length; idx++) {
         const obRow = selOBRows[idx]
-        const id0 = obRow.ob_id 
+        const id0 = obRow.ob_id
         const options = {
             id0: id0,
             idx: idx,
             popupTitle: obRow.name
         }
-        obRow.ra && 
+        obRow.ra &&
             cat.addSources(
-                win.A.marker(ra_dec_to_deg(obRow.ra as string), 
-                            ra_dec_to_deg(obRow.dec as string, true), options));
+                win.A.marker(ra_dec_to_deg(obRow.ra as string),
+                    ra_dec_to_deg(obRow.dec as string, true), options));
     }
 }
 
@@ -63,27 +63,18 @@ export default function Aladin(props: Props) {
 
     const scriptloaded = () => {
         const win: any = window
-        const firstRow = props.selOBRows[0]
-
-        let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
-        if (firstRow.ra) {
-            let ra = ra_dec_to_deg(firstRow.ra as string)
-            let dec = ra_dec_to_deg(firstRow.dec as string, true)
-            const coords = format_target_coords(ra, dec)
-            params['target'] = coords
-        }
-
-        let aladin = win.A.aladin('#aladin-lite-div', params);
-
-        // add_target(aladin, win, raDeg, decDeg)
-        add_catalog(aladin, win, props.selOBRows)
-        // if (props.selIdx) {
-        //     console.log('selected idx:', props.selIdx)
-        //     const selRow = props.selOBRows[props.selIdx]
-        //     add_selected_catalog(aladin, win, selRow)
-        // }
-        const url = 'https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?catalog=allwise_p3as_psd&spatial=cone&radius=300&radunits=arcsec&objstr=00h+42m+44.32s+41d+16m+08.5s&size=300&outfmt=3&selcols=ra,dec,w1mpro,w2mpro,w3mpro,w4mpro'
-        win.A.catalogFromURL(url)
+        win.A.init.then(() => {
+            const firstRow = props.selOBRows[0]
+            let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
+            // if (firstRow.ra) {
+            //     let ra = ra_dec_to_deg(firstRow.ra as string)
+            //     let dec = ra_dec_to_deg(firstRow.dec as string, true)
+            //     const coords = format_target_coords(ra, dec)
+            //     params['target'] = coords
+            // }
+            let aladin = win.A.aladin('#aladin-lite-div', params);
+            // add_catalog(aladin, win, props.selOBRows)
+        })
     }
 
     React.useEffect(() => {
