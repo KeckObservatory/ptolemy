@@ -103,17 +103,6 @@ export default function Aladin(props: Props) {
 
     React.useEffect(() => {
 
-        // Custom CSS, TODO -- ask Tyler what the project standard is
-        const extraStyle = document.createElement('style');
-        extraStyle.innerText = '#aladin-lite-div {' +
-            '   overflow: hidden;' +
-            '}' +
-            '.aladin-imageCanvas,' +
-            '.aladin-catalogCanvas,' +
-            '.aladin-reticleCanvas {' +
-            '   transform: rotate(0deg) scale(1.41421356);' +
-            '}';
-        document.head.appendChild(extraStyle);
 
     }, [props.selOBRows])
 

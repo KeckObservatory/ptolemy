@@ -22,8 +22,8 @@ const CustomToolbarSelect = (props: CTProps) => {
         //set selected rows here
         const selectedIdxs = Object.keys(props.selectedRows.lookup)
         //@ts-ignore
-        const selObRows = selectedIdxs.map(idx => props.rows[idx])
-        const ob_ids = selObRows.map((row: Scoby) => row.ob_id)
+        const selOBRows = selectedIdxs.map(idx => props.rows[idx])
+        const ob_ids = selOBRows.map((row: Scoby) => row.ob_id)
         let selOBs = ob_ids ? await ob_api_funcs.get_many(ob_ids) : []
         console.log('selOb len', selOBs.length)
         props.setSelOBs(selOBs)

@@ -25,7 +25,7 @@ interface Props {
 interface State {
     selOBs: ObservationBlock[];
     avlObRows: Scoby[];
-    selObRows: Scoby[];
+    selOBRows: Scoby[];
     sem_id: string
     semIdList: string[]
     chartType: string;
@@ -35,7 +35,7 @@ interface State {
 const defaultState: State = {
     avlObRows: [],
     selOBs: [],
-    selObRows: [],
+    selOBRows: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude'
@@ -70,7 +70,7 @@ export const SelectionToolView = (props: Props) => {
     const socket = React.useContext(SocketContext);
     const [avlObRows, setavlObRows] = useState(defaultState.avlObRows)
     const [selOBs, setSelOBs] = useState(defaultState.selOBs)
-    const [selObRows, setSelObRows] = useState(defaultState.selObRows)
+    const [selOBRows, setSelObRows] = useState(defaultState.selOBRows)
     const [chartType, setChartType] = useState(defaultState.chartType)
 
     const [semIdList, setSemIdList] = useState(defaultState.semIdList)
@@ -134,12 +134,14 @@ export const SelectionToolView = (props: Props) => {
             }
             >
                 <Grid item xs={6}>
-                    <Aladin
-                        selOBRows={selObRows}
-                    />
+                    {selOBRows.length > 0 && (
+                        <Aladin
+                            selOBRows={selOBRows}
+                        />
+                    )}
                 </Grid>
                 <Grid item xs={6}>
-                    <TwoDView selObRows={selObRows} />
+                    <TwoDView selOBRows={selOBRows} />
                 </Grid>
                 <Grid item xs={6}>
                     <DropDown
@@ -152,7 +154,7 @@ export const SelectionToolView = (props: Props) => {
                     <Tooltip title="View selected OB target charts here">
                         <h2>Sky View</h2>
                     </Tooltip>
-                    <SkyView chartType={chartType} selObRows={selObRows} />
+                    <SkyView chartType={chartType} selOBRows={selOBRows} />
                 </Grid>
             </Grid>
         </React.Fragment>

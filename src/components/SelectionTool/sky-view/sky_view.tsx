@@ -15,7 +15,7 @@ dayjs.extend(timezone)
 interface Props {
     outerHeight: number
     outerWidth: number
-    selObRows: Scoby[]
+    selOBRows: Scoby[]
     chartType: string
     marginLeft: number;
     marginRight: number;
@@ -52,10 +52,10 @@ export default function SkyView(props: Props) {
         d3.select('#sky-view').selectAll("svg > * ").remove(); // clear old scales and points
         // d3.selectAll('g > *').remove(); // clear old scales and points
 
-    }, [props.selObRows, props.chartType])
+    }, [props.selOBRows, props.chartType])
 
     let scoby_deg: Scoby[] = []
-    props.selObRows.forEach((s: Scoby) => {
+    props.selOBRows.forEach((s: Scoby) => {
         if (s.ra && s.dec) {
             // console.log('ra: ', s.ra, 'dec: ', s.dec)
             let sd = {

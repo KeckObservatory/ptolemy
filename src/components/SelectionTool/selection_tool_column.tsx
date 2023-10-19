@@ -38,7 +38,7 @@ interface Props {
 
 interface State {
     avlObRows: Scoby[];
-    selObRows: Scoby[];
+    selOBRows: Scoby[];
     sem_id: string
     semIdList: string[]
     chartType: string;
@@ -48,7 +48,7 @@ interface State {
 
 const defaultState: State = {
     avlObRows: [],
-    selObRows: [],
+    selOBRows: [],
     sem_id: '',
     semIdList: [],
     chartType: 'altitude',

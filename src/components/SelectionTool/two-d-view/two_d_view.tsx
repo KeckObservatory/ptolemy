@@ -19,7 +19,7 @@ export const TIMEZONE = "Pacific/Honolulu"
 const DATE_TIME_FORMAT = "MM:DD HH:mm"
 
 interface Props {
-    selObRows: Scoby[]
+    selOBRows: Scoby[]
 }
 
 const KECK_GEOMETRY: any = {
@@ -105,7 +105,7 @@ const TwoDView = (props: Props) => {
 
 
     let scoby_deg: Scoby[] = []
-    props.selObRows.forEach((s: Scoby) => {
+    props.selOBRows.forEach((s: Scoby) => {
         if (s.ra && s.dec) {
             let sd = {
                 ...s,
