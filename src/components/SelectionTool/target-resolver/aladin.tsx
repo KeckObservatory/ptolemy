@@ -45,6 +45,7 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
         if (object) console.log('objectHovored', object.data?.id0)
     })
 
+    console.log('catalog selOBRows', selOBRows)
     for (let idx = 0; idx < selOBRows.length; idx++) {
         const obRow = selOBRows[idx]
         const id0 = obRow.ob_id 
@@ -52,6 +53,7 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
             id0: id0,
             idx: idx,
         }
+        console.log('obRow', obRow)
         cat.addSources(win.A.source(obRow.ra, obRow.dec, options));
     }
 }
@@ -65,6 +67,7 @@ export default function Aladin(props: Props) {
         // let dec: string = firstRow.dec as string;
         // const coords = format_target_coords(ra, dec)
 
+        // const params = { target: coords, survey: 'P/DSS2/color', zoom: 2, showReticle: true }
         const params = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
         let aladin = win.A.aladin('#aladin-lite-div', params);
 
