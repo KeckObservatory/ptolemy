@@ -60,12 +60,12 @@ export default function Aladin(props: Props) {
 
     const scriptloaded = () => {
         const win: any = window
-        const firstRow = props.selOBRows[0]
-        let ra: string = firstRow.ra as string;
-        let dec: string = firstRow.dec as string;
-        const coords = format_target_coords(ra, dec)
+        // const firstRow = props.selOBRows[0]
+        // let ra: string = firstRow.ra as string;
+        // let dec: string = firstRow.dec as string;
+        // const coords = format_target_coords(ra, dec)
 
-        const params = { target: coords, survey: 'P/DSS2/color', zoom: 2, showReticle: true }
+        const params = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
         let aladin = win.A.aladin('#aladin-lite-div', params);
 
         // add_target(aladin, win, raDeg, decDeg)
