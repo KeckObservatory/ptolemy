@@ -279,7 +279,7 @@ const SelectedEventTable = (props: Props) => {
             data={rows}
             columns={columns}
             options={options}
-            title={"Target Table"}
+            title={"Event Table"}
             components={{ Checkbox: CustomCheckbox }}
         />) : (<React.Fragment></React.Fragment>)
     )
