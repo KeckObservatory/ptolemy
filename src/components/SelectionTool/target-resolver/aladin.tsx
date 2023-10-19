@@ -33,7 +33,7 @@ const add_selected_catalog = (aladin: any, win: any, selOBRow: Scoby) => {
 }
 
 const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
-    var cat = win.A.catalog({ name: 'Catalog Stars', sourceSize: 18, shape: 'circle' });
+    var cat = win.A.catalog({ name: 'Targets', sourceSize: 18 });
     aladin.addCatalog(cat);
     aladin.on('objectClicked', function (object: any) {
         if (object) {
@@ -51,10 +51,11 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
         const options = {
             id0: id0,
             idx: idx,
+            popupTitle: obRow.name
         }
         obRow.ra && 
             cat.addSources(
-                win.A.source(ra_dec_to_deg(obRow.ra as string), 
+                win.A.marker(ra_dec_to_deg(obRow.ra as string), 
                             ra_dec_to_deg(obRow.dec as string, true), options));
     }
 }
@@ -86,7 +87,7 @@ export default function Aladin(props: Props) {
     React.useEffect(() => {
 
         const aladinStyle = document.createElement('link')
-        aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css"
+        aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.css"
         aladinStyle.rel = 'stylesheet'
         aladinStyle.type = 'text/css'
         document.head.appendChild(aladinStyle)
@@ -96,7 +97,7 @@ export default function Aladin(props: Props) {
         document.body.appendChild(jqScript)
         console.log('generating aladin window')
         const script = document.createElement("script")
-        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js"
+        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.js"
         script.async = true
         script.onload = scriptloaded
         document.body.appendChild(script)
