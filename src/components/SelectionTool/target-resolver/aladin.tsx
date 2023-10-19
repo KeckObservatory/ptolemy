@@ -66,31 +66,33 @@ export default function Aladin(props: Props) {
         win.A.init.then(() => {
             const firstRow = props.selOBRows[0]
             let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
-            // if (firstRow.ra) {
-            //     let ra = ra_dec_to_deg(firstRow.ra as string)
-            //     let dec = ra_dec_to_deg(firstRow.dec as string, true)
-            //     const coords = format_target_coords(ra, dec)
-            //     params['target'] = coords
-            // }
+            if (firstRow.ra) {
+                let ra = ra_dec_to_deg(firstRow.ra as string)
+                let dec = ra_dec_to_deg(firstRow.dec as string, true)
+                const coords = format_target_coords(ra, dec)
+                params['target'] = coords
+            }
             let aladin = win.A.aladin('#aladin-lite-div', params);
-            // add_catalog(aladin, win, props.selOBRows)
+            add_catalog(aladin, win, props.selOBRows)
         })
     }
 
     React.useEffect(() => {
 
-        // const aladinStyle = document.createElement('link')
-        // aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.css"
-        // aladinStyle.rel = 'stylesheet'
-        // aladinStyle.type = 'text/css'
-        // document.head.appendChild(aladinStyle)
-        // const jqScript = document.createElement("script")
-        // jqScript.src = "https://code.jquery.com/jquery-1.12.1.min.js"
-        // jqScript.async = true
-        // document.body.appendChild(jqScript)
-        // console.log('generating aladin window')
+        const aladinStyle = document.createElement('link')
+        aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css"
+        aladinStyle.rel = 'stylesheet'
+        aladinStyle.type = 'text/css'
+        document.head.appendChild(aladinStyle)
+        const jqScript = document.createElement("script")
+        jqScript.src = "https://code.jquery.com/jquery-1.12.1.min.js"
+        jqScript.async = true
+        document.body.appendChild(jqScript)
+        console.log('generating aladin window')
         const script = document.createElement("script")
-        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.js"
+        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js"
+        // Aladin lite 3 needs webgl2 to be supported in the browser.
+        //script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js"
         script.async = true
         script.onload = scriptloaded
         document.body.appendChild(script)
