@@ -45,7 +45,6 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
         if (object) console.log('objectHovored', object.data?.id0)
     })
 
-    console.log('catalog selOBRows', selOBRows)
     for (let idx = 0; idx < selOBRows.length; idx++) {
         const obRow = selOBRows[idx]
         const id0 = obRow.ob_id 
@@ -53,8 +52,10 @@ const add_catalog = (aladin: any, win: any, selOBRows: Scoby[]) => {
             id0: id0,
             idx: idx,
         }
-        console.log('obRow', obRow)
-        cat.addSources(win.A.source(obRow.ra, obRow.dec, options));
+        obRow.ra && 
+            cat.addSources(
+                win.A.source(ra_dec_to_deg(obRow.ra as string), 
+                            ra_dec_to_deg(obRow.dec as string, true), options));
     }
 }
 
