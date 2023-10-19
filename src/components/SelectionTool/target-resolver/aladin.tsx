@@ -6,9 +6,8 @@ interface Props {
     selOBRows: Scoby[]
 }
 
-const format_target_coords = (ra: string, dec: string) => {
-    console.log('ra dec', ra, dec)
-    const coords = ra + ' ' + dec
+const format_target_coords = (ra: string | number, dec: string | number) => {
+    const coords = `${ra} ${dec}`
     return coords
 }
 
@@ -64,13 +63,16 @@ export default function Aladin(props: Props) {
 
     const scriptloaded = () => {
         const win: any = window
-        // const firstRow = props.selOBRows[0]
-        // let ra: string = firstRow.ra as string;
-        // let dec: string = firstRow.dec as string;
-        // const coords = format_target_coords(ra, dec)
+        const firstRow = props.selOBRows[0]
 
-        // const params = { target: coords, survey: 'P/DSS2/color', zoom: 2, showReticle: true }
-        const params = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
+        let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
+        if (firstRow.ra) {
+            let ra = ra_dec_to_deg(firstRow.ra as string)
+            let dec = ra_dec_to_deg(firstRow.dec as string, true)
+            const coords = format_target_coords(ra, dec)
+            params['target'] = coords
+        }
+
         let aladin = win.A.aladin('#aladin-lite-div', params);
 
         // add_target(aladin, win, raDeg, decDeg)
@@ -86,18 +88,18 @@ export default function Aladin(props: Props) {
 
     React.useEffect(() => {
 
-        const aladinStyle = document.createElement('link')
-        aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.css"
-        aladinStyle.rel = 'stylesheet'
-        aladinStyle.type = 'text/css'
-        document.head.appendChild(aladinStyle)
-        const jqScript = document.createElement("script")
-        jqScript.src = "https://code.jquery.com/jquery-1.12.1.min.js"
-        jqScript.async = true
-        document.body.appendChild(jqScript)
-        console.log('generating aladin window')
+        // const aladinStyle = document.createElement('link')
+        // aladinStyle.href = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.css"
+        // aladinStyle.rel = 'stylesheet'
+        // aladinStyle.type = 'text/css'
+        // document.head.appendChild(aladinStyle)
+        // const jqScript = document.createElement("script")
+        // jqScript.src = "https://code.jquery.com/jquery-1.12.1.min.js"
+        // jqScript.async = true
+        // document.body.appendChild(jqScript)
+        // console.log('generating aladin window')
         const script = document.createElement("script")
-        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.min.js"
+        script.src = "https://aladin.u-strasbg.fr/AladinLite/api/v3/latest/aladin.js"
         script.async = true
         script.onload = scriptloaded
         document.body.appendChild(script)
