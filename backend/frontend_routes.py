@@ -64,34 +64,12 @@ def index():
 def request_ee_state():
     """Sends OB stored on EE (first item in queue)"""
     logger.info(f'request_ee_state event triggerd by {request.sid}')
-    submittedId = ee.obs_q.submitted_ob_id
-    data = dict() 
-    try: 
-        # get most recent ob from db
-        if len(submittedId) > 0:
-            ob = ee.ODBInterface.get_OB_from_id(submittedId) 
-            data['ob'] = ob
-            _id = ob['_id']
-            logger.info(f'sending ob {_id}')
-        # get ob queue and ob boneyard
-        data['ob_id_queue'] = ee.obs_q.obIds 
-        data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
-        # get sequence queue and sequence boneyard
-        data['sequence_queue'] = ee.seq_q.sequences 
-        data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
-        # get event queue and event boneyard
-        evts = ee.ev_q.get_queue_as_list()
-        data['event_queue'] = evts 
-
-        evtBoneyard = [x.as_dict() for x in ee.ev_q.boneyard]
-        data['event_boneyard'] = evtBoneyard 
-        logger.info('sending ee state to frontend')
-        emit('broadcast_ee_state_from_server', data, room=request.sid)
-    except RuntimeError as err: 
-        logger.warning(err)
-        data = {'msg': f'{err}'}
-        emit('snackbar_msg', data, room=request.sid)
-        return
+    def send_ee_state(msg):
+        if msg['status'] == 'OK':
+            emit('broadcast_ee_state_from_server', msg['data'], room=request.sid)
+        else:
+            emit('snackbar_msg', msg['data'], room=request.sid)
+    emit('get_ee_state', callback=send_ee_state)
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():
