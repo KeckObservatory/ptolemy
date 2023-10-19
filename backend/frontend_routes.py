@@ -78,7 +78,7 @@ def request_ee_state():
         data['ob_id_boneyard'] = [ x.ob_id for x in ee.obs_q.boneyard ]
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences 
-        data['sequence_boneyard'] = ee.seq_q.boneyard
+        data['sequence_boneyard'] = [ x.sequence for x in ee.seq_q.boneyard ]
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
         data['event_queue'] = evts 
@@ -255,8 +255,8 @@ def event_queue_boneyard_swap(data):
 
     emit('new_event_queue_and_boneyard', outData, broadcast=True)
 
-def get_fresh_sequence(ob, sequence):
-    sequence_number = sequence['metadata']['sequence_number']
+def get_fresh_sequence(ob, seqItem):
+    sequence_number = seqItem.sequence['metadata']['sequence_number']
     freshSequence = next(seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
     return  sequence_number, freshSequence 
 
@@ -323,14 +323,14 @@ def new_task(data):
             data = {'msg': 'sequence queue empty'}
             emit('snackbar_msg', data, room=request.sid)
             return
-        staleSequence = ee.seq_q.sequences.pop(0)
-        ee.seq_q.boneyard.append(staleSequence)
-        sequence_number, freshSequence = get_fresh_sequence(ob, staleSequence)
+        seqItem = ee.seq_q.sequences.pop(0)
+        ee.seq_q.boneyard.append(seqItem)
+        sequence_number, freshSequence = get_fresh_sequence(ob, seqItem)
         ob['status']['current_seq'] = sequence_number
         #TODO: update OB status with current sequence_number
         ee.ODBInterface.update_OB(ob)
 
-        sequenceBoneyardData = { 'sequence_boneyard': ee.seq_q.boneyard}
+        sequenceBoneyardData = { 'sequence_boneyard': [ x.sequence for x in ee.seq_q.boneyard ]}
         seqQueueData = { 'sequence_queue': ee.seq_q.sequences }
         emit('sequence_boneyard_broadcast', sequenceBoneyardData, broadcast=True)
         emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
