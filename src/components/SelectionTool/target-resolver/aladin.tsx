@@ -63,18 +63,16 @@ export default function Aladin(props: Props) {
 
     const scriptloaded = () => {
         const win: any = window
-        win.A.init.then(() => {
-            const firstRow = props.selOBRows[0]
-            let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
-            if (firstRow.ra) {
-                let ra = ra_dec_to_deg(firstRow.ra as string)
-                let dec = ra_dec_to_deg(firstRow.dec as string, true)
-                const coords = format_target_coords(ra, dec)
-                params['target'] = coords
-            }
-            let aladin = win.A.aladin('#aladin-lite-div', params);
-            add_catalog(aladin, win, props.selOBRows)
-        })
+        const firstRow = props.selOBRows[0]
+        let params: any = { survey: 'P/DSS2/color', zoom: 2, showReticle: true }
+        if (firstRow.ra) {
+            let ra = ra_dec_to_deg(firstRow.ra as string)
+            let dec = ra_dec_to_deg(firstRow.dec as string, true)
+            const coords = format_target_coords(ra, dec)
+            params['target'] = coords
+        }
+        let aladin = win.A.aladin('#aladin-lite-div', params);
+        add_catalog(aladin, win, props.selOBRows)
     }
 
     React.useEffect(() => {
