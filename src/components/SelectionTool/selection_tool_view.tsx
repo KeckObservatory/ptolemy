@@ -134,13 +134,6 @@ export const SelectionToolView = (props: Props) => {
             }
             >
                 <Grid item xs={6}>
-                    {selOBRows.length > 0 && (
-                        <Aladin
-                            selOBRows={selOBRows}
-                        />
-                    )}
-                </Grid>
-                <Grid item xs={6}>
                     <TwoDView selOBRows={selOBRows} />
                 </Grid>
                 <Grid item xs={6}>
@@ -155,6 +148,13 @@ export const SelectionToolView = (props: Props) => {
                         <h2>Sky View</h2>
                     </Tooltip>
                     <SkyView chartType={chartType} selOBRows={selOBRows} />
+                </Grid>
+                <Grid item xs={6}>
+                    {selOBRows.length > 0 && (
+                        <Aladin
+                            selOBRows={selOBRows}
+                        />
+                    )}
                 </Grid>
             </Grid>
         </React.Fragment>
