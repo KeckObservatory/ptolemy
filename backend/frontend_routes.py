@@ -118,7 +118,7 @@ def set_ob_boneyard(data):
         if msg['status'] == 'OK':
             emit('broadcast_ob_boneyard_from_server',
                  msg['data'], broadcast=True)
-    emit('new_ob_boneyard', {'ob_ids': ob_ids},
+    emit('new_ob_boneyard', data,
          callback=send_ob_boneyard, broadcast=True)
 
 

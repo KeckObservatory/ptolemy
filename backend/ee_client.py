@@ -70,7 +70,7 @@ def new_ob_queue(data):
 
 @sio.event
 def new_ob_boneyard(data):
-    ee.obs_q.boneyard = data['ob_ids']
+    ee.obs_q.boneyard = data['ob_id_boneyard']
     write_to_file({'ob_queue': ee.obs_q.obIds,
                   'ob_boneyard': data['ob_ids']}, state_file_name)
     return {'status': 'OK', 'data': data}
