@@ -113,7 +113,7 @@ def ee_submit_ob(data):
     except requests.exceptions.ConnectionError as err:
         msg = f'did not highlight target in magiq.'
         logger.warning(msg)
-        return {'status': 'OK, MAGIQ_ERROR', 'msg': msg}
+        return {'status': 'OK, MAGIQ_ERROR', 'data': {'ob': ob}, 'msg': msg}
     return {'status': 'OK', 'data': {'ob': ob}}
 
 
