@@ -133,14 +133,14 @@ def submit_ob(data):
     logger.info('submitting new ob from frontend')
 
     def broadcast_submitted_ob(msg):
-        if msg['status'] == 'OK':
+        if 'OK' in msg['status']:
             ob = msg['data']['ob']
             broadcastData = {'ob': ob}
             emit('broadcast_submitted_ob_from_server',
                  broadcastData, broadcast=True)
-        elif msg['status'] == 'RUNTIME_ERROR':
+        elif 'MAGIQ_ERROR' in msg['status']:
             emit('snackbar_msg', msg, room=request.sid)
-        elif msg['status'] == 'MAGIQ_ERROR':
+        elif msg['status'] == 'RUNTIME_ERROR':
             emit('snackbar_msg', msg, room=request.sid)
     emit('ee_submit_ob', data, callback=broadcast_submitted_ob, broadcast=True)
 

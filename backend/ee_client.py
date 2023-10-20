@@ -54,7 +54,8 @@ def new_ob_queue(data):
     obs = data['obs']
 
     ee.obs_q.obIds = ob_ids
-    write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
+    write_to_file(
+        {'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
     if obs:
         try:
             ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -70,7 +71,8 @@ def new_ob_queue(data):
 @sio.event
 def new_ob_boneyard(data):
     ee.obs_q.boneyard = data['ob_ids']
-    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': data['ob_ids']}, state_file_name)
+    write_to_file({'ob_queue': ee.obs_q.obIds,
+                  'ob_boneyard': data['ob_ids']}, state_file_name)
     return {'status': 'OK', 'data': data}
 
 
@@ -101,7 +103,8 @@ def ee_submit_ob(data):
     logger.info("sending new obqueue and boneyard to clients")
     ob_id_boneyard = [x for x in ee.obs_q.boneyard]
     idx = ee.obs_q.obIds.index(submittedId)
-    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': ob_id_boneyard}, state_file_name)
+    write_to_file({'ob_queue': ee.obs_q.obIds,
+                  'ob_boneyard': ob_id_boneyard}, state_file_name)
 
     try:
         ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -110,7 +113,8 @@ def ee_submit_ob(data):
     except requests.exceptions.ConnectionError as err:
         msg = f'did not highlight target in magiq.'
         logger.warning(msg)
-        return {'status': 'MAGIQ_ERROR', 'msg': msg}
+        return {'status': 'OK, MAGIQ_ERROR', 'msg': msg}
+    return {'status': 'OK', 'data': {'ob': ob}}
 
 
 @sio.event
@@ -226,18 +230,6 @@ def get_fresh_ob():
         raise Exception('ob queue is empty')
     ob = ee.ODBInterface.get_OB_from_id(ob_id)
     return ob
-
-    if 'acquisition' in event['event_type']:  # args is ob
-        args = ob
-    # args is {'sequence': sequence, 'ob': ob}
-    if 'sequence' in event['event_type']:
-        sequence_number = event['args']['sequence']['metadata']['sequence_number']
-        newSequence = next(
-            seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
-        args = {'sequence': newSequence, 'OB': ob}
-
-    event['args'] = args
-    return event
 
 
 @sio.event
