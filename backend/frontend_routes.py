@@ -136,9 +136,9 @@ def submit_ob(data):
         if 'OK' in msg['status']:
             ob = msg['data']['ob']
             broadcastData = {'ob': ob}
-            emit('broadcast_submitted_ob_from_server',
-                 broadcastData, broadcast=True)
+            emit('broadcast_submitted_ob_from_server', broadcastData, broadcast=True)
             seq = ob.get('observations', [])
+            emit('sequence_queue_broadcast', {'sequence_queue': seq}, broadcast=True)
         elif 'MAGIQ_ERROR' in msg['status']:
             emit('snackbar_msg', msg, room=request.sid)
         elif msg['status'] == 'RUNTIME_ERROR':
