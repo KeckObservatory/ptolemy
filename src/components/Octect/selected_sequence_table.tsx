@@ -103,8 +103,8 @@ const SelectedSequenceTable = (props: Props) => {
         }
 
         console.log(`new_sequence_queue`, newSeqList, `new_sequence_boneyard`, newBoneyard)
-        socket.emit('new_sequence_queue', { sequence_queue: newSeqList, ob: props.ob })
-        socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard, ob: props.ob })
+        socket.emit('new_sequence_queue', { sequence_queue: newSeqList })
+        socket.emit('new_sequence_boneyard', { sequence_boneyard: newBoneyard })
     }
 
     const options: MUIDataTableOptions = {
