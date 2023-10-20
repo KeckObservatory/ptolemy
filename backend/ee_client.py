@@ -283,12 +283,6 @@ def ee_new_task(data):
 @sio.event
 def ee_submit_event(data):
     eventDict = data.get('submitted_event')
-    try:
-        eventDict = get_fresh_ob()
-    except:
-        msg = 'failed to get fresh ob'
-        logger.warning(msg)
-        return {'status': 'ERR', 'msg': msg}
 
     logger.info(f'submitting event {eventDict["script_name"]}')
 
@@ -301,8 +295,24 @@ def ee_submit_event(data):
     if isBlocked:
         logger.warning('queue locked. sending msg to frontend')
         return {'status': 'ERR', 'msg': 'event queue locked'}
+
+    freshEvent = {**eventDict}
     try:
-        ee.ev_q.dispatch_event(eventDict)
+        ob = get_fresh_ob()
+        if eventDict['event_type'] == 'sequence':
+            seqNo = eventDict['sequence']['metadata']['sequence_number']
+            freshSeq = next((seq for seq in [*ob['observations']] if seq['metadata']['sequence_number']== seqNo), None)
+            args = {'sequence': freshSeq, 'ob': ob}
+        elif eventDict['event_type'] == 'acquisition':
+            args = ob
+
+        freshEvent['args'] = args
+    except:
+        msg = 'failed to get fresh ob'
+        logger.warning(msg)
+        return {'status': 'ERR', 'msg': msg}
+    try:
+        ee.ev_q.dispatch_event(freshEvent)
     except Exception as err:
         logger.info(f'dispatch event failed, reason: {err}')
         logger.info(f'{traceback.format_exc()}')
