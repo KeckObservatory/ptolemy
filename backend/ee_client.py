@@ -148,7 +148,7 @@ def ee_new_event_queue(data):
     ee.ev_q.set_queue(newQueue)
     ev_queue = ee.ev_q.get_queue_as_list()
     eventData = {'event_queue': ev_queue}
-    return {'status': 'OK', data: eventData}
+    return {'status': 'OK', 'data': eventData}
 
 
 @sio.event
