@@ -50,12 +50,12 @@ def get_ob_ids():
 
 @sio.event
 def new_ob_queue(data):
-    ob_ids = data['ob_ids']
-    obs = data['obs']
+    ob_id_queue = data.get('ob_id_queue', [])
+    obs = data.get('obs', False)
 
-    ee.obs_q.obIds = ob_ids
+    ee.obs_q.obIds = ob_id_queue
     write_to_file(
-        {'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
+        {'ob_queue': ob_id_queue, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
     outData = {}
     if obs:
         try:
@@ -65,7 +65,7 @@ def new_ob_queue(data):
             msg = f'did not add target to magiq.'
             logger.warning(msg)
             outData = {'status': 'OK, MAGIQ_ERR', 'msg': msg}
-    logger.info(f'new ob queue len: {len(ob_ids)}')
+    logger.info(f'new ob queue len: {len(ob_id_queue)}')
     return { **outData, 'data': data }
 
 

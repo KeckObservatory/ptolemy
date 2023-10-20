@@ -95,17 +95,13 @@ def request_ob_queue():
 @socketio.on('set_ob_queue')
 def set_ob_queue(data):
     """Sets list of Selected OBs, stored on disk"""
-    ob_ids = data.get('ob_id_queue')
-    obs = data.get('obs', False)
-    
     def send_ob_queue(msg):
         if 'OK' in msg['status']:
-            data = {'ob_id_queue': msg['data']}
-            emit('broadcast_ob_queue_from_server', data, room=request.sid)
+            emit('broadcast_ob_queue_from_server', msg['data'], room=request.sid)
         if 'MAGIC_ERR' in msg['status']:
             emit('snackbar_msg', msg, room=request.sid)
 
-    emit('new_ob_queue', {'ob_ids': ob_ids, 'obs': obs}, callback=send_ob_queue, broadcast=True)
+    emit('new_ob_queue', data, callback=send_ob_queue, broadcast=True)
 
 
 @socketio.on('set_ob_boneyard')
