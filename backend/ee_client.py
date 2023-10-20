@@ -56,6 +56,7 @@ def new_ob_queue(data):
     ee.obs_q.obIds = ob_ids
     write_to_file(
         {'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
+    outData = {}
     if obs:
         try:
             ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -63,9 +64,9 @@ def new_ob_queue(data):
         except requests.exceptions.ConnectionError as err:
             msg = f'did not add target to magiq.'
             logger.warning(msg)
-            return {'status': 'ERR', 'msg': msg}
+            outData = {'status': 'OK, MAGIQ_ERR', 'msg': msg}
     logger.info(f'new ob queue len: {len(ob_ids)}')
-    return data
+    return { **outData, 'data': data }
 
 
 @sio.event
