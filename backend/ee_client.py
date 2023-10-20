@@ -28,7 +28,7 @@ def get_ee_state():
         data['ob_id_boneyard'] = [x.ob_id for x in ee.obs_q.boneyard]
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences
-        data['sequence_boneyard'] = [x.sequence for x in ee.seq_q.boneyard]
+        data['sequence_boneyard'] = ee.seq_q.boneyard
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
         data['event_queue'] = evts
@@ -267,8 +267,7 @@ def ee_new_task(data):
         # TODO: update OB status with current sequence_number
         ee.ODBInterface.update_OB(ob)
 
-        sequenceBoneyardData = {'sequence_boneyard': [
-            x.sequence for x in ee.seq_q.boneyard]}
+        sequenceBoneyardData = {'sequence_boneyard': ee.seq_q.boneyard}
         seqQueueData = {'sequence_queue': ee.seq_q.sequences}
         outData = {**outData, 'sequence_boneyard': sequenceBoneyardData,
                    'sequence_queue': seqQueueData}
