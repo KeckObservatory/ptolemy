@@ -67,11 +67,9 @@ export const Ptolemy = (props: Props) => {
                 console.log('setting sequences to:', seq)
                 if (seq) {
                     setSequences(seq)
-                    socket.emit('new_sequence_queue', { sequence_queue: seq, ob: ob })
                 }
                 else {
                     setSequences([])
-                    socket.emit('new_sequence_queue', { sequence_queue: [], ob: ob })
                 }
                 setSequenceBoneyard([])
                 setEvents([])

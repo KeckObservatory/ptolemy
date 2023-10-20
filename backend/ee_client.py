@@ -93,7 +93,7 @@ def ee_submit_ob(data):
         ob = ee.ODBInterface.get_OB_from_id(submittedId)
         broadcastData = {'ob': ob}
         outData['data'] = broadcastData
-        ee.seq_q.sequences = []
+        ee.seq_q.sequences = ob.get('observations', []) 
         ee.ev_q.set_queue([])
 
     except RuntimeError as err:
