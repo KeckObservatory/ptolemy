@@ -123,7 +123,7 @@ def ee_new_seq_queue(data):
     seqQueue = data.get('sequence_queue')
     ee.seq_q.sequences = seqQueue
     logger.info(f'new_sequence_queue len: {len(seqQueue)}')
-    return {'status': 'OK'}
+    return {'status': 'OK', 'data': data}
 
 
 @sio.event
@@ -131,6 +131,7 @@ def ee_new_seq_boneyard(data):
     sequenceBoneyard = data.get('sequence_boneyard')
     logger.info(f'new sequence boneyard len {len(sequenceBoneyard)}')
     ee.seq_q.boneyard = sequenceBoneyard
+    return {'status': 'OK', 'data': data}
 
 
 @sio.event

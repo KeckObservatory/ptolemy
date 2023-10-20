@@ -147,7 +147,7 @@ def new_sequence_queue(data):
     """Sets sequence queue to EE, and sends it to the frontend"""
     def broadcast_seq_queue(msg):
         if msg['status'] == 'OK':
-            emit('sequence_queue_broadcast', data, broadcast=True)
+            emit('sequence_queue_broadcast', msg['data'], broadcast=True)
     emit('ee_new_seq_queue', data, callback=broadcast_seq_queue, broadcast=True)
 
 
@@ -156,7 +156,7 @@ def new_sequence_boneyard(data):
     """Sets sequence queue boneyard to local storage, and sends it to execution engine and frontend"""
     def broadcast_seq_boneyard(msg):
         if msg['status'] == 'OK':
-            emit('sequence_boneyard_broadcast', data, broadcast=True)
+            emit('sequence_boneyard_broadcast', msg['data'], broadcast=True)
     emit('ee_new_seq_boneyard', data,
          callback=broadcast_seq_boneyard, broadcast=True)
 
