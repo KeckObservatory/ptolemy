@@ -54,7 +54,7 @@ def new_ob_queue(data):
     obs = data['obs']
 
     ee.obs_q.obIds = ob_ids
-    write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard})
+    write_to_file({'ob_queue': ob_ids, 'ob_boneyard': ee.obs_q.boneyard}, state_file_name)
     if obs:
         try:
             ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -70,7 +70,7 @@ def new_ob_queue(data):
 @sio.event
 def new_ob_boneyard(data):
     ee.obs_q.boneyard = data['ob_ids']
-    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': data['ob_ids']})
+    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': data['ob_ids']}, state_file_name)
     return {'status': 'OK', 'data': data}
 
 
@@ -101,7 +101,7 @@ def ee_submit_ob(data):
     logger.info("sending new obqueue and boneyard to clients")
     ob_id_boneyard = [x for x in ee.obs_q.boneyard]
     idx = ee.obs_q.obIds.index(submittedId)
-    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': ob_id_boneyard})
+    write_to_file({'ob_queue': ee.obs_q.obIds, 'ob_boneyard': ob_id_boneyard}, state_file_name)
 
     try:
         ee.magiq_interface.check_if_connected_to_magiq_server()
@@ -227,17 +227,6 @@ def get_fresh_ob():
     ob = ee.ODBInterface.get_OB_from_id(ob_id)
     return ob
 
-
-def get_fresh_event(event):
-    # Get fresh ob and use that data
-    try:
-        ob = get_fresh_ob()
-    except Exception as err:
-        logger.warning('new_task error: {err}')
-        data = {'msg': f'{err}'}
-        emit('snackbar_msg', data, room=request.sid)
-        return
-
     if 'acquisition' in event['event_type']:  # args is ob
         args = ob
     # args is {'sequence': sequence, 'ob': ob}
@@ -301,7 +290,12 @@ def ee_new_task(data):
 @sio.event
 def ee_submit_event(data):
     eventDict = data.get('submitted_event')
-    eventDict = get_fresh_event(eventDict)  # Retrieve most recent OB data
+    try:
+        eventDict = get_fresh_ob()
+    except:
+        msg = 'failed to get fresh ob'
+        logger.warning(msg)
+        return {'status': 'ERR', 'msg': msg}
 
     logger.info(f'submitting event {eventDict["script_name"]}')
 
