@@ -25,7 +25,7 @@ def get_ee_state():
             logger.info(f'sending ob {_id}')
         # get ob queue and ob boneyard
         data['ob_id_queue'] = ee.obs_q.obIds
-        data['ob_id_boneyard'] = [x.ob_id for x in ee.obs_q.boneyard]
+        data['ob_id_boneyard'] = ee.obs_q.boneyard
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences
         data['sequence_boneyard'] = ee.seq_q.boneyard
