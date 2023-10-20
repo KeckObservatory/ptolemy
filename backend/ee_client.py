@@ -216,7 +216,7 @@ def make_event_out_data():
 
 
 def get_fresh_sequence(ob, seqItem):
-    sequence_number = seqItem.sequence['metadata']['sequence_number']
+    sequence_number = seqItem['metadata']['sequence_number']
     freshSequence = next(
         seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
     return sequence_number, freshSequence
