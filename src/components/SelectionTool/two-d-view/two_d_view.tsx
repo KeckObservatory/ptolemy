@@ -164,7 +164,7 @@ const TwoDView = (props: Props) => {
         const texts: string[] = []
         times.forEach((time: Date, idx: number) => {
             const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
-            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
+            const ae = [(Math.PI + azel.azimuth) * 180 / Math.PI, azel.altitude * 180 / Math.PI]
             const r = 90 - ae[1]
             if (r <= 90) {
                 rr.push(90 - ae[1])
@@ -203,7 +203,7 @@ const TwoDView = (props: Props) => {
         const texts: string[] = []
         if (showMoon) {
             const azel = SunCalc.getMoonPosition(time, keckLngLat.lat, keckLngLat.lng)
-            const ae = [azel.azimuth * 180 / Math.PI, azel.altitude * 180 / Math.PI]
+            const ae = [(Math.PI + azel.azimuth) * 180 / Math.PI, azel.altitude * 180 / Math.PI]
             const r = 90 - ae[1]
             if (r <= 88) {
                 rr.push(90 - ae[1])
