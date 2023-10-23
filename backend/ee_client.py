@@ -278,12 +278,12 @@ def ee_new_task(data):
         ee.seq_q.sequences = freshSequenceQueue
         ee.seq_q.boneyard = freshBoneyard 
         ob['status']['current_seq'] = sequence_number
-        ee.ODBInterface.update_OB(ob)
+        # ee.ODBInterface.update_OB(ob) #TODO: fix this function so that OB updates
         outData = {**outData,
                    'isSeq': True,
                    'sequence_boneyard': freshBoneyard,
                    'sequence_queue': freshSequenceQueue}
-        logger.info(f'new sequence from queue {freshSequence}')
+        logger.info(f'new sequence from queue: {sequence_number}')
         ee.ev_q.load_events_from_sequence(freshSequence, ob)
     ee.ev_q.boneyard = []
     outData = {**outData, 'event_queue_and_boneyard': make_event_out_data()}
