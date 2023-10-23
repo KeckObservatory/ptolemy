@@ -66,7 +66,7 @@ def new_ob_queue(data):
             logger.warning(msg)
             outData = {'status': 'OK, MAGIQ_ERR', 'msg': msg}
     logger.info(f'new ob queue len: {len(ob_id_queue)}')
-    return { **outData, 'data': data }
+    return {**outData, 'data': data}
 
 
 @sio.event
@@ -94,7 +94,7 @@ def ee_submit_ob(data):
         ob = ee.ODBInterface.get_OB_from_id(submittedId)
         broadcastData = {'ob': ob}
         outData['data'] = broadcastData
-        ee.seq_q.sequences = ob.get('observations', []) 
+        ee.seq_q.sequences = ob.get('observations', [])
         ee.ev_q.set_queue([])
 
     except RuntimeError as err:
@@ -217,14 +217,15 @@ def make_event_out_data():
     return outData
 
 
-def get_fresh_sequence_and_observations(ob, seqItem, boneyard_sequence_numbers):
-    sequence_number = seqItem['metadata']['sequence_number']
-    idx = next( ( i for i, seq in enumerate(ob['observations']) if seq['metadata']['sequence_number'] == sequence_number))
+def get_fresh_sequence_and_observations(ob, sequence_number, boneyard_sequence_numbers):
+    selIdx = next((idx for idx, seq in enumerate(
+        ob['observations']) if seq['metadata']['sequence_number'] == sequence_number))
     freshSequenceQueue = [*ob['observations']]
-    freshSequence = freshSequenceQueue.pop(idx) # remove submitted sequence
+    freshSequence = freshSequenceQueue.pop(selIdx)  # remove submitted sequence
     # remove already submitted sequences
-    freshBoneyard = [ freshSequenceQueue.pop(idx) for idx, seq in enumerate(freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers ]
-    return sequence_number, freshSequenceQueue, freshBoneyard, freshSequence
+    freshBoneyard = [freshSequenceQueue.pop(idx) for idx, seq in enumerate(
+        freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers]
+    return freshSequenceQueue, freshBoneyard, freshSequence
 
 
 def get_fresh_ob():
@@ -265,13 +266,15 @@ def ee_new_task(data):
             msg = 'sequence queue empty'
             logger.warning(msg)
             return {'status': 'ERR', 'msg': msg}
-        seqItem = ee.seq_q.sequences.pop(0)
-        boneyard_sequence_numbers = [x['metadata']['sequence_number'] for x in ee.seq_q.boneyard]
+        boneyard_sequence_numbers = [
+            x['metadata']['sequence_number'] for x in ee.seq_q.boneyard]
 
+        sequence_number = task['metadata']['sequence_number']
         # set fresh sequences and boneyard
-        sequence_number, freshSequenceQueue, freshBoneyard, freshSequence = \
-            get_fresh_sequence_and_observations(ob, seqItem, boneyard_sequence_numbers)
-        ee.seq_q.sequences = freshSequenceQueue 
+        freshSequenceQueue, freshBoneyard, freshSequence = \
+            get_fresh_sequence_and_observations(
+                ob, sequence_number, boneyard_sequence_numbers)
+        ee.seq_q.sequences = freshSequenceQueue
         ee.seq_q.boneyard = boneyard_sequence_numbers
         ob['status']['current_seq'] = sequence_number
         ee.ODBInterface.update_OB(ob)
@@ -306,7 +309,8 @@ def ee_submit_event(data):
         ob = get_fresh_ob()
         if eventDict['event_type'] == 'sequence':
             seqNo = eventDict['sequence']['metadata']['sequence_number']
-            freshSeq = next((seq for seq in [*ob['observations']] if seq['metadata']['sequence_number']== seqNo), None)
+            freshSeq = next((seq for seq in [
+                            *ob['observations']] if seq['metadata']['sequence_number'] == seqNo), None)
             args = {'sequence': freshSeq, 'ob': ob}
         elif eventDict['event_type'] == 'acquisition':
             args = ob
