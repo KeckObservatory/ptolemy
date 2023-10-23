@@ -262,7 +262,7 @@ def ee_new_task(data):
         logger.info(
             f"new acquistion task from queue {acqSeq['metadata']['script']}")
         ee.ev_q.load_events_from_acquisition_and_target(ob)
-        outData = { **outData, 'isSeq': False}
+        outData = { **outData }
     else:  # is sequence
         if len(ee.seq_q.sequences) == 0:
             msg = 'sequence queue empty'
@@ -280,14 +280,13 @@ def ee_new_task(data):
         ob['status']['current_seq'] = sequence_number
         # ee.ODBInterface.update_OB(ob) #TODO: fix this function so that OB updates
         outData = {**outData,
-                   'isSeq': True,
                    'sequence_boneyard': freshBoneyard,
                    'sequence_queue': freshSequenceQueue}
         logger.info(f'new sequence from queue: {sequence_number}')
         ee.ev_q.load_events_from_sequence(freshSequence, ob)
     ee.ev_q.boneyard = []
     outData = {**outData, 'event_queue_and_boneyard': make_event_out_data()}
-    return {'status': 'OK', 'data': outData}
+    return {'status': 'OK', 'data': outData, 'isAcq': isAcquisition}
 
 
 @sio.event
