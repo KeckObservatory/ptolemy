@@ -225,6 +225,7 @@ def get_fresh_sequence_and_observations(ob, sequence_number, boneyard_sequence_n
     # remove already submitted sequences
     freshBoneyard = [freshSequenceQueue.pop(idx) for idx, seq in enumerate(
         freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers]
+    freshBoneyard = [freshSequence, *freshBoneyard] # add submitted seq to boneyard
     return freshSequenceQueue, freshBoneyard, freshSequence
 
 
@@ -272,8 +273,7 @@ def ee_new_task(data):
         sequence_number = task['metadata']['sequence_number']
         # set fresh sequences and boneyard
         freshSequenceQueue, freshBoneyard, freshSequence = \
-            get_fresh_sequence_and_observations(
-                ob, sequence_number, boneyard_sequence_numbers)
+            get_fresh_sequence_and_observations( ob, sequence_number, boneyard_sequence_numbers )
         ee.seq_q.sequences = freshSequenceQueue
         ee.seq_q.boneyard = boneyard_sequence_numbers
         ob['status']['current_seq'] = sequence_number
