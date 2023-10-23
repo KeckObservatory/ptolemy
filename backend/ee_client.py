@@ -8,7 +8,7 @@ from execution_engine.core.ExecutionEngine import ExecutionEngine
 from frontend_routes import create_logger
 import configparser
 
-sio = socketio.Client(logger=True, engineio_logger=True)
+sio = socketio.Client()
 
 
 @sio.event
