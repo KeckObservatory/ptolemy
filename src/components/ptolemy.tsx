@@ -127,8 +127,10 @@ export const Ptolemy = (props: Props) => {
 
 
         socket.on('new_event_queue_and_boneyard', (data) => {
-            console.log('new_event_queue_and_boneyard_broadcasted. setting event queue and boneyard', data.event_boneyard)
+            console.log('new_event_queue_and_boneyard broadcasted. Setting.')
             console.log('event_queue', data.event_queue)
+            console.log('event_boneyard', data.event_boneyard)
+            
             setEvents(data.event_queue)
             setEventBoneyard(data.event_boneyard)
         })

@@ -217,11 +217,14 @@ def make_event_out_data():
     return outData
 
 
-def get_fresh_sequence(ob, seqItem):
+def get_fresh_sequence_and_observations(ob, seqItem, boneyard_sequence_numbers):
     sequence_number = seqItem['metadata']['sequence_number']
-    freshSequence = next(
-        seq for seq in ob['observations'] if seq['metadata']["sequence_number"] == sequence_number)
-    return sequence_number, freshSequence
+    idx = next( ( i for i, seq in enumerate(ob['observations']) if seq['metadata']['sequence_number'] == sequence_number))
+    freshSequenceQueue = [*ob['observations']]
+    freshSequence = freshSequenceQueue.pop(idx) # remove submitted sequence
+    # remove already submitted sequences
+    freshBoneyard = [ freshSequence.pop(idx) for idx, seq in enumerate(freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers ]
+    return sequence_number, freshSequenceQueue, freshBoneyard, freshSequence
 
 
 def get_fresh_ob():
@@ -263,16 +266,18 @@ def ee_new_task(data):
             logger.warning(msg)
             return {'status': 'ERR', 'msg': msg}
         seqItem = ee.seq_q.sequences.pop(0)
-        ee.seq_q.boneyard.append(seqItem)
-        sequence_number, freshSequence = get_fresh_sequence(ob, seqItem)
-        ob['status']['current_seq'] = sequence_number
-        # TODO: update OB status with current sequence_number
-        ee.ODBInterface.update_OB(ob)
+        boneyard_sequence_numbers = [x['metadata']['sequence_number'] for x in ee.seq_q.boneyard]
 
-        sequenceBoneyardData = {'sequence_boneyard': ee.seq_q.boneyard}
-        seqQueueData = {'sequence_queue': ee.seq_q.sequences}
-        outData = {**outData, 'sequence_boneyard': sequenceBoneyardData,
-                   'sequence_queue': seqQueueData}
+        # set fresh sequences and boneyard
+        sequence_number, freshSequenceQueue, freshBoneyard, freshSequence = \
+            get_fresh_sequence_and_observations(ob, seqItem, boneyard_sequence_numbers)
+        ee.seq_q.sequences = freshSequenceQueue 
+        ee.seq_q.boneyard = boneyard_sequence_numbers
+        ob['status']['current_seq'] = sequence_number
+        ee.ODBInterface.update_OB(ob)
+        outData = {**outData,
+                   'sequence_boneyard': freshBoneyard,
+                   'sequence_queue': freshSequenceQueue}
         logger.info(f'new sequence from queue {freshSequence}')
         ee.ev_q.load_events_from_sequence(freshSequence, ob)
     ee.ev_q.boneyard = []

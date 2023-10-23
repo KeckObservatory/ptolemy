@@ -201,13 +201,14 @@ def new_task(data):
     resets event boneyard and broadcasts to frontend and execution engine"""
     def broadcast_new_task(msg):
         if msg['status'] == 'OK':
-            sequenceBoneyardData = msg['data'].get('sequence_boneyard', False)
-            seqQueueData = msg['data'].get('sequence_boneyard', False)
-            seqChanged = sequenceBoneyardData and seqQueueData
+            sequenceBoneyard = msg['data'].get('sequence_boneyard', False)
+            seqQueue = msg['data'].get('sequence_queue', False)
+            seqChanged = sequenceBoneyard and seqQueue
             if seqChanged:
                 emit('sequence_boneyard_broadcast',
-                     sequenceBoneyardData, broadcast=True)
-                emit('sequence_queue_broadcast', seqQueueData, broadcast=True)
+                     {'sequence_boneyard': sequenceBoneyard}, broadcast=True)
+                emit('sequence_queue_broadcast', 
+                     {'sequence_queue': seqQueue}, broadcast=True)
             emit('task_broadcast', data, broadcast=True)
             outData = msg['data']['event_queue_and_boneyard']
             emit('new_event_queue_and_boneyard', outData, broadcast=True)
