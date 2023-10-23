@@ -223,7 +223,7 @@ def get_fresh_sequence_and_observations(ob, seqItem, boneyard_sequence_numbers):
     freshSequenceQueue = [*ob['observations']]
     freshSequence = freshSequenceQueue.pop(idx) # remove submitted sequence
     # remove already submitted sequences
-    freshBoneyard = [ freshSequenceQueue.pop(idx) for idx, seq in enumerate(freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers ]b
+    freshBoneyard = [ freshSequenceQueue.pop(idx) for idx, seq in enumerate(freshSequenceQueue) if seq['metadata']['sequence_number'] in boneyard_sequence_numbers ]
     return sequence_number, freshSequenceQueue, freshBoneyard, freshSequence
 
 
