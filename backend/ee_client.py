@@ -275,7 +275,7 @@ def ee_new_task(data):
         freshSequenceQueue, freshBoneyard, freshSequence = \
             get_fresh_sequence_and_observations( ob, sequence_number, boneyard_sequence_numbers )
         ee.seq_q.sequences = freshSequenceQueue
-        ee.seq_q.boneyard = boneyard_sequence_numbers
+        ee.seq_q.boneyard = freshBoneyard 
         ob['status']['current_seq'] = sequence_number
         ee.ODBInterface.update_OB(ob)
         outData = {**outData,
