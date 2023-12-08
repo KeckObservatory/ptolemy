@@ -309,7 +309,7 @@ def ee_submit_event(data):
     try:
         ob = get_fresh_ob()
         if eventDict['event_type'] == 'sequence':
-            seqNo = eventDict['sequence']['metadata']['sequence_number']
+            seqNo = eventDict['args']['sequence']['metadata']['sequence_number']
             freshSeq = next((seq for seq in [
                             *ob['observations']] if seq['metadata']['sequence_number'] == seqNo), None)
             args = {'sequence': freshSeq, 'ob': ob}
@@ -317,8 +317,8 @@ def ee_submit_event(data):
             args = ob
 
         freshEvent['args'] = args
-    except:
-        msg = 'failed to get fresh ob'
+    except Exception as err:
+        msg = 'failed to get fresh ob: {err}'
         logger.warning(msg)
         return {'status': 'ERR', 'msg': msg}
     try:
