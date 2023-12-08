@@ -312,7 +312,7 @@ def ee_submit_event(data):
             seqNo = eventDict['args']['sequence']['metadata']['sequence_number']
             freshSeq = next((seq for seq in [
                             *ob['observations']] if seq['metadata']['sequence_number'] == seqNo), None)
-            args = {'sequence': freshSeq, 'ob': ob}
+            args = {'sequence': freshSeq, 'OB': ob}
         elif eventDict['event_type'] == 'acquisition':
             args = ob
 
