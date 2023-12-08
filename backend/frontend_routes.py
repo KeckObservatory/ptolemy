@@ -221,7 +221,7 @@ def new_task(data):
 def submit_event(data):
     def broadcast_submit_event(msg):
         if msg['status'] == 'OK':
-            emit('new_event_queue_and_boneyard', msg, broadcast=True)
+            emit('new_event_queue_and_boneyard', msg['data'], broadcast=True)
         else:
             emit('snackbar_msg', msg, room=request.sid)
     emit('ee_submit_event', data, callback=broadcast_submit_event, broadcast=True)
