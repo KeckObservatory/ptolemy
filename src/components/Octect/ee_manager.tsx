@@ -29,7 +29,7 @@ export const EEManager = () => {
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
-        const data = {type: checked}
+        const data = {[type]: checked}
         if (type === 'paused') {
             setIsPaused(checked)
         } else if (type === 'stopped') {
@@ -55,7 +55,7 @@ export const EEManager = () => {
                         Pause/Stop events
                     </DialogContentText>
                     <FormControl component="fieldset" variant="standard">
-                        <FormLabel component="legend">Assign responsibility</FormLabel>
+                        <FormLabel component="legend">Event Options</FormLabel>
                         <FormGroup>
                             <FormControlLabel
                                 control={
