@@ -241,8 +241,8 @@ def release_event_queue_lock():
 
 @socketio.on('toggle_pause_halt')
 def toggle_pause_halt_event(data):
-    isPaused = data.get('pause', False)
-    isHalted = data.get('halt', False)
+    isPaused = int(data.get('pause', False))
+    isHalted = int(data.get('halt', False))
     logging.info(f'isPaused: {isPaused}, isHalted: {isHalted}')
     ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
     ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
