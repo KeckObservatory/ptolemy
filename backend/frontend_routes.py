@@ -239,7 +239,7 @@ def release_event_queue_lock():
         emit('event_queue_locked', data, broadcast=True)
     emit('ee_release_event_queue_lock', callback=broadcast_release_event_queue_lock, broadcast=True)
 
-@socketio.on('toggle_pause_halt')
+@socketio.on('toggle_pause_halt_event')
 def toggle_pause_halt_event(data):
     isPaused = int(data.get('pause', False))
     isHalted = int(data.get('halt', False))

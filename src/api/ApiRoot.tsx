@@ -37,9 +37,7 @@ BASE_URL = IS_DEVELOPMENT ? DEVELOPMENT_URL : BASE_URL
 var API_URL = BASE_URL + '/api/ddoi/'
 
 var OB_URL = API_URL + 'obsBlocks'
-var CONTAINER_URL = API_URL + 'containers'
 var SEMESTERS_URL = API_URL + 'semesterIds'
-var INSTRUMENT_URL = API_URL + 'instrumentPackages'
 var TAG_URL = API_URL + 'tags'
 console.log('backend url set to')
 console.log(API_URL)
