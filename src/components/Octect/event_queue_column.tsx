@@ -23,6 +23,7 @@ import ReactJson, { ThemeKeys } from 'react-json-view'
 import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SelectedEventTable from './selected_event_table'
+import { EEManager } from './ee_manager'
 
 export interface EventDict {
     id: string,
@@ -117,7 +118,7 @@ export const EventQueueColumn = (props: Props) => {
     const handleClose = () => {
         setOpen(false);
     };
-
+    
     const handleYes = () => {
         clearEventQueues()
         handleClose()
@@ -165,6 +166,7 @@ export const EventQueueColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
+                <EEManager />
                 {/* <Button disabled={role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button> */}
                 <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
                 <Tooltip title="Hide Events that have been completed">

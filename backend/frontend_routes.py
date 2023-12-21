@@ -7,6 +7,10 @@ import logging
 import pdb
 from DDOILoggerClient import DDOILogger as dl
 import json
+try:
+    import ktl
+except ImportError:
+    ktl = ''
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine
 
@@ -234,3 +238,10 @@ def release_event_queue_lock():
         data = {'event_queue_locked': False}
         emit('event_queue_locked', data, broadcast=True)
     emit('ee_release_event_queue_lock', callback=broadcast_release_event_queue_lock, broadcast=True)
+
+@socketio.on('toggle_pause_halt_event')
+def toggle_pause_halt_event(data):
+    isPaused = data.get('pause', False)
+    isHalted = data.get('halt', False)
+    ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
+    ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
