@@ -30,9 +30,9 @@ export const EEManager = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
         const data = {[type]: checked}
-        if (type === 'paused') {
+        if (type === 'pause') {
             setIsPaused(checked)
-        } else if (type === 'stopped') {
+        } else if (type === 'halt') {
             setIsStopped(checked)
         }
         socket.emit('toggle_pause_halt_event', data)
@@ -59,13 +59,13 @@ export const EEManager = () => {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Switch checked={isPaused} onChange={(event, checked) => handleChange(event, checked, 'paused')} name="gilad" />
+                                    <Switch checked={isPaused} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="gilad" />
                                 }
                                 label="Pause Event"
                             />
                             <FormControlLabel
                                 control={
-                                    <Switch checked={isStopped} onChange={(event, checked) => handleChange(event, checked, 'stopped')} name="jason" />
+                                    <Switch checked={isStopped} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="jason" />
                                 }
                                 label="Stop Event"
                             />
