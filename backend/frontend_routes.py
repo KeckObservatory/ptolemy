@@ -1,7 +1,7 @@
 from app import app, socketio
 import configparser
 from flask_socketio import emit
-from flask import send_from_directory, request
+from flask import send_from_directory, request, logging
 import os
 import logging
 import pdb
@@ -37,30 +37,16 @@ def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author=
     return logger
 
 
-exen_logger = create_logger(subsystem='EXECUTION_ENGINE')
 cfg_name = "./cfg.ini"
-state_file_name = "/ddoi/state/ptolemy_state.json"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
-ee = ExecutionEngine(logger=exen_logger, cfg=cfg_name)
 
 logger = create_logger(subsystem='PTOLEMY')
 
-
+state_file_name = "/ddoi/state/ptolemy_state.json"
 def write_to_file(item):
     with open(state_file_name, 'w') as outfile:
         json.dump(item, outfile)
-
-
-if os.path.exists(state_file_name):
-    with open(state_file_name, 'r') as openfile:
-        state = json.load(openfile)
-        init_ob_queue = state.get('ob_queue', [])
-else:
-    init_ob_queue = []
-
-ee.obs_q.obIds = init_ob_queue
-
 
 @app.route('/ptolemy')
 def index():
