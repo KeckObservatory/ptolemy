@@ -13,7 +13,7 @@ sio = socketio.Client()
 
 @sio.event
 def get_ee_state():
-    logger.info(f'get_ee_state event triggerd. sending state back to server')
+    logger.info(f'get_ee_state event triggered. sending state back to server')
     submittedId = ee.obs_q.submitted_ob_id
     data = dict()
     try:
@@ -331,7 +331,7 @@ def ee_submit_event(data):
     except Exception as err:
         logger.info(f'dispatch event failed, reason: {err}')
         logger.info(f'{traceback.format_exc()}')
-        data = {'msg': 'dispatch_event failed'}
+        return {'status': 'ERR', 'msg': 'dispatch_event failed'}
     # broadcast new queue and boneyard
     outData = make_event_out_data()
     return {'status': 'OK', 'data': outData}
