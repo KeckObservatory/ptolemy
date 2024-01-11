@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import React, { useState, useEffect } from 'react'
 import { log_functions } from '../../api/ApiRoot'
 import { Log } from '../../typings/ptolemy'
-import { BooleanParam, NumberParam, useQueryParam, withDefault } from 'use-query-params'
+import { BooleanParam, NumberParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
 
 interface Props {
     setLogs: Function
@@ -18,6 +18,7 @@ export const Control = (props: Props) => {
     const [n_logs, setNLogs] = useQueryParam('n_logs', withDefault(NumberParam, 100))
     const [minutes, setMinutes] = useQueryParam('log_minutes', withDefault(NumberParam, 10))
     const [minuteSwitch, setMinuteSwitch] = useQueryParam('minute_switch', withDefault(BooleanParam, false))
+    const [loggername, setLoggername] = useQueryParam('loggername', withDefault(StringParam, 'ddoi'))
 
     useEffect(() => {
         query_logs()
@@ -56,6 +57,13 @@ export const Control = (props: Props) => {
         setNLogs(value)
     }
 
+    const on_loggername_change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        let value = event.target.value
+        value = value === 'ddoi' || value === 'koa' ? value : 'ddoi
+        console.log("loggername", value)
+        setLoggername(value)
+    }
+
     const on_minutes_change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let value = Number(event.target.value)
         value = value <= 100 ? value : 100
@@ -84,6 +92,11 @@ export const Control = (props: Props) => {
                     inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 />
             }
+            <TextField
+                label="logger name (ddoi or koa)"
+                onChange={on_loggername_change}
+                value={loggername}
+            />
             <Button variant={'contained'}
                 onClick={on_query_logs}
             >Query Logs</Button>

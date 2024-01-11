@@ -57,6 +57,7 @@ export const get_logs = (
     minutes?: number,
     subsystem?: string,
     semid?: string,
+    loggername?: string,
 ): Promise<Log[]> => {
     let url = LOGGER_BASE_URL
     if (minutes) {
