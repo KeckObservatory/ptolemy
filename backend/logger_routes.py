@@ -30,8 +30,8 @@ def get_logs():
         minutes,
         subsystem = params.get('subsystem', None),
         loggername = params.get('loggername', 'ddoi'),
-        start_date = params.get('startDate', None),
-        end_date = params.get('endDate', None),
-        n_logs = n_logs,
-        date_format = DATE_FORMAT)
+        startDate = params.get('startDate', None),
+        endDate = params.get('endDate', None),
+        nLogs = n_logs,
+        dateFormat = DATE_FORMAT)
     return jsonify(logs) 
