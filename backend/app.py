@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 from engineio.payload import Payload
 from flask_cors import CORS
 import configparser
-from DDOILoggerClient import DDOILogger as dl
+from LoggerClient import DDOILogger as dl
 import json
 
 Payload.max_decode_packets = 500

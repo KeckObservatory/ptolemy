@@ -3,7 +3,7 @@ import configparser
 from app import app 
 from flask import request, jsonify
 import pdb
-from DDOILoggerClient import getlogz_functions as glf 
+from LoggerClient import getlogz_functions as glf 
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
 cfg_name="./cfg.ini"
