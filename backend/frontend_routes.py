@@ -1,8 +1,7 @@
 from app import app, socketio, config_parser, logger
 from flask_socketio import emit
-from flask import send_from_directory, request, logging
+from flask import send_from_directory, request 
 import os
-import logging
 import pdb
 try:
     import ktl
@@ -191,6 +190,6 @@ def toggle_pause_halt_event(data):
     keys = data.keys()
     isPaused = int(data.get('pause', False))
     isHalted = int(data.get('halt', False))
-    logging.info(f'isPaused: {isPaused}, isHalted: {isHalted}')
+    logger.info(f'isPaused: {isPaused}, isHalted: {isHalted}')
     if 'pause' in keys: ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
     if 'halt' in keys: ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
