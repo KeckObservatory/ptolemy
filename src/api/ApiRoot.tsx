@@ -66,6 +66,7 @@ export const get_logs = (
     else {
         url += n_logs ? `n_logs=${n_logs}` : ""
     }
+    url += loggername ? `&loggername=${loggername}` : ""
     url += subsystem ? `&subystem=${subsystem}` : ""
     url += semid ? `&semid=${semid}` : ""
     return axiosInstance.get(url)
