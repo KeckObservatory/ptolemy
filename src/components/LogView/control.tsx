@@ -59,7 +59,7 @@ export const Control = (props: Props) => {
 
     const on_loggername_change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let value = event.target.value
-        value = value === 'ddoi' || value === 'koa' ? value : 'ddoi
+        value = value === 'ddoi' || value === 'koa' ? value : 'ddoi'
         console.log("loggername", value)
         setLoggername(value)
     }
