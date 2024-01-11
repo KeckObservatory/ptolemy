@@ -14,8 +14,33 @@ except ImportError:
 
 from execution_engine.core.ExecutionEngine import ExecutionEngine
 
+def create_logger(subsystem, author, progid, semid, loggername, configLocation=None):
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger()
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    try:
+        kwargs = {'subsystem':subsystem, 
+                  'author':author, 
+                  'progid':progid, 
+                  'semid':semid, 
+                  'loggername': loggername}
+        zmq_log_handler = dl.ZMQHandler(configLocation, local=False, **kwargs)
+        logger.addHandler(zmq_log_handler)
+    except Exception as err:
+        print(f'zmq log handler failed. not going to add. {err}')
+    logger.setLevel(logging.INFO)
+    return logger
 
-def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author='xxxx', progid='xxxx', semid='xxxx', configLoc=None):
+def create_logger(fileName='/ddoi/log/ptolemy.log',
+                  subsystem="PTOLEMY",
+                  author='xxxx',
+                  progid='xxxx',
+                  semid='xxxx',
+                  loggername='ddoi',
+                  configLocation=None):
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch = logging.StreamHandler()
@@ -28,11 +53,15 @@ def create_logger(fileName='/ddoi/log/ptolemy.log', subsystem="PTOLEMY", author=
     logger.addHandler(ch)
     logger.addHandler(fl)
     try:
-        zmq_log_handler = dl.ZMQHandler(
-            subsystem, configLoc, author, progid, semid)
+        kwargs = {'subsystem':subsystem, 
+                  'author':author, 
+                  'progid':progid, 
+                  'semid':semid, 
+                  'loggername': loggername}
+        zmq_log_handler = dl.ZMQHandler(configLocation, local=False, **kwargs)
         logger.addHandler(zmq_log_handler)
     except Exception as err:
-        print('zmq log handler failed. not going to add')
+        print('zmq log handler failed. not going to add. err: {err}')
     logger.setLevel(logging.INFO)
     return logger
 
