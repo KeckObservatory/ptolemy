@@ -1,4 +1,4 @@
-from app import app, socketio
+from app import app, socketio, config_parser, logger
 from flask_socketio import emit
 from flask import send_from_directory, request, logging
 import os
@@ -8,8 +8,6 @@ try:
     import ktl
 except ImportError:
     ktl = ''
-
-
 
 @app.route('/ptolemy')
 def index():
