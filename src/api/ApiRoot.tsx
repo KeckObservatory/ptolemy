@@ -53,11 +53,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(intResponse, intError);
 
 export const get_logs = (
-    n_logs?: number,
+    n_logs: number,
+    loggername: string,
     minutes?: number,
     subsystem?: string,
     semid?: string,
-    loggername?: string,
 ): Promise<Log[]> => {
     let url = LOGGER_BASE_URL
     if (minutes) {

@@ -26,14 +26,14 @@ export const Control = (props: Props) => {
 
     const query_logs = () => {
         if (!minuteSwitch) {
-            log_functions.get_logs(n_logs).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs, loggername).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
             })
         }
         else {
-            log_functions.get_logs(n_logs, minutes).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs, loggername, minutes).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
