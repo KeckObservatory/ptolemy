@@ -27,11 +27,11 @@ def get_logs():
 
     logs = glf.get_logz(
         url,
-        params.get('subsystem', None),
-        params.get('loggername', 'ddoi'),
         minutes,
-        params.get('startDate', None),
-        params.get('endDate', None),
-        n_logs,
-        DATE_FORMAT)
+        subsystem = params.get('subsystem', None),
+        loggername = params.get('loggername', 'ddoi'),
+        start_date = params.get('startDate', None),
+        end_date = params.get('endDate', None),
+        n_logs = n_logs,
+        date_format = DATE_FORMAT)
     return jsonify(logs) 
