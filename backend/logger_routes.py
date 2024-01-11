@@ -28,6 +28,7 @@ def get_logs():
     logs = glf.get_logz(
         url,
         params.get('subsystem', None),
+        params.get('loggername', 'ddoi')
         minutes,
         params.get('startDate', None),
         params.get('endDate', None),
