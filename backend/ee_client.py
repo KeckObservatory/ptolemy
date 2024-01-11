@@ -5,7 +5,7 @@ import os
 import json
 import argparse
 from execution_engine.core.ExecutionEngine import ExecutionEngine
-from frontend_routes import create_logger
+from app import create_logger
 import configparser
 
 sio = socketio.Client()
