@@ -25,15 +25,16 @@ export const Control = (props: Props) => {
     }, [])
 
     const query_logs = () => {
+        const ln = loggername === 'ddoi' || loggername === 'koa' ? loggername : 'ddoi'
         if (!minuteSwitch) {
-            log_functions.get_logs(n_logs, loggername).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs, ln).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
             })
         }
         else {
-            log_functions.get_logs(n_logs, loggername, minutes).then((lgs: (Log | undefined)[]) => {
+            log_functions.get_logs(n_logs, ln, minutes).then((lgs: (Log | undefined)[]) => {
                 if (lgs) {
                     props.setLogs(lgs as Log[])
                 }
@@ -59,7 +60,6 @@ export const Control = (props: Props) => {
 
     const on_loggername_change = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let value = event.target.value
-        value = value === 'ddoi' || value === 'koa' ? value : 'ddoi'
         console.log("loggername", value)
         setLoggername(value)
     }
