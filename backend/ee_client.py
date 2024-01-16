@@ -323,7 +323,7 @@ def ee_submit_event(data):
 
         freshEvent['args'] = args
     except Exception as err:
-        msg = 'failed to get fresh ob: {err}'
+        msg = f'failed to get fresh ob: {err}'
         logger.warning(msg)
         return {'status': 'ERR', 'msg': msg}
     try:
