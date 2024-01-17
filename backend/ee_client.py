@@ -40,8 +40,8 @@ def get_ee_state():
         evtBoneyard = [x.as_dict() for x in ee.ev_q.boneyard]
         data['event_boneyard'] = evtBoneyard
         data['event_queue_locked'] = ee.ev_q.block_event.is_set()
-        isPaused = ktl.read(config_parser['KTL']['service'], 'pause')
-        isHalted = ktl.read(config_parser['KTL']['service'], 'halt')
+        isPaused = 'true' in ktl.read(config_parser['KTL']['service'], 'pause')
+        isHalted = 'false' in ktl.read(config_parser['KTL']['service'], 'halt')
         data['pause'] = isPaused
         data['halt'] = isHalted
         logger.info('sending ee state to frontend')
