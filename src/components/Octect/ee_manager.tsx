@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Button,
     Switch,
@@ -22,8 +22,6 @@ interface Props {
 
 export const EEManager = (props: Props) => {
     const [open, setOpen] = React.useState(false)
-    const [pauseToggle, setPauseToggle] = React.useState(props.pause)
-    const [haltToggle, setHaltToggle] = React.useState(props.halt)
 
     const socket = React.useContext(SocketContext);
     const handleOpen = () => {
@@ -33,14 +31,8 @@ export const EEManager = (props: Props) => {
         setOpen(false);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
-        const data = {[type]: !props[type as 'pause' | 'halt']}
-        if (type === 'pause') {
-            setPauseToggle(checked)
-        }
-        if (type === 'halt') {
-            setHaltToggle(checked)
-        }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, type: string) => {
+        const data = {[type]: event.target.value}
         console.log('toggle_pause_halt', data)
         socket.emit('toggle_pause_halt', data)
     }
@@ -66,13 +58,13 @@ export const EEManager = (props: Props) => {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Switch checked={pauseToggle} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="pause" />
+                                    <Switch checked={props.pause} onChange={(event) => handleChange(event, 'pause')} name="pause" />
                                 }
                                 label="Pause Event"
                             />
                             <FormControlLabel
                                 control={
-                                    <Switch checked={haltToggle} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="halt" />
+                                    <Switch checked={props.halt} onChange={(event) => handleChange(event, 'halt')} name="halt" />
                                 }
                                 label="Stop Event"
                             />
