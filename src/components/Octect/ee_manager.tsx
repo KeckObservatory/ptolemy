@@ -31,6 +31,10 @@ export const EEManager = (props: Props) => {
         setOpen(false);
     };
 
+    useEffect(() => { 
+        console.log('EEManager useEffect', props.pause, props.halt)
+    }, [props.pause, props.halt])
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
         const data = {[type]: checked}
         console.log('toggle_pause_halt', data, 'checked', checked, 'value', event.target.value, 'target checked', event.target.checked)
