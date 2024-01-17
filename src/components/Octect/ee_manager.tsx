@@ -22,6 +22,8 @@ interface Props {
 
 export const EEManager = (props: Props) => {
     const [open, setOpen] = React.useState(false)
+    const [pauseToggle, setPauseToggle] = React.useState(props.pause)
+    const [haltToggle, setHaltToggle] = React.useState(props.halt)
 
     const socket = React.useContext(SocketContext);
     const handleOpen = () => {
@@ -31,15 +33,23 @@ export const EEManager = (props: Props) => {
         setOpen(false);
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         console.log('EEManager useEffect', props.pause, props.halt)
+        setPauseToggle(props.pause)
+        setHaltToggle(props.halt)
     }, [props.pause, props.halt])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
-        const data = {[type]: checked}
+        const data = { [type]: checked }
         console.log('toggle_pause_halt', data, 'checked', checked, 'value', event.target.value, 'target checked', event.target.checked)
         console.log('event', event)
-        //socket.emit('toggle_pause_halt', data)
+        if (type === 'pause') {
+            setPauseToggle(checked)
+        }
+        if (type === 'halt') {
+            setHaltToggle(checked)
+        }
+        socket.emit('toggle_pause_halt', data)
     }
 
     return (
@@ -63,13 +73,19 @@ export const EEManager = (props: Props) => {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Switch checked={props.pause} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="pause" />
+                                    <Switch
+                                        checked={pauseToggle}
+                                        onChange={(event, checked) => handleChange(event, checked, 'pause')}
+                                        name="pause" />
                                 }
                                 label="Pause Event"
                             />
                             <FormControlLabel
                                 control={
-                                    <Switch checked={props.halt} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="halt" />
+                                    <Switch
+                                        checked={haltToggle}
+                                        onChange={(event, checked) => handleChange(event, checked, 'halt')}
+                                        name="halt" />
                                 }
                                 label="Stop Event"
                             />
