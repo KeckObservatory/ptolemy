@@ -31,9 +31,9 @@ export const EEManager = (props: Props) => {
         setOpen(false);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: string, type: string) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
         const data = {[type]: event.target.checked}
-        console.log('toggle_pause_halt', data, 'checked', checked)
+        console.log('toggle_pause_halt', data, 'checked', checked, 'value', event.target.value, 'target checked', event.target.checked)
         socket.emit('toggle_pause_halt', data)
     }
 
