@@ -188,15 +188,16 @@ def release_event_queue_lock():
 @socketio.on('toggle_pause_halt')
 def toggle_pause_halt(data):
     keys = data.keys()
-    isPaused = data.get('pause')
-    isHalted = data.get('halt')
     msg = ''
+    service = config_parser['KTL']['service']
     if 'pause' in keys: 
-        ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
-        msg += f'pause set to {isPaused}\n'
+        isPaused = data.get('pause')
+        ktl.write(service, 'pause', isPaused)
+        msg += f'{service}:pause set to {isPaused}\n'
     if 'halt' in keys: 
-        ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
-        msg += f'halt set to {isHalted} '
+        isHalted = data.get('halt')
+        ktl.write(service, 'halt', isHalted)
+        msg += f'{service}:halt set to {isHalted} '
     logger.info(msg)
     emit('snackbar_msg', {'msg': msg}, broadcast=True)
     emit('paused_halted_broadcast', data, broadcast=True)
