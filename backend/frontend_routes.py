@@ -190,7 +190,6 @@ def toggle_pause_halt(data):
     keys = data.keys()
     isPaused = data.get('pause')
     isHalted = data.get('halt')
-    logger.info(f'isPaused: {isPaused}, isHalted: {isHalted}')
     msg = ''
     if 'pause' in keys: 
         ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
@@ -198,5 +197,6 @@ def toggle_pause_halt(data):
     if 'halt' in keys: 
         ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
         msg += f'halt set to {isHalted} '
+    logger.info(msg)
     emit('snackbar_msg', {'msg': msg}, broadcast=True)
     emit('paused_halted_broadcast', data, broadcast=True)
