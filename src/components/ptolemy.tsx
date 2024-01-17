@@ -144,8 +144,8 @@ export const Ptolemy = (props: Props) => {
             console.log('paused_halted_broadcast. Setting.')
             console.log('pause', data.pause)
             console.log('halt', data.halt)
-            setPause(data.pause)
-            setHalt(data.halt)
+            !(data.pause ?? setPause(data.pause))
+            !(data.halt ?? setHalt(data.halt))
         })
 
         socket.on('ob_sent', (data) => {
