@@ -199,4 +199,4 @@ def toggle_pause_halt_event(data):
         ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
         msg += f'halt set to {isHalted} '
     emit('snackbar_msg', {'msg': msg}, broadcast=True)
-    emit('paused_halted_broadcast', data, broadcast=True)
+    emit('paused_halted_broadcast', {'pause': isPaused, 'halt': isHalted}, broadcast=True)
