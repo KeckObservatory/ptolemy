@@ -15,7 +15,9 @@ interface EEState {
     sequence_queue: Science[],
     sequence_boneyard: Science[],
     event_queue: EventDict[],
-    event_boneyard: EventDict[]
+    event_boneyard: EventDict[],
+    pause: boolean,
+    halt: boolean
 }
 
 interface Props {
@@ -44,6 +46,8 @@ export const Ptolemy = (props: Props) => {
     const [sequenceBoneyard, setSequenceBoneyard] = React.useState([] as Science[])
     const [events, setEvents] = React.useState([] as EventDict[])
     const [eventBoneyard, setEventBoneyard] = React.useState([] as EventDict[])
+    const [halt, setHalt] = React.useState(false)
+    const [pause, setPause] = React.useState(false)
 
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
@@ -89,6 +93,8 @@ export const Ptolemy = (props: Props) => {
             data.sequence_boneyard.length > 0 && setSequenceBoneyard(data.sequence_boneyard)
             data.event_queue.length > 0 && setEvents(data.event_queue)
             data.event_boneyard.length > 0 && setEventBoneyard(data.event_boneyard)
+            setPause(data.pause)
+            setHalt(data.halt)
         })
 
         socket.on('task_broadcast', (data) => {
@@ -133,6 +139,14 @@ export const Ptolemy = (props: Props) => {
             
             setEvents(data.event_queue)
             setEventBoneyard(data.event_boneyard)
+        })
+
+        socket.on('paused_halted_broadcast', (data) => {
+            console.log('paused_halted_broadcast. Setting.')
+            console.log('pause', data.pause)
+            console.log('halt', data.halt)
+            data.pause !== pause && setPause(data.pause)
+            data.halt !== halt && setHalt(data.halt)
         })
 
         socket.on('ob_sent', (data) => {
@@ -223,6 +237,8 @@ export const Ptolemy = (props: Props) => {
                                     iconStyle={props.iconStyle}
                                     events={events}
                                     eventBoneyard={eventBoneyard}
+                                    pause={pause}
+                                    halt={halt}
                                 />
                             </Grid>
                         </Grid>
@@ -242,6 +258,8 @@ export const Ptolemy = (props: Props) => {
                         iconStyle={props.iconStyle}
                         events={events}
                         eventBoneyard={eventBoneyard}
+                        pause={pause}
+                        halt={halt}
                     />
                 )
             }

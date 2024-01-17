@@ -15,10 +15,13 @@ import {
 
 import { SocketContext } from '../../contexts/socket';
 
-export const EEManager = () => {
+interface Props {
+    pause: boolean
+    halt: boolean
+}
+
+export const EEManager = (props: Props) => {
     const [open, setOpen] = React.useState(false)
-    const [isPaused, setIsPaused] = React.useState(false)
-    const [isStopped, setIsStopped] = React.useState(false)
 
     const socket = React.useContext(SocketContext);
     const handleOpen = () => {
@@ -30,11 +33,6 @@ export const EEManager = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean, type: string) => {
         const data = {[type]: checked}
-        if (type === 'pause') {
-            setIsPaused(checked)
-        } else if (type === 'halt') {
-            setIsStopped(checked)
-        }
         socket.emit('toggle_pause_halt_event', data)
     }
 
@@ -59,13 +57,13 @@ export const EEManager = () => {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Switch checked={isPaused} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="gilad" />
+                                    <Switch checked={props.pause} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="gilad" />
                                 }
                                 label="Pause Event"
                             />
                             <FormControlLabel
                                 control={
-                                    <Switch checked={isStopped} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="jason" />
+                                    <Switch checked={props.halt} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="jason" />
                                 }
                                 label="Stop Event"
                             />

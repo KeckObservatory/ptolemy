@@ -48,6 +48,8 @@ interface Props {
     iconStyle: any
     events: EventDict[];
     eventBoneyard: EventDict[];
+    pause: boolean;
+    halt: boolean;
 }
 
 export const EventQueueColumn = (props: Props) => {
@@ -166,7 +168,7 @@ export const EventQueueColumn = (props: Props) => {
                 </AccordionDetails>
             </Accordion>
             <Stack sx={{ margin: '8px', height: '40px' }} direction="row" spacing={2}>
-                <EEManager />
+                <EEManager pause={props.pause} halt={props.halt} />
                 {/* <Button disabled={role.includes('OA')} variant="contained" onClick={props.submitEvent}>Submit Event</Button> */}
                 <Button disabled={disableQueueUnlock} variant="contained" onClick={props.releaseEventQueueLock}>Release Event Queue Lock</Button>
                 <Tooltip title="Hide Events that have been completed">

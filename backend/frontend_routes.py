@@ -191,5 +191,12 @@ def toggle_pause_halt_event(data):
     isPaused = int(data.get('pause', False))
     isHalted = int(data.get('halt', False))
     logger.info(f'isPaused: {isPaused}, isHalted: {isHalted}')
-    if 'pause' in keys: ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
-    if 'halt' in keys: ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
+    msg = ''
+    if 'pause' in keys: 
+        ktl.write(config_parser['KTL']['service'], 'pause', isPaused)
+        msg += f'pause set to {isPaused}\n'
+    if 'halt' in keys: 
+        ktl.write(config_parser['KTL']['service'], 'halt', isHalted)
+        msg += f'halt set to {isHalted} '
+    emit('snackbar_msg', {'msg': msg}, broadcast=True)
+    emit('paused_halted_broadcast', data, broadcast=True)

@@ -7,6 +7,10 @@ import argparse
 from execution_engine.core.ExecutionEngine import ExecutionEngine
 from app import create_logger
 import configparser
+try:
+    import ktl
+except ImportError:
+    ktl = ''
 
 sio = socketio.Client()
 
@@ -36,6 +40,10 @@ def get_ee_state():
         evtBoneyard = [x.as_dict() for x in ee.ev_q.boneyard]
         data['event_boneyard'] = evtBoneyard
         data['event_queue_locked'] = ee.ev_q.block_event.is_set()
+        isPaused = ktl.read(config_parser['KTL']['service'], 'pause')
+        isHalted = ktl.read(config_parser['KTL']['service'], 'halt')
+        data['pause'] = isPaused
+        data['halt'] = isHalted
         logger.info('sending ee state to frontend')
         return {'status': 'OK', 'data': data}
     except RuntimeError as err:
