@@ -31,9 +31,9 @@ export const EEManager = (props: Props) => {
         setOpen(false);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, type: string) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, checked: string, type: string) => {
         const data = {[type]: event.target.checked}
-        console.log('toggle_pause_halt', data)
+        console.log('toggle_pause_halt', data, 'checked', checked)
         socket.emit('toggle_pause_halt', data)
     }
 
@@ -58,13 +58,13 @@ export const EEManager = (props: Props) => {
                         <FormGroup>
                             <FormControlLabel
                                 control={
-                                    <Switch checked={props.pause} onChange={(event) => handleChange(event, 'pause')} name="pause" />
+                                    <Switch checked={props.pause} onChange={(event, checked) => handleChange(event, checked, 'pause')} name="pause" />
                                 }
                                 label="Pause Event"
                             />
                             <FormControlLabel
                                 control={
-                                    <Switch checked={props.halt} onChange={(event) => handleChange(event, 'halt')} name="halt" />
+                                    <Switch checked={props.halt} onChange={(event, checked) => handleChange(event, checked, 'halt')} name="halt" />
                                 }
                                 label="Stop Event"
                             />
