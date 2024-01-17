@@ -47,7 +47,6 @@ const a11yProps = (index: number) => {
 }
 
 export const ModuleMenu = () => {
-    console.log('rendering module menu')
     const [tabIdx, setTabIdx] = useQueryParam('tab_index', withDefault(NumberParam, 1));
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {

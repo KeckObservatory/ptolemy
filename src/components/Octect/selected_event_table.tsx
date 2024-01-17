@@ -154,7 +154,6 @@ const SelectedEventTable = (props: Props) => {
         events = [...events, ...props.eventBoneyard]
     }
 
-    console.log('rendering event table. rows', rows)
 
     const update_value = (value: boolean, checked: boolean, tableMeta: any) => {
         console.log('update value checked')

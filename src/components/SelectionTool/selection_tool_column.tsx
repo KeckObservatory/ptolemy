@@ -79,7 +79,6 @@ export const SelectionToolColumn = (props: Props) => {
     }, [])
 
     useEffect(() => {
-        console.log('semid changed, rerendering selectiotool column')
         make_semid_scoby_table_and_containers(sem_id)
             .then((scoby_cont: [Scoby[], DetailedContainer[]]) => {
                 const [scoby, cont] = scoby_cont

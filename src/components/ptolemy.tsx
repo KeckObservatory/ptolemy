@@ -33,7 +33,6 @@ interface OBServerData {
 }
 
 export const Ptolemy = (props: Props) => {
-    console.log('rendering ptolemy')
 
     const socket = React.useContext(SocketContext);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
