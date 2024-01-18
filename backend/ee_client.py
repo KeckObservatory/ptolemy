@@ -119,7 +119,7 @@ def ee_submit_ob(data):
         ee.magiq_interface.check_if_connected_to_magiq_server()
         target = ob.get('target')
         resp = ee.magiq_interface.select_target_in_magiq(
-            ob.get('target'), idx, logger)
+            target, idx, logger)
     except requests.exceptions.ConnectionError as err:
         msg = f'did not highlight target in magiq.'
         logger.warning(msg)

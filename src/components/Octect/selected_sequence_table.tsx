@@ -31,8 +31,12 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
     let rows: any[] = []
     let uid = startUid
     arr.forEach((el: any, idx: number) => {
+
+        let name = el.metadata.name
+        name = el.parameters.det_cal_type ? name += '_' + el.parameters.det_cal_type : name
+        
         const row = {
-            name: el.metadata.name,
+            name: name,
             id: JSON.stringify(uid),
             exposure_time: el.parameters.det_exp_time,
             det_type: el.parameters.det_type_mode,
