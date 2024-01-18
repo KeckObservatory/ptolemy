@@ -32,8 +32,8 @@ const arr_to_rows = (arr: any[], completed = true, startUid = 0) => {
     let uid = startUid
     arr.forEach((el: any, idx: number) => {
 
-        let name = el.metadata.name
-        name = el.parameters.det_cal_type ? name += '_' + el.parameters.det_cal_type : name
+        let name = el.metadata.name as string
+        name = el.parameters.det_cal_type ? name += '_' + el.parameters.det_cal_type.toLowerCase() : name
         
         const row = {
             name: name,
