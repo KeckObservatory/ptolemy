@@ -14,7 +14,7 @@ app = Flask(__name__, static_url_path='', static_folder='../build')
 CORS(app, supports_credentials=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-def create_logger(fileName='/ddoi/log/ptolemy.log',
+def create_logger(fileName='/kroot/var/log/ptolemy.log',
                   subsystem="PTOLEMY",
                   author='xxxx',
                   progid='xxxx',
@@ -52,7 +52,7 @@ config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 
 
-state_file_name = "/ddoi/state/ptolemy_state.json"
+state_file_name = "/kroot/var/state/ddoi/ptolemy_state.json"
 def write_to_file(item):
     with open(state_file_name, 'w') as outfile:
         json.dump(item, outfile)
