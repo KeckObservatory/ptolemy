@@ -376,7 +376,7 @@ def write_to_file(item, fileName):
 if __name__ == '__main__':
     logger = create_logger(subsystem='EXECUTION_ENGINE')
     cfg_name = "./cfg.ini"
-    state_file_name = "/ddoi/state/ptolemy_state.json"
+    state_file_name = "/kroot/var/state/ddoi/ptolemy_state.json"
     config_parser = configparser.ConfigParser()
     config_parser.read(cfg_name)
     ee = ExecutionEngine(logger=logger, cfg=cfg_name)
