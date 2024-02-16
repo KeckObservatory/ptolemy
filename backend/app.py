@@ -14,7 +14,7 @@ app = Flask(__name__, static_url_path='', static_folder='../build')
 CORS(app, supports_credentials=True)
 socketio = SocketIO(app, async_mode=async_mode, cors_allowed_origins="*")
 
-def create_logger(fileName='/ddoi/log/ptolemy.log',
+def create_logger(fileName='/kroot/var/log/ptolemy.log',
                   subsystem="PTOLEMY",
                   author='xxxx',
                   progid='xxxx',
