@@ -45,16 +45,15 @@ def create_logger(fileName='/ddoi/log/ptolemy.log',
     logger.setLevel(logging.INFO)
     return logger
 
-logger = create_logger(subsystem='PTOLEMY')
-
 cfg_name = "./cfg.ini"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 
+logger = create_logger(filename=config_parser['LOGGER']['filename'],
+                       subsystem='PTOLEMY')
 
-state_file_name = "/ddoi/state/ptolemy_state.json"
 def write_to_file(item):
-    with open(state_file_name, 'w') as outfile:
+    with open(config_parser['STATE']['file_name'], 'w') as outfile:
         json.dump(item, outfile)
 from frontend_routes import *
 from logger_routes import *

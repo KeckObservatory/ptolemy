@@ -5,10 +5,10 @@ import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 // import { Routes, Route } from 'react-router';
 import { createBrowserHistory } from 'history';
-import { QueryParamProvider } from 'use-query-params';
 
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
 
 
 ReactDOM.render(

@@ -7,10 +7,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import { BooleanParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
 import { ModuleMenu } from './module_menu'
 
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryParamProvider } from 'use-query-params';
+
 function App() {
   const [darkState, setDarkState] = useQueryParam('darkState', withDefault(BooleanParam, true));
-  const [observer_id] =
-    useQueryParam('observer_id', withDefault(StringParam, '2003'))
+  const [observer_id] = useQueryParam('observer_id', withDefault(StringParam, '2003'))
   const [theme, jsonTheme] = handleTheme(darkState)
 
   const handleThemeChange = (): void => {

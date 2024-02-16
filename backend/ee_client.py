@@ -376,9 +376,11 @@ def write_to_file(item, fileName):
 if __name__ == '__main__':
     logger = create_logger(subsystem='EXECUTION_ENGINE')
     cfg_name = "./cfg.ini"
-    state_file_name = "/ddoi/state/ptolemy_state.json"
     config_parser = configparser.ConfigParser()
     config_parser.read(cfg_name)
+    state_file_name = config_parser['STATE']['filename']
+    logger = create_logger(filename=config_parser['LOGGER']['filename'],
+                        subsystem='EXECUTION_ENGINE')
     ee = ExecutionEngine(logger=logger, cfg=cfg_name)
 
     if os.path.exists(state_file_name):
