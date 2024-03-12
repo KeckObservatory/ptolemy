@@ -29,6 +29,21 @@ def request_ee_state():
             emit('snackbar_msg', msg, room=request.sid)
     emit('get_ee_state', callback=send_ee_state, broadcast=True)
 
+@socketio.on("refresh_ee_state")
+def refresh_ee_state():
+    """Sends OB stored on EE (first item in queue)"""
+    logger.info(f'refresh_ee_state event triggerd by {request.sid}')
+
+    def send_ee_state(msg):
+        if msg['status'] == 'OK':
+            emit('broadcast_ee_state_from_server',
+                 msg['data'], room=request.sid)
+        else:
+            emit('snackbar_msg', msg, room=request.sid)
+    # be aware that this is a broadcast, and will trigger all clients to refresh
+    emit('refresh_ee_state', callback=send_ee_state, broadcast=True)
+
+
 
 @socketio.on("request_ob_queue")
 def request_ob_queue():

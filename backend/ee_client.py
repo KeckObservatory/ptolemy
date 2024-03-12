@@ -241,7 +241,6 @@ def get_fresh_sequence_and_observations(ob, sequence_number, boneyard_sequence_n
     freshBoneyard = [freshSequence, *freshBoneyard] # add submitted seq to boneyard
     return freshSequenceQueue, freshBoneyard, freshSequence
 
-
 def get_fresh_ob():
     # Get a fresh OB for the new task
     ob_id = ee.obs_q.submitted_ob_id
@@ -251,6 +250,29 @@ def get_fresh_ob():
     ob = ee.ODBInterface.get_OB_from_id(ob_id)
     return ob
 
+def refresh_sequences(ob, sequences):
+    freshSequenceList = []
+    for seq in sequences:
+        newSeq = next((x for x in ob['observations'] if seq['metadata']['sequence_number'] == x['metadata']['sequence_number']), False)
+        if newSeq:
+            freshSequenceList.append(newSeq)
+    return freshSequenceList
+
+@sio.event
+def ee_refresh_queues():
+    try:
+        ob = get_fresh_ob()
+        freshSequenceList = refresh_sequences(ob, list(ee.seq_q.sequences))
+        ee.seq_q.set_queue(freshSequenceList)
+        freshSequenceBoneyard = refresh_sequences(ob, ee.seq_q.boneyard)
+        ee.seq_q.boneyard = freshSequenceBoneyard 
+        ee.ev_q.refresh_event_args(ob)
+    except Exception as err:
+        logger.warning(f'new_task error: {err}')
+        return {'status': 'ERR', 'msg': f'{err}'}
+
+
+    return get_ee_state()
 
 @sio.event
 def ee_new_task(data):
@@ -361,11 +383,6 @@ def connect():
 @sio.event
 def disconnect():
     logger.info('EE disconnected from server')
-
-
-@sio.event
-def hello(a, b, c):
-    logger.info(a, b, c)
 
 
 def write_to_file(item, fileName):

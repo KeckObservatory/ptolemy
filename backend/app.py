@@ -52,9 +52,6 @@ config_parser.read(cfg_name)
 logger = create_logger(filename=config_parser['LOGGER']['filename'],
                        subsystem='PTOLEMY')
 
-def write_to_file(item):
-    with open(config_parser['STATE']['file_name'], 'w') as outfile:
-        json.dump(item, outfile)
 from frontend_routes import *
 from logger_routes import *
 

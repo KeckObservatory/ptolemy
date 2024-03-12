@@ -1,19 +1,18 @@
 
-import React, { MouseEventHandler, useEffect, useState } from 'react'
+import React, { MouseEventHandler } from 'react'
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { IconButton } from '@mui/material';
 import { ObservationBlock, Science } from '../../typings/ptolemy'
-import { DragDropContext } from 'react-beautiful-dnd'
-import { reorder, move, CreateDroppable } from './../dnd_divs'
 import ReactJson, { OnCopyProps, ThemeKeys } from 'react-json-view'
 import { BooleanParam, StringParam, useQueryParam, withDefault } from 'use-query-params'
-import { Button, FormControl, FormControlLabel, Paper, Stack, Switch, Tooltip } from '@mui/material'
-import JsonViewTheme from '../json_view_theme'
-import { SocketContext } from '../../contexts/socket';
+import { Button, FormControlLabel, Stack, Switch, Tooltip } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SelectedSequenceTable from './selected_sequence_table'
+import { socket } from '../../contexts/socket';
 
 interface Props {
     enableClipboard: boolean | ((copy: OnCopyProps) => void) | undefined
@@ -21,7 +20,7 @@ interface Props {
     collapsed: number | boolean | undefined
     iconStyle: "circle" | "triangle" | "square" | undefined
     submitAcq: MouseEventHandler<HTMLButtonElement>
-    submitSeq: Function 
+    submitSeq: Function
     sequences: Science[];
     sequenceBoneyard: Science[];
     ob: ObservationBlock;
@@ -54,7 +53,7 @@ export const SequenceQueueColumn = (props: Props) => {
     const [theme, setTheme] =
         useQueryParam('theme', withDefault(StringParam, 'bespin'))
 
-    const [hideCompletedSequences, setHideCompletedSequences] = 
+    const [hideCompletedSequences, setHideCompletedSequences] =
         useQueryParam('hide_completed_sequences', withDefault(BooleanParam, false))
 
     const hide_submitted_sequences = (checked: boolean) => {
@@ -68,6 +67,10 @@ export const SequenceQueueColumn = (props: Props) => {
         console.log(`opening url ${url} in new tab`)
         window.open(url, '_blank')
 
+    }
+
+    const handle_refresh_ob = () => {
+        socket.emit('refresh_ob')
     }
 
     const isDragDisabled = false
@@ -87,6 +90,12 @@ export const SequenceQueueColumn = (props: Props) => {
                     <h2 style={{ margin: '0px', marginRight: '10px' }}>Selected OB</h2>
                     <Tooltip title={'Open separate tab in the ODT that reads the OB'}>
                         <Button sx={{ margin: '0px' }} onClick={handle_edit_ob}>EDIT OB</Button>
+                    </Tooltip>
+                    <Tooltip title={'Select to refresh EE state with most recent OB'}>
+                        <IconButton onClick={handle_refresh_ob} aria-label='refresh-ob'>
+                            <RefreshIcon />
+                        </IconButton>
+                        {/* <Button sx={{ margin: '0px' }} onClick={handle_refresh_ob}>RefreOB</Button> */}
                     </Tooltip>
                 </AccordionSummary>
                 <AccordionDetails
@@ -124,7 +133,7 @@ export const SequenceQueueColumn = (props: Props) => {
                 ob={props.ob}
                 sequences={props.sequences}
                 sequenceBoneyard={props.sequenceBoneyard}
-                submitSeq={props.submitSeq} 
+                submitSeq={props.submitSeq}
                 hideCompletedSequences={hideCompletedSequences}
             />
         </React.Fragment >
