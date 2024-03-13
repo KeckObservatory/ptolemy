@@ -134,7 +134,7 @@ export const EventQueueColumn = (props: Props) => {
     const disableQueueUnlock = role === "Observer"
 
     let selSeqText = "Selected Sequence:"
-    const seqNo = (props.sequence.metadata as ScienceMetadata).sequence_number
+    const seqNo = props.sequence? (props.sequence?.metadata as ScienceMetadata).sequence_number : false 
     seqNo && (selSeqText += " " + seqNo)
 
     return (
