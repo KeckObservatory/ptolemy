@@ -51,7 +51,7 @@ cfg_name = "./cfg.ini"
 config_parser = configparser.ConfigParser()
 config_parser.read(cfg_name)
 
-logger = create_logger(filename=config_parser['LOGGER']['filename'],
+logger = create_logger(fileName=config_parser['LOGGER']['filename'],
                        subsystem='PTOLEMY')
 
 from frontend_routes import *
