@@ -69,8 +69,9 @@ export const SequenceQueueColumn = (props: Props) => {
 
     }
 
-    const handle_refresh_ob = () => {
-        socket.emit('refresh_ob')
+    const handle_refresh_ee_state = () => {
+        console.log('refreshing ob')
+        socket.emit('refresh_ee_state')
     }
 
     let selOBText = 'Selected OB'
@@ -124,10 +125,10 @@ export const SequenceQueueColumn = (props: Props) => {
                     />
                 </Tooltip>
                 <Tooltip title={'Select to refresh EE state with most recent OB'}>
-                    <IconButton onClick={handle_refresh_ob} aria-label='refresh-ob'>
+                    <IconButton onClick={handle_refresh_ee_state} aria-label='refresh-ob'>
                         <RefreshIcon />
                     </IconButton>
-                    {/* <Button sx={{ margin: '0px' }} onClick={handle_refresh_ob}>RefreOB</Button> */}
+                    {/* <Button sx={{ margin: '0px' }} onClick={handle_refresh_ee_state}>RefreOB</Button> */}
                 </Tooltip>
             </Stack>
             <SelectedSequenceTable
