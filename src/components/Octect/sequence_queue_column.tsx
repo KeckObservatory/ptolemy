@@ -73,11 +73,9 @@ export const SequenceQueueColumn = (props: Props) => {
         socket.emit('refresh_ob')
     }
 
-    const isDragDisabled = false
-
     let selOBText = 'Selected OB'
-    props.ob?.metadata?.name && (selOBText += 'Name: ' + props.ob.metadata.name)
-    props.ob?.target?.parameters.target_info_name && (selOBText += 'Target: ' + props.ob.target.parameters.target_info_name)
+    props.ob?.metadata?.name && (selOBText += ' Name: ' + props.ob.metadata.name)
+    props.ob?.target?.parameters.target_info_name && (selOBText += ' Target: ' + props.ob.target.parameters.target_info_name)
 
     return (
         <React.Fragment>
@@ -89,17 +87,10 @@ export const SequenceQueueColumn = (props: Props) => {
                         marginTop: '4px',
                         paddingLeft: '4px'
                     }}
-
                 >
                     <h2 style={{ margin: '0px', marginRight: '10px' }}>{selOBText}</h2>
                     <Tooltip title={'Open separate tab in the ODT that reads the OB'}>
                         <Button sx={{ margin: '0px' }} onClick={handle_edit_ob}>EDIT OB</Button>
-                    </Tooltip>
-                    <Tooltip title={'Select to refresh EE state with most recent OB'}>
-                        <IconButton onClick={handle_refresh_ob} aria-label='refresh-ob'>
-                            <RefreshIcon />
-                        </IconButton>
-                        {/* <Button sx={{ margin: '0px' }} onClick={handle_refresh_ob}>RefreOB</Button> */}
                     </Tooltip>
                 </AccordionSummary>
                 <AccordionDetails
@@ -131,6 +122,12 @@ export const SequenceQueueColumn = (props: Props) => {
                         onChange={(_, checked) => hide_submitted_sequences(checked)
                         }
                     />
+                </Tooltip>
+                <Tooltip title={'Select to refresh EE state with most recent OB'}>
+                    <IconButton onClick={handle_refresh_ob} aria-label='refresh-ob'>
+                        <RefreshIcon />
+                    </IconButton>
+                    {/* <Button sx={{ margin: '0px' }} onClick={handle_refresh_ob}>RefreOB</Button> */}
                 </Tooltip>
             </Stack>
             <SelectedSequenceTable
