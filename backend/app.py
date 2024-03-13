@@ -5,6 +5,7 @@ from flask_socketio import SocketIO
 from engineio.payload import Payload
 from flask_cors import CORS
 import configparser
+import os
 from LoggerClient import Logger as dl
 import json
 
@@ -37,6 +38,7 @@ def create_logger(fileName='/kroot/var/log/ptolemy.log',
                   'author':author, 
                   'progid':progid, 
                   'semid':semid, 
+                  'server':os.uname().nodename,
                   'loggername': loggername}
         zmq_log_handler = dl.ZMQHandler(configLocation, local=False, **kwargs)
         logger.addHandler(zmq_log_handler)
