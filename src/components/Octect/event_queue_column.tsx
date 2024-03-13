@@ -65,42 +65,6 @@ export const EventQueueColumn = (props: Props) => {
 
     const [role, _] = useQueryParam('role', withDefault(StringParam, "Observer"));
 
-
-    const isDragDisabled = role === "Observer" ? true : false
-
-
-    const onDragEnd = (result: any) => {
-        const { source, destination } = result;
-        if (!destination) return;
-        const sKey: string = source.droppableId;
-        const dKey: string = destination.droppableId;
-        console.log('skey, dkey', sKey, dKey)
-
-
-        if (sKey === dKey) { //shuffling items around
-            if (dKey === 'eventQueue') {
-                let newEvents = [...props.events]
-                newEvents = reorder(newEvents, source.index, destination.index)
-                socket.emit('new_event_queue', { event_queue: newEvents })
-            }
-            else {
-                let newBoneyard = [...props.eventBoneyard]
-                newBoneyard = reorder(newBoneyard, source.index, destination.index)
-                socket.emit('new_event_boneyard', { event_boneyard: newBoneyard })
-            }
-        } else { // item in droppable 
-            if (dKey === 'eventQueue') { // event added to event queue
-                const result = move(props.eventBoneyard, props.events, source, destination);
-                socket.emit('event_queue_boneyard_swap', { event_queue: result[dKey], event_boneyard: result[sKey] })
-            }
-            else { // event added to boneyard
-                const result = move(props.events, props.eventBoneyard, source, destination);
-                console.log('result', result)
-                socket.emit('event_queue_boneyard_swap', { event_queue: result[sKey], event_boneyard: result[dKey] })
-            }
-        }
-    }
-
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -132,9 +96,9 @@ export const EventQueueColumn = (props: Props) => {
     }
 
     const disableQueueUnlock = role === "Observer"
-
     let selSeqText = "Selected Sequence:"
-    const seqNo = props.sequence? (props.sequence?.metadata as ScienceMetadata).sequence_number : false 
+    console.log('props', props)
+    const seqNo = props.sequence ? (props.sequence.metadata as ScienceMetadata).sequence_number : false 
     seqNo && (selSeqText += " " + seqNo)
 
     return (
