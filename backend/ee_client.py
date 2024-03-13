@@ -391,12 +391,11 @@ def write_to_file(item, fileName):
 
 
 if __name__ == '__main__':
-    logger = create_logger(subsystem='EXECUTION_ENGINE')
     cfg_name = "./cfg.ini"
     config_parser = configparser.ConfigParser()
     config_parser.read(cfg_name)
     state_file_name = config_parser['STATE']['filename']
-    logger = create_logger(filename=config_parser['LOGGER']['filename'],
+    logger = create_logger(fileName=config_parser['LOGGER']['filename'],
                         subsystem='EXECUTION_ENGINE')
     ee = ExecutionEngine(logger=logger, cfg=cfg_name)
 
