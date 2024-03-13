@@ -39,7 +39,7 @@ interface Props {
     setSnackbarOpen: Function
     snackbarMsg: string
     snackbarOpen: boolean
-    task: object
+    sequence: OBSequence 
     releaseEventQueueLock: MouseEventHandler<HTMLButtonElement>
     submitEvent: Function 
     enableClipboard: any
@@ -132,6 +132,9 @@ export const EventQueueColumn = (props: Props) => {
 
     const disableQueueUnlock = role === "Observer"
 
+    let selSeqText = "Selected Sequence:"
+    props.sequence.metadata.sequence_number && (selSeqText += " " + props.sequence.metadata.sequence_number)
+
     return (
         <React.Fragment>
             <Accordion
@@ -148,7 +151,7 @@ export const EventQueueColumn = (props: Props) => {
                     }}
 
                 >
-                    <h2 style={{ margin: '0px' }}>Selected Sequence</h2>
+                    <h2 style={{ margin: '0px' }}>{selSeqText}</h2>
                 </AccordionSummary>
                 <AccordionDetails
                     sx={{
@@ -157,7 +160,7 @@ export const EventQueueColumn = (props: Props) => {
                     }}
                 >
                     <ReactJson
-                        src={props.task as object}
+                        src={props.sequence as OBSequence}
                         theme={theme as ThemeKeys | undefined}
                         iconStyle={props.iconStyle}
                         collapsed={props.collapsed}

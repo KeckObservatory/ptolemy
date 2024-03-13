@@ -75,6 +75,10 @@ export const SequenceQueueColumn = (props: Props) => {
 
     const isDragDisabled = false
 
+    let selOBText = 'Selected OB'
+    props.ob?.metadata?.name && (selOBText += 'Name: ' + props.ob.metadata.name)
+    props.ob?.target?.parameters.target_info_name && (selOBText += 'Target: ' + props.ob.target.parameters.target_info_name)
+
     return (
         <React.Fragment>
             <Accordion>
@@ -87,7 +91,7 @@ export const SequenceQueueColumn = (props: Props) => {
                     }}
 
                 >
-                    <h2 style={{ margin: '0px', marginRight: '10px' }}>Selected OB</h2>
+                    <h2 style={{ margin: '0px', marginRight: '10px' }}>{selOBText}</h2>
                     <Tooltip title={'Open separate tab in the ODT that reads the OB'}>
                         <Button sx={{ margin: '0px' }} onClick={handle_edit_ob}>EDIT OB</Button>
                     </Tooltip>

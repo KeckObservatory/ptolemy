@@ -1,5 +1,4 @@
 # /bin/bash
-
 export PATH=/usr/local/bin:/usr/bin:/usr/sbin:/usr/local/epics/default/base/bin/linux-x86_64:/usr/local/anaconda/bin:/usr/local/epics/default/base/bin/linux-x86_64:/usr/bin
 npm install
-npm build
+npm run build
