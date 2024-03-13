@@ -41,7 +41,7 @@ def refresh_ee_state():
         else:
             emit('snackbar_msg', msg, room=request.sid)
     # be aware that this is a broadcast, and will trigger all clients to refresh
-    emit('refresh_ee_state', callback=send_ee_state, broadcast=True)
+    emit('refresh_ee_queues', callback=send_ee_state, broadcast=True)
 
 
 
