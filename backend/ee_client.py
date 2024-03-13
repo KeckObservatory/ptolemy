@@ -263,7 +263,7 @@ def ee_refresh_queues():
     try:
         ob = get_fresh_ob()
         freshSequenceList = refresh_sequences(ob, list(ee.seq_q.sequences))
-        ee.seq_q.set_queue(freshSequenceList)
+        ee.seq_q = freshSequenceList
         freshSequenceBoneyard = refresh_sequences(ob, ee.seq_q.boneyard)
         ee.seq_q.boneyard = freshSequenceBoneyard 
         ee.ev_q.refresh_event_args(ob)
