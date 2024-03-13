@@ -187,6 +187,7 @@ export interface SequenceMetadata {
 }
 
 export interface ScienceMetadata extends SequenceMetadata {
+	sequence_number: string
 }
 
 export interface AcquisitionMetadata extends SequenceMetadata {

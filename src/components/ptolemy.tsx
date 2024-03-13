@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ObservationBlock, Science } from '../typings/ptolemy'
+import { OBSequence, ObservationBlock, Science } from '../typings/ptolemy'
 import Grid from '@mui/material/Grid'
 import { SocketContext } from './../contexts/socket';
 import { ob_api_funcs } from '../api/ApiRoot';
@@ -38,7 +38,7 @@ export const Ptolemy = (props: Props) => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [snackbarMsg, setSnackbarMsg] = React.useState("default message")
     const [ob, setOB] = React.useState({} as ObservationBlock)
-    const [task, setTask] = React.useState({})
+    const [task, setTask] = React.useState({} as OBSequence)
     const [selOBs, setSelOBs] = React.useState([] as ObservationBlock[])
     const [obBoneyard, setOBBoneyard] = React.useState([] as ObservationBlock[])
     const [sequences, setSequences] = React.useState([] as Science[])
@@ -227,7 +227,7 @@ export const Ptolemy = (props: Props) => {
                                     setSnackbarOpen={setSnackbarOpen}
                                     snackbarMsg={snackbarMsg}
                                     snackbarOpen={snackbarOpen}
-                                    task={task}
+                                    sequence={task}
                                     releaseEventQueueLock={releaseEventQueueLock}
                                     submitEvent={submitEvent}
                                     enableClipboard={props.enableClipboard}
@@ -248,7 +248,7 @@ export const Ptolemy = (props: Props) => {
                         setSnackbarOpen={setSnackbarOpen}
                         snackbarMsg={snackbarMsg}
                         snackbarOpen={snackbarOpen}
-                        task={task}
+                        sequence={task}
                         releaseEventQueueLock={releaseEventQueueLock}
                         submitEvent={submitEvent}
                         enableClipboard={props.enableClipboard}

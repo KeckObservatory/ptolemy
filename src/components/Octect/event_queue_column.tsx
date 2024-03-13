@@ -24,6 +24,7 @@ import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SelectedEventTable from './selected_event_table'
 import { EEManager } from './ee_manager'
+import { OBSequence, ScienceMetadata } from '../../typings/ptolemy'
 
 export interface EventDict {
     id: string,
@@ -133,7 +134,8 @@ export const EventQueueColumn = (props: Props) => {
     const disableQueueUnlock = role === "Observer"
 
     let selSeqText = "Selected Sequence:"
-    props.sequence.metadata.sequence_number && (selSeqText += " " + props.sequence.metadata.sequence_number)
+    const seqNo = (props.sequence.metadata as ScienceMetadata).sequence_number
+    seqNo && (selSeqText += " " + seqNo)
 
     return (
         <React.Fragment>
