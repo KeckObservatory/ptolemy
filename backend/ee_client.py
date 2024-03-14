@@ -33,7 +33,7 @@ def get_ee_state():
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences
         data['sequence_boneyard'] = ee.seq_q.boneyard
-        data['selected_task'] = ee.seq_q = next((x for x in ee.seq_q.sequences \
+        data['selected_task'] = next((x for x in ee.seq_q.sequences \
             if x['metadata']['sequence_number'] == ee.seq_q.selectedSequenceNumber), False)
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
