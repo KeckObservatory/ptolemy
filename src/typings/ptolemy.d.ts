@@ -1,3 +1,10 @@
+
+export interface RWindow extends Window {
+	REACT_APP_ENVIRONMENT: string;
+	IS_BUILD: boolean;
+	BASE_URL: string;
+}
+
 export interface Container {
 	_id: string,
 	sem_id: string,

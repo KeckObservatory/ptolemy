@@ -3,6 +3,9 @@ package-lock.json
 *.bak
 *.ini
 node_modules/
+
+#config stuff
+config.js
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

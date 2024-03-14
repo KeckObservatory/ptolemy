@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { handleResponse, handleError, intResponse, intError } from './response';
 import {
     Container,
@@ -21,21 +20,13 @@ import {
 
 // Define your api url from any source.
 // Pulling from your .env file when on the server or from localhost when locally
-const IS_PRODUCTION: boolean = process.env.REACT_APP_ENVIRONMENT === 'production'
-const IS_DEVELOPMENT: boolean = process.env.REACT_APP_ENVIRONMENT === 'development'
-const IS_BUILD = IS_PRODUCTION || IS_DEVELOPMENT
+import { RWindow } from '../typings/ptolemy';
 
-console.log(`is BUILD ? set to ${IS_BUILD}`)
-console.log(`is DEVELOPMENT ? set to ${IS_DEVELOPMENT}`)
-var DEVELOPMENT_URL = 'https://wwwbuild.keck.hawaii.edu/'
-var PRODUCTION_URL = 'http://vm-ddoiserverbuild.keck.hawaii.edu'
-var TEST_URL = 'http://localhost:50007/v0' //use locally or for testing (npm start or npm run demobuild)
-var BASE_URL = IS_BUILD ? PRODUCTION_URL : TEST_URL // sets for production vs test 
+declare let window: RWindow
+const IS_BUILD: boolean = window.IS_BUILD
+const BASE_URL = window.BASE_URL
 var LOGGER_BASE_URL = BASE_URL + ':50008/api/log/get_logs?'
-
-BASE_URL = IS_DEVELOPMENT ? DEVELOPMENT_URL : BASE_URL
 var API_URL = BASE_URL + '/api/ddoi/'
-
 var OB_URL = API_URL + 'obsBlocks'
 var SEMESTERS_URL = API_URL + 'semesterIds'
 var TAG_URL = API_URL + 'tags'
@@ -51,7 +42,6 @@ const axiosInstance = axios.create({
     }
 })
 axiosInstance.interceptors.response.use(intResponse, intError);
-
 export const get_logs = (
     n_logs: number,
     loggername: string,
