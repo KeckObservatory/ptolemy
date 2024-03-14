@@ -1,5 +1,6 @@
 # /bin/bash
 export PATH=/usr/local/bin:/usr/bin:/usr/sbin:/usr/bin
+npm install > /dev/null
 npm run build > /dev/null
 if [[ $? -eq 0 ]]; then
     echo "yes"
