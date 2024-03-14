@@ -1,6 +1,4 @@
 import React, { MouseEventHandler } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
-import { reorder, move, CreateDroppable } from './../dnd_divs'
 import {
     Accordion,
     AccordionDetails,

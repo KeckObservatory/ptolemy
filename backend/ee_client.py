@@ -33,6 +33,8 @@ def get_ee_state():
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences
         data['sequence_boneyard'] = ee.seq_q.boneyard
+        data['selected_task'] = ee.seq_q = next(x for x in ee.seq_q.sequence \
+            if x['metadata']['sequence_number'] == ee.seq_q.selectedSequenceNumber)
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
         data['event_queue'] = evts
@@ -270,8 +272,6 @@ def ee_refresh_queues():
     except Exception as err:
         logger.warning(f'new_task error: {err}')
         return {'status': 'ERR', 'msg': f'{err}'}
-
-
     return get_ee_state()
 
 @sio.event
@@ -297,7 +297,7 @@ def ee_new_task(data):
         logger.info(
             f"new acquistion task from queue {acqSeq['metadata']['script']}")
         ee.ev_q.load_events_from_acquisition_and_target(ob)
-        outData = { **outData }
+        outData = { **outData, 'selected_task': acqSeq }
     else:  # is sequence
         if len(ee.seq_q.sequences) == 0:
             msg = 'sequence queue empty'
@@ -316,6 +316,7 @@ def ee_new_task(data):
         ee.ODBInterface.update_OB(ob) #TODO: fix this function so that OB updates
         outData = {**outData,
                    'sequence_boneyard': freshBoneyard,
+                   'selected_task': freshSequence,
                    'sequence_queue': freshSequenceQueue}
         logger.info(f'new sequence from queue: {sequence_number}')
         ee.ev_q.load_events_from_sequence(freshSequence, ob)
@@ -403,10 +404,22 @@ if __name__ == '__main__':
         with open(state_file_name, 'r') as openfile:
             state = json.load(openfile)
             init_ob_queue = state.get('ob_queue', [])
+            #TODO: implement state for sequence and event queues/boneyards
+            '''
+            init_seq_queue = state.get('sequence_queue', [])
+            ee.seq_q.sequences = init_seq_queue
+            init_selected_task = state.get('selected_task', {})
+            ee.seq_q.selectedSequenceNumber = init_selected_task.get('metadata', {}).get('sequence_number', False)
+            init_seq_boneyard = state.get('sequence_boneyard', [])
+            ee.seq_q.boneyard = init_seq_boneyard
+            init_event_queue = state.get('event_queue', [])
+            init_event_boneyard = state.get('event_boneyard', [])
+            '''
     else:
         init_ob_queue = []
 
     ee.obs_q.obIds = init_ob_queue
+    ee.seq_q.sequences = []
 
     parser = argparse.ArgumentParser(description="Setup websocket host")
     parser.add_argument('--host', type=str, required=False, default='0.0.0.0',

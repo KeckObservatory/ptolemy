@@ -161,12 +161,15 @@ def new_task(data):
         if msg['status'] == 'OK':
             sequenceBoneyard = msg['data'].get('sequence_boneyard', False)
             seqQueue = msg['data'].get('sequence_queue', False)
+            task = msg['data'].get('selected_task', False)
             isSeq = not msg.get('isAcq', True)
             if isSeq:
                 emit('sequence_boneyard_broadcast',
-                     {'sequence_boneyard': sequenceBoneyard}, broadcast=True)
+                     {'sequence_boneyard': sequenceBoneyard,
+                      'selected_task': task}, broadcast=True)
                 emit('sequence_queue_broadcast', 
-                     {'sequence_queue': seqQueue}, broadcast=True)
+                     {'sequence_queue': seqQueue,
+                      'selected_task': task}, broadcast=True)
             emit('task_broadcast', data, broadcast=True)
             outData = msg['data']['event_queue_and_boneyard']
             emit('new_event_queue_and_boneyard', outData, broadcast=True)

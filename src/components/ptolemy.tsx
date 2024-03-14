@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { OBSequence, ObservationBlock, Science } from '../typings/ptolemy'
+import { Acquisition, OBSequence, ObservationBlock, Science } from '../typings/ptolemy'
 import Grid from '@mui/material/Grid'
 import { SocketContext } from './../contexts/socket';
 import { ob_api_funcs } from '../api/ApiRoot';
@@ -12,6 +12,7 @@ interface EEState {
     ob?: ObservationBlock,
     ob_id_queue: string[],
     ob_id_boneyard: string[],
+    selected_task: Science | Acquisition,
     sequence_queue: Science[],
     sequence_boneyard: Science[],
     event_queue: EventDict[],
@@ -92,6 +93,7 @@ export const Ptolemy = (props: Props) => {
             data.sequence_boneyard.length > 0 && setSequenceBoneyard(data.sequence_boneyard)
             data.event_queue.length > 0 && setEvents(data.event_queue)
             data.event_boneyard.length > 0 && setEventBoneyard(data.event_boneyard)
+            data.selected_task && setTask(data.selected_task) 
             setPause(data.pause)
             setHalt(data.halt)
         })
