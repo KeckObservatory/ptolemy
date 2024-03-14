@@ -33,8 +33,8 @@ def get_ee_state():
         # get sequence queue and sequence boneyard
         data['sequence_queue'] = ee.seq_q.sequences
         data['sequence_boneyard'] = ee.seq_q.boneyard
-        data['selected_task'] = ee.seq_q = next(x for x in ee.seq_q.sequence \
-            if x['metadata']['sequence_number'] == ee.seq_q.selectedSequenceNumber)
+        data['selected_task'] = ee.seq_q = next((x for x in ee.seq_q.sequence \
+            if x['metadata']['sequence_number'] == ee.seq_q.selectedSequenceNumber), False)
         # get event queue and event boneyard
         evts = ee.ev_q.get_queue_as_list()
         data['event_queue'] = evts
@@ -307,6 +307,7 @@ def ee_new_task(data):
             x['metadata']['sequence_number'] for x in ee.seq_q.boneyard]
 
         sequence_number = task['metadata']['sequence_number']
+        ee.seq_q.selectedSequenceNumber = sequence_number
         # set fresh sequences and boneyard
         freshSequenceQueue, freshBoneyard, freshSequence = \
             get_fresh_sequence_and_observations( ob, sequence_number, boneyard_sequence_numbers )

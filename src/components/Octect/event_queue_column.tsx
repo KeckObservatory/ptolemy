@@ -95,9 +95,9 @@ export const EventQueueColumn = (props: Props) => {
 
     const disableQueueUnlock = role === "Observer"
     let selSeqText = "Selected Sequence:"
-    console.log('props', props)
-    const seqNo = props.sequence?.metadata as ScienceMetadata
-    seqNo && (selSeqText += " " + seqNo.sequence_number)
+    const metadata = props.sequence?.metadata as ScienceMetadata
+    console.log('props', props, 'metadata', metadata)
+    metadata && (selSeqText += " " + metadata.sequence_number)
 
     return (
         <React.Fragment>
