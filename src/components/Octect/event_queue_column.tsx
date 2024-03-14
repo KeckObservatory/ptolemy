@@ -96,7 +96,7 @@ export const EventQueueColumn = (props: Props) => {
     const disableQueueUnlock = role === "Observer"
     let selSeqText = "Selected Sequence:"
     const metadata = props.sequence?.metadata as ScienceMetadata
-    console.log('props', props, 'metadata', metadata)
+    console.log('props', props, 'metadata', metadata, 'selSeqText', JSON.parse(selSeqText + " " + metadata.sequence_number))
     metadata && (selSeqText += " " + metadata.sequence_number)
 
     return (
