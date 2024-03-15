@@ -22,7 +22,7 @@ import { SocketContext } from '../../contexts/socket';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SelectedEventTable from './selected_event_table'
 import { EEManager } from './ee_manager'
-import { OBSequence, ScienceMetadata } from '../../typings/ptolemy'
+import { OBSequence, ScienceMetadata, ScienceParameters } from '../../typings/ptolemy'
 
 export interface EventDict {
     id: string,
@@ -97,9 +97,9 @@ export const EventQueueColumn = (props: Props) => {
     let selSeqText = "Selected Sequence:"
     const metadata = props.sequence?.metadata as ScienceMetadata
     metadata && (selSeqText += " " + metadata.sequence_number)
-    console.log('props', 
-    props, 'metadata', 
-    metadata, 'selSeqText', selSeqText)
+    const parameters = props.sequence?.parameters as ScienceParameters
+    parameters?.target_info_object && (selSeqText += " " + parameters.target_info_object )
+
 
     return (
         <React.Fragment>

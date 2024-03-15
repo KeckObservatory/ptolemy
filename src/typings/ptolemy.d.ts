@@ -173,9 +173,8 @@ export interface Dither extends Base {
 	'letter': string,
 }
 
-export type Science = KCWIScience
 
-export interface KCWIScienceParameters {
+export interface ScienceParameters {
 	[key: string]: number | string | Slicer | Grating | any
 }
 
@@ -199,9 +198,9 @@ export interface ScienceMetadata extends SequenceMetadata {
 export interface AcquisitionMetadata extends SequenceMetadata {
 }
 
-export interface KCWIScience extends Base {
+export interface Science extends Base {
 	metadata: ScienceMetadata;
-	parameters: KCWIScienceParameters;
+	parameters: ScienceParameters;
 	template_id?: string;
 }
 
