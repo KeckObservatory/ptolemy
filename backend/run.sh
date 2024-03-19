@@ -13,4 +13,4 @@ case $cmd in
 esac
 
 mypath=`dirname $0`
-kpython3 $mypath/manager.py app $cmd
+/kroot/rel/default/bin/kpython3 $mypath/manager.py app $cmd

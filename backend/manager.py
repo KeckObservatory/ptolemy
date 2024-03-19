@@ -49,7 +49,7 @@ def process_start(pid, server):
         print(server, 'already running with PID', pid)
     else:
         print('Starting', server)
-        cmd = ['kpython3', server]
+        cmd = ['/kroot/rel/default/bin/kpython3', server]
         p = subprocess.Popen(cmd)
 
 
